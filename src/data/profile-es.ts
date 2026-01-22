@@ -9,7 +9,7 @@ export const profileES = {
   photoUrl:
     "https://raw.githubusercontent.com/garciajuni20/Resume_Khristian_Garcia/main/khristian-garcia.png",
   links: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/khristiangarcia" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/khristian-garcia--/" },
     { label: "GitHub", href: "https://github.com/garciajuni20" }
   ],
   summary:
