@@ -33,3 +33,17 @@ a:hover {
 
 ::selection {
   background: rgba(0, 0, 0, 0.12);}
+
+nav a.bg-neutral-900 {
+  color: white !important;
+}
+
+/* Para el menú móvil también */
+.mobile-menu a.bg-neutral-900 {
+  color: white !important;
+}
+
+/* Estilo para forzar color blanco en enlaces activos del navbar */
+[data-active="true"] {
+  color: white !important;
+}
