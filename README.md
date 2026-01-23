@@ -36,7 +36,7 @@ Portafolio interactivo bilingüe que muestra mi experiencia en **Análisis de Da
 - **CI/CD:** GitHub Actions
 
 ## 📁 Estructura del Proyecto
-src/
+```
 ├── components/ # Componentes reutilizables
 │ ├── Container.tsx # Contenedor responsivo
 │ ├── Navbar.tsx # Navegación bilingüe
@@ -56,8 +56,8 @@ src/
 │ └── Contact.tsx # Información de contacto
 └── assets/ # Archivos estáticos
 └── pdf/ # Currículums en PDF
+```
 
-text
 
 ## 🚀 Desarrollo Local
 
