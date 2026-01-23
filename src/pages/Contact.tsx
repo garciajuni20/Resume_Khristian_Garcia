@@ -28,7 +28,7 @@ export default function Contact() {
           <h1 className="text-3xl font-semibold tracking-tight text-neutral-900">{t.title}</h1>
           <p className="mt-2 text-neutral-700">{t.subtitle}</p>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
               <div className="text-sm text-neutral-500">{t.email}</div>
               <a className="mt-2 block text-lg font-semibold text-neutral-900" href={`mailto:${data.email}`}>
