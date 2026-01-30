@@ -2,6 +2,8 @@ import Container from "../components/Container"
 import { useLang } from "../context/LanguageContext"
 import { profileEN } from "../data/profile-en"
 import { profileES } from "../data/profile-es"
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 
 export default function Home() {
   const { lang } = useLang()
@@ -12,14 +14,14 @@ export default function Home() {
       ? {
           title: "Portfolio",
           subtitle:
-            "Full-stack mindset with a data/BI foundation. This site is a living project and evolves over time.",
+            "Full-stack mindset with a strong Data/BI foundation. This site is a living project—clean UI, structured content, and real engineering.",
           ctaResume: "Open Interactive Resume",
           ctaProjects: "View Projects"
         }
       : {
           title: "Portafolio",
           subtitle:
-            "Mentalidad full-stack con base sólida en datos/BI. Este sitio es un proyecto vivo y mejora constantemente.",
+            "Mentalidad full-stack con base sólida en Datos/BI. Este sitio es un proyecto vivo—UI limpia, contenido estructurado y enfoque real de ingeniería.",
           ctaResume: "Abrir CV Interactivo",
           ctaProjects: "Ver Proyectos"
         }
@@ -27,53 +29,70 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50">
       <Container>
-        <div className="py-10">
-          <div className="grid gap-6 sm:grid-cols-[1fr_220px] sm:items-start">
-            <div>
-              <h1 className="text-3xl font-semibold tracking-tight">{t.title}</h1>
-              <p className="mt-2 text-neutral-700 dark:text-neutral-300">{t.subtitle}</p>
-
-              <div className="mt-5 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-                <div className="text-lg font-semibold">{data.name}</div>
-                <div className="text-sm text-neutral-700 dark:text-neutral-300">{data.headline}</div>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{data.location}</div>
-
-                <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-200 leading-relaxed">
-                  {data.summary}
+        <div className="py-12">
+          <motion.div
+            className="rounded-3xl border border-neutral-200 bg-white p-8 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          >
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold tracking-wide text-neutral-500 dark:text-neutral-400">
+                  {data.location}
+                </p>
+                <h1 className="mt-2 text-3xl sm:text-4xl font-semibold tracking-tight">
+                  {t.title} — {data.name}
+                </h1>
+                <p className="mt-2 text-neutral-700 dark:text-neutral-200">
+                  {data.headline}
+                </p>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-neutral-600 dark:text-neutral-300">
+                  {t.subtitle}
                 </p>
 
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <a
-                    href="#/resume"
-                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {(data.badges ?? []).slice(0, 6).map((b: string) => (
+                    <span
+                      key={b}
+                      className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs text-neutral-700 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    to="/resume"
+                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
                   >
                     {t.ctaResume}
-                  </a>
+                  </Link>
 
-                  <a
-                    href="#/projects"
-                    className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
+                  <Link
+                    to="/projects"
+                    className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200 dark:hover:bg-neutral-900"
                   >
                     {t.ctaProjects}
-                  </a>
+                  </Link>
                 </div>
               </div>
-            </div>
 
-            {/* Photo (fix cropping) */}
-            <div className="sm:justify-self-end">
-              <div className="rounded-2xl border border-neutral-200 bg-white p-2 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-                <div className="rounded-xl overflow-hidden bg-neutral-50 dark:bg-neutral-950">
-                  <img
-                    src={data.photoUrl}
-                    alt="profile"
-                    className="w-full aspect-square sm:aspect-[4/5] object-contain sm:object-cover object-center"
-                    loading="lazy"
-                  />
+              <div className="sm:w-52">
+                <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-2 dark:border-neutral-800 dark:bg-neutral-950">
+                  <div className="aspect-square overflow-hidden rounded-xl">
+                    <img
+                      src={data.photoUrl}
+                      alt="profile"
+                      className="h-full w-full object-cover object-top"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </Container>
     </main>
