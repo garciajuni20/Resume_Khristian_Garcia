@@ -145,7 +145,7 @@ export default function ResumePage() {
 
           <div className="mt-6 grid gap-4">
             {filteredExperience.map((e) => (
-              <ExperienceCard key={e.id} item={e as any} onOpen={setSelected} />
+              <ExperienceCard key={e.id} item={e as any} onOpen={setSelected} lang={lang} />
             ))}
           </div>
         </Section>
