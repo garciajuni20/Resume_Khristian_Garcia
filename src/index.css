@@ -9,7 +9,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Let Tailwind handle colors/layout */
 html,
 body {
   height: 100%;
@@ -17,11 +16,9 @@ body {
 
 body {
   margin: 0;
-  background: #fafafa;
-  color: #111827;
 }
 
-/* Optional: nicer link defaults */
+/* Links: no subrayado por defecto */
 a {
   color: inherit;
   text-decoration: none;
@@ -31,19 +28,7 @@ a:hover {
   text-decoration: none;
 }
 
+/* Selection */
 ::selection {
-  background: rgba(0, 0, 0, 0.12);}
-
-nav a.bg-neutral-900 {
-  color: white !important;
-}
-
-/* Para el menú móvil también */
-.mobile-menu a.bg-neutral-900 {
-  color: white !important;
-}
-
-/* Estilo para forzar color blanco en enlaces activos del navbar */
-[data-active="true"] {
-  color: white !important;
+  background: rgba(0, 0, 0, 0.12);
 }
