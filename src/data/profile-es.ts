@@ -16,6 +16,8 @@ export const profileES = {
     "Analista de Datos y Analista de Inteligencia de Negocios con sólida experiencia en modelado de datos, analítica y reportes empresariales. Especializado en construir fuentes únicas de verdad utilizando Snowflake, SQL y bases de datos relacionales. Capacidad comprobada para transformar datos en información confiable y lista para el negocio mediante Power BI y el ecosistema Microsoft.",
   resumePdfPath: files.resumeES,
 
+  badges: ["Snowflake", "SQL", "Power BI", "Modelado de Datos", "Portafolio Full-Stack"],
+
   experience: [
     {
       id: "usac-teaching",
