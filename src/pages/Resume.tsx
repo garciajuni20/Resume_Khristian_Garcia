@@ -138,9 +138,9 @@ export default function ResumePage() {
             <div className="sm:justify-self-end">
               <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-2">
                 <img
-                  src={data.photoUrl}
-                  alt="profile"
-                  className="h-44 w-full rounded-xl object-cover"
+              src={data.photoUrl}
+              alt="Profile photo"
+              className="w-full aspect-square rounded-xl object-cover object-top"
                 />
               </div>
             </div>
