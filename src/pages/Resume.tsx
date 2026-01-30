@@ -10,9 +10,36 @@ import { X } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 import { useLang } from "../context/LanguageContext"
 
+type Lang = "en" | "es"
+
+type ExperienceItem = {
+  id: string
+  role: string
+  company: string
+  location: string
+  start: string
+  end: string
+  tags?: string[]
+  bullets?: string[]
+}
+
+type ProfileShape = {
+  name: string
+  headline: string
+  location: string
+  summary: string
+  photoUrl: string
+  resumePdfPath: string
+  links: { label: string; href: string }[]
+  experience: ExperienceItem[]
+  skills: { name: string; level: string }[]
+  education: { institution: string; degree: string; area: string; end: string }[]
+  badges?: string[]
+}
+
 export default function ResumePage() {
   const { lang } = useLang()
-  const data = lang === "en" ? profileEN : profileES
+  const data: ProfileShape = (lang === "en" ? profileEN : profileES) as unknown as ProfileShape
 
   const labels =
     lang === "en"
@@ -41,10 +68,10 @@ export default function ResumePage() {
     const set = new Set<string>()
     data.experience.forEach((e) => (e.tags ?? []).forEach((t) => set.add(t)))
     return Array.from(set).sort((a, b) => a.localeCompare(b))
-  }, [data])
+  }, [data.experience])
 
   const [activeTags, setActiveTags] = useState<string[]>([])
-  const [selected, setSelected] = useState<any | null>(null)
+  const [selected, setSelected] = useState<ExperienceItem | null>(null)
 
   function toggleTag(tag: string) {
     setActiveTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
@@ -57,7 +84,7 @@ export default function ResumePage() {
   const filteredExperience = useMemo(() => {
     if (activeTags.length === 0) return data.experience
     return data.experience.filter((e) => (e.tags ?? []).some((t) => activeTags.includes(t)))
-  }, [data, activeTags])
+  }, [data.experience, activeTags])
 
   return (
     <main className="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50">
@@ -78,21 +105,21 @@ export default function ResumePage() {
               <div className="text-sm text-neutral-700 dark:text-neutral-200">{data.headline}</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{data.location}</div>
 
-              {/* Badges */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {(data.badges ?? []).map((b: string) => (
-                  <span
-                    key={b}
-                    className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs text-neutral-700 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200"
-                  >
-                    {b}
-                  </span>
-                ))}
-              </div>
+              {/* Badges (optional) */}
+              {Array.isArray(data.badges) && data.badges.length > 0 ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {data.badges.map((b) => (
+                    <span
+                      key={b}
+                      className="rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs text-neutral-700 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-200"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
 
-              <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-200 leading-relaxed">
-                {data.summary}
-              </p>
+              <p className="mt-4 text-sm text-neutral-700 dark:text-neutral-200 leading-relaxed">{data.summary}</p>
 
               <div className="mt-5 flex flex-wrap gap-3">
                 <a
@@ -104,7 +131,7 @@ export default function ResumePage() {
                   {labels.download}
                 </a>
 
-                {data.links.map((l: any) => (
+                {data.links.map((l) => (
                   <a
                     key={l.href}
                     href={l.href}
@@ -118,7 +145,7 @@ export default function ResumePage() {
               </div>
             </div>
 
-            {/* Photo: responsive + object-top to avoid “nose down” */}
+            {/* Photo */}
             <div className="sm:justify-self-end">
               <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-2 dark:border-neutral-800 dark:bg-neutral-950">
                 <div className="aspect-square w-40 sm:w-52 overflow-hidden rounded-xl">
@@ -145,14 +172,14 @@ export default function ResumePage() {
 
           <div className="mt-6 grid gap-4">
             {filteredExperience.map((e) => (
-              <ExperienceCard key={e.id} item={e as any} onOpen={setSelected} lang={lang} />
+              <ExperienceCard key={e.id} item={e} onOpen={setSelected} lang={lang as Lang} />
             ))}
           </div>
         </Section>
 
         <Section title={labels.skills}>
           <div className="grid gap-3 sm:grid-cols-2">
-            {data.skills.map((s: any) => (
+            {data.skills.map((s) => (
               <SkillMeter key={s.name} name={s.name} level={s.level} />
             ))}
           </div>
@@ -160,7 +187,7 @@ export default function ResumePage() {
 
         <Section title={labels.education}>
           <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-            {data.education.map((ed: any, i: number) => (
+            {data.education.map((ed, i) => (
               <div key={i}>
                 <div className="font-semibold">{ed.institution}</div>
                 <div className="text-sm text-neutral-700 dark:text-neutral-200">
@@ -197,6 +224,7 @@ export default function ResumePage() {
                     <div className="text-sm text-neutral-700 dark:text-neutral-200">{selected.company}</div>
                     <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{selected.location}</div>
                   </div>
+
                   <button
                     onClick={() => setSelected(null)}
                     className="rounded-xl border border-neutral-200 p-2 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-800"
@@ -208,7 +236,7 @@ export default function ResumePage() {
 
                 {selected.tags?.length ? (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {selected.tags.map((t: string) => (
+                    {selected.tags.map((t) => (
                       <span
                         key={t}
                         className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-950 dark:text-neutral-200"
@@ -221,7 +249,7 @@ export default function ResumePage() {
 
                 {selected.bullets?.length ? (
                   <ul className="mt-5 list-disc pl-5 text-sm text-neutral-700 dark:text-neutral-200 space-y-1">
-                    {selected.bullets.map((b: string, i: number) => (
+                    {selected.bullets.map((b, i) => (
                       <li key={i}>{b}</li>
                     ))}
                   </ul>
@@ -236,4 +264,3 @@ export default function ResumePage() {
     </main>
   )
 }
-
