@@ -1,72 +1,57 @@
 import { motion } from "framer-motion"
 
-type Experience = {
+type Lang = "en" | "es"
+
+type Item = {
   id: string
-  company: string
   role: string
+  company: string
+  location: string
   start: string
   end: string
-  location?: string
   tags?: string[]
   bullets?: string[]
 }
 
 type Props = {
-  item: Experience
-  onOpen: (item: Experience) => void
-  lang: "en" | "es"
-}
-
-function formatDate(d: string, lang: "en" | "es") {
-  if (!d || d === "present") return lang === "en" ? "Present" : "Actual"
-
-  const [y, m] = d.split("-")
-  if (!m) return y
-
-  const monthsEN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-  const monthsES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"]
-
-  const mm = Number(m)
-  if (!mm || mm < 1 || mm > 12) return d
-
-  return `${(lang === "en" ? monthsEN : monthsES)[mm - 1]} ${y}`
+  item: Item
+  onOpen: (item: Item) => void
+  lang: Lang
 }
 
 export default function ExperienceCard({ item, onOpen, lang }: Props) {
+  const dateLabel = lang === "en" ? `${item.start} — ${item.end}` : `${item.start} — ${item.end}`
+
   return (
     <motion.button
-      onClick={() => onOpen(item)}
-      whileHover={{ y: -2 }}
-      transition={{ duration: 0.15 }}
-      className="text-left w-full rounded-2xl border border-neutral-200 bg-white p-6 hover:shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
       type="button"
+      onClick={() => onOpen(item)}
+      className="w-full text-left rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm hover:shadow-md transition
+                 dark:border-neutral-800 dark:bg-neutral-900"
+      whileHover={{ y: -1 }}
     >
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <div className="text-base font-semibold text-neutral-900 dark:text-neutral-100">{item.role}</div>
-          <div className="text-sm text-neutral-700 dark:text-neutral-300">{item.company}</div>
-          {item.location ? (
-            <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{item.location}</div>
-          ) : null}
-
-          {item.tags?.length ? (
-            <div className="mt-3 flex flex-wrap gap-2">
-              {item.tags.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-800 dark:text-neutral-200"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          ) : null}
+          <div className="font-semibold">{item.role}</div>
+          <div className="text-sm text-neutral-700 dark:text-neutral-200">{item.company}</div>
+          <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{item.location}</div>
         </div>
 
-        <div className="text-xs text-neutral-600 dark:text-neutral-400 sm:text-right">
-          {formatDate(item.start, lang)} — {formatDate(item.end, lang)}
-        </div>
+        <div className="text-xs text-neutral-500 dark:text-neutral-400 whitespace-nowrap">{dateLabel}</div>
       </div>
+
+      {item.tags?.length ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {item.tags.map((t) => (
+            <span
+              key={t}
+              className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-950 dark:text-neutral-200"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       {item.bullets?.length ? (
         <ul className="mt-4 list-disc pl-5 text-sm text-neutral-700 dark:text-neutral-200 space-y-1">
@@ -75,10 +60,6 @@ export default function ExperienceCard({ item, onOpen, lang }: Props) {
           ))}
         </ul>
       ) : null}
-
-      <div className="mt-4 text-xs text-neutral-600 dark:text-neutral-300 underline">
-        {lang === "en" ? "Click to view details" : "Click para ver detalles"}
-      </div>
     </motion.button>
   )
 }
