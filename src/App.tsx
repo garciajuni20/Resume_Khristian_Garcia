@@ -5,9 +5,11 @@ import ResumePage from "./pages/Resume"
 import Projects from "./pages/Projects"
 import Contact from "./pages/Contact"
 import { LanguageProvider } from "./context/LanguageContext"
+import { ThemeProvider } from "./context/ThemeContext"
 
 export default function App() {
   return (
+    <ThemeProvider>
     <LanguageProvider>
       <HashRouter>
         <Navbar />
@@ -20,5 +22,6 @@ export default function App() {
         </Routes>
       </HashRouter>
     </LanguageProvider>
+    </ThemeProvider>
   )
 }
