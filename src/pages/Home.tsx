@@ -70,8 +70,8 @@ export default function Home() {
                 <div className="rounded-3xl border border-neutral-200 bg-neutral-50 p-2">
                   <img
                     src={data.photoUrl}
-                    alt="profile"
-                    className="h-52 w-full rounded-2xl object-cover"
+                    alt="Profile photo"
+                    className="w-full aspect-[4/5] rounded-xl object-cover object-top"
                   />
                 </div>
               </div>
