@@ -16,6 +16,8 @@ export const profileEN = {
     "Data Analyst and Business Intelligence Analyst with strong experience in data modeling, analytics, and enterprise reporting. Specialized in building unified sources of truth using Snowflake, SQL, and relational databases. Proven ability to transform raw data into reliable, business-ready datasets and dashboards using Power BI and the Microsoft ecosystem.",
     resumePdfPath: files.resumeEN,
 
+  badges: ["Snowflake", "SQL", "Power BI", "Data Modeling", "Full-Stack Portfolio"],
+
   experience: [
     {
       id: "usac-teaching",
