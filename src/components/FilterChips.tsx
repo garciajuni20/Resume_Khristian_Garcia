@@ -18,7 +18,7 @@ export default function FilterChips({
 }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <span className="text-xs text-neutral-600 mr-1">
+      <span className="text-xs text-neutral-600 dark:text-neutral-300 mr-1">
         {labels?.filterBy ?? "Filter by"}
       </span>
 
@@ -28,11 +28,12 @@ export default function FilterChips({
           <button
             key={tag}
             onClick={() => onToggle(tag)}
+            type="button"
             className={[
               "rounded-full px-3 py-1 text-xs border transition",
               active
-                ? "bg-neutral-900 text-white border-neutral-900"
-                : "bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50"
+                ? "bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-neutral-900 dark:border-white"
+                : "bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50 dark:bg-neutral-900 dark:text-neutral-200 dark:border-neutral-800 dark:hover:bg-neutral-800"
             ].join(" ")}
           >
             {tag}
@@ -43,7 +44,8 @@ export default function FilterChips({
       {activeTags.length > 0 ? (
         <button
           onClick={onClear}
-          className="rounded-full px-3 py-1 text-xs border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+          type="button"
+          className="rounded-full px-3 py-1 text-xs border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
         >
           {labels?.clear ?? "Clear"}
         </button>
