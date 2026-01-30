@@ -1,20 +1,18 @@
-import { ReactNode } from "react"
-import { motion } from "framer-motion"
+import type { ReactNode } from "react"
 
-export default function Section({ title, children }: { title: string; children: ReactNode }) {
+type Props = {
+  title: string
+  children: ReactNode
+}
+
+export default function Section({ title, children }: Props) {
   return (
     <section className="mt-10">
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
-      >
-        <h2 className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-100">
-          {title}
-        </h2>
-        <div className="mt-4">{children}</div>
-      </motion.div>
+      <div className="flex items-end justify-between gap-4">
+        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
+      </div>
+
+      <div className="mt-4">{children}</div>
     </section>
   )
 }
