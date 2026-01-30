@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom"
 import { useLang } from "../context/LanguageContext"
+import { useTheme } from "../context/ThemeContext"
 import { useEffect, useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Moon, Sun } from "lucide-react"
 
 const linkBase =
   "inline-flex items-center justify-center px-3 py-2 rounded-xl text-sm font-semibold transition " +
@@ -11,16 +12,16 @@ function navClass(isActive: boolean) {
   return [
     linkBase,
     isActive
-      ? "bg-neutral-900 text-white shadow-sm"
-      : "bg-white text-neutral-700 hover:bg-neutral-100"
+      ? "bg-neutral-900 text-white shadow-sm dark:bg-white dark:text-neutral-900"
+      : "bg-white text-neutral-700 hover:bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:bg-neutral-800"
   ].join(" ")
 }
 
 export default function Navbar() {
   const { lang, setLang } = useLang()
+  const { theme, toggleTheme } = useTheme()
   const [open, setOpen] = useState(false)
 
-  // Cerrar menú al cambiar tamaño a desktop
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 640) setOpen(false) // sm breakpoint
@@ -29,18 +30,16 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", onResize)
   }, [])
 
-  // Cerrar menú al navegar
-  const close = () => setOpen(false)
-
-  const labels = lang === "en"
-    ? { home: "Home", resume: "Resume", projects: "Projects", contact: "Contact" }
-    : { home: "Inicio", resume: "CV", projects: "Proyectos", contact: "Contacto" }
+  const labels =
+    lang === "en"
+      ? { home: "Home", resume: "Resume", projects: "Projects", contact: "Contact" }
+      : { home: "Inicio", resume: "CV", projects: "Proyectos", contact: "Contacto" }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/85">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-3 gap-3">
-          <NavLink to="/" className="font-semibold tracking-tight text-neutral-900">
+          <NavLink to="/" className="font-semibold tracking-tight text-neutral-900 dark:text-white">
             Khristian Garcia
           </NavLink>
 
@@ -59,13 +58,26 @@ export default function Navbar() {
               {labels.contact}
             </NavLink>
 
-            {/* Toggle desktop */}
-            <div className="ml-2 flex items-center rounded-xl border border-neutral-200 bg-white p-1">
+            {/* Theme Toggle (desktop) */}
+            <button
+              onClick={toggleTheme}
+              className="ml-2 inline-flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
+              aria-label="Toggle theme"
+              title={theme === "dark" ? "Light mode" : "Dark mode"}
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <span className="hidden md:inline">{theme === "dark" ? "Light" : "Dark"}</span>
+            </button>
+
+            {/* Language Toggle (desktop) */}
+            <div className="ml-2 flex items-center rounded-xl border border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-900">
               <button
                 onClick={() => setLang("en")}
                 className={[
                   "px-3 py-1.5 text-xs rounded-lg transition font-semibold",
-                  lang === "en" ? "bg-neutral-900 text-white" : "text-neutral-700 hover:bg-neutral-50"
+                  lang === "en"
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                    : "text-neutral-700 hover:bg-neutral-50 dark:text-neutral-200 dark:hover:bg-neutral-800"
                 ].join(" ")}
               >
                 EN
@@ -74,7 +86,9 @@ export default function Navbar() {
                 onClick={() => setLang("es")}
                 className={[
                   "px-3 py-1.5 text-xs rounded-lg transition font-semibold",
-                  lang === "es" ? "bg-neutral-900 text-white" : "text-neutral-700 hover:bg-neutral-50"
+                  lang === "es"
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                    : "text-neutral-700 hover:bg-neutral-50 dark:text-neutral-200 dark:hover:bg-neutral-800"
                 ].join(" ")}
               >
                 ES
@@ -82,15 +96,24 @@ export default function Navbar() {
             </div>
           </nav>
 
-          {/* Mobile actions */}
+          {/* Mobile controls */}
           <div className="flex sm:hidden items-center gap-2">
-            {/* Toggle mobile (compact) */}
-            <div className="flex items-center rounded-xl border border-neutral-200 bg-white p-1">
+            <button
+              onClick={toggleTheme}
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-2 text-neutral-900 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
+
+            <div className="flex items-center rounded-xl border border-neutral-200 bg-white p-1 dark:border-neutral-800 dark:bg-neutral-900">
               <button
                 onClick={() => setLang("en")}
                 className={[
                   "px-2 py-1 text-xs rounded-lg transition font-semibold",
-                  lang === "en" ? "bg-neutral-900 text-white" : "text-neutral-700 hover:bg-neutral-50"
+                  lang === "en"
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                    : "text-neutral-700 hover:bg-neutral-50 dark:text-neutral-200 dark:hover:bg-neutral-800"
                 ].join(" ")}
               >
                 EN
@@ -99,7 +122,9 @@ export default function Navbar() {
                 onClick={() => setLang("es")}
                 className={[
                   "px-2 py-1 text-xs rounded-lg transition font-semibold",
-                  lang === "es" ? "bg-neutral-900 text-white" : "text-neutral-700 hover:bg-neutral-50"
+                  lang === "es"
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                    : "text-neutral-700 hover:bg-neutral-50 dark:text-neutral-200 dark:hover:bg-neutral-800"
                 ].join(" ")}
               >
                 ES
@@ -108,7 +133,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setOpen((p) => !p)}
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-2 text-neutral-900 hover:bg-neutral-50"
+              className="inline-flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-2 text-neutral-900 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800"
               aria-label="Open menu"
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -116,21 +141,29 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu panel */}
+        {/* Mobile menu */}
         {open ? (
           <div className="sm:hidden pb-3">
-            <div className="rounded-2xl border border-neutral-200 bg-white p-2 shadow-sm">
+            <div className="rounded-2xl border border-neutral-200 bg-white p-2 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
               <div className="grid gap-2">
-                <NavLink to="/" end onClick={close} className={({ isActive }) => navClass(isActive)}>
+                <NavLink to="/" end onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
                   {labels.home}
                 </NavLink>
-                <NavLink to="/resume" onClick={close} className={({ isActive }) => navClass(isActive)}>
+                <NavLink to="/resume" onClick={() => setOpen(false)} className={({ isActive }) => navClass(isActive)}>
                   {labels.resume}
                 </NavLink>
-                <NavLink to="/projects" onClick={close} className={({ isActive }) => navClass(isActive)}>
+                <NavLink
+                  to="/projects"
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) => navClass(isActive)}
+                >
                   {labels.projects}
                 </NavLink>
-                <NavLink to="/contact" onClick={close} className={({ isActive }) => navClass(isActive)}>
+                <NavLink
+                  to="/contact"
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) => navClass(isActive)}
+                >
                   {labels.contact}
                 </NavLink>
               </div>
