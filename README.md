@@ -115,8 +115,6 @@ src/
 └── assets/ # Static Assets
 └── pdf/ # Resume PDF files
 
-text
-
 ## 🚀 Local Development
 
 ### Prerequisites
@@ -142,24 +140,26 @@ npm run build
 
 # Preview the build
 npm run preview
-📦 Deployment (GitHub Pages)
+```
+
+### 📦 Deployment (GitHub Pages)
 This project is configured for automatic deployment to GitHub Pages:
 
-Configuration Highlights
+### Configuration Highlights
 vite.config.ts includes: base: "/Resume_Khristian_Garcia/"
 
 Uses HashRouter to prevent 404 errors on refresh
 
 GitHub Actions workflow in .github/workflows/deploy.yml
 
-Deployment Steps
+### Deployment Steps
 Commit and push to the main branch
 
 GitHub Actions automatically runs the deployment workflow
 
 The site deploys to: https://[username].github.io/Resume_Khristian_Garcia/
 
-🎯 Technical Highlights
+### 🎯 Technical Highlights
 Performance Optimization
 Code splitting and lazy loading
 
@@ -178,7 +178,7 @@ Form validation with real-time feedback
 
 Accessibility considerations
 
-Internationalization
+### Internationalization
 Context-based language management
 
 Language-specific content
@@ -187,7 +187,7 @@ SEO optimization for both languages
 
 RTL-ready design
 
-Developer Experience
+### Developer Experience
 TypeScript with strict type checking
 
 Custom hooks for reusable logic
@@ -196,7 +196,7 @@ Consistent code formatting
 
 Comprehensive component documentation
 
-🔧 Customization
+### 🔧 Customization
 To customize this portfolio with your information:
 
 Update Profile Data: Edit src/data/profile-en.ts and profile-es.ts
@@ -211,10 +211,10 @@ Add Projects: Extend the projects array in Projects.tsx
 
 Update SEO: Modify meta tags in index.html and page components
 
-📄 License
+### 📄 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-👤 Author
+### 👤 Author
 Khristian Manolo Junior Garcia Pineda
 
 Data Analyst | Business Intelligence Analyst | Full-Stack Developer
@@ -229,10 +229,10 @@ LinkedIn: linkedin.com/in/khristian-garcia--
 
 GitHub: github.com/garciajuni20
 
-🌟 Support
+### 🌟 Support
 If you find this project useful, please consider giving it a star on GitHub!
 
-Technical Expertise Areas
+### Technical Expertise Areas
 Data Engineering: Snowflake, SQL, PostgreSQL, Data Modeling, ETL
 
 Business Intelligence: Power BI, Tableau, Analytics, Dashboard Design
