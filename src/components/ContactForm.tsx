@@ -91,8 +91,8 @@ export default function ContactForm() {
         reply_to: formData.email
       };
       
-      // Alternativa: Formspree (también gratis)
-      const response = await fetch('https://formspree.io/f/mqkrejng', {
+      // Alternativa:  (también gratis)
+      const response = await fetch('https://formspree.io/f/meezgvoq', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
