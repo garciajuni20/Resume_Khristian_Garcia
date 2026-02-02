@@ -79,6 +79,7 @@ A professional bilingual portfolio showcasing expertise in **Data Analysis / Bus
 - Performance optimized builds
 
 ## 📁 Project Structure
+```
 src/
 ├── components/              # Reusable UI Components
 │   ├── Container.tsx       # Responsive layout container
@@ -123,7 +124,7 @@ src/
     └── pdf/                # Resume PDF files
         ├── resume-en.pdf
         └── resume-es.pdf
-
+```
 ## 🚀 Local Development
 
 ### Prerequisites
