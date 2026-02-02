@@ -79,6 +79,7 @@ Portafolio profesional bilingüe que muestra experiencia en **Análisis de Datos
 - Builds optimizados para performance
 
 ## 📁 Estructura del Proyecto
+```
 src/
 ├── components/ # Componentes UI Reutilizables
 │ ├── Container.tsx # Contenedor responsive de layout
@@ -114,8 +115,7 @@ src/
 │ └── seoUtils.ts # Funciones helper de SEO
 └── assets/ # Assets Estáticos
 └── pdf/ # Archivos PDF de CV
-
-text
+```
 
 ## 🚀 Desarrollo Local
 
@@ -142,24 +142,26 @@ npm run build
 
 # Previsualizar la build
 npm run preview
-📦 Despliegue (GitHub Pages)
+```
+
+## 📦 Despliegue (GitHub Pages)
 Este proyecto está configurado para despliegue automático en GitHub Pages:
 
-Configuraciones Destacadas
+## Configuraciones Destacadas
 vite.config.ts incluye: base: "/Resume_Khristian_Garcia/"
 
 Usa HashRouter para prevenir errores 404 al refrescar
 
 Workflow de GitHub Actions en .github/workflows/deploy.yml
 
-Pasos de Despliegue
+## Pasos de Despliegue
 Haz commit y push a la rama main
 
 GitHub Actions ejecuta automáticamente el workflow de despliegue
 
 El sitio se despliega en: https://[usuario].github.io/Resume_Khristian_Garcia/
 
-🎯 Aspectos Técnicos Destacados
+## 🎯 Aspectos Técnicos Destacados
 Optimización de Performance
 Code splitting y lazy loading
 
@@ -169,7 +171,7 @@ Tamaño mínimo de bundle
 
 Manejo eficiente de estado
 
-Experiencia de Usuario
+## Experiencia de Usuario
 Transiciones suaves entre páginas
 
 Elementos interactivos con estados hover
@@ -178,7 +180,7 @@ Validación de formularios con feedback en tiempo real
 
 Consideraciones de accesibilidad
 
-Internacionalización
+## Internacionalización
 Manejo de idioma basado en contextos
 
 Contenido específico por idioma
@@ -187,7 +189,7 @@ Optimización SEO para ambos idiomas
 
 Diseño listo para RTL
 
-Experiencia de Desarrollo
+## Experiencia de Desarrollo
 TypeScript con chequeo estricto de tipos
 
 Custom hooks para lógica reutilizable
@@ -196,7 +198,7 @@ Formato de código consistente
 
 Documentación comprehensiva de componentes
 
-🔧 Personalización
+## 🔧 Personalización
 Para personalizar este portafolio con tu información:
 
 Actualizar Datos del Perfil: Edita src/data/profile-en.ts y profile-es.ts
@@ -211,10 +213,10 @@ Agregar Proyectos: Extiende el array de proyectos en Projects.tsx
 
 Actualizar SEO: Modifica meta tags en index.html y componentes de página
 
-📄 Licencia
+## 📄 Licencia
 Este proyecto está bajo la licencia MIT. Ver el archivo LICENSE para más detalles.
 
-👤 Autor
+## 👤 Autor
 Khristian Manolo Junior Garcia Pineda
 
 Analista de Datos | Analista de Inteligencia de Negocios | Desarrollador Full-Stack
@@ -229,10 +231,10 @@ LinkedIn: linkedin.com/in/khristian-garcia--
 
 GitHub: github.com/garciajuni20
 
-🌟 Soporte
+## 🌟 Soporte
 Si este proyecto te resulta útil, ¡considera darle una estrella en GitHub!
 
-Áreas de Experiencia Técnica
+## Áreas de Experiencia Técnica
 Ingeniería de Datos: Snowflake, SQL, PostgreSQL, Modelado de Datos, ETL
 
 Inteligencia de Negocios: Power BI, Tableau, Analytics, Diseño de Dashboards
