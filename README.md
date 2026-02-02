@@ -80,40 +80,49 @@ A professional bilingual portfolio showcasing expertise in **Data Analysis / Bus
 
 ## 📁 Project Structure
 src/
-├── components/ # Reusable UI Components
-│ ├── Container.tsx # Responsive layout container
-│ ├── Navbar.tsx # Bilingual navigation with theme toggle
-│ ├── Footer.tsx # Site footer with links
-│ ├── Section.tsx # Section wrapper component
-│ ├── FilterChips.tsx # Interactive filter chips
-│ ├── SkillMeter.tsx # Animated skill proficiency meters
-│ ├── ExperienceCard.tsx # Experience item cards
-│ ├── ContactForm.tsx # Professional contact form
-│ ├── SkillsDashboard.tsx # Technical skills visualization
-│ └── ArchitectureDiagram.tsx # System architecture diagrams
-├── context/ # React Context Providers
-│ ├── LanguageContext.tsx # Language management
-│ └── ThemeContext.tsx # Theme management
-├── hooks/ # Custom React Hooks
-│ ├── useAnalytics.ts # Analytics tracking
-│ ├── useLocalStorage.ts # Local storage utilities
-│ └── useSEO.ts # SEO management
-├── pages/ # Main Application Pages
-│ ├── Home.tsx # Landing page
-│ ├── Resume.tsx # Interactive resume
-│ ├── Projects.tsx # Projects showcase
-│ ├── Contact.tsx # Contact page with form
-│ └── NotFound.tsx # 404 page
-├── data/ # Portfolio Content
-│ ├── profile-en.ts # English profile data
-│ └── profile-es.ts # Spanish profile data
-├── types/ # TypeScript Type Definitions
-│ └── index.ts
-├── utils/ # Utility Functions
-│ ├── dateFormatter.ts # Date formatting utilities
-│ └── seoUtils.ts # SEO helper functions
-└── assets/ # Static Assets
-└── pdf/ # Resume PDF files
+├── components/              # Reusable UI Components
+│   ├── Container.tsx       # Responsive layout container
+│   ├── Navbar.tsx          # Bilingual navigation with theme toggle
+│   ├── Footer.tsx          # Site footer with links
+│   ├── Section.tsx         # Section wrapper component
+│   ├── FilterChips.tsx     # Interactive filter chips
+│   ├── SkillMeter.tsx      # Animated skill proficiency meters
+│   ├── ExperienceCard.tsx  # Experience item cards
+│   ├── ContactForm.tsx     # Professional contact form
+│   ├── SkillsDashboard.tsx # Technical skills visualization
+│   └── ArchitectureDiagram.tsx # System architecture diagrams
+│
+├── context/                # React Context Providers
+│   ├── LanguageContext.tsx # Language management
+│   └── ThemeContext.tsx    # Theme management
+│
+├── hooks/                  # Custom React Hooks
+│   ├── useAnalytics.ts     # Analytics tracking
+│   ├── useLocalStorage.ts  # Local storage utilities
+│   └── useSEO.ts           # SEO management
+│
+├── pages/                  # Main Application Pages
+│   ├── Home.tsx            # Landing page
+│   ├── Resume.tsx          # Interactive resume
+│   ├── Projects.tsx        # Projects showcase
+│   ├── Contact.tsx         # Contact page with form
+│   └── NotFound.tsx        # 404 page
+│
+├── data/                   # Portfolio Content
+│   ├── profile-en.ts       # English profile data
+│   └── profile-es.ts       # Spanish profile data
+│
+├── types/                  # TypeScript Type Definitions
+│   └── index.ts
+│
+├── utils/                  # Utility Functions
+│   ├── dateFormatter.ts    # Date formatting utilities
+│   └── seoUtils.ts         # SEO helper functions
+│
+└── assets/                 # Static Assets
+    └── pdf/                # Resume PDF files
+        ├── resume-en.pdf
+        └── resume-es.pdf
 
 ## 🚀 Local Development
 
