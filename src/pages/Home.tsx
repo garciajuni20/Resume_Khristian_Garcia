@@ -1,174 +1,131 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, BarChart3, Code, Database } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import Container from '../components/Container';
-import { useLang } from '../context/LanguageContext';
-import { useSEO } from '../hooks/useSEO';
+import { motion } from "framer-motion";
+import { ArrowRight, BarChart3, Database, Laptop, Cloud } from "lucide-react";
+import { Link } from "react-router-dom";
+import Container from "../components/Container";
+import { useLanguage } from "../context/LanguageContext";
+import useSEO from "../hooks/useSEO";
 
 export default function Home() {
-  const { lang } = useLang();
+  const { language } = useLanguage();
 
-  const t = lang === 'en' ? {
-    title: 'Data + Full-Stack Portfolio',
-    subtitle: 'I build trusted data layers (Snowflake/SQL) and product-style interfaces (React/Tailwind). This site is a practical demo of both.',
-    ctaPrimary: 'View Interactive Resume',
-    ctaSecondary: 'See Projects',
-    badges: ['Snowflake', 'SQL', 'Power BI', 'React', 'TypeScript', 'Tailwind', 'APIs'],
-    features: [
-      {
-        icon: <Database className="h-5 w-5" />,
-        title: 'Data Engineering',
-        desc: 'Snowflake, SQL, ETL, Data Modeling'
-      },
-      {
-        icon: <BarChart3 className="h-5 w-5" />,
-        title: 'Business Intelligence',
-        desc: 'Power BI, Tableau, Analytics, Dashboards'
-      },
-      {
-        icon: <Code className="h-5 w-5" />,
-        title: 'Full-Stack Dev',
-        desc: 'React, TypeScript, Tailwind, APIs'
-      }
-    ],
-    stats: [
-      { value: '5+', label: 'Years Experience' },
-      { value: '20+', label: 'Projects Completed' },
-      { value: '100%', label: 'Bilingual' }
-    ]
-  } : {
-    title: 'Portafolio Data + Full-Stack',
-    subtitle: 'Construyo capas de datos confiables (Snowflake/SQL) y experiencias tipo producto (React/Tailwind). Este sitio demuestra ambos.',
-    ctaPrimary: 'Ver CV Interactivo',
-    ctaSecondary: 'Ver Proyectos',
-    badges: ['Snowflake', 'SQL', 'Power BI', 'React', 'TypeScript', 'Tailwind', 'APIs'],
-    features: [
-      {
-        icon: <Database className="h-5 w-5" />,
-        title: 'Ingeniería de Datos',
-        desc: 'Snowflake, SQL, ETL, Modelado de Datos'
-      },
-      {
-        icon: <BarChart3 className="h-5 w-5" />,
-        title: 'Inteligencia de Negocios',
-        desc: 'Power BI, Tableau, Analytics, Dashboards'
-      },
-      {
-        icon: <Code className="h-5 w-5" />,
-        title: 'Desarrollo Full-Stack',
-        desc: 'React, TypeScript, Tailwind, APIs'
-      }
-    ],
-    stats: [
-      { value: '5+', label: 'Años de Experiencia' },
-      { value: '20+', label: 'Proyectos Completados' },
-      { value: '100%', label: 'Bilingüe' }
-    ]
-  };
-
-  // SEO mejorado
   useSEO({
-    title: t.title,
-    description: t.subtitle,
-    lang,
-    keywords: ['Data Analyst', 'Business Intelligence', 'Full Stack Developer', 'React', 'TypeScript', 'Snowflake']
+    title: language === "en" ? "Home | Khristian Garcia" : "Inicio | Khristian García",
+    description:
+      language === "en"
+        ? "Data & BI analyst portfolio — Snowflake, SQL, Power BI, Tableau, and engineering."
+        : "Portafolio de analista de datos/BI — Snowflake, SQL, Power BI, Tableau e ingeniería.",
   });
 
+  const title = language === "en" ? "Data & BI, built for impact." : "Datos & BI, enfocado en impacto.";
+  const subtitle =
+    language === "en"
+      ? "I build scalable sources of truth and enterprise reporting with Snowflake, SQL, Power BI, and Tableau — bridging analytics with engineering execution."
+      : "Construyo fuentes de verdad escalables y reporting empresarial con Snowflake, SQL, Power BI y Tableau — conectando analítica con ejecución técnica.";
+
+  const ctaPrimary = language === "en" ? "View Resume" : "Ver CV";
+  const ctaSecondary = language === "en" ? "Explore Projects" : "Ver Proyectos";
+
+  const cards =
+    language === "en"
+      ? [
+          {
+            icon: <Database size={18} />,
+            title: "Data Modeling & Warehousing",
+            text: "Snowflake + SQL modeling for scalable, reliable analytics layers.",
+          },
+          {
+            icon: <BarChart3 size={18} />,
+            title: "Enterprise Reporting",
+            text: "Power BI and Tableau dashboards for operational and financial decisions.",
+          },
+          {
+            icon: <Laptop size={18} />,
+            title: "Engineering Execution",
+            text: "ETL pipelines, APIs (Express/Django), and React/TypeScript delivery.",
+          },
+          {
+            icon: <Cloud size={18} />,
+            title: "Cloud & DevOps",
+            text: "Docker/Kubernetes fundamentals and GCP experience for deployments.",
+          },
+        ]
+      : [
+          {
+            icon: <Database size={18} />,
+            title: "Modelado & Data Warehousing",
+            text: "Modelado Snowflake + SQL para capas analíticas escalables y confiables.",
+          },
+          {
+            icon: <BarChart3 size={18} />,
+            title: "Reporting Empresarial",
+            text: "Dashboards en Power BI y Tableau para decisiones operativas y financieras.",
+          },
+          {
+            icon: <Laptop size={18} />,
+            title: "Ejecución Técnica",
+            text: "Pipelines ETL, APIs (Express/Django) y entrega con React/TypeScript.",
+          },
+          {
+            icon: <Cloud size={18} />,
+            title: "Cloud & DevOps",
+            text: "Fundamentos Docker/Kubernetes y experiencia en GCP para despliegues.",
+          },
+        ];
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white text-neutral-900 dark:from-neutral-950 dark:to-neutral-900 dark:text-neutral-50">
-      <Container>
+    <Container>
+      <div className="mx-auto max-w-6xl pb-16 pt-10">
         <motion.div
-          className="pt-12 pb-20"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.25 }}
+          className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-sm"
         >
-          {/* Hero Section */}
-          <div className="rounded-3xl border border-neutral-200 bg-white/80 backdrop-blur-sm p-8 sm:p-12 dark:border-neutral-800 dark:bg-neutral-900/80">
-            <div className="flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-              <Sparkles className="h-4 w-4" />
-              <span>{lang === 'en' ? 'Professional Portfolio' : 'Portafolio Profesional'}</span>
-            </div>
+          <div className="max-w-3xl">
+            <div className="text-3xl font-semibold text-white">{title}</div>
+            <p className="mt-3 text-sm leading-relaxed text-white/80">{subtitle}</p>
 
-            <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-              {t.title}
-            </h1>
-
-            <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
-              {t.subtitle}
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              {t.badges.map((badge) => (
-                <span
-                  key={badge}
-                  className="rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700
-                    dark:border-blue-900 dark:bg-blue-900/30 dark:text-blue-300"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-              {t.features.map((feature, idx) => (
-                <motion.div
-                  key={feature.title}
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-xl bg-blue-100 p-2 dark:bg-blue-900/50">
-                      {feature.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">{feature.title}</h3>
-                      <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-                        {feature.desc}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/resume"
-                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-700
-                  dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-black hover:bg-white/90"
               >
-                {t.ctaPrimary} <ArrowRight className="h-4 w-4" />
+                {ctaPrimary}
+                <ArrowRight size={16} />
               </Link>
 
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-50
-                  dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10"
               >
-                {t.ctaSecondary}
+                {ctaSecondary}
+                <ArrowRight size={16} />
               </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-12 grid grid-cols-3 gap-4 border-t border-neutral-200 pt-8 dark:border-neutral-800">
-              {t.stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-2xl font-bold text-neutral-900 dark:text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </motion.div>
-      </Container>
-    </main>
+
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+          {cards.map((c) => (
+            <motion.div
+              key={c.title}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.25 }}
+              className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-sm"
+            >
+              <div className="flex items-center gap-3 text-white">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  {c.icon}
+                </span>
+                <div className="text-base font-semibold">{c.title}</div>
+              </div>
+              <p className="mt-3 text-sm leading-relaxed text-white/75">{c.text}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </Container>
   );
 }
