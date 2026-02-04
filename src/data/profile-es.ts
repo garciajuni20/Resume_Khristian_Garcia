@@ -1,213 +1,112 @@
-import { resumePdfEs } from "./files";
+import { files } from "./files"
 
-export type ProfileData = {
-  name: string;
-  role: string;
-  location: string;
-  email: string;
-  website: string;
-  linkedin: string;
-  github: string;
-  summary: string;
-  highlights: string[];
-  resumePdf: string;
-  experience: Array<{
-    company: string;
-    title: string;
-    start: string; // ISO date
-    end?: string; // ISO date
-    location?: string;
-    bullets: string[];
-    tech?: string[];
-  }>;
-  education: Array<{
-    school: string;
-    program: string;
-    start?: string;
-    end?: string;
-    notes?: string[];
-  }>;
-  skills: Array<{
-    group: string;
-    items: Array<{
-      name: string;
-      level?: number; // 1-5
-    }>;
-  }>;
-  certifications?: Array<{
-    name: string;
-    issuer?: string;
-    year?: string;
-  }>;
-};
-
-export const profileEs: ProfileData = {
+export const profileES = {
   name: "Khristian Manolo Junior Garcia Pineda",
-  role: "Analista de Datos / Analista de Inteligencia de Negocios",
-  location: "Guatemala · Híbrido",
-  email: "khristiangarciajr@gmail.com",
-  website: "https://garciajuni20.github.io/Resume_Khristian_Garcia/",
-  linkedin: "https://www.linkedin.com/in/khristian-garcia/",
-  github: "https://github.com/GarciaJuni20",
-  resumePdf: resumePdfEs,
-  summary:
-    "Analista de Datos y Analista de Inteligencia de Negocios con sólida experiencia en modelado de datos, analítica y reportes empresariales. Me especializo en construir fuentes de verdad confiables y escalables usando Snowflake, SQL y bases de datos relacionales, transformando datos en información lista para la toma de decisiones. Entrego dashboards y reportes en Power BI y Tableau, con enfoque en calidad, rendimiento y disponibilidad de datos para apoyar decisiones estratégicas y operativas.",
-  highlights: [
-    "Modelado en Snowflake + SQL para fuentes de verdad escalables",
-    "Reporting empresarial con Power BI & Tableau (operaciones + finanzas)",
-    "ETL/ELT, calidad de datos y optimización de rendimiento",
-    "Colaboración cross-funcional y comunicación con stakeholders",
-    "Portafolio React/TypeScript e integraciones API (Express/Django)",
+  headline: "Analista de Datos | Analista de Inteligencia de Negocios",
+  location: "Guatemala (GT)",
+  email: "garciajuni20@gmail.com",
+  phone: "+502 5633 8735",
+  photoUrl:
+    "https://raw.githubusercontent.com/garciajuni20/Resume_Khristian_Garcia/main/khristian-garcia.png",
+  links: [
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/khristian-garcia--/" },
+    { label: "GitHub", href: "https://github.com/garciajuni20" }
   ],
+  summary:
+    "Analista de Datos y Analista de Inteligencia de Negocios con sólida experiencia en modelado de datos, analítica y reportes empresariales. Especializado en construir fuentes únicas de verdad utilizando Snowflake, SQL y bases de datos relacionales. Capacidad comprobada para transformar datos en información confiable y lista para el negocio mediante Power BI y el ecosistema Microsoft.",
+  resumePdfPath: files.resumeES,
+
+  badges: ["Snowflake", "SQL", "Power BI", "Modelado de Datos", "Portafolio Full-Stack"],
+
   experience: [
     {
-      company: "Alleviate",
-      title: "Business Intelligence Analyst",
-      start: "2023-01-01",
-      end: undefined,
-      location: "Guatemala · Híbrido",
-      bullets: [
-        "Diseño y mantenimiento de modelos analíticos y datasets curados en Snowflake y bases de datos relacionales para habilitar reporting confiable.",
-        "Desarrollo y optimización de transformaciones SQL para mejorar calidad, rendimiento y escalabilidad en capas de reporting empresarial.",
-        "Creación de dashboards en Power BI y Tableau para visibilidad operativa y financiera, habilitando decisiones basadas en datos.",
-        "Trabajo con stakeholders para definir KPIs, traducir requerimientos y documentar soluciones de forma clara.",
-      ],
-      tech: ["Snowflake", "SQL", "Power BI", "Tableau", "Modelado", "ETL"],
-    },
-    {
-      company: "Icon Solutions Group, S. A.",
-      title: "Business Intelligence Analyst",
-      start: "2024-12-21",
-      end: "2025-12-01",
-      location: "Guatemala · Híbrido",
-      bullets: [
-        "Ascendido el 21 de dic 2024 de BI Analyst Jr. a BI Analyst.",
-        "Responsable de soluciones de reporting end-to-end: data sourcing, modelado, validación y publicación de dashboards a usuarios de negocio.",
-        "Mejora de confiabilidad y performance al estandarizar definiciones y refinar lógica SQL entre equipos.",
-      ],
-      tech: ["Power BI", "SQL", "Data Warehousing", "Stakeholders"],
-    },
-    {
-      company: "Icon Solutions Group, S. A.",
-      title: "Business Intelligence Analyst Jr.",
-      start: "2023-10-06",
-      end: "2024-12-20",
-      location: "Guatemala · Híbrido",
-      bullets: [
-        "Construcción de tablas analíticas base y optimización de queries SQL para reporting escalable.",
-        "Creación de dashboards en Power BI y mantenimiento de procesos de refresh para reporting consistente.",
-        "Soporte en levantamiento de requerimientos e iteración de mejoras basadas en feedback del negocio.",
-      ],
-      tech: ["SQL", "Power BI", "Modelado de Datos", "Excel"],
-    },
-    {
-      company: "Icon Solutions Group, S. A.",
-      title: "Especialista en TI",
-      start: "2023-01-01",
-      end: "2023-10-01",
-      location: "Guatemala · Presencial",
-      bullets: [
-        "Soporte TI y resolución de incidentes en herramientas y plataformas internas.",
-        "Apoyo en documentación de procesos y automatizaciones básicas para tareas operativas.",
-      ],
-      tech: ["Soporte TI", "Office 365", "Documentación"],
-    },
-    {
-      company: "IDT Corporation",
-      title: "GNOC Support Engineer",
-      start: "2019-05-01",
-      end: "2023-03-01",
-      location: "Guatemala",
-      bullets: [
-        "Monitoreo y soporte de operaciones de red, troubleshooting de incidentes y coordinación de escalaciones.",
-        "Mantenimiento de documentación operativa y mejora continua de procesos de soporte.",
-      ],
-      tech: ["Networking", "Operaciones", "Gestión de Incidentes", "Office 365"],
-    },
-    {
-      company: "IDT Corporation",
-      title: "Technician Representative",
-      start: "2017-11-01",
-      end: "2019-05-01",
-      location: "Guatemala",
-      bullets: [
-        "Soporte al cliente y técnico, triage y resolución siguiendo guías de servicio.",
-        "Mejoras de proceso y actualización de base de conocimiento para problemas recurrentes.",
-      ],
-      tech: ["Servicio al Cliente", "Troubleshooting", "Documentación"],
-    },
-    {
+      id: "usac-teaching",
       company: "Universidad de San Carlos de Guatemala",
-      title: "Profesor de clases particulares / Tutor Académico (Contrato)",
-      start: "2025-07-01",
-      end: undefined,
-      location: "Guatemala · Híbrido",
+      role: "Tutor Académico – Práctica Final, Ingeniería en Sistemas",
+      start: "2025-08",
+      end: "present",
+      location: "Guatemala",
+      tags: ["Docencia", "Sistemas", "Liderazgo"],
       bullets: [
-        "Tutor académico del curso 0786 — Sistemas Organizacionales y Gerenciales 1.",
-        "Acompañamiento a estudiantes con explicaciones estructuradas, ejercicios y retroalimentación alineada a los objetivos del curso.",
-      ],
-      tech: ["Docencia", "Comunicación", "Mentoría"],
+        "Instructor del curso Sistemas Organizacionales y Gerenciales 1 (Código 0786).",
+        "Impartió fundamentos de analítica de negocios, sistemas de información y transformación digital.",
+        "Guió a estudiantes en conceptos de Business Intelligence, ERP, CRM y sistemas organizacionales.",
+        "Apoyó sesiones de laboratorio y proyectos académicos aplicados."
+      ]
     },
+    {
+      id: "alleviate-mid",
+      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
+      role: "Analista de Inteligencia de Negocios / Analista de Datos",
+      start: "2024-12",
+      end: "present",
+      location: "Remoto",
+      tags: ["BI", "Datos", "Snowflake", "Power BI"],
+      bullets: [
+        "Diseñó y mantuvo tablas y vistas analíticas en Snowflake.",
+        "Construyó fuentes únicas de verdad para reportes financieros y operativos.",
+        "Desarrolló modelos SQL optimizados para mejorar exactitud y rendimiento.",
+        "Entregó dashboards y reportes analíticos con Power BI y Tableau."
+      ]
+    },
+    {
+      id: "alleviate-jr",
+      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
+      role: "Analista de Inteligencia de Negocios Jr",
+      start: "2023-11",
+      end: "2024-12",
+      location: "Remoto",
+      tags: ["BI", "SQL", "Reporting"],
+      bullets: [
+        "Primer Analista de BI asignado en Guatemala para la cuenta de Alleviate Financial Solutions.",
+        "Apoyó la creación y estructuración inicial del área de Business Intelligence.",
+        "Desarrolló procesos base de BI, consultas SQL y soluciones de reporting.",
+        "Colaboró con stakeholders basados en Estados Unidos."
+      ]
+    },
+    {
+      id: "icon-it",
+      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
+      role: "Soporte de TI / Administración de Sistemas",
+      start: "2023-01",
+      end: "2023-11",
+      location: "Guatemala",
+      tags: ["TI", "Soporte", "Operaciones"],
+      bullets: ["Brindó soporte técnico empresarial, administración de sistemas y atención a usuarios."]
+    },
+    {
+      id: "idt-gnoc",
+      company: "Red Chapina S.A (IDT Guatemala)",
+      role: "Ingeniero de Soporte GNOC",
+      start: "2019-01",
+      end: "2023-01",
+      location: "Guatemala",
+      tags: ["Redes", "Operaciones", "Incidentes"],
+      bullets: [
+        "Monitoreó y soportó operaciones de red y sistemas críticos a nivel global.",
+        "Realizó análisis de incidentes, troubleshooting y escalamiento de servicios empresariales."
+      ]
+    }
   ],
+
+  skills: [
+    { name: "Snowflake", level: 95 },
+    { name: "SQL", level: 95 },
+    { name: "Power BI", level: 90 },
+    { name: "Modelado de Datos", level: 85 },
+    { name: "ETL / Data Warehousing", level: 85 },
+    { name: "Tableau", level: 80 },
+    { name: "Python", level: 70 },
+    { name: "Git", level: 70 },
+    { name: "REST APIs", level: 70 }
+  ],
+
   education: [
     {
-      school: "Universidad de San Carlos de Guatemala",
-      program: "Sistemas de Información / Ingeniería en Sistemas (Formación académica)",
-      notes: [
-        "Experiencia universitaria en ingeniería en sistemas, analítica de negocios y sistemas organizacionales.",
-      ],
-    },
-  ],
-  skills: [
-    {
-      group: "Datos & BI",
-      items: [
-        { name: "SQL (Avanzado)", level: 5 },
-        { name: "Snowflake", level: 4 },
-        { name: "Modelado de Datos", level: 4 },
-        { name: "ETL / ELT", level: 4 },
-        { name: "Data Warehousing", level: 4 },
-        { name: "Calidad de Datos", level: 4 },
-      ],
-    },
-    {
-      group: "Analítica & Reporting",
-      items: [
-        { name: "Power BI", level: 5 },
-        { name: "Tableau", level: 4 },
-        { name: "DAX / Medidas", level: 4 },
-        { name: "Definición de KPIs", level: 4 },
-        { name: "Trabajo con Stakeholders", level: 5 },
-      ],
-    },
-    {
-      group: "Ingeniería",
-      items: [
-        { name: "Python", level: 4 },
-        { name: "APIs (REST)", level: 4 },
-        { name: "Express (Node.js)", level: 4 },
-        { name: "Django", level: 3 },
-        { name: "PostgreSQL", level: 4 },
-        { name: "React + TypeScript", level: 4 },
-      ],
-    },
-    {
-      group: "Cloud & DevOps",
-      items: [
-        { name: "Docker", level: 3 },
-        { name: "Kubernetes", level: 3 },
-        { name: "Fundamentos de GCP", level: 3 },
-        { name: "CI/CD (GitHub Actions)", level: 3 },
-      ],
-    },
-    {
-      group: "Profesional",
-      items: [
-        { name: "Comunicación", level: 5 },
-        { name: "Presentaciones", level: 4 },
-        { name: "Servicio al Cliente", level: 4 },
-        { name: "Documentación", level: 4 },
-      ],
-    },
-  ],
-};
+      institution: "Universidad de San Carlos de Guatemala",
+      degree: "Licenciatura",
+      area: "Ingeniería en Ciencias y Sistemas",
+      end: "present"
+    }
+  ]
+} as const

@@ -1,67 +1,65 @@
-import { motion } from "framer-motion";
-import { formatMonthYearRange, formatRelativeDuration } from "../utils/dateFormatter";
+import { motion } from "framer-motion"
+
+type Lang = "en" | "es"
+
+type Item = {
+  id: string
+  role: string
+  company: string
+  location: string
+  start: string
+  end: string
+  tags?: string[]
+  bullets?: string[]
+}
 
 type Props = {
-  company: string;
-  title: string;
-  start: string;
-  end?: string;
-  location?: string;
-  bullets: string[];
-  tech?: string[];
-};
+  item: Item
+  onOpen: (item: Item) => void
+  lang: Lang
+}
 
-export default function ExperienceCard({
-  company,
-  title,
-  start,
-  end,
-  location,
-  bullets,
-  tech,
-}: Props) {
-  const range = formatMonthYearRange(start, end);
-  const duration = formatRelativeDuration(start, end);
+export default function ExperienceCard({ item, onOpen, lang }: Props) {
+  const dateLabel = lang === "en" ? `${item.start} — ${item.end}` : `${item.start} — ${item.end}`
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.25 }}
-      className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-sm"
+    <motion.button
+      type="button"
+      onClick={() => onOpen(item)}
+      className="w-full text-left rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm hover:shadow-md transition
+                 dark:border-neutral-800 dark:bg-neutral-900"
+      whileHover={{ y: -1 }}
     >
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <div className="text-base font-semibold text-white">{title}</div>
-          <div className="text-sm text-white/80">{company}</div>
-          {location ? <div className="text-xs text-white/60">{location}</div> : null}
+          <div className="font-semibold">{item.role}</div>
+          <div className="text-sm text-neutral-700 dark:text-neutral-200">{item.company}</div>
+          <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">{item.location}</div>
         </div>
 
-        <div className="text-xs text-white/60 sm:text-right">
-          <div>{range}</div>
-          <div className="text-white/50">{duration}</div>
-        </div>
+        <div className="text-xs text-neutral-500 dark:text-neutral-400 whitespace-nowrap">{dateLabel}</div>
       </div>
 
-      <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-white/80">
-        {bullets.map((b, idx) => (
-          <li key={idx}>{b}</li>
-        ))}
-      </ul>
-
-      {tech && tech.length > 0 ? (
-        <div className="mt-4 flex flex-wrap gap-2">
-          {tech.map((t) => (
+      {item.tags?.length ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {item.tags.map((t) => (
             <span
               key={t}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
+              className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-950 dark:text-neutral-200"
             >
               {t}
             </span>
           ))}
         </div>
       ) : null}
-    </motion.div>
-  );
+
+      {item.bullets?.length ? (
+        <ul className="mt-4 list-disc pl-5 text-sm text-neutral-700 dark:text-neutral-200 space-y-1">
+          {item.bullets.slice(0, 2).map((b, i) => (
+            <li key={i}>{b}</li>
+          ))}
+        </ul>
+      ) : null}
+    </motion.button>
+  )
 }

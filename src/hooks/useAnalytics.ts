@@ -1,14 +1,37 @@
-import type { AnalyticsEvent } from "../types";
+import { useEffect } from 'react';
+import { Lang } from '../types';
 
-const isDev = import.meta.env.DEV;
+export const useAnalytics = () => {
+  const trackEvent = (eventName: string, data?: Record<string, any>) => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', eventName, data);
+    }
+    
+    // Log para desarrollo
+    console.log(`[Analytics] ${eventName}`, data);
+  };
 
-export default function useAnalytics(page: AnalyticsEvent["page"]) {
-  // NOTE: intentionally lightweight — avoid unused locals that can break strict builds.
-  // If you want to wire GA later, do it here and keep it env-gated.
+  const trackPageView = (pagePath: string) => {
+    trackEvent('page_view', { page_path: pagePath });
+  };
 
-  if (isDev) {
-    // Keep dev-only logs minimal and silent in production.
-    // eslint-disable-next-line no-console
-    console.debug(`[analytics] page_view: ${page}`);
-  }
-}
+  const trackLanguageSwitch = (lang: Lang) => {
+    trackEvent('language_switch', { language: lang });
+  };
+
+  const trackThemeSwitch = (theme: 'light' | 'dark') => {
+    trackEvent('theme_switch', { theme });
+  };
+
+  const trackDownload = (fileName: string) => {
+    trackEvent('download', { file_name: fileName });
+  };
+
+  return {
+    trackEvent,
+    trackPageView,
+    trackLanguageSwitch,
+    trackThemeSwitch,
+    trackDownload
+  };
+};

@@ -1,30 +1,72 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import type { ThemeMode } from "../types";
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { Theme } from '../types';
 
-type ThemeContextValue = {
-  theme: ThemeMode;
-  setTheme: (t: ThemeMode) => void;
+interface ThemeContextValue {
+  theme: Theme;
   toggleTheme: () => void;
-};
+  setTheme: (theme: Theme) => void;
+}
 
-const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextValue | null>(null);
+
+function applyThemeToDom(theme: Theme) {
+  const root = document.documentElement;
+  root.classList.toggle('dark', theme === 'dark');
+  root.style.colorScheme = theme;
+}
+
+function getInitialTheme(): Theme {
+  const saved = localStorage.getItem('portfolio_theme');
+  if (saved === 'light' || saved === 'dark') return saved;
+
+  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
+  return prefersDark ? 'dark' : 'light';
+}
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<ThemeMode>(() => {
-    const saved = localStorage.getItem("theme");
-    return (saved as ThemeMode) ?? "dark";
-  });
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [isSystem, setIsSystem] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("theme", theme);
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    applyThemeToDom(theme);
+    localStorage.setItem('portfolio_theme', theme);
+    
+    // Analytics
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'theme_switch', { theme });
+    }
   }, [theme]);
 
-  const value = useMemo<ThemeContextValue>(
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (isSystem) {
+        setThemeState(e.matches ? 'dark' : 'light');
+      }
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [isSystem]);
+
+  const value = useMemo(
     () => ({
       theme,
-      setTheme,
-      toggleTheme: () => setTheme((t) => (t === "dark" ? "light" : "dark")),
+      setTheme: (t: Theme) => {
+        setThemeState(t);
+        setIsSystem(false);
+      },
+      toggleTheme: () => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        setThemeState(newTheme);
+        setIsSystem(false);
+      },
+      useSystemTheme: () => {
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
+        setThemeState(prefersDark ? 'dark' : 'light');
+        setIsSystem(true);
+      }
     }),
     [theme]
   );
@@ -34,6 +76,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useTheme() {
   const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
+  if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
   return ctx;
 }
