@@ -1,322 +1,365 @@
-import Container from '../components/Container';
-import { useLang } from '../context/LanguageContext';
-import { useSEO } from '../hooks/useSEO';
-import { motion } from 'framer-motion';
-import { ExternalLink, Github, Database, LineChart, Code, Cloud, Server } from 'lucide-react';
+import { useMemo, useState } from "react";
+import Container from "../components/Container";
+import { useLanguage } from "../context/LanguageContext";
+import useSEO from "../hooks/useSEO";
+import { motion } from "framer-motion";
+import { ExternalLink, Github, Filter } from "lucide-react";
+import { Link } from "react-router-dom";
 
-interface Project {
-  id: string;
+type ProjectCategory = "All" | "Data" | "Web" | "Cloud" | "Systems";
+
+type Project = {
   title: string;
+  subtitle?: string;
   description: string;
-  descriptionEs: string;
-  technologies: string[];
-  category: 'data' | 'web' | 'cloud' | 'architecture';
+  categories: ProjectCategory[];
+  stack: string[];
   links?: {
-    github?: string;
     live?: string;
-    demo?: string;
+    repo?: string;
   };
-  featured: boolean;
+  highlights?: string[];
+};
+
+const projectsEn: Project[] = [
+  {
+    title: "Interactive Resume (React + TypeScript)",
+    subtitle: "Bilingual portfolio (EN/ES) deployed on GitHub Pages",
+    description:
+      "An interactive CV/resume built with React + Tailwind + TypeScript. Includes language toggle, clean navigation, and a modern layout optimized for recruiters.",
+    categories: ["Web", "All"],
+    stack: ["React", "TypeScript", "Tailwind", "Vite", "GitHub Actions"],
+    links: {
+      live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/",
+      repo: "https://github.com/GarciaJuni20/Resume_Khristian_Garcia",
+    },
+    highlights: [
+      "HashRouter-friendly navigation for GitHub Pages",
+      "Clean experience & skills sections aligned with BI profile",
+      "Professional UI with consistent components",
+    ],
+  },
+  {
+    title: "NG Legal / Pre-Lit Power BI Data Layer",
+    subtitle: "Analytics foundation for operational visibility",
+    description:
+      "Designed curated reporting datasets and SQL logic to track legal/pre-lit inventory and settlements, enabling operational visibility and monitoring by legal partner.",
+    categories: ["Data", "All"],
+    stack: ["Snowflake", "SQL", "Power BI", "Data Modeling", "ETL"],
+    highlights: [
+      "Curated analytics tables as a source of truth",
+      "Optimized SQL for performance and consistency",
+      "Partnered with stakeholders to define KPIs",
+    ],
+  },
+  {
+    title: "ETL: PDF → PostgreSQL → MongoDB",
+    subtitle: "Academic ETL pipeline and database modeling",
+    description:
+      "End-to-end extraction from PDFs into structured SQL tables (PostgreSQL) with a staged ETL process, plus selected exports into MongoDB for document-style access.",
+    categories: ["Data", "Systems", "All"],
+    stack: ["Python", "PostgreSQL", "MongoDB", "ETL", "Data Modeling"],
+    highlights: [
+      "Staging → dimensions → facts approach",
+      "Automated load scripts and validation checks",
+      "Documented workflow and schema design",
+    ],
+  },
+  {
+    title: "Swaptify (Microservices + CI/CD)",
+    subtitle: "Course project: services, containers, and deployment",
+    description:
+      "Microservices-based system with React frontend, Node.js backend services, PostgreSQL, containerization, and CI/CD using GitHub Actions and GCP.",
+    categories: ["Web", "Cloud", "Systems", "All"],
+    stack: ["React", "Node.js", "Express", "PostgreSQL", "Docker", "Kubernetes", "GCP"],
+    highlights: [
+      "Service contracts and architecture documentation",
+      "Docker/K8s deployment structure",
+      "CI/CD pipeline via GitHub Actions",
+    ],
+  },
+  {
+    title: "Kubernetes Microservices on GCP (Kops)",
+    subtitle: "Hands-on cloud deployment & orchestration",
+    description:
+      "Deployed multiple microservices and an API gateway to a Kubernetes cluster on GCP using Kops. Includes a private image registry and jobs for DB initialization.",
+    categories: ["Cloud", "Systems", "All"],
+    stack: ["Kubernetes", "Docker", "GCP", "Kops", "CI/CD"],
+    highlights: [
+      "Ingress + gateway setup",
+      "Private registry workflow",
+      "Jobs/cronjobs for automation",
+    ],
+  },
+  {
+    title: "VLangCherry Interpreter (Go + ANTLR + Fyne)",
+    subtitle: "Compiler/interpreter project with GUI",
+    description:
+      "Implemented an interpreter in Go using ANTLR for lexing/parsing and built a functional GUI with Fyne to run and visualize results.",
+    categories: ["Systems", "All"],
+    stack: ["Go", "ANTLR", "Fyne", "Parsing", "AST"],
+    highlights: [
+      "Lexer/parser integration",
+      "Interpreter runtime execution",
+      "GUI to run scripts and inspect outputs",
+    ],
+  },
+];
+
+const projectsEs: Project[] = [
+  {
+    title: "CV Interactivo (React + TypeScript)",
+    subtitle: "Portafolio bilingüe (EN/ES) en GitHub Pages",
+    description:
+      "CV/resume interactivo construido con React + Tailwind + TypeScript. Incluye cambio de idioma, navegación limpia y un diseño moderno optimizado para reclutadores.",
+    categories: ["Web", "All"],
+    stack: ["React", "TypeScript", "Tailwind", "Vite", "GitHub Actions"],
+    links: {
+      live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/",
+      repo: "https://github.com/GarciaJuni20/Resume_Khristian_Garcia",
+    },
+    highlights: [
+      "Navegación compatible con GitHub Pages (HashRouter)",
+      "Secciones alineadas a perfil BI",
+      "UI profesional con componentes consistentes",
+    ],
+  },
+  {
+    title: "NG Legal / Pre-Lit Power BI Data Layer",
+    subtitle: "Base analítica para visibilidad operativa",
+    description:
+      "Diseño de datasets curados y lógica SQL para dar visibilidad del inventario legal/pre-lit y acuerdos, permitiendo monitoreo por partner legal.",
+    categories: ["Data", "All"],
+    stack: ["Snowflake", "SQL", "Power BI", "Modelado de Datos", "ETL"],
+    highlights: [
+      "Tablas analíticas como fuente de verdad",
+      "SQL optimizado para performance y consistencia",
+      "Trabajo con stakeholders para definir KPIs",
+    ],
+  },
+  {
+    title: "ETL: PDF → PostgreSQL → MongoDB",
+    subtitle: "Pipeline ETL y modelado de bases de datos (académico)",
+    description:
+      "Extracción end-to-end desde PDFs hacia tablas SQL estructuradas (PostgreSQL) con enfoque ETL por etapas y exportaciones seleccionadas hacia MongoDB.",
+    categories: ["Data", "Systems", "All"],
+    stack: ["Python", "PostgreSQL", "MongoDB", "ETL", "Modelado de Datos"],
+    highlights: [
+      "Enfoque staging → dimensiones → hechos",
+      "Scripts de carga y validación",
+      "Documentación del flujo y el esquema",
+    ],
+  },
+  {
+    title: "Swaptify (Microservicios + CI/CD)",
+    subtitle: "Proyecto de curso: servicios, contenedores y despliegue",
+    description:
+      "Sistema basado en microservicios con frontend en React, backend en Node.js, PostgreSQL, contenedores y CI/CD mediante GitHub Actions y GCP.",
+    categories: ["Web", "Cloud", "Systems", "All"],
+    stack: ["React", "Node.js", "Express", "PostgreSQL", "Docker", "Kubernetes", "GCP"],
+    highlights: [
+      "Contratos de servicios y arquitectura documentada",
+      "Estructura de despliegue Docker/K8s",
+      "Pipeline CI/CD en GitHub Actions",
+    ],
+  },
+  {
+    title: "Microservicios en Kubernetes sobre GCP (Kops)",
+    subtitle: "Despliegue cloud y orquestación (hands-on)",
+    description:
+      "Despliegue de múltiples microservicios y API Gateway en un clúster Kubernetes en GCP usando Kops, con registry privado y jobs de inicialización de BD.",
+    categories: ["Cloud", "Systems", "All"],
+    stack: ["Kubernetes", "Docker", "GCP", "Kops", "CI/CD"],
+    highlights: [
+      "Ingress + gateway",
+      "Workflow de registry privado",
+      "Jobs/cronjobs para automatización",
+    ],
+  },
+  {
+    title: "Intérprete VLangCherry (Go + ANTLR + Fyne)",
+    subtitle: "Proyecto de intérprete con interfaz gráfica",
+    description:
+      "Implementación de un intérprete en Go usando ANTLR para análisis léxico/sintáctico y GUI funcional con Fyne para ejecutar y visualizar resultados.",
+    categories: ["Systems", "All"],
+    stack: ["Go", "ANTLR", "Fyne", "Parsing", "AST"],
+    highlights: [
+      "Integración lexer/parser",
+      "Ejecución del runtime del intérprete",
+      "GUI para correr scripts y ver salidas",
+    ],
+  },
+];
+
+const allCategories: ProjectCategory[] = ["All", "Data", "Web", "Cloud", "Systems"];
+
+function label(lang: "en" | "es", c: ProjectCategory) {
+  if (lang === "en") return c;
+  switch (c) {
+    case "All":
+      return "Todo";
+    case "Data":
+      return "Datos";
+    case "Web":
+      return "Web";
+    case "Cloud":
+      return "Cloud";
+    case "Systems":
+      return "Sistemas";
+    default:
+      return c;
+  }
 }
 
 export default function Projects() {
-  const { lang } = useLang();
-
-  const projects: Project[] = [
-    {
-      id: 'portfolio',
-      title: 'Interactive Portfolio',
-      description: 'React + TypeScript + Tailwind portfolio with language + theme toggles, filters, and structured resume content. Demonstrates full-stack capabilities with CI/CD deployment.',
-      descriptionEs: 'Portafolio en React + TypeScript + Tailwind con toggle de idioma + tema, filtros y CV estructurado. Demuestra capacidades full-stack con despliegue CI/CD.',
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'GitHub Actions', 'CI/CD'],
-      category: 'web',
-      links: {
-        github: 'https://github.com/garciajuni20/Resume_Khristian_Garcia',
-        live: 'https://garciajuni20.github.io/Resume_Khristian_Garcia/'
-      },
-      featured: true
-    },
-    {
-      id: 'data-pipeline',
-      title: 'Data Pipeline Architecture',
-      description: 'Designed and implemented a scalable ETL pipeline using Snowflake, Python, and Docker. Includes data modeling, transformation, and visualization components.',
-      descriptionEs: 'Diseñé e implementé un pipeline ETL escalable usando Snowflake, Python y Docker. Incluye componentes de modelado, transformación y visualización de datos.',
-      technologies: ['Snowflake', 'Python', 'Docker', 'ETL', 'Data Modeling', 'Airflow'],
-      category: 'data',
-      featured: true
-    },
-    {
-      id: 'bi-dashboard',
-      title: 'Business Intelligence Dashboard',
-      description: 'Comprehensive BI dashboard for financial analytics using Power BI and Tableau. Features real-time data visualization, KPI tracking, and predictive analytics.',
-      descriptionEs: 'Dashboard integral de BI para análisis financiero usando Power BI y Tableau. Incluye visualización de datos en tiempo real, seguimiento de KPIs y analytics predictivo.',
-      technologies: ['Power BI', 'Tableau', 'SQL', 'DAX', 'Data Visualization'],
-      category: 'data',
-      featured: true
-    },
-    {
-      id: 'cloud-architecture',
-      title: 'Cloud Infrastructure Design',
-      description: 'GCP-based infrastructure design with Kubernetes orchestration, containerized applications, and automated CI/CD pipelines for scalable deployments.',
-      descriptionEs: 'Diseño de infraestructura basada en GCP con orquestación Kubernetes, aplicaciones contenerizadas y pipelines CI/CD automatizados para despliegues escalables.',
-      technologies: ['GCP', 'Kubernetes', 'Docker', 'Terraform', 'CI/CD', 'Helm'],
-      category: 'cloud',
-      featured: false
-    },
-    {
-      id: 'system-architecture',
-      title: 'Microservices Architecture',
-      description: 'Designed and documented a microservices-based system architecture with API gateways, service discovery, and distributed data management.',
-      descriptionEs: 'Diseñé y documenté una arquitectura de sistema basada en microservicios con API gateways, discovery de servicios y gestión distribuida de datos.',
-      technologies: ['Microservices', 'REST APIs', 'System Design', 'Architecture Patterns', 'Documentation'],
-      category: 'architecture',
-      featured: false
-    }
-  ];
-
-  const categories = [
-    { id: 'data', labelEn: 'Data & BI', labelEs: 'Datos & BI', icon: <Database className="h-4 w-4" /> },
-    { id: 'web', labelEn: 'Web Development', labelEs: 'Desarrollo Web', icon: <Code className="h-4 w-4" /> },
-    { id: 'cloud', labelEn: 'Cloud & DevOps', labelEs: 'Cloud & DevOps', icon: <Cloud className="h-4 w-4" /> },
-    { id: 'architecture', labelEn: 'Architecture', labelEs: 'Arquitectura', icon: <Server className="h-4 w-4" /> }
-  ];
-
-  const t = lang === 'en' ? {
-    title: 'Projects',
-    subtitle: 'A showcase of my work across data engineering, full-stack development, and systems architecture.',
-    viewAll: 'View All Projects',
-    viewGithub: 'View on GitHub',
-    viewLive: 'View Live',
-    technologies: 'Technologies',
-    category: 'Category',
-    featured: 'Featured Projects',
-    allProjects: 'All Projects'
-  } : {
-    title: 'Proyectos',
-    subtitle: 'Una muestra de mi trabajo en ingeniería de datos, desarrollo full-stack y arquitectura de sistemas.',
-    viewAll: 'Ver Todos los Proyectos',
-    viewGithub: 'Ver en GitHub',
-    viewLive: 'Ver en Vivo',
-    technologies: 'Tecnologías',
-    category: 'Categoría',
-    featured: 'Proyectos Destacados',
-    allProjects: 'Todos los Proyectos'
-  };
+  const { language } = useLanguage();
 
   useSEO({
-    title: t.title,
-    description: t.subtitle,
-    lang,
-    keywords: ['projects', 'portfolio', 'data engineering', 'cloud architecture', 'BI dashboards']
+    title: language === "en" ? "Projects | Khristian Garcia" : "Proyectos | Khristian García",
+    description:
+      language === "en"
+        ? "Selected projects across data, BI, web, and cloud."
+        : "Proyectos seleccionados en datos, BI, web y cloud.",
   });
 
-  const getCategoryIcon = (categoryId: string) => {
-    return categories.find(c => c.id === categoryId)?.icon;
-  };
+  const projects = language === "en" ? projectsEn : projectsEs;
 
-  const getCategoryLabel = (categoryId: string) => {
-    const category = categories.find(c => c.id === categoryId);
-    return lang === 'en' ? category?.labelEn : category?.labelEs;
-  };
+  const [selected, setSelected] = useState<ProjectCategory>("All");
+
+  const filtered = useMemo(() => {
+    if (selected === "All") return projects;
+    return projects.filter((p) => p.categories.includes(selected));
+  }, [projects, selected]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white text-neutral-900 dark:from-neutral-950 dark:to-neutral-900 dark:text-neutral-50">
-      <Container>
-        <motion.div
-          className="py-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mb-10">
-            <h1 className="text-4xl font-bold tracking-tight">{t.title}</h1>
-            <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl">
-              {t.subtitle}
-            </p>
-          </div>
-
-          {/* Categorías */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                className="flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700"
-              >
-                {category.icon}
-                {lang === 'en' ? category.labelEn : category.labelEs}
-              </button>
-            ))}
-          </div>
-
-          {/* Proyectos Destacados */}
-          <div className="mb-12">
-            <h2 className="mb-6 text-2xl font-semibold">{t.featured}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {projects.filter(p => p.featured).map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
-                >
-                  <div className="mb-4 flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-xl bg-blue-100 p-2 dark:bg-blue-900/30">
-                        {getCategoryIcon(project.category)}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold">{project.title}</h3>
-                        <div className="mt-1 flex items-center gap-2 text-xs">
-                          <span className="rounded-full bg-neutral-100 px-2 py-1 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-                            {getCategoryLabel(project.category)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="mb-6 text-neutral-600 dark:text-neutral-400">
-                    {lang === 'en' ? project.description : project.descriptionEs}
-                  </p>
-
-                  <div className="mb-6">
-                    <div className="mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                      {t.technologies}
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full bg-neutral-100 px-3 py-1 text-xs text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    {project.links?.github && (
-                      <a
-                        href={project.links.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700"
-                      >
-                        <Github className="h-4 w-4" />
-                        {t.viewGithub}
-                      </a>
-                    )}
-                    {project.links?.live && (
-                      <a
-                        href={project.links.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        {t.viewLive}
-                      </a>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Todos los Proyectos */}
+    <Container>
+      <div className="mx-auto max-w-6xl pb-16 pt-6">
+        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="mb-6 text-2xl font-semibold">{t.allProjects}</h2>
-            <div className="grid grid-cols-1 gap-6">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  whileHover={{ x: 5 }}
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
-                >
-                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="mb-2 flex items-center gap-3">
-                        <div className="rounded-lg bg-blue-100 p-1.5 dark:bg-blue-900/30">
-                          {getCategoryIcon(project.category)}
-                        </div>
-                        <h3 className="text-lg font-semibold">{project.title}</h3>
-                        {project.featured && (
-                          <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-semibold text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
-                            ★ Featured
-                          </span>
-                        )}
-                      </div>
-                      
-                      <p className="mb-4 text-neutral-600 dark:text-neutral-400">
-                        {lang === 'en' ? project.description : project.descriptionEs}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      {project.links?.github && (
-                        <a
-                          href={project.links.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-3 py-2 text-xs font-semibold text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700"
-                          title="GitHub"
-                        >
-                          <Github className="h-3 w-3" />
-                        </a>
-                      )}
-                      {project.links?.live && (
-                        <a
-                          href={project.links.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-                          title="Live Demo"
-                        >
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="text-2xl font-semibold text-white">
+              {language === "en" ? "Projects" : "Proyectos"}
             </div>
+            <p className="mt-1 text-sm text-white/70">
+              {language === "en"
+                ? "A curated selection of work across data, BI, and engineering."
+                : "Selección curada de proyectos en datos, BI e ingeniería."}
+            </p>
           </div>
 
-          <div className="mt-12 rounded-2xl border border-neutral-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-8 text-center dark:border-neutral-800 dark:from-blue-900/10 dark:to-indigo-900/10">
-            <h3 className="mb-4 text-xl font-semibold text-neutral-900 dark:text-white">
-              {lang === 'en' ? 'Have a project in mind?' : '¿Tienes un proyecto en mente?'}
-            </h3>
-            <p className="mb-6 text-neutral-600 dark:text-neutral-300">
-              {lang === 'en'
-                ? 'I\'m available for freelance projects, consulting, and full-time opportunities in data engineering, BI, and systems architecture.'
-                : 'Estoy disponible para proyectos freelance, consultoría y oportunidades de tiempo completo en ingeniería de datos, BI y arquitectura de sistemas.'}
-            </p>
-            <a
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2">
+            <span className="inline-flex items-center gap-2 px-2 text-xs text-white/70">
+              <Filter size={14} />
+              {language === "en" ? "Filter" : "Filtrar"}
+            </span>
+
+            <select
+              value={selected}
+              onChange={(e) => setSelected(e.target.value as ProjectCategory)}
+              className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none"
             >
-              {lang === 'en' ? 'Let\'s Talk' : 'Hablemos'}
-            </a>
+              {allCategories.map((c) => (
+                <option key={c} value={c} className="bg-black text-white">
+                  {label(language, c)}
+                </option>
+              ))}
+            </select>
           </div>
-        </motion.div>
-      </Container>
-    </main>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          {filtered.map((p) => (
+            <motion.div
+              key={p.title}
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.25 }}
+              className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-sm"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="text-lg font-semibold text-white">{p.title}</div>
+                  {p.subtitle ? <div className="text-sm text-white/70">{p.subtitle}</div> : null}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {p.links?.live ? (
+                    <a
+                      href={p.links.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+                    >
+                      <ExternalLink size={14} />
+                      Live
+                    </a>
+                  ) : null}
+
+                  {p.links?.repo ? (
+                    <a
+                      href={p.links.repo}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/80 hover:bg-white/10"
+                    >
+                      <Github size={14} />
+                      Repo
+                    </a>
+                  ) : null}
+                </div>
+              </div>
+
+              <p className="mt-4 text-sm leading-relaxed text-white/80">{p.description}</p>
+
+              {p.highlights && p.highlights.length > 0 ? (
+                <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-white/80">
+                  {p.highlights.map((h) => (
+                    <li key={h}>{h}</li>
+                  ))}
+                </ul>
+              ) : null}
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.stack.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div className="text-base font-semibold text-white">
+            {language === "en" ? "Want to see more?" : "¿Quieres ver más?"}
+          </div>
+          <p className="mt-1 text-sm text-white/70">
+            {language === "en"
+              ? "Check the full resume or contact me for details and context."
+              : "Revisa el CV completo o contáctame para más detalles y contexto."}
+          </p>
+
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            <Link
+              to="/resume"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-white/90"
+            >
+              {language === "en" ? "Open Resume" : "Ver CV"}
+            </Link>
+
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
+            >
+              {language === "en" ? "Contact" : "Contacto"}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </Container>
   );
 }
