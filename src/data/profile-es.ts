@@ -198,7 +198,7 @@ export const profileES = {
   languages: [
     { language: "Español", level: "Nativo", proficiency: 100 },
     { language: "Inglés", level: "Fluido", proficiency: 95 },
-    { language: "Portugués", level: "Intermedio", proficiency: 60 }
+    { language: "Italiano", level: "Basico", proficiency: 40 }
   ],
 
   tools: {

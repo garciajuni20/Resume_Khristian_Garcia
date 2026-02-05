@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Download, X, FileJson, Calendar, Award, Code, Database, Cloud } from 'lucide-react';
+import { Download, X, FileJson, Calendar, Award, Code, Database, Cloud, BarChart3 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
 import Section from '../components/Section';
@@ -112,6 +112,21 @@ export default function ResumePage() {
 
   const handleDownload = () => {
     trackDownload(data.resumePdfPath.split('/').pop() || 'resume.pdf');
+  };
+
+  // Usar valores por defecto si no existen
+  const languages = data.languages || [
+    { language: 'Spanish', level: 'Native', proficiency: 100 },
+    { language: 'English', level: 'Fluent', proficiency: 95 },
+    { language: 'Portuguese', level: 'Intermediate', proficiency: 60 }
+  ];
+
+  const tools = data.tools || {
+    dataEngineering: ['Snowflake', 'SQL', 'Python', 'PostgreSQL', 'MySQL'],
+    biAnalytics: ['Power BI', 'Tableau', 'Excel', 'DAX'],
+    cloudDevOps: ['GCP', 'Docker', 'Kubernetes', 'CI/CD'],
+    fullStack: ['React', 'TypeScript', 'Node.js', 'Tailwind CSS'],
+    methodologies: ['Agile', 'Scrum', 'Kanban']
   };
 
   return (
@@ -246,9 +261,11 @@ export default function ResumePage() {
         </Section>
 
         {/* Certifications Section */}
-        <Section title={labels.certifications}>
-          <Certifications />
-        </Section>
+        {data.certifications && data.certifications.length > 0 && (
+          <Section title={labels.certifications}>
+            <Certifications />
+          </Section>
+        )}
 
         {/* Skills Section */}
         <Section title={labels.skills}>
@@ -278,7 +295,7 @@ export default function ResumePage() {
                   </h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {data.tools.dataEngineering.map((tool) => (
+                  {tools.dataEngineering.map((tool) => (
                     <span
                       key={tool}
                       className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
@@ -297,7 +314,7 @@ export default function ResumePage() {
                   </h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {data.tools.biAnalytics.map((tool) => (
+                  {tools.biAnalytics.map((tool) => (
                     <span
                       key={tool}
                       className="rounded-full bg-green-50 px-3 py-1 text-xs text-green-700 dark:bg-green-900/30 dark:text-green-300"
@@ -316,7 +333,7 @@ export default function ResumePage() {
                   </h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {data.tools.cloudDevOps.map((tool) => (
+                  {tools.cloudDevOps.map((tool) => (
                     <span
                       key={tool}
                       className="rounded-full bg-purple-50 px-3 py-1 text-xs text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
@@ -335,7 +352,7 @@ export default function ResumePage() {
                   </h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {data.tools.fullStack.map((tool) => (
+                  {tools.fullStack.map((tool) => (
                     <span
                       key={tool}
                       className="rounded-full bg-orange-50 px-3 py-1 text-xs text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
@@ -362,7 +379,7 @@ export default function ResumePage() {
                   <Calendar className="h-3 w-3" />
                   <span>{lang === 'en' ? 'Expected:' : 'Fin estimado:'} {formatDate(edu.end, lang)}</span>
                 </div>
-                {edu.highlights && (
+                {edu.highlights && edu.highlights.length > 0 && (
                   <ul className="mt-4 space-y-2">
                     {edu.highlights.map((highlight, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
@@ -380,7 +397,7 @@ export default function ResumePage() {
         {/* Languages */}
         <Section title={labels.languages}>
           <div className="grid gap-4 sm:grid-cols-3">
-            {data.languages.map((language, index) => (
+            {languages.map((language, index) => (
               <motion.div
                 key={language.language}
                 initial={{ opacity: 0, x: -20 }}
@@ -447,7 +464,7 @@ export default function ResumePage() {
                 </div>
 
                 <div className="p-6">
-                  {selected.tags?.length ? (
+                  {selected.tags && selected.tags.length > 0 && (
                     <div className="mb-6 flex flex-wrap gap-2">
                       {selected.tags.map((tag) => (
                         <span
@@ -458,9 +475,9 @@ export default function ResumePage() {
                         </span>
                       ))}
                     </div>
-                  ) : null}
+                  )}
 
-                  {selected.bullets?.length ? (
+                  {selected.bullets && selected.bullets.length > 0 && (
                     <ul className="space-y-3">
                       {selected.bullets.map((bullet, index) => (
                         <li key={index} className="flex items-start gap-3">
@@ -469,7 +486,7 @@ export default function ResumePage() {
                         </li>
                       ))}
                     </ul>
-                  ) : null}
+                  )}
                 </div>
               </motion.div>
             </motion.div>

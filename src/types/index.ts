@@ -22,12 +22,58 @@ export interface EducationItem {
   degree: string;
   area: string;
   end: string;
+  highlights?: string[];
 }
 
 export interface LinkItem {
   label: string;
   href: string;
   icon?: string;
+}
+
+export interface CertificationItem {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
+  url?: string;
+  skills: string[];
+  verified?: boolean;
+}
+
+export interface LanguageItem {
+  language: string;
+  level: string;
+  proficiency: number;
+}
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  impact?: string;
+  technologies: string[];
+  role: string;
+  duration: string;
+  teamSize: string;
+}
+
+export interface Tools {
+  dataEngineering: string[];
+  biAnalytics: string[];
+  cloudDevOps: string[];
+  fullStack: string[];
+  methodologies: string[];
+}
+
+export interface Metrics {
+  yearsExperience: number;
+  projectsCompleted: number;
+  technologies: number;
+  certifications: number;
+  clientsServed: number;
+  dataProcessed: string;
 }
 
 export interface ProfileData {
@@ -44,6 +90,11 @@ export interface ProfileData {
   experience: ExperienceItem[];
   skills: SkillItem[];
   education: EducationItem[];
+  certifications?: CertificationItem[];
+  projects?: ProjectItem[];
+  languages?: LanguageItem[];
+  tools?: Tools;
+  metrics?: Metrics;
   seo?: {
     title: string;
     description: string;
