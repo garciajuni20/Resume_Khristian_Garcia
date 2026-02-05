@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
-import { Download, X, FileJson, Calendar } from 'lucide-react';
+import { Download, X, FileJson, Calendar, Award, Code, Database, Cloud } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
 import Section from '../components/Section';
@@ -13,6 +13,7 @@ import { useSEO } from '../hooks/useSEO';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { formatDate, getDuration } from '../utils/dateFormatter';
 import { ProfileData } from '../types';
+import Certifications from '../components/Certifications';
 
 export default function ResumePage() {
   const { lang } = useLang();
@@ -30,7 +31,11 @@ export default function ResumePage() {
     downloadJson: 'Export as JSON',
     close: 'Close',
     viewFull: 'View Full Details',
-    exportData: 'Export Data'
+    exportData: 'Export Data',
+    certifications: 'Certifications & Achievements',
+    tools: 'Tools & Technologies',
+    languages: 'Languages',
+    metrics: 'Career Metrics'
   } : {
     pageTitle: 'CV Interactivo',
     subtitle: 'CV estilo producto que demuestra mentalidad full-stack (UI + datos + estructura).',
@@ -42,7 +47,11 @@ export default function ResumePage() {
     downloadJson: 'Exportar como JSON',
     close: 'Cerrar',
     viewFull: 'Ver Detalles Completos',
-    exportData: 'Exportar Datos'
+    exportData: 'Exportar Datos',
+    certifications: 'Certificaciones & Logros',
+    tools: 'Herramientas & Tecnologías',
+    languages: 'Idiomas',
+    metrics: 'Métricas Profesionales'
   };
 
   // SEO
@@ -50,7 +59,7 @@ export default function ResumePage() {
     title: labels.pageTitle,
     description: `${data.name} - ${data.headline}`,
     lang,
-    keywords: [...data.badges, 'CV', 'Resume', 'Portfolio']
+    keywords: [...data.badges, 'CV', 'Resume', 'Portfolio', 'Data Analyst', 'Business Intelligence']
   });
 
   const allTags = useMemo(() => {
@@ -116,10 +125,22 @@ export default function ResumePage() {
           </div>
           
           <div className="flex gap-2">
+            <a
+              href={data.resumePdfPath}
+              onClick={handleDownload}
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500
+                dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Download className="h-4 w-4" />
+              {labels.download}
+            </a>
+            
             <button
               onClick={exportToJson}
               disabled={isExporting}
-              className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 disabled:opacity-50
+              className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 disabled:opacity-50
                 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700 transition-colors"
               title={labels.exportData}
             >
@@ -157,15 +178,11 @@ export default function ResumePage() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
-                  href={data.resumePdfPath}
-                  onClick={handleDownload}
-                  className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500
-                    dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`mailto:${data.email}`}
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-800 hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-300
+                    dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:ring-neutral-600 transition-colors"
                 >
-                  <Download className="h-4 w-4" />
-                  {labels.download}
+                  {data.email}
                 </a>
 
                 {data.links.map((link) => (
@@ -228,6 +245,11 @@ export default function ResumePage() {
           </div>
         </Section>
 
+        {/* Certifications Section */}
+        <Section title={labels.certifications}>
+          <Certifications />
+        </Section>
+
         {/* Skills Section */}
         <Section title={labels.skills}>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -244,6 +266,89 @@ export default function ResumePage() {
           </div>
         </Section>
 
+        {/* Tools & Technologies */}
+        <Section title={labels.tools}>
+          <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos'}
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {data.tools.dataEngineering.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {lang === 'en' ? 'BI & Analytics' : 'BI & Analytics'}
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {data.tools.biAnalytics.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-full bg-green-50 px-3 py-1 text-xs text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <Cloud className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {lang === 'en' ? 'Cloud & DevOps' : 'Cloud & DevOps'}
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {data.tools.cloudDevOps.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-full bg-purple-50 px-3 py-1 text-xs text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <Code className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {lang === 'en' ? 'Full-Stack Dev' : 'Desarrollo Full-Stack'}
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {data.tools.fullStack.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded-full bg-orange-50 px-3 py-1 text-xs text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Section>
+
         {/* Education Section */}
         <Section title={labels.education}>
           <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
@@ -257,7 +362,50 @@ export default function ResumePage() {
                   <Calendar className="h-3 w-3" />
                   <span>{lang === 'en' ? 'Expected:' : 'Fin estimado:'} {formatDate(edu.end, lang)}</span>
                 </div>
+                {edu.highlights && (
+                  <ul className="mt-4 space-y-2">
+                    {edu.highlights.map((highlight, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* Languages */}
+        <Section title={labels.languages}>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {data.languages.map((language, index) => (
+              <motion.div
+                key={language.language}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="font-semibold text-neutral-900 dark:text-white">
+                    {language.language}
+                  </div>
+                  <div className="text-xs font-semibold px-2 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                    {language.level}
+                  </div>
+                </div>
+                <div className="h-2 w-full rounded-full bg-neutral-100 overflow-hidden dark:bg-neutral-800">
+                  <div 
+                    className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-blue-600"
+                    style={{ width: `${language.proficiency}%` }}
+                  />
+                </div>
+                <div className="mt-2 text-right text-xs text-neutral-500 dark:text-neutral-400">
+                  {language.proficiency}%
+                </div>
+              </motion.div>
             ))}
           </div>
         </Section>

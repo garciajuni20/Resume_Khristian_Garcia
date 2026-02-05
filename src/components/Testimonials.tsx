@@ -27,7 +27,7 @@ export default function Testimonials() {
       text: 'Khristian\'s ability to transform complex data into actionable insights is remarkable. His Snowflake implementations significantly improved our reporting accuracy by 40% while reducing query times by 60%.',
       textEs: 'La capacidad de Khristian para transformar datos complejos en insights accionables es notable. Sus implementaciones en Snowflake mejoraron nuestra precisión de reportes en un 40% mientras redujo los tiempos de consulta en un 60%.',
       rating: 5,
-      date: 'December 2024'
+      date: 'December 2025'
     },
     {
       id: 2,
@@ -47,17 +47,17 @@ export default function Testimonials() {
       text: 'Khristian\'s full-stack expertise allowed us to build both robust data pipelines and beautiful front-end interfaces simultaneously. His contributions accelerated our product launch by 3 months. Highly recommended for any data-intensive project.',
       textEs: 'La experiencia full-stack de Khristian nos permitió construir pipelines de datos robustos e interfaces front-end hermosas simultáneamente. Sus contribuciones aceleraron nuestro lanzamiento de producto por 3 meses. Altamente recomendado para cualquier proyecto intensivo en datos.',
       rating: 5,
-      date: 'October 2024'
+      date: 'February 2025'
     },
     {
       id: 4,
       name: 'Amit Bansod',
       role: 'Director of Analytics',
-      company: 'Financial Analytics Corp',
+      company: 'Alleviate Financial Solutions',
       text: 'Khristian\'s Power BI dashboards revolutionized how our executive team makes decisions. The clarity and interactivity he built into the reports have saved countless hours of manual analysis.',
       textEs: 'Los dashboards de Power BI de Khristian revolucionaron cómo nuestro equipo ejecutivo toma decisiones. La claridad e interactividad que construyó en los reportes ha ahorrado incontables horas de análisis manual.',
       rating: 5,
-      date: 'September 2024'
+      date: 'December 2024'
     }
   ];
 
