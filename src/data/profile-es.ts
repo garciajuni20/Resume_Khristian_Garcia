@@ -2,8 +2,8 @@ import { files } from "./files"
 
 export const profileES = {
   name: "Khristian Manolo Junior Garcia Pineda",
-  headline: "Analista de Datos | Analista de Inteligencia de Negocios | Desarrollador Full-Stack",
-  location: "Guatemala (GT)",
+  headline: "Analista de Datos · Inteligencia de Negocios · Desarrollo Full-Stack",
+  location: "Ciudad de Guatemala, Guatemala",
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",
   photoUrl:
@@ -13,26 +13,26 @@ export const profileES = {
     { label: "GitHub", href: "https://github.com/garciajuni20" }
   ],
   summary:
-    "Analista de Datos y Analista de Inteligencia de Negocios con más de 5 años de experiencia en modelado de datos, analítica y reportes empresariales. Especializado en construir fuentes únicas de verdad utilizando Snowflake, SQL y bases de datos relacionales. Capacidad comprobada para transformar datos en información confiable y lista para el negocio mediante Power BI y el ecosistema Microsoft. Desarrollador full-stack con experiencia en React, TypeScript y tecnologías web modernas.",
+    "Profesional tecnológico con más de 6 años de experiencia en operaciones de red, infraestructura TI e inteligencia de negocios. Construí desde cero la función de BI para Alleviate Financial Solutions en Guatemala — diseñando modelos de datos en Snowflake, dashboards en Power BI y pipelines SQL que hoy impulsan decisiones financieras en 5 departamentos. Simultáneamente, finalizando la carrera de Ingeniería en Sistemas en la USAC y ejerciendo como instructor académico de Inteligencia de Negocios. También desarrollo aplicaciones web en producción con React y TypeScript, desplegadas en Cloudflare y GitHub Pages.",
   resumePdfPath: files.resumeES,
 
-  badges: ["Experto Snowflake", "Maestro SQL", "Especialista Power BI", "Modelado de Datos", "Portafolio Full-Stack", "Arquitectura Cloud"],
+  badges: ["Snowflake", "Experto SQL", "Power BI", "React · TypeScript", "Modelado de Datos", "Bilingüe EN/ES"],
 
   experience: [
     {
       id: "usac-teaching",
       company: "Universidad de San Carlos de Guatemala",
-      role: "Tutor Académico – Práctica Final, Ingeniería en Sistemas",
+      role: "Instructor Académico — Sistemas Organizacionales (Práctica Final)",
       start: "2025-08",
       end: "present",
-      location: "Guatemala",
-      tags: ["Docencia", "Sistemas", "Liderazgo", "Educación"],
+      location: "Ciudad de Guatemala",
+      tags: ["Docencia", "BI", "Sistemas", "Liderazgo"],
       bullets: [
-        "Instructor del curso Sistemas Organizacionales y Gerenciales 1 (Código 0786).",
-        "Impartió fundamentos de analítica de negocios, sistemas de información y transformación digital.",
-        "Guió a estudiantes en conceptos de Business Intelligence, ERP, CRM y sistemas organizacionales.",
-        "Apoyó sesiones de laboratorio y proyectos académicos aplicados.",
-        "Desarrolló materiales curriculares enfocados en escenarios reales de análisis de datos."
+        "Seleccionado para impartir Sistemas Organizacionales y Gerenciales 1 (Código 0786) como práctica final de Ingeniería en Sistemas.",
+        "Cursos impartidos: fundamentos de Analítica de Negocios, Sistemas de Información, conceptos ERP/CRM y Transformación Digital.",
+        "Guié a estudiantes en proyectos reales de Business Intelligence y casos de análisis de datos.",
+        "Desarrollé materiales y ejercicios de laboratorio que traducen teoría académica en habilidades de datos aplicadas.",
+        "Puente entre el currículo universitario y la industria — llevando experiencia de campo de Alleviate al aula."
       ]
     },
     {
@@ -41,15 +41,15 @@ export const profileES = {
       role: "Analista de Inteligencia de Negocios / Analista de Datos",
       start: "2024-12",
       end: "present",
-      location: "Remoto",
-      tags: ["BI", "Datos", "Snowflake", "Power BI", "Tableau", "SQL"],
+      location: "Remoto (Guatemala → EE. UU.)",
+      tags: ["BI", "Snowflake", "Power BI", "SQL", "Tableau", "Modelado de Datos"],
       bullets: [
-        "Diseñó y mantuvo tablas y vistas analíticas en Snowflake, mejorando el rendimiento de consultas en 60%.",
-        "Construyó fuentes únicas de verdad para reportes financieros y operativos en 5 departamentos.",
-        "Desarrolló modelos SQL optimizados que mejoraron la exactitud de datos del 85% al 99.5%.",
-        "Entregó 15+ dashboards interactivos y reportes analíticos usando Power BI y Tableau.",
-        "Implementó procesos de validación de datos que redujeron errores de reportes en 90%.",
-        "Colaboró con stakeholders en Estados Unidos para definir y rastrear 20+ KPIs."
+        "Diseño y mantengo las capas analíticas en Snowflake — tablas, vistas y modelos de datos consultados en los 5 departamentos de la empresa.",
+        "Construí la fuente única de verdad para reportes financieros y operativos, mejorando la precisión de datos del 85% al 99.5%.",
+        "Desarrollé 15+ dashboards interactivos en Power BI y Tableau que reemplazaron procesos manuales en Excel.",
+        "Reduje el ciclo de reportes financieros de más de 2 días a menos de 30 minutos mediante pipelines SQL automatizados.",
+        "Defino y rastro 20+ KPIs en colaboración con stakeholders de EE. UU. en finanzas, operaciones y estrategia.",
+        "Implementé flujos de validación de datos y alertas que eliminaron el 90% de errores recurrentes en reportes."
       ]
     },
     {
@@ -58,31 +58,30 @@ export const profileES = {
       role: "Analista de Inteligencia de Negocios Jr",
       start: "2023-11",
       end: "2024-12",
-      location: "Remoto",
+      location: "Remoto (Guatemala → EE. UU.)",
       tags: ["BI", "SQL", "Reporting", "Análisis de Datos"],
       bullets: [
-        "Primer Analista de BI asignado en Guatemala para la cuenta de Alleviate Financial Solutions.",
-        "Apoyó la creación y estructuración inicial del área de Business Intelligence.",
-        "Desarrolló procesos base de BI, consultas SQL y soluciones de reporting.",
-        "Colaboró con stakeholders basados en Estados Unidos para entender requerimientos de negocio.",
-        "Construyó 8+ modelos de datos core que se convirtieron en la base para todo el reporting futuro.",
-        "Redujo el tiempo de reporting manual en 70% mediante automatización."
+        "Primera contratación de BI en Guatemala para la cuenta de Alleviate Financial Solutions — construí la función desde cero.",
+        "Diseñé 8+ modelos de datos core en Snowflake que se convirtieron en la base permanente de todo el reporting posterior.",
+        "Traduje requerimientos de negocio de stakeholders en EE. UU. en modelos SQL, reportes y dashboards.",
+        "Reduje el tiempo de reporting manual en 70% automatizando tareas recurrentes de extracción y transformación.",
+        "Establecí estándares de documentación de datos y librerías de consultas que el equipo utiliza actualmente."
       ]
     },
     {
       id: "icon-it",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
-      role: "Soporte de TI / Administración de Sistemas",
+      role: "Ingeniero de Soporte TI / Administrador de Sistemas",
       start: "2023-01",
       end: "2023-11",
-      location: "Guatemala",
-      tags: ["TI", "Soporte", "Operaciones", "Administración de Sistemas"],
+      location: "Ciudad de Guatemala",
+      tags: ["TI", "Sysadmin", "Redes", "Migración Cloud"],
       bullets: [
-        "Brindó soporte técnico empresarial, administración de sistemas y atención a usuarios.",
-        "Gestionó infraestructura de red y protocolos de seguridad para 100+ usuarios.",
-        "Implementó scripts de automatización que redujeron tickets de soporte en 40%.",
-        "Lideró migración de sistemas legacy a soluciones basadas en cloud.",
-        "Desarrolló documentación y materiales de entrenamiento para procesos de TI."
+        "Brindé soporte técnico empresarial y administración de sistemas para 100+ usuarios internos.",
+        "Lideré la migración de sistemas locales a infraestructura cloud, reduciendo costos de hardware.",
+        "Automaticé flujos de trabajo repetitivos con scripts, reduciendo el volumen de tickets en 40%.",
+        "Gestioné protocolos de seguridad de red, control de acceso y administración de endpoints.",
+        "Transicioné orgánicamente al rol de BI al identificar brechas de reportes durante el soporte en TI."
       ]
     },
     {
@@ -91,34 +90,33 @@ export const profileES = {
       role: "Ingeniero de Soporte GNOC",
       start: "2019-01",
       end: "2023-01",
-      location: "Guatemala",
-      tags: ["Redes", "Operaciones", "Incidentes", "Monitoreo"],
+      location: "Ciudad de Guatemala",
+      tags: ["Redes", "NOC", "Respuesta a Incidentes", "Monitoreo", "Operaciones"],
       bullets: [
-        "Monitoreó y soportó operaciones de red y sistemas críticos a nivel global.",
-        "Realizó análisis de incidentes, troubleshooting y escalamiento de servicios empresariales.",
-        "Gestionó infraestructura de red sirviendo a 5000+ usuarios concurrentes.",
-        "Redujo tiempo de inactividad del sistema en 25% mediante monitoreo proactivo.",
-        "Implementó sistemas automatizados de alertas que mejoraron tiempos de respuesta en 60%.",
-        "Mentoreó a 3 ingenieros junior en operaciones de red y troubleshooting."
+        "Ingeniero de Centro de Operaciones de Red Global — monitoreo y mantenimiento de infraestructura crítica 24/7.",
+        "Análisis de incidentes, investigación de causa raíz y escalamiento para servicios empresariales.",
+        "Administré infraestructura que sirve a 5,000+ usuarios concurrentes en múltiples regiones geográficas.",
+        "Reduje el tiempo medio de recuperación (MTTR) en 25% mediante monitoreo proactivo y sistemas de alerta.",
+        "Implementé alertas automatizadas que mejoraron los tiempos de respuesta a incidentes en 60%.",
+        "Mentoreé a 3 ingenieros junior — el hábito de enseñar que eventualmente me llevó al rol de instructor en la USAC."
       ]
     }
   ],
 
   skills: [
-    { name: "Snowflake", level: 95 },
     { name: "SQL", level: 95 },
+    { name: "Snowflake", level: 93 },
     { name: "Power BI", level: 90 },
-    { name: "Modelado de Datos", level: 85 },
+    { name: "Modelado de Datos", level: 88 },
     { name: "ETL / Data Warehousing", level: 85 },
-    { name: "Tableau", level: 80 },
-    { name: "Python", level: 75 },
-    { name: "Git", level: 80 },
-    { name: "REST APIs", level: 75 },
-    { name: "React", level: 85 },
+    { name: "Tableau", level: 78 },
+    { name: "React", level: 82 },
     { name: "TypeScript", level: 80 },
-    { name: "Docker", level: 70 },
-    { name: "Kubernetes", level: 65 },
-    { name: "GCP", level: 70 }
+    { name: "Python", level: 72 },
+    { name: "Git", level: 85 },
+    { name: "REST APIs", level: 75 },
+    { name: "Docker", level: 68 },
+    { name: "GCP", level: 65 }
   ],
 
   education: [
@@ -128,9 +126,10 @@ export const profileES = {
       area: "Ingeniería en Ciencias y Sistemas",
       end: "present",
       highlights: [
-        "Enfoque en Estructuras de Datos, Algoritmos y Diseño de Sistemas",
-        "Cursos en Inteligencia de Negocios, Minería de Datos y Computación en la Nube",
-        "Proyecto de último año: Arquitectura de Pipeline de Datos Escalable"
+        "Cursos avanzados: Compiladores (parsers PEG, gramática Fortran), Bases de Datos 2 (BD2), Estructuras de Datos y Algoritmos",
+        "Construí un parser PEG para Fortran en JavaScript como parte del curso de Compiladores 2 (disponible en GitHub Pages)",
+        "Proyecto de suficiencia BD2: diseño avanzado de bases de datos en Python",
+        "Actualmente ejerciendo como Instructor Académico mientras completo la carrera"
       ]
     }
   ],
@@ -141,80 +140,78 @@ export const profileES = {
       title: "Fundamentos de Snowflake",
       issuer: "Snowflake Inc.",
       date: "2024-06",
-      skills: ["Snowflake", "Data Warehousing", "SQL", "ETL"],
+      skills: ["Snowflake", "Data Warehousing", "SQL", "Almacenes Virtuales", "Clustering"],
       verified: true
     },
     {
-      id: "power-bi-advanced",
-      title: "Power BI Analytics Avanzado",
+      id: "power-bi-analytics",
+      title: "Power BI Data Analytics",
       issuer: "Microsoft",
       date: "2024-03",
-      skills: ["Power BI", "DAX", "Visualización de Datos", "Diseño de Dashboards"],
+      skills: ["Power BI", "DAX", "Power Query", "Modelado de Datos", "Diseño de Dashboards"],
       verified: true
     },
     {
-      id: "gcp-ace",
-      title: "Ingeniero Asociado Google Cloud",
-      issuer: "Google Cloud",
-      date: "2024-01",
-      credentialId: "ACE-2024-00123",
-      url: "https://www.credential.net/example",
-      skills: ["GCP", "Arquitectura Cloud", "Kubernetes", "Infraestructura"],
+      id: "docker-cloud-native",
+      title: "Taller Docker & Contenedores Cloud-Native",
+      issuer: "Comunidad Cloud-Native + GT",
+      date: "2025-08",
+      skills: ["Docker", "Contenedores", "Kubernetes", "Microservicios", "DevOps"],
       verified: true
     },
     {
-      id: "react-advanced",
-      title: "Patrones Avanzados de React",
-      issuer: "Frontend Masters",
-      date: "2023-11",
-      skills: ["React", "TypeScript", "Rendimiento", "Gestión de Estado"],
+      id: "usac-compilers",
+      title: "Compiladores 2 — Parsers PEG y Diseño de Lenguajes",
+      issuer: "USAC — Escuela de Ciencias y Sistemas",
+      date: "2024-12",
+      skills: ["Parsers PEG", "JavaScript", "Svelte", "Teoría de Compiladores", "Gramáticas Formales"],
       verified: true
     }
   ],
 
   projects: [
     {
-      id: "data-pipeline-architecture",
-      title: "Pipeline de Datos ETL Escalable",
-      description: "Diseñé e implementé un pipeline ETL listo para producción usando Snowflake y Python",
-      impact: "Redujo tiempo de procesamiento de datos en 70% y mejoró exactitud de datos a 99.9%",
-      technologies: ["Snowflake", "Python", "Docker", "Airflow", "AWS S3"],
-      role: "Ingeniero de Datos Líder",
-      duration: "6 meses",
-      teamSize: "3 ingenieros"
+      id: "vale-combustible",
+      title: "Continental Motores — Sistema de Vales de Combustible",
+      description: "Aplicación web full-stack para gestión de vales de combustible de flota — autenticación, flujos de aprobación, reportes de uso",
+      impact: "Eliminó el proceso manual en papel; las aprobaciones ahora toman minutos en lugar de días",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"],
+      role: "Desarrollador Full-Stack",
+      duration: "En curso",
+      teamSize: "Individual"
     },
     {
-      id: "bi-dashboard-financial",
-      title: "Dashboard de Análisis Financiero",
-      description: "Dashboard de BI en tiempo real para reportes financieros y seguimiento de KPIs en 5 departamentos",
-      impact: "Habilitó toma de decisiones en tiempo real y redujo tiempo de reporting de días a minutos",
-      technologies: ["Power BI", "SQL", "DAX", "Snowflake", "Azure"],
-      role: "Analista y Desarrollador BI",
-      duration: "4 meses",
-      teamSize: "2 analistas"
+      id: "flowber",
+      title: "Flowber — Plataforma Digital de Barbería",
+      description: "Plataforma de reservas en línea y gestión de negocio para una barbería",
+      impact: "Digitalizó la agenda — redujo inasistencias y eliminó las reservas telefónicas",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"],
+      role: "Desarrollador Full-Stack & Diseñador",
+      duration: "En curso",
+      teamSize: "Individual"
     }
   ],
 
   languages: [
     { language: "Español", level: "Nativo", proficiency: 100 },
-    { language: "Inglés", level: "Fluido", proficiency: 95 },
-    { language: "Italiano", level: "Basico", proficiency: 40 }
+    { language: "Inglés", level: "Profesional / Fluido", proficiency: 92 },
+    { language: "Italiano", level: "Básico", proficiency: 35 }
   ],
 
   tools: {
-    dataEngineering: ["Snowflake", "SQL", "Python", "Apache Airflow", "dbt", "Great Expectations", "PostgreSQL", "MySQL"],
-    biAnalytics: ["Power BI", "Tableau", "Looker", "Google Data Studio", "Excel", "DAX", "MDX"],
-    cloudDevOps: ["GCP", "AWS", "Docker", "Kubernetes", "Terraform", "GitHub Actions", "CI/CD"],
-    fullStack: ["React", "TypeScript", "Node.js", "Express", "PostgreSQL", "MongoDB", "Tailwind CSS"],
-    methodologies: ["Agile", "Scrum", "Kanban", "CI/CD", "DataOps", "DevOps", "Desarrollo Guiado por Pruebas"]
+    dataEngineering: ["Snowflake", "SQL", "Python", "dbt", "PostgreSQL", "MySQL", "Apache Airflow", "Great Expectations"],
+    biAnalytics: ["Power BI", "Tableau", "DAX", "Power Query", "Excel", "Google Data Studio"],
+    cloudDevOps: ["GCP", "Cloudflare Pages", "Docker", "GitHub Actions", "CI/CD", "Kubernetes"],
+    fullStack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Node.js", "REST APIs", "Framer Motion"],
+    methodologies: ["Agile", "Scrum", "DataOps", "Modelado Dimensional", "Modelado de Datos"]
   },
 
   metrics: {
-    yearsExperience: 5,
-    projectsCompleted: 25,
+    yearsExperience: 6,
+    projectsCompleted: 20,
     technologies: 18,
-    certifications: 6,
-    clientsServed: 12,
-    dataProcessed: "500+ TB"
+    certifications: 4,
+    clientsServed: 8,
+    dataProcessed: "100+ TB"
   }
 } as const

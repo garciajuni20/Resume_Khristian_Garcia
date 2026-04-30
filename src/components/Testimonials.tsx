@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight, Star, Building, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Quote, Star, Building } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 
 interface Testimonial {
@@ -11,12 +10,12 @@ interface Testimonial {
   text: string;
   textEs: string;
   rating: number;
-  date: string;
+  relationship: string;
+  relationshipEs: string;
 }
 
 export default function Testimonials() {
   const { lang } = useLang();
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   const testimonials: Testimonial[] = [
     {
@@ -24,189 +23,116 @@ export default function Testimonials() {
       name: 'Diego Zea',
       role: 'Business Intelligence Manager',
       company: 'Alleviate Financial Solutions',
-      text: 'Khristian\'s ability to transform complex data into actionable insights is remarkable. His Snowflake implementations significantly improved our reporting accuracy by 40% while reducing query times by 60%.',
-      textEs: 'La capacidad de Khristian para transformar datos complejos en insights accionables es notable. Sus implementaciones en Snowflake mejoraron nuestra precisión de reportes en un 40% mientras redujo los tiempos de consulta en un 60%.',
+      text: "Khristian's ability to turn complex, messy data into clean, actionable insights has been remarkable. His Snowflake implementations improved our reporting accuracy by 40% while cutting query times in half. He didn't just do the work — he built the foundation the entire team now relies on.",
+      textEs: "La capacidad de Khristian para transformar datos complejos y desordenados en insights claros y accionables ha sido notable. Sus implementaciones en Snowflake mejoraron nuestra precisión de reportes en un 40% mientras reducían los tiempos de consulta a la mitad. No solo hizo el trabajo — construyó la base en la que todo el equipo ahora se apoya.",
       rating: 5,
-      date: 'December 2025'
+      relationship: 'Direct Manager at Alleviate Financial Solutions',
+      relationshipEs: 'Gerente directo en Alleviate Financial Solutions'
     },
     {
       id: 2,
-      name: 'Maria Rodriguez',
-      role: 'Product Manager',
-      company: 'DataFlow Systems',
-      text: 'Working with Khristian on our BI dashboard was seamless. He delivered a user-friendly interface with complex data visualizations ahead of schedule. His attention to detail and understanding of business requirements exceeded expectations.',
-      textEs: 'Trabajar con Khristian en nuestro dashboard de BI fue perfecto. Entregó una interfaz amigable con visualizaciones complejas de datos antes de lo programado. Su atención al detalle y comprensión de requerimientos de negocio superaron las expectativas.',
-      rating: 5,
-      date: 'November 2024'
-    },
-    {
-      id: 3,
-      name: 'David Chen',
-      role: 'CTO',
-      company: 'Startup Ventures',
-      text: 'Khristian\'s full-stack expertise allowed us to build both robust data pipelines and beautiful front-end interfaces simultaneously. His contributions accelerated our product launch by 3 months. Highly recommended for any data-intensive project.',
-      textEs: 'La experiencia full-stack de Khristian nos permitió construir pipelines de datos robustos e interfaces front-end hermosas simultáneamente. Sus contribuciones aceleraron nuestro lanzamiento de producto por 3 meses. Altamente recomendado para cualquier proyecto intensivo en datos.',
-      rating: 5,
-      date: 'February 2025'
-    },
-    {
-      id: 4,
       name: 'Amit Bansod',
       role: 'Director of Analytics',
       company: 'Alleviate Financial Solutions',
-      text: 'Khristian\'s Power BI dashboards revolutionized how our executive team makes decisions. The clarity and interactivity he built into the reports have saved countless hours of manual analysis.',
-      textEs: 'Los dashboards de Power BI de Khristian revolucionaron cómo nuestro equipo ejecutivo toma decisiones. La claridad e interactividad que construyó en los reportes ha ahorrado incontables horas de análisis manual.',
+      text: "Khristian's Power BI dashboards transformed the way our executive team makes decisions. The clarity and depth he brings to financial reporting has saved us countless hours of manual analysis. He operates like a senior analyst despite his tenure — driven, autonomous, and always quality-focused.",
+      textEs: "Los dashboards de Power BI de Khristian transformaron cómo nuestro equipo ejecutivo toma decisiones. La claridad y profundidad que aporta a los reportes financieros nos ha ahorrado incontables horas de análisis manual. Opera como un analista senior a pesar de su experiencia — motivado, autónomo y siempre enfocado en la calidad.",
       rating: 5,
-      date: 'December 2024'
+      relationship: 'Director of Analytics at Alleviate Financial Solutions',
+      relationshipEs: 'Director de Analytics en Alleviate Financial Solutions'
     }
   ];
 
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const goToTestimonial = (index: number) => {
-    setCurrentIndex(index);
-  };
-
   const t = lang === 'en' ? {
-    title: 'Professional Testimonials',
-    subtitle: 'What colleagues and clients say about my work',
-    clientFeedback: 'Client Feedback',
-    viewMore: 'View More Testimonials'
+    title: 'What Colleagues Say',
+    subtitle: 'Feedback from direct colleagues at Alleviate Financial Solutions',
+    from: 'From',
+    workedTogether: 'Worked together at'
   } : {
-    title: 'Testimonios Profesionales',
-    subtitle: 'Lo que colegas y clientes dicen sobre mi trabajo',
-    clientFeedback: 'Feedback de Clientes',
-    viewMore: 'Ver Más Testimonios'
+    title: 'Lo que dicen los colegas',
+    subtitle: 'Feedback de colegas directos en Alleviate Financial Solutions',
+    from: 'De',
+    workedTogether: 'Trabajaron juntos en'
   };
-
-  const currentTestimonial = testimonials[currentIndex];
 
   return (
     <div className="w-full">
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">{t.title}</h3>
-        </div>
+        <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">{t.title}</h2>
         <p className="mt-2 text-neutral-600 dark:text-neutral-400">{t.subtitle}</p>
       </div>
 
-      <div className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-br from-white to-blue-50 p-8 shadow-xl dark:border-neutral-800 dark:from-neutral-900 dark:to-blue-900/10">
-        <div className="absolute right-8 top-8">
-          <Quote className="h-16 w-16 text-blue-100 dark:text-blue-900/20" />
-        </div>
-
-        <AnimatePresence mode="wait">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {testimonials.map((testimonial, index) => (
           <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-            className="relative"
+            key={testimonial.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.15 }}
+            className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
           >
-            <div className="mb-6 flex">
-              {[...Array(currentTestimonial.rating)].map((_, i) => (
-                <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+            {/* Large quote mark */}
+            <Quote className="absolute right-6 top-6 h-12 w-12 text-blue-100 dark:text-blue-900/30" />
+
+            {/* Stars */}
+            <div className="mb-4 flex gap-1">
+              {[...Array(testimonial.rating)].map((_, i) => (
+                <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
               ))}
             </div>
 
-            <p className="mb-8 text-lg italic text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              "{lang === 'en' ? currentTestimonial.text : currentTestimonial.textEs}"
+            {/* Quote */}
+            <p className="mb-6 text-neutral-700 dark:text-neutral-300 leading-relaxed italic">
+              "{lang === 'en' ? testimonial.text : testimonial.textEs}"
             </p>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-neutral-200 dark:border-neutral-800">
+            {/* Person */}
+            <div className="border-t border-neutral-100 pt-5 dark:border-neutral-800">
               <div className="flex items-center gap-4">
-                <div className="relative">
-                  <div className="h-14 w-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
-                  <div className="absolute -bottom-1 -right-1 rounded-full bg-green-500 p-1">
-                    <div className="h-3 w-3 rounded-full bg-white" />
-                  </div>
+                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shrink-0">
+                  {testimonial.name.charAt(0)}
                 </div>
                 <div>
                   <div className="font-semibold text-neutral-900 dark:text-white">
-                    {currentTestimonial.name}
+                    {testimonial.name}
                   </div>
                   <div className="text-sm text-neutral-600 dark:text-neutral-400">
-                    {currentTestimonial.role}
+                    {testimonial.role}
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-500">
+                  <div className="mt-1 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-500">
                     <Building className="h-3 w-3" />
-                    <span>{currentTestimonial.company}</span>
-                    <span className="mx-2">•</span>
-                    <span>{currentTestimonial.date}</span>
+                    {lang === 'en' ? testimonial.relationship : testimonial.relationshipEs}
                   </div>
                 </div>
               </div>
             </div>
           </motion.div>
-        </AnimatePresence>
-
-        <div className="mt-8 flex items-center justify-between">
-          <div className="flex gap-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToTestimonial(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex
-                    ? 'w-8 bg-blue-600'
-                    : 'w-2 bg-neutral-300 hover:bg-neutral-400 dark:bg-neutral-700 dark:hover:bg-neutral-600'
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          <div className="flex gap-2">
-            <button
-              onClick={prevTestimonial}
-              className="rounded-xl border border-neutral-300 bg-white p-3 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700"
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              onClick={nextTestimonial}
-              className="rounded-xl border border-neutral-300 bg-white p-3 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-700"
-              aria-label="Next testimonial"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="mt-6 rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900">
+      {/* LinkedIn CTA */}
+      <div className="mt-6 rounded-xl border border-neutral-200 bg-neutral-50 p-5 dark:border-neutral-800 dark:bg-neutral-900/50">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h4 className="font-semibold text-neutral-900 dark:text-white">{t.clientFeedback}</h4>
-            <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-              {lang === 'en' 
-                ? 'Clients consistently report improved data accuracy, faster insights, and better decision-making'
-                : 'Clientes reportan consistentemente mejor precisión de datos, insights más rápidos y mejor toma de decisiones'}
+            <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+              {lang === 'en'
+                ? 'Both colleagues are active on LinkedIn and can be contacted directly.'
+                : 'Ambos colegas están activos en LinkedIn y pueden ser contactados directamente.'}
+            </p>
+            <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+              {lang === 'en'
+                ? 'Additional references available upon request.'
+                : 'Referencias adicionales disponibles a solicitud.'}
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">99%</div>
-              <div className="text-xs text-neutral-600 dark:text-neutral-400">Satisfaction</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">40%</div>
-              <div className="text-xs text-neutral-600 dark:text-neutral-400">Faster Insights</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">100%</div>
-              <div className="text-xs text-neutral-600 dark:text-neutral-400">On-Time Delivery</div>
-            </div>
-          </div>
+          <a
+            href="https://www.linkedin.com/in/khristian-garcia--/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50 dark:border-blue-800 dark:bg-neutral-800 dark:text-blue-300 dark:hover:bg-neutral-700 transition-colors"
+          >
+            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
         </div>
       </div>
     </div>

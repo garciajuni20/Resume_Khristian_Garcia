@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Award, Calendar, ExternalLink, CheckCircle, Shield } from 'lucide-react';
+import { Award, Calendar, ExternalLink, GraduationCap, Briefcase } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 
 interface Certification {
@@ -10,7 +10,7 @@ interface Certification {
   credentialId?: string;
   url?: string;
   skills: string[];
-  verified?: boolean;
+  type: 'professional' | 'academic' | 'training';
 }
 
 export default function Certifications() {
@@ -19,198 +19,198 @@ export default function Certifications() {
   const certifications: Certification[] = [
     {
       id: 'snowflake-fundamentals',
-      title: 'Snowflake Fundamentals',
+      title: lang === 'en' ? 'Snowflake Fundamentals' : 'Fundamentos de Snowflake',
       issuer: 'Snowflake Inc.',
       date: '2024-06',
-      skills: ['Snowflake', 'Data Warehousing', 'SQL', 'ETL'],
-      verified: true
+      skills: ['Snowflake', 'Data Warehousing', 'SQL', 'Virtual Warehouses'],
+      type: 'professional'
     },
     {
-      id: 'power-bi-advanced',
-      title: 'Power BI Advanced Analytics',
+      id: 'power-bi-analytics',
+      title: 'Power BI Data Analytics',
       issuer: 'Microsoft',
       date: '2024-03',
-      skills: ['Power BI', 'DAX', 'Data Visualization', 'Dashboard Design'],
-      verified: true
+      skills: ['Power BI', 'DAX', 'Power Query', 'Data Modeling'],
+      type: 'professional'
     },
     {
-      id: 'gcp-ace',
-      title: 'Google Cloud Associate Engineer',
-      issuer: 'Google Cloud',
-      date: '2024-01',
-      credentialId: 'ACE-2024-00123',
-      url: 'https://www.credential.net/example',
-      skills: ['GCP', 'Cloud Architecture', 'Kubernetes', 'Infrastructure'],
-      verified: true
+      id: 'docker-cloud-native',
+      title: lang === 'en' ? 'Docker & Cloud-Native Containers Workshop' : 'Taller Docker & Contenedores Cloud-Native',
+      issuer: lang === 'en' ? 'Cloud-Native + GT Community' : 'Comunidad Cloud-Native + GT',
+      date: '2025-08',
+      url: 'https://github.com/garciajuni20/taller-docker',
+      skills: ['Docker', 'Containers', 'Microservices', 'DevOps'],
+      type: 'training'
     },
     {
-      id: 'react-advanced',
-      title: 'Advanced React Patterns',
-      issuer: 'Frontend Masters',
-      date: '2023-11',
-      skills: ['React', 'TypeScript', 'Performance', 'State Management'],
-      verified: true
+      id: 'usac-compilers',
+      title: lang === 'en' ? 'Compilers 2 — PEG Parsers & Language Design' : 'Compiladores 2 — Parsers PEG y Diseño de Lenguajes',
+      issuer: lang === 'en' ? 'USAC — Systems Engineering' : 'USAC — Ingeniería en Sistemas',
+      date: '2024-12',
+      url: 'https://garciajuni20.github.io/G8_Fase2_FortranPEG/',
+      skills: ['PEG Parsers', 'JavaScript', 'Svelte', 'Compiler Theory'],
+      type: 'academic'
     },
     {
-      id: 'python-data-science',
-      title: 'Python for Data Science & Machine Learning',
-      issuer: 'Coursera',
-      date: '2023-09',
-      skills: ['Python', 'Pandas', 'NumPy', 'Scikit-learn', 'Data Analysis'],
-      verified: true
-    },
-    {
-      id: 'docker-kubernetes',
-      title: 'Docker & Kubernetes Certified',
-      issuer: 'Linux Foundation',
-      date: '2023-07',
-      skills: ['Docker', 'Kubernetes', 'Containerization', 'CI/CD'],
-      verified: true
+      id: 'usac-bd2',
+      title: lang === 'en' ? 'Advanced Databases — BD2 Sufficiency' : 'Bases de Datos Avanzadas — Suficiencia BD2',
+      issuer: lang === 'en' ? 'USAC — Systems Engineering' : 'USAC — Ingeniería en Sistemas',
+      date: '2026-01',
+      url: 'https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202',
+      skills: ['Advanced Databases', 'Python', 'Database Design', 'Query Optimization'],
+      type: 'academic'
     }
   ];
 
+  const professional = certifications.filter(c => c.type === 'professional');
+  const training = certifications.filter(c => c.type === 'training');
+  const academic = certifications.filter(c => c.type === 'academic');
+
   const t = lang === 'en' ? {
-    title: 'Certifications & Achievements',
-    subtitle: 'Professional certifications validating technical expertise across multiple domains',
+    professional: 'Professional Certifications',
+    training: 'Workshops & Training',
+    academic: 'Academic Achievements',
     viewCredential: 'View Credential',
+    viewProject: 'View Project',
     issued: 'Issued',
-    skills: 'Validated Skills',
-    verified: 'Verified',
-    allCertifications: 'All Certifications'
+    skills: 'Skills',
+    ongoing: 'In progress at USAC',
+    profDesc: 'Vendor-issued certifications validating hands-on tool proficiency',
+    trainDesc: 'Community workshops and technical training programs',
+    acadDesc: 'Advanced coursework at USAC with public deliverables'
   } : {
-    title: 'Certificaciones & Logros',
-    subtitle: 'Certificaciones profesionales que validan experiencia técnica en múltiples dominios',
+    professional: 'Certificaciones Profesionales',
+    training: 'Talleres y Capacitaciones',
+    academic: 'Logros Académicos',
     viewCredential: 'Ver Credencial',
+    viewProject: 'Ver Proyecto',
     issued: 'Emitido',
-    skills: 'Habilidades Validadas',
-    verified: 'Verificado',
-    allCertifications: 'Todas las Certificaciones'
+    skills: 'Habilidades',
+    ongoing: 'En curso en la USAC',
+    profDesc: 'Certificaciones emitidas por proveedores que validan competencia técnica práctica',
+    trainDesc: 'Talleres comunitarios y programas de capacitación técnica',
+    acadDesc: 'Cursos avanzados en la USAC con entregables públicos'
   };
 
-  return (
-    <div className="w-full">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <Award className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">{t.title}</h3>
-        </div>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-          {t.subtitle}
-        </p>
-      </div>
+  const getTypeIcon = (type: string) => {
+    if (type === 'academic') return <GraduationCap className="h-5 w-5 text-white" />;
+    if (type === 'training') return <Briefcase className="h-5 w-5 text-white" />;
+    return <Award className="h-5 w-5 text-white" />;
+  };
 
-      <div className="grid gap-6">
-        {certifications.map((cert, index) => (
+  const getTypeColor = (type: string) => {
+    if (type === 'academic') return 'from-purple-500 to-purple-600';
+    if (type === 'training') return 'from-orange-500 to-orange-600';
+    return 'from-blue-500 to-blue-600';
+  };
+
+  const renderGroup = (
+    items: Certification[],
+    title: string,
+    description: string,
+    badgeClass: string
+  ) => (
+    <div className="mb-10">
+      <div className="mb-4">
+        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">{title}</h4>
+        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{description}</p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {items.map((cert, index) => (
           <motion.div
             key={cert.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ y: -3 }}
-            className="rounded-xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.08 }}
+            className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
           >
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
-              <div className="flex-1">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    <div className="rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 p-3">
-                      <Award className="h-5 w-5 text-white" />
-                    </div>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                      <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
-                        {cert.title}
-                      </h4>
-                      
-                      {cert.verified && (
-                        <div className="flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800 dark:bg-green-900/30 dark:text-green-300">
-                          <CheckCircle className="h-3 w-3" />
-                          <span>{t.verified}</span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="mb-4 flex flex-wrap items-center gap-3 text-sm">
-                      <div className="flex items-center gap-1 text-neutral-600 dark:text-neutral-400">
-                        <Shield className="h-3 w-3" />
-                        <span className="font-medium">{cert.issuer}</span>
-                      </div>
-                      
-                      <div className="flex items-center gap-1 text-neutral-500 dark:text-neutral-500">
-                        <Calendar className="h-3 w-3" />
-                        <span>{cert.date}</span>
-                      </div>
-                      
-                      {cert.credentialId && (
-                        <div className="rounded-full bg-neutral-100 px-2 py-1 text-xs text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
-                          ID: {cert.credentialId}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="mb-4">
-                      <div className="mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-300">
-                        {t.skills}
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {cert.skills.map((skill) => (
-                          <span
-                            key={skill}
-                            className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div className="flex items-start gap-4">
+              <div className={`shrink-0 rounded-xl bg-gradient-to-br ${getTypeColor(cert.type)} p-2.5`}>
+                {getTypeIcon(cert.type)}
               </div>
 
-              {cert.url && (
-                <div className="lg:self-center">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <h5 className="font-semibold text-neutral-900 dark:text-white leading-snug">
+                    {cert.title}
+                  </h5>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${badgeClass}`}>
+                    {cert.type === 'professional' ? (lang === 'en' ? 'Certified' : 'Certificado') :
+                     cert.type === 'training' ? (lang === 'en' ? 'Workshop' : 'Taller') :
+                     (lang === 'en' ? 'Academic' : 'Académico')}
+                  </span>
+                </div>
+
+                <div className="mt-1.5 flex items-center gap-3 text-sm">
+                  <span className="font-medium text-neutral-700 dark:text-neutral-300">{cert.issuer}</span>
+                  <div className="flex items-center gap-1 text-neutral-400 dark:text-neutral-500">
+                    <Calendar className="h-3 w-3" />
+                    <span className="text-xs">{cert.date}</span>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {cert.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                {cert.url && (
                   <a
                     href={cert.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-100 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50"
+                    className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    {t.viewCredential}
+                    <ExternalLink className="h-3 w-3" />
+                    {cert.type === 'professional' ? t.viewCredential : t.viewProject}
                   </a>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </motion.div>
         ))}
       </div>
+    </div>
+  );
 
-      <div className="mt-8 rounded-xl border border-neutral-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 dark:border-neutral-800 dark:from-blue-900/10 dark:to-indigo-900/10">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h4 className="font-semibold text-neutral-900 dark:text-white">
-              {lang === 'en' ? 'Continuous Learning' : 'Aprendizaje Continuo'}
-            </h4>
-            <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-              {lang === 'en' 
-                ? 'Currently studying for Advanced Data Engineering and Cloud Architecture certifications'
-                : 'Actualmente estudiando para certificaciones avanzadas de Ingeniería de Datos y Arquitectura Cloud'}
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-neutral-800 dark:text-blue-300">
-              AWS Certified
-            </span>
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-neutral-800 dark:text-blue-300">
-              Azure Data
-            </span>
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-neutral-800 dark:text-blue-300">
-              Data Engineering
-            </span>
-          </div>
-        </div>
+  return (
+    <div className="w-full">
+      {renderGroup(
+        professional,
+        t.professional,
+        t.profDesc,
+        'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+      )}
+
+      {renderGroup(
+        training,
+        t.training,
+        t.trainDesc,
+        'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'
+      )}
+
+      {renderGroup(
+        academic,
+        t.academic,
+        t.acadDesc,
+        'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+      )}
+
+      <div className="rounded-xl border border-neutral-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 dark:border-neutral-800 dark:from-blue-900/10 dark:to-indigo-900/10">
+        <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+          {lang === 'en' ? 'Continuous Learning' : 'Aprendizaje Continuo'}
+        </p>
+        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+          {lang === 'en'
+            ? 'Currently completing Systems Engineering at USAC while working full-time as a BI Analyst. Next target: AWS Data Analytics Specialty.'
+            : 'Actualmente completando Ingeniería en Sistemas en la USAC mientras trabaja a tiempo completo como Analista BI. Próximo objetivo: AWS Data Analytics Specialty.'}
+        </p>
       </div>
     </div>
   );

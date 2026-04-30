@@ -1,159 +1,136 @@
-import { useState, useEffect } from 'react';
-import { Users, Database, BarChart3, Zap, Clock, TrendingUp, Code, Cloud, Server, Layers } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { Database, BarChart3, Clock, Code, Layers, TrendingUp } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
 import { useLang } from '../context/LanguageContext';
+
+function useCountUp(end: number, duration = 1800) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const step = end / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) { setCount(end); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, end, duration]);
+
+  return { count, ref };
+}
 
 export default function StatsDashboard() {
   const { lang } = useLang();
-  const [stats, setStats] = useState({
-    projects: 0,
-    experience: 0,
-    skills: 0,
-    certifications: 0
-  });
-
-  useEffect(() => {
-    const animateCount = (endValue: number, setter: (val: number) => void) => {
-      let start = 0;
-      const duration = 2000;
-      const increment = endValue / (duration / 16);
-      
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= endValue) {
-          setter(endValue);
-          clearInterval(timer);
-        } else {
-          setter(Math.floor(start));
-        }
-      }, 16);
-    };
-
-    animateCount(25, (val) => setStats(s => ({...s, projects: val})));
-    animateCount(5, (val) => setStats(s => ({...s, experience: val})));
-    animateCount(18, (val) => setStats(s => ({...s, skills: val})));
-    animateCount(6, (val) => setStats(s => ({...s, certifications: val})));
-  }, []);
 
   const t = lang === 'en' ? {
-    title: 'Professional Metrics',
-    projects: 'Projects',
-    experience: 'Years Experience',
-    skills: 'Technologies',
-    certifications: 'Certifications',
-    description: 'Quantified impact and technical proficiency across domains'
+    title: 'By the Numbers',
+    yearsTech: 'Years in Tech',
+    yearsBI: 'Years in BI / Data',
+    dashboards: 'Dashboards Delivered',
+    queries: 'SQL Models Built',
+    kpis: 'KPIs Defined',
+    apps: 'Live Web Apps',
+    domains: 'Technical Domains',
+    accuracy: 'Data Accuracy Achieved',
+    description: 'Quantified impact from real work at Alleviate Financial Solutions and live projects'
   } : {
-    title: 'Métricas Profesionales',
-    projects: 'Proyectos',
-    experience: 'Años Experiencia',
-    skills: 'Tecnologías',
-    certifications: 'Certificaciones',
-    description: 'Impacto cuantificado y competencia técnica en múltiples dominios'
+    title: 'En Números',
+    yearsTech: 'Años en Tecnología',
+    yearsBI: 'Años en BI / Datos',
+    dashboards: 'Dashboards Entregados',
+    queries: 'Modelos SQL Construidos',
+    kpis: 'KPIs Definidos',
+    apps: 'Apps Web en Vivo',
+    domains: 'Dominios Técnicos',
+    accuracy: 'Precisión de Datos Lograda',
+    description: 'Impacto cuantificado del trabajo real en Alleviate Financial Solutions y proyectos en vivo'
   };
 
-  const metricCards = [
-    {
-      icon: <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />,
-      value: `${stats.projects}+`,
-      label: t.projects,
-      color: 'blue'
-    },
-    {
-      icon: <Clock className="h-4 w-4 text-green-600 dark:text-green-400" />,
-      value: `${stats.experience}+`,
-      label: t.experience,
-      color: 'green'
-    },
-    {
-      icon: <Zap className="h-4 w-4 text-purple-600 dark:text-purple-400" />,
-      value: `${stats.skills}+`,
-      label: t.skills,
-      color: 'purple'
-    },
-    {
-      icon: <TrendingUp className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />,
-      value: `${stats.certifications}+`,
-      label: t.certifications,
-      color: 'yellow'
-    }
+  const { count: techYears, ref: r1 } = useCountUp(6);
+  const { count: biYears, ref: r2 } = useCountUp(2);
+  const { count: dashboards, ref: r3 } = useCountUp(15);
+  const { count: models, ref: r4 } = useCountUp(20);
+  const { count: kpis, ref: r5 } = useCountUp(20);
+  const { count: apps, ref: r6 } = useCountUp(3);
+
+  const metrics = [
+    { ref: r1, value: techYears, suffix: '+', label: t.yearsTech, icon: <Clock className="h-5 w-5" />, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+    { ref: r2, value: biYears, suffix: '+', label: t.yearsBI, icon: <Database className="h-5 w-5" />, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20' },
+    { ref: r3, value: dashboards, suffix: '+', label: t.dashboards, icon: <BarChart3 className="h-5 w-5" />, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
+    { ref: r4, value: models, suffix: '+', label: t.queries, icon: <Layers className="h-5 w-5" />, color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20' },
+    { ref: r5, value: kpis, suffix: '+', label: t.kpis, icon: <TrendingUp className="h-5 w-5" />, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/20' },
+    { ref: r6, value: apps, suffix: '', label: t.apps, icon: <Code className="h-5 w-5" />, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/20' },
   ];
 
-  const getColorClasses = (color: string) => {
-    const base = {
-      blue: { bg: 'bg-blue-100', darkBg: 'dark:bg-blue-900/30' },
-      green: { bg: 'bg-green-100', darkBg: 'dark:bg-green-900/30' },
-      purple: { bg: 'bg-purple-100', darkBg: 'dark:bg-purple-900/30' },
-      yellow: { bg: 'bg-yellow-100', darkBg: 'dark:bg-yellow-900/30' }
-    }[color];
-    
-    return `${base.bg} ${base.darkBg}`;
-  };
+  const domains = [
+    { label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300', icon: <Database className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Business Intelligence' : 'Inteligencia de Negocios', color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300', icon: <BarChart3 className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Full-Stack Web Dev' : 'Desarrollo Web Full-Stack', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300', icon: <Code className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Network Operations' : 'Operaciones de Red', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300', icon: <Layers className="h-3.5 w-3.5" /> },
+  ];
 
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-gradient-to-br from-white to-blue-50 p-6 shadow-lg dark:border-neutral-800 dark:from-neutral-900 dark:to-blue-900/10">
-      <h3 className="mb-6 text-xl font-bold text-neutral-900 dark:text-white">{t.title}</h3>
-      
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        {metricCards.map((metric, index) => (
+    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t.title}</h3>
+          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{t.description}</p>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+        {metrics.map((metric, i) => (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900"
+            key={i}
+            ref={metric.ref as React.RefObject<HTMLDivElement>}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.07 }}
+            className={`rounded-xl ${metric.bg} p-4`}
           >
-            <div className="flex items-center gap-3 mb-2">
-              <div className={`rounded-lg p-2 ${getColorClasses(metric.color)}`}>
-                {metric.icon}
-              </div>
-              <div className="text-2xl font-bold text-neutral-900 dark:text-white">
-                {metric.value}
-              </div>
+            <div className={`mb-2 ${metric.color}`}>{metric.icon}</div>
+            <div className={`text-3xl font-bold ${metric.color}`}>
+              {metric.value}{metric.suffix}
             </div>
-            <div className="text-sm text-neutral-600 dark:text-neutral-400">{metric.label}</div>
+            <div className="mt-1 text-xs text-neutral-600 dark:text-neutral-400 leading-snug">
+              {metric.label}
+            </div>
           </motion.div>
         ))}
       </div>
 
-      <div className="rounded-xl border border-neutral-200 bg-white/50 p-4 dark:border-neutral-800 dark:bg-neutral-900/50">
-        <div className="mb-3 flex items-center gap-2">
-          <Layers className="h-4 w-4 text-neutral-500 dark:text-neutral-400" />
-          <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
-            {lang === 'en' ? 'Technical Domains' : 'Dominios Técnicos'}
-          </span>
-        </div>
-        
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-blue-100 p-1.5 dark:bg-blue-900/30">
-              <Database className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+      {/* Accuracy Highlight */}
+      <div className="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-900/30 dark:bg-green-900/10">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-sm font-semibold text-green-800 dark:text-green-300">{t.accuracy}</div>
+            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">
+              {lang === 'en' ? 'Snowflake data models at Alleviate Financial Solutions' : 'Modelos de datos en Snowflake para Alleviate Financial Solutions'}
             </div>
-            <span className="text-xs text-neutral-600 dark:text-neutral-400">Data Engineering</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-green-100 p-1.5 dark:bg-green-900/30">
-              <BarChart3 className="h-3 w-3 text-green-600 dark:text-green-400" />
-            </div>
-            <span className="text-xs text-neutral-600 dark:text-neutral-400">Business Intelligence</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-purple-100 p-1.5 dark:bg-purple-900/30">
-              <Cloud className="h-3 w-3 text-purple-600 dark:text-purple-400" />
-            </div>
-            <span className="text-xs text-neutral-600 dark:text-neutral-400">Cloud & DevOps</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-yellow-100 p-1.5 dark:bg-yellow-900/30">
-              <Code className="h-3 w-3 text-yellow-600 dark:text-yellow-400" />
-            </div>
-            <span className="text-xs text-neutral-600 dark:text-neutral-400">Full-Stack Dev</span>
-          </div>
+          <div className="text-3xl font-bold text-green-700 dark:text-green-300">99.5%</div>
         </div>
       </div>
 
-      <p className="mt-6 text-sm text-neutral-500 dark:text-neutral-400">
-        {t.description}
-      </p>
+      {/* Technical Domains */}
+      <div>
+        <div className="mb-3 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          {t.domains}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {domains.map((d) => (
+            <span key={d.label} className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold ${d.color}`}>
+              {d.icon}
+              {d.label}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
