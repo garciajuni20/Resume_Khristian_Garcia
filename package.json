@@ -15,6 +15,7 @@
     "preview:build": "npm run build && npm run preview"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.5.1",
     "framer-motion": "^12.27.0",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",

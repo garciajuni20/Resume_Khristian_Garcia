@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://garciajuni20.github.io/Resume_Khristian_Garcia/sitemap.xml

@@ -1,20 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
-/* ✅ Tailwind v4: make dark: work with .dark class */
+/* ✅ Tailwind v4: dark: variant with .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   html,
   body {
     height: 100%;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   body {
     @apply m-0 bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   a {
     color: inherit;
     text-decoration: none;
   }
+
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Typing cursor blink */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.85em;
+  background-color: currentColor;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Smooth gradient border rotation helper */
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
