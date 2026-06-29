@@ -14,9 +14,9 @@ const BASE = import.meta.env.BASE_URL; // e.g. /Resume_Khristian_Garcia/
 Font.register({
   family: 'Inter',
   fonts: [
-    { src: `${BASE}fonts/inter-regular.woff2`, fontWeight: 400 },
-    { src: `${BASE}fonts/inter-semibold.woff2`, fontWeight: 600 },
-    { src: `${BASE}fonts/inter-bold.woff2`, fontWeight: 700 },
+    { src: `${BASE}fonts/inter-regular.ttf`, fontWeight: 400 },
+    { src: `${BASE}fonts/inter-semibold.ttf`, fontWeight: 600 },
+    { src: `${BASE}fonts/inter-bold.ttf`, fontWeight: 700 },
   ],
 });
 
