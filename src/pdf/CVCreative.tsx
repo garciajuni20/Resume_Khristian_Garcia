@@ -9,12 +9,14 @@ import {
 } from '@react-pdf/renderer';
 import type { ProfileData } from '../types';
 
+const BASE = import.meta.env.BASE_URL; // e.g. /Resume_Khristian_Garcia/
+
 Font.register({
   family: 'Inter',
   fonts: [
-    { src: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2', fontWeight: 400 },
-    { src: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2', fontWeight: 600 },
-    { src: 'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiA.woff2', fontWeight: 700 },
+    { src: `${BASE}fonts/inter-regular.woff2`, fontWeight: 400 },
+    { src: `${BASE}fonts/inter-semibold.woff2`, fontWeight: 600 },
+    { src: `${BASE}fonts/inter-bold.woff2`, fontWeight: 700 },
   ],
 });
 

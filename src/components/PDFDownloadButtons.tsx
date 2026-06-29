@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, FileText, Loader2, Sparkles, AlignLeft } from 'lucide-react';
+import { Download, FileText, Loader2, Sparkles, AlignLeft, AlertCircle, X } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
@@ -7,8 +7,13 @@ import type { ProfileData } from '../types';
 
 type PDFVariant = 'creative-en' | 'creative-es' | 'ats-en' | 'ats-es';
 
-async function downloadPDF(variant: PDFVariant, setLoading: (v: PDFVariant | null) => void) {
+async function downloadPDF(
+  variant: PDFVariant,
+  setLoading: (v: PDFVariant | null) => void,
+  setError: (msg: string | null) => void,
+) {
   setLoading(variant);
+  setError(null);
   try {
     const { pdf } = await import('@react-pdf/renderer');
     const lang = variant.endsWith('en') ? 'en' : 'es';
@@ -36,6 +41,7 @@ async function downloadPDF(variant: PDFVariant, setLoading: (v: PDFVariant | nul
     URL.revokeObjectURL(url);
   } catch (err) {
     console.error('PDF generation error:', err);
+    setError(err instanceof Error ? err.message : 'PDF generation failed. Please try again.');
   } finally {
     setLoading(null);
   }
@@ -44,6 +50,7 @@ async function downloadPDF(variant: PDFVariant, setLoading: (v: PDFVariant | nul
 export default function PDFDownloadButtons() {
   const { lang } = useLang();
   const [loading, setLoading] = useState<PDFVariant | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const t = lang === 'en'
     ? {
@@ -118,7 +125,7 @@ export default function PDFDownloadButtons() {
           return (
             <button
               key={btn.variant}
-              onClick={() => downloadPDF(btn.variant, setLoading)}
+              onClick={() => downloadPDF(btn.variant, setLoading, setError)}
               disabled={loading !== null}
               className="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white px-4 py-3 text-left hover:border-blue-300 hover:shadow-md transition-all duration-200 disabled:opacity-60 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-blue-700"
             >
@@ -139,6 +146,16 @@ export default function PDFDownloadButtons() {
           );
         })}
       </div>
+
+      {error && (
+        <div className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+          <span className="flex-1">{error}</span>
+          <button onClick={() => setError(null)} className="shrink-0 opacity-60 hover:opacity-100 transition-opacity">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
 
       <p className="mt-4 text-xs text-neutral-400 dark:text-neutral-500 text-center">
         {lang === 'en'
