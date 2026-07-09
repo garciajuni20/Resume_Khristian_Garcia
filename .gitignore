@@ -48,3 +48,6 @@ Thumbs.db
 
 # misc
 *.local
+
+# Job search tracking (private, never publish)
+job-search/
