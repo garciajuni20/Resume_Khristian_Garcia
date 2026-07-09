@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Database, BarChart3, Clock, Code, Layers, TrendingUp } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
@@ -9,9 +9,10 @@ function useCountUp(end: number, duration = 1800) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || reduced) return;
     let rafId: number;
     let startTime: number | null = null;
     const tick = (now: number) => {
@@ -22,9 +23,10 @@ function useCountUp(end: number, duration = 1800) {
     };
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, [inView, end, duration]);
+  }, [inView, end, duration, reduced]);
 
-  return { count, ref };
+  // Reduced motion: show the final value immediately
+  return { count: reduced ? end : count, ref };
 }
 
 export default function StatsDashboard() {

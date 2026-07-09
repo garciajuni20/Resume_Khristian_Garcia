@@ -5,6 +5,7 @@ import {
   useSpring,
   useTransform,
   useInView,
+  useScroll,
 } from 'framer-motion';
 import {
   ArrowRight,
@@ -29,7 +30,9 @@ import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
 import TypingAnimation from '../components/TypingAnimation';
 import PageTransition from '../components/PageTransition';
-import { staggerContainer, cardReveal } from '../utils/animations';
+import Magnetic from '../components/Magnetic';
+import TechMarquee from '../components/TechMarquee';
+import { staggerContainer, cardReveal, EASE } from '../utils/animations';
 
 /* ─── 3D Tilt Card ─────────────────────────────────────────────────── */
 function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -43,6 +46,9 @@ function TiltCard({ children, className }: { children: React.ReactNode; classNam
     const rect = e.currentTarget.getBoundingClientRect();
     x.set((e.clientX - rect.left) / rect.width - 0.5);
     y.set((e.clientY - rect.top) / rect.height - 0.5);
+    // Cursor spotlight position, inherited by .spotlight-card descendants
+    e.currentTarget.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
   };
 
   return (
@@ -58,28 +64,32 @@ function TiltCard({ children, className }: { children: React.ReactNode; classNam
   );
 }
 
-/* ─── Animated Hero Background ─────────────────────────────────────── */
+/* ─── Animated Hero Background (with scroll parallax) ──────────────── */
 function HeroBackground() {
+  const { scrollY } = useScroll();
+  const parallaxSlow = useTransform(scrollY, [0, 600], [0, 70]);
+  const parallaxFast = useTransform(scrollY, [0, 600], [0, -50]);
+
   return (
     <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
       {/* Blue orb top-right */}
       <motion.div
         className="absolute -top-24 -right-24 h-[480px] w-[480px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)' }}
-        animate={{ x: [0, 18, 0], y: [0, -14, 0], scale: [1, 1.08, 1] }}
+        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)', y: parallaxSlow }}
+        animate={{ x: [0, 18, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
       />
       {/* Violet orb bottom-left */}
       <motion.div
         className="absolute -bottom-16 -left-16 h-[400px] w-[400px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 70%)' }}
-        animate={{ x: [0, -12, 0], y: [0, 18, 0], scale: [1, 1.06, 1] }}
+        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 70%)', y: parallaxFast }}
+        animate={{ x: [0, -12, 0], scale: [1, 1.06, 1] }}
         transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
       />
       {/* Cyan orb center */}
       <motion.div
         className="absolute top-1/2 left-[30%] h-[300px] w-[300px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 70%)', y: parallaxSlow }}
         animate={{ x: [0, 10, 0], scale: [1, 1.12, 1] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
       />
@@ -152,9 +162,9 @@ function RevealSection({ children, className = '' }: { children: React.ReactNode
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+      initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
+      animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+      transition={{ duration: 0.55, ease: EASE }}
       className={className}
     >
       {children}
@@ -276,9 +286,9 @@ export default function Home() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.5 }}
-                    className="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 dark:text-white"
+                    className="text-4xl sm:text-5xl font-extrabold tracking-tight"
                   >
-                    {t.name}
+                    <span className="text-shimmer">{t.name}</span>
                   </motion.h1>
 
                   {/* Typing role */}
@@ -340,19 +350,23 @@ export default function Home() {
                     transition={{ delay: 0.6 }}
                     className="mt-7 flex flex-wrap gap-3"
                   >
-                    <Link
-                      to="/resume"
-                      className="group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:shadow-blue-500/40 hover:scale-[1.03] transition-all duration-200"
-                    >
-                      {t.ctaPrimary}
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                    <Link
-                      to="/projects"
-                      className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white/80 px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-white hover:border-neutral-400 hover:scale-[1.03] transition-all duration-200 dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-white dark:hover:bg-neutral-700"
-                    >
-                      {t.ctaSecondary}
-                    </Link>
+                    <Magnetic>
+                      <Link
+                        to="/resume"
+                        className="group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:shadow-blue-500/40 transition-all duration-200"
+                      >
+                        {t.ctaPrimary}
+                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </Link>
+                    </Magnetic>
+                    <Magnetic>
+                      <Link
+                        to="/projects"
+                        className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white/80 px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-white hover:border-neutral-400 transition-all duration-200 dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-white dark:hover:bg-neutral-700"
+                      >
+                        {t.ctaSecondary}
+                      </Link>
+                    </Magnetic>
                   </motion.div>
                 </div>
 
@@ -407,17 +421,11 @@ export default function Home() {
                   <motion.div key={domain.title} variants={cardReveal}>
                     <TiltCard className="h-full">
                       <div
-                        className="relative h-full overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900 cursor-default transition-all duration-300 hover:shadow-xl"
-                        style={{ '--glow': domain.glow } as React.CSSProperties}
+                        className="spotlight-card relative h-full overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900 cursor-default transition-all duration-300 hover:shadow-xl"
+                        style={{ '--spot-color': domain.glow } as React.CSSProperties}
                       >
                         {/* Top accent bar */}
                         <div className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${domain.color}`} />
-
-                        {/* Hover glow */}
-                        <div
-                          className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-2xl"
-                          style={{ boxShadow: `inset 0 0 40px ${domain.glow}` }}
-                        />
 
                         <div className={`mb-3 inline-flex rounded-xl bg-gradient-to-br ${domain.color} p-2.5 shadow-sm`}>
                           <div className="text-white">{domain.icon}</div>
@@ -431,6 +439,11 @@ export default function Home() {
                   </motion.div>
                 ))}
               </motion.div>
+            </RevealSection>
+
+            {/* ── Tech Stack Marquee ────────────────────────────────── */}
+            <RevealSection>
+              <TechMarquee />
             </RevealSection>
 
             {/* ── Live Projects ─────────────────────────────────────── */}

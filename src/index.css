@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 /* ✅ Tailwind v4: dark: variant with .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Design tokens ──────────────────────────────────────────────── */
+:root {
+  --brand-blue: #2563eb;
+  --brand-violet: #7c3aed;
+  --brand-cyan: #06b6d4;
+  --brand-gradient: linear-gradient(135deg, var(--brand-blue), var(--brand-violet), var(--brand-cyan));
+  --ease-brand: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
 @layer base {
   html,
@@ -25,6 +33,11 @@
   * {
     scroll-behavior: smooth;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-blue);
+    outline-offset: 2px;
+  }
 }
 
 /* Typing cursor blink */
@@ -44,9 +57,86 @@
   50% { opacity: 0; }
 }
 
-/* Smooth gradient border rotation helper */
-@property --gradient-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+/* ── Shimmer gradient text (hero name) ──────────────────────────── */
+.text-shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--brand-blue) 20%,
+    var(--brand-violet) 40%,
+    var(--brand-cyan) 50%,
+    var(--brand-violet) 60%,
+    var(--brand-blue) 80%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -150% 0; }
+}
+
+/* ── Infinite marquee (tech stack) ──────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── Cursor spotlight for cards ─────────────────────────────────── */
+.spotlight-card {
+  position: relative;
+}
+
+.spotlight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-brand);
+  background: radial-gradient(
+    340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--spot-color, rgba(59, 130, 246, 0.12)),
+    transparent 65%
+  );
+}
+
+.spotlight-card:hover::after {
+  opacity: 1;
+}
+
+/* ── Accessibility: honor prefers-reduced-motion ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+
+  .text-shimmer {
+    animation: none;
+    background-position: 0 0;
+  }
 }

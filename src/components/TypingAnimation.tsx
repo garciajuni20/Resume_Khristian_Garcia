@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useReducedMotion } from 'framer-motion';
 
 interface Props {
   words: string[];
@@ -15,12 +16,13 @@ export default function TypingAnimation({
   pause = 2200,
   className = '',
 }: Props) {
+  const reduced = useReducedMotion();
   const [displayText, setDisplayText] = useState('');
   const [wordIndex, setWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    if (words.length === 0) return;
+    if (reduced || words.length === 0) return;
     const currentWord = words[wordIndex % words.length];
     let timeout: ReturnType<typeof setTimeout>;
 
@@ -45,7 +47,12 @@ export default function TypingAnimation({
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, wordIndex, isDeleting, words, speed, deleteSpeed, pause]);
+  }, [reduced, displayText, wordIndex, isDeleting, words, speed, deleteSpeed, pause]);
+
+  // Reduced motion: show the first role statically instead of typing
+  if (reduced) {
+    return <span className={className}>{words[0] ?? ''}</span>;
+  }
 
   return (
     <span className={className}>

@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
@@ -43,14 +43,16 @@ function App() {
     <Router>
       <ThemeProvider>
         <LanguageProvider>
-          <ScrollProgress />
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-1">
-              <AnimatedRoutes />
-            </main>
-            <Footer />
-          </div>
+          <MotionConfig reducedMotion="user">
+            <ScrollProgress />
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-1">
+                <AnimatedRoutes />
+              </main>
+              <Footer />
+            </div>
+          </MotionConfig>
         </LanguageProvider>
       </ThemeProvider>
     </Router>

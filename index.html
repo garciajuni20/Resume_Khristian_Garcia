@@ -35,9 +35,32 @@
   <!-- Canonical URL -->
   <link rel="canonical" href="https://garciajuni20.github.io/Resume_Khristian_Garcia/">
   
-  <!-- Preconnect for external resources -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Self-hosted Inter (no render-blocking Google Fonts request) -->
+  <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/inter-regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/inter-bold.woff2" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('%BASE_URL%fonts/inter-regular.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('%BASE_URL%fonts/inter-semibold.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700 900;
+      font-display: swap;
+      src: url('%BASE_URL%fonts/inter-bold.woff2') format('woff2');
+    }
+  </style>
   
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">
