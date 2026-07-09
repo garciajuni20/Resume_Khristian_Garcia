@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { X, FileJson, Calendar, Code, Database, Cloud, BarChart3, CheckCircle2, Linkedin, Mail, Phone } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
@@ -22,7 +22,7 @@ import { staggerContainer, cardReveal } from '../utils/animations';
 export default function ResumePage() {
   const { lang } = useLang();
   const { trackEvent } = useAnalytics();
-  const data: ProfileData = (lang === 'en' ? profileEN : profileES) as unknown as ProfileData;
+  const data: ProfileData = lang === 'en' ? profileEN : profileES;
 
   const labels = lang === 'en'
     ? {
@@ -105,19 +105,24 @@ export default function ResumePage() {
     setTimeout(() => setIsExporting(false), 1200);
   };
 
-  const languages = data.languages ?? [
-    { language: 'Spanish', level: 'Native', proficiency: 100 },
-    { language: 'English', level: 'Professional / Fluent', proficiency: 92 },
-    { language: 'Italian', level: 'Basic', proficiency: 35 },
-  ];
+  const languages = data.languages;
+  const tools = data.tools;
 
-  const tools = data.tools ?? {
-    dataEngineering: ['Snowflake', 'SQL', 'Python', 'PostgreSQL', 'MySQL'],
-    biAnalytics: ['Power BI', 'Tableau', 'Excel', 'DAX'],
-    cloudDevOps: ['GCP', 'Docker', 'Kubernetes', 'CI/CD'],
-    fullStack: ['React', 'TypeScript', 'Node.js', 'Tailwind CSS'],
-    methodologies: ['Agile', 'Scrum', 'Kanban'],
-  };
+  // Modal a11y: close on Escape, move focus into the dialog, restore it on close
+  const modalRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!selected) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    modalRef.current?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelected(null);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [selected]);
 
   const toolCategories = [
     { key: 'dataEngineering', icon: <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />, label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', items: tools.dataEngineering, chip: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' },
@@ -389,13 +394,14 @@ export default function ResumePage() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setSelected(null)}
-                onKeyDown={e => e.key === 'Escape' && setSelected(null)}
-                tabIndex={-1}
-                role="dialog"
-                aria-modal="true"
               >
                 <motion.div
-                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto rounded-2xl bg-white border border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 shadow-2xl"
+                  ref={modalRef}
+                  tabIndex={-1}
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="experience-modal-title"
+                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto rounded-2xl bg-white border border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 shadow-2xl focus:outline-none"
                   initial={{ scale: 0.88, opacity: 0, y: 16 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.92, opacity: 0 }}
@@ -404,7 +410,7 @@ export default function ResumePage() {
                 >
                   <div className="sticky top-0 z-10 flex items-center justify-between border-b border-neutral-200 bg-white/95 backdrop-blur-sm p-5 dark:border-neutral-800 dark:bg-neutral-900/95">
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-bold text-neutral-900 dark:text-white leading-snug">{selected.role}</h3>
+                      <h3 id="experience-modal-title" className="text-lg font-bold text-neutral-900 dark:text-white leading-snug">{selected.role}</h3>
                       <div className="mt-0.5 text-sm font-medium text-neutral-600 dark:text-neutral-300">
                         {selected.company} · {selected.location}
                       </div>

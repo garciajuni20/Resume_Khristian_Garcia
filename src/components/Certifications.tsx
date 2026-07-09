@@ -1,66 +1,13 @@
 import { motion } from 'framer-motion';
 import { Award, Calendar, ExternalLink, GraduationCap, Briefcase } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
-
-interface Certification {
-  id: string;
-  title: string;
-  issuer: string;
-  date: string;
-  credentialId?: string;
-  url?: string;
-  skills: string[];
-  type: 'professional' | 'academic' | 'training';
-}
+import { profileEN } from '../data/profile-en';
+import { profileES } from '../data/profile-es';
+import type { CertificationItem } from '../types';
 
 export default function Certifications() {
   const { lang } = useLang();
-
-  const certifications: Certification[] = [
-    {
-      id: 'snowflake-fundamentals',
-      title: lang === 'en' ? 'Snowflake Fundamentals' : 'Fundamentos de Snowflake',
-      issuer: 'Snowflake Inc.',
-      date: '2024-06',
-      skills: ['Snowflake', 'Data Warehousing', 'SQL', 'Virtual Warehouses'],
-      type: 'professional'
-    },
-    {
-      id: 'power-bi-analytics',
-      title: 'Power BI Data Analytics',
-      issuer: 'Microsoft',
-      date: '2024-03',
-      skills: ['Power BI', 'DAX', 'Power Query', 'Data Modeling'],
-      type: 'professional'
-    },
-    {
-      id: 'docker-cloud-native',
-      title: lang === 'en' ? 'Docker & Cloud-Native Containers Workshop' : 'Taller Docker & Contenedores Cloud-Native',
-      issuer: lang === 'en' ? 'Cloud-Native + GT Community' : 'Comunidad Cloud-Native + GT',
-      date: '2025-08',
-      url: 'https://github.com/garciajuni20/taller-docker',
-      skills: ['Docker', 'Containers', 'Microservices', 'DevOps'],
-      type: 'training'
-    },
-    {
-      id: 'usac-compilers',
-      title: lang === 'en' ? 'Compilers 2 — PEG Parsers & Language Design' : 'Compiladores 2 — Parsers PEG y Diseño de Lenguajes',
-      issuer: lang === 'en' ? 'USAC — Systems Engineering' : 'USAC — Ingeniería en Sistemas',
-      date: '2024-12',
-      url: 'https://garciajuni20.github.io/G8_Fase2_FortranPEG/',
-      skills: ['PEG Parsers', 'JavaScript', 'Svelte', 'Compiler Theory'],
-      type: 'academic'
-    },
-    {
-      id: 'usac-bd2',
-      title: lang === 'en' ? 'Advanced Databases — BD2 Sufficiency' : 'Bases de Datos Avanzadas — Suficiencia BD2',
-      issuer: lang === 'en' ? 'USAC — Systems Engineering' : 'USAC — Ingeniería en Sistemas',
-      date: '2026-01',
-      url: 'https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202',
-      skills: ['Advanced Databases', 'Python', 'Database Design', 'Query Optimization'],
-      type: 'academic'
-    }
-  ];
+  const certifications: CertificationItem[] = (lang === 'en' ? profileEN : profileES).certifications;
 
   const professional = certifications.filter(c => c.type === 'professional');
   const training = certifications.filter(c => c.type === 'training');
@@ -72,9 +19,6 @@ export default function Certifications() {
     academic: 'Academic Achievements',
     viewCredential: 'View Credential',
     viewProject: 'View Project',
-    issued: 'Issued',
-    skills: 'Skills',
-    ongoing: 'In progress at USAC',
     profDesc: 'Vendor-issued certifications validating hands-on tool proficiency',
     trainDesc: 'Community workshops and technical training programs',
     acadDesc: 'Advanced coursework at USAC with public deliverables'
@@ -84,28 +28,25 @@ export default function Certifications() {
     academic: 'Logros Académicos',
     viewCredential: 'Ver Credencial',
     viewProject: 'Ver Proyecto',
-    issued: 'Emitido',
-    skills: 'Habilidades',
-    ongoing: 'En curso en la USAC',
     profDesc: 'Certificaciones emitidas por proveedores que validan competencia técnica práctica',
     trainDesc: 'Talleres comunitarios y programas de capacitación técnica',
     acadDesc: 'Cursos avanzados en la USAC con entregables públicos'
   };
 
-  const getTypeIcon = (type: string) => {
-    if (type === 'academic') return <GraduationCap className="h-5 w-5 text-white" />;
-    if (type === 'training') return <Briefcase className="h-5 w-5 text-white" />;
-    return <Award className="h-5 w-5 text-white" />;
+  const getTypeIcon = (type: CertificationItem['type']) => {
+    if (type === 'academic') return <GraduationCap className="h-5 w-5 text-white" aria-hidden="true" />;
+    if (type === 'training') return <Briefcase className="h-5 w-5 text-white" aria-hidden="true" />;
+    return <Award className="h-5 w-5 text-white" aria-hidden="true" />;
   };
 
-  const getTypeColor = (type: string) => {
+  const getTypeColor = (type: CertificationItem['type']) => {
     if (type === 'academic') return 'from-purple-500 to-purple-600';
     if (type === 'training') return 'from-orange-500 to-orange-600';
     return 'from-blue-500 to-blue-600';
   };
 
   const renderGroup = (
-    items: Certification[],
+    items: CertificationItem[],
     title: string,
     description: string,
     badgeClass: string
@@ -144,7 +85,7 @@ export default function Certifications() {
                 <div className="mt-1.5 flex items-center gap-3 text-sm">
                   <span className="font-medium text-neutral-700 dark:text-neutral-300">{cert.issuer}</span>
                   <div className="flex items-center gap-1 text-neutral-400 dark:text-neutral-500">
-                    <Calendar className="h-3 w-3" />
+                    <Calendar className="h-3 w-3" aria-hidden="true" />
                     <span className="text-xs">{cert.date}</span>
                   </div>
                 </div>
@@ -167,7 +108,7 @@ export default function Certifications() {
                     rel="noopener noreferrer"
                     className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                   >
-                    <ExternalLink className="h-3 w-3" />
+                    <ExternalLink className="h-3 w-3" aria-hidden="true" />
                     {cert.type === 'professional' ? t.viewCredential : t.viewProject}
                   </a>
                 )}

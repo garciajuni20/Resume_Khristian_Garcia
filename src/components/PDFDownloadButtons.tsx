@@ -3,7 +3,6 @@ import { Download, FileText, Loader2, Sparkles, AlignLeft, AlertCircle, X } from
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
-import type { ProfileData } from '../types';
 
 type PDFVariant = 'creative-en' | 'creative-es' | 'ats-en' | 'ats-es';
 
@@ -17,7 +16,7 @@ async function downloadPDF(
   try {
     const { pdf } = await import('@react-pdf/renderer');
     const lang = variant.endsWith('en') ? 'en' : 'es';
-    const data = (lang === 'en' ? profileEN : profileES) as unknown as ProfileData;
+    const data = lang === 'en' ? profileEN : profileES;
     const isCreative = variant.startsWith('creative');
     const fileName = `khristian-garcia-${lang === 'en' ? 'resume' : 'cv'}-${isCreative ? 'creative' : 'ats'}.pdf`;
 

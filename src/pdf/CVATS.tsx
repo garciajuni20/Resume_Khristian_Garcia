@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet, Link } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import type { ProfileData } from '../types';
 
 const styles = StyleSheet.create({
@@ -67,10 +67,12 @@ export function CVATS({ data, lang }: Props) {
 
         {/* Key Achievements */}
         <Text style={styles.sectionTitle}>{isEN ? 'Key Achievements' : 'Logros Clave'}</Text>
-        <View style={styles.bullet}><Text style={styles.bulletChar}>•</Text><Text style={styles.bulletText}>{isEN ? 'Improved data accuracy from 85% to 99.5% by architecting Snowflake data models for financial reporting across 5 departments.' : 'Mejoré la precisión de datos del 85% al 99.5% diseñando modelos de datos en Snowflake para reportes financieros en 5 departamentos.'}</Text></View>
-        <View style={styles.bullet}><Text style={styles.bulletChar}>•</Text><Text style={styles.bulletText}>{isEN ? 'Reduced financial reporting cycle from 2+ days to under 30 minutes through automated SQL pipelines and Power BI dashboards.' : 'Reduje el ciclo de reportes financieros de 2+ días a menos de 30 minutos mediante pipelines SQL automatizados y dashboards en Power BI.'}</Text></View>
-        <View style={styles.bullet}><Text style={styles.bulletChar}>•</Text><Text style={styles.bulletText}>{isEN ? 'Eliminated 90% of recurring reporting errors by implementing data validation and alerting workflows in Snowflake.' : 'Eliminé el 90% de errores recurrentes en reportes implementando validaciones de datos y flujos de alertas en Snowflake.'}</Text></View>
-        <View style={styles.bullet}><Text style={styles.bulletChar}>•</Text><Text style={styles.bulletText}>{isEN ? 'Built and deployed 3 production web applications on Cloudflare Pages using React, TypeScript, and Tailwind CSS.' : 'Desarrollé y desplegué 3 aplicaciones web en producción en Cloudflare Pages con React, TypeScript y Tailwind CSS.'}</Text></View>
+        {data.keyAchievements.map((achievement, i) => (
+          <View key={i} style={styles.bullet}>
+            <Text style={styles.bulletChar}>•</Text>
+            <Text style={styles.bulletText}>{achievement}</Text>
+          </View>
+        ))}
 
         {/* Experience */}
         <Text style={styles.sectionTitle}>{isEN ? 'Professional Experience' : 'Experiencia Profesional'}</Text>

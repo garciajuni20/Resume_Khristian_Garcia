@@ -37,8 +37,10 @@ export default function TypingAnimation({
       if (displayText.length > 0) {
         timeout = setTimeout(() => setDisplayText(displayText.slice(0, -1)), deleteSpeed);
       } else {
-        setIsDeleting(false);
-        setWordIndex(prev => (prev + 1) % words.length);
+        timeout = setTimeout(() => {
+          setIsDeleting(false);
+          setWordIndex(prev => (prev + 1) % words.length);
+        }, deleteSpeed);
       }
     }
 

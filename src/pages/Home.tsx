@@ -26,6 +26,7 @@ import { useSEO } from '../hooks/useSEO';
 import StatsDashboard from '../components/StatsDashboard';
 import Testimonials from '../components/Testimonials';
 import { profileEN } from '../data/profile-en';
+import { profileES } from '../data/profile-es';
 import TypingAnimation from '../components/TypingAnimation';
 import PageTransition from '../components/PageTransition';
 import { staggerContainer, cardReveal } from '../utils/animations';
@@ -101,10 +102,9 @@ function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
       {/* Glow pulse */}
       <motion.div
         className="absolute -inset-3 rounded-2xl opacity-50"
-        style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4)' }}
+        style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4)', filter: 'blur(12px)' }}
         animate={{ opacity: [0.25, 0.55, 0.25], scale: [1, 1.04, 1] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        style2={{ filter: 'blur(12px)' }}
       />
       {/* Spinning border container */}
       <div
@@ -195,28 +195,6 @@ export default function Home() {
           { value: '15+', label: 'Dashboards Delivered', sub: 'Power BI · Tableau' },
           { value: '99.5%', label: 'Data Accuracy', sub: 'Snowflake models' },
         ],
-        projects: [
-          {
-            id: 'vale',
-            title: 'Continental Motores — Fuel Vouchers',
-            desc: 'Full-stack fuel voucher management system with auth and multi-step approval workflows.',
-            impact: 'Approvals: days → minutes',
-            tags: ['React', 'TypeScript', 'Cloudflare'],
-            github: 'https://github.com/garciajuni20/Continental-Motores-Vales-Combustible',
-            live: 'https://continental-motores-vales-combustible.pages.dev/login',
-            gradient: 'from-orange-500 to-red-500',
-          },
-          {
-            id: 'flowber',
-            title: 'Flowber — Digital Barbershop',
-            desc: 'Online appointment booking and business management platform. Mobile-first design.',
-            impact: 'Eliminated phone-based bookings',
-            tags: ['React', 'TypeScript', 'Cloudflare'],
-            github: 'https://github.com/garciajuni20/flowber-barberia',
-            live: 'https://flowber-barberia.pages.dev/',
-            gradient: 'from-violet-500 to-indigo-600',
-          },
-        ],
       }
     : {
         badge: 'Disponible para Oportunidades',
@@ -246,29 +224,13 @@ export default function Home() {
           { value: '15+', label: 'Dashboards Entregados', sub: 'Power BI · Tableau' },
           { value: '99.5%', label: 'Precisión de Datos', sub: 'modelos Snowflake' },
         ],
-        projects: [
-          {
-            id: 'vale',
-            title: 'Continental Motores — Vales Combustible',
-            desc: 'Sistema full-stack de vales de combustible con autenticación y flujos de aprobación multinivel.',
-            impact: 'Aprobaciones: días → minutos',
-            tags: ['React', 'TypeScript', 'Cloudflare'],
-            github: 'https://github.com/garciajuni20/Continental-Motores-Vales-Combustible',
-            live: 'https://continental-motores-vales-combustible.pages.dev/login',
-            gradient: 'from-orange-500 to-red-500',
-          },
-          {
-            id: 'flowber',
-            title: 'Flowber — Barbería Digital',
-            desc: 'Plataforma de reservas en línea y gestión de negocio para barbería. Diseño mobile-first.',
-            impact: 'Eliminó reservas por teléfono',
-            tags: ['React', 'TypeScript', 'Cloudflare'],
-            github: 'https://github.com/garciajuni20/flowber-barberia',
-            live: 'https://flowber-barberia.pages.dev/',
-            gradient: 'from-violet-500 to-indigo-600',
-          },
-        ],
       };
+
+  // Featured live projects come straight from the profile data (single source of truth)
+  const profile = lang === 'en' ? profileEN : profileES;
+  const homeProjects = profile.projects.filter(
+    p => p.id === 'vale-combustible' || p.id === 'flowber-barberia'
+  );
 
   useSEO({
     title: `${t.name} — ${lang === 'en' ? 'Data Analyst · BI Engineer · Full-Stack Developer' : 'Analista de Datos · Ingeniero BI · Desarrollador Full-Stack'}`,
@@ -441,7 +403,7 @@ export default function Home() {
                 viewport={{ once: true, margin: '-60px' }}
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
               >
-                {t.domains.map((domain, idx) => (
+                {t.domains.map(domain => (
                   <motion.div key={domain.title} variants={cardReveal}>
                     <TiltCard className="h-full">
                       <div
@@ -485,7 +447,7 @@ export default function Home() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {t.projects.map((project, idx) => (
+                {homeProjects.map((project, idx) => (
                   <motion.div
                     key={project.id}
                     initial={{ opacity: 0, y: 16 }}
@@ -501,7 +463,7 @@ export default function Home() {
                     <div className="p-5">
                       <div className="mb-3 flex items-center justify-between">
                         <div className="flex flex-wrap gap-1.5">
-                          {project.tags.map(tag => (
+                          {project.technologies.slice(0, 3).map(tag => (
                             <span
                               key={tag}
                               className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
@@ -520,7 +482,7 @@ export default function Home() {
                         {project.title}
                       </h3>
                       <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                        {project.desc}
+                        {project.description}
                       </p>
 
                       {/* Impact badge */}
@@ -533,7 +495,7 @@ export default function Home() {
 
                       <div className="mt-4 flex gap-2">
                         <a
-                          href={project.github}
+                          href={project.links?.github}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 transition-all"
@@ -542,7 +504,7 @@ export default function Home() {
                           GitHub
                         </a>
                         <a
-                          href={project.live}
+                          href={project.links?.live}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/25"

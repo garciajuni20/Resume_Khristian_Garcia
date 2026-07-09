@@ -3,181 +3,12 @@ import Container from '../components/Container';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { ExternalLink, Database, Code, Cloud, Server, Zap, Layers, Globe, GraduationCap, Github, ArrowRight } from 'lucide-react';
+import { ExternalLink, Database, Cloud, Server, Zap, Layers, Globe, GraduationCap, Github, ArrowRight } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { Link } from 'react-router-dom';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  descriptionEs: string;
-  technologies: string[];
-  category: 'data' | 'web' | 'cloud' | 'architecture' | 'academic';
-  impact?: string;
-  impactEs?: string;
-  role: string;
-  roleEs: string;
-  duration: string;
-  teamSize: string;
-  links?: { github?: string; live?: string };
-  featured: boolean;
-  gradient: string;
-}
-
-const projects: Project[] = [
-  {
-    id: 'vale-combustible',
-    title: 'Continental Motores — Vales Combustible',
-    description: 'Full-stack fuel voucher management system for a vehicle fleet company. Features authentication, voucher generation, multi-step approval workflows, and usage reporting. Deployed on Cloudflare Pages with zero-downtime CI/CD.',
-    descriptionEs: 'Sistema full-stack de gestión de vales de combustible para empresa de flota vehicular. Incluye autenticación, generación de vales, flujos de aprobación multinivel y reportes de uso. Desplegado en Cloudflare Pages con CI/CD sin tiempo de inactividad.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages', 'Vite', 'Authentication'],
-    category: 'web',
-    impact: 'Eliminated paper-based voucher process — approvals dropped from days to minutes',
-    impactEs: 'Eliminó el proceso de vales en papel — las aprobaciones bajaron de días a minutos',
-    role: 'Full-Stack Developer',
-    roleEs: 'Desarrollador Full-Stack',
-    duration: 'Ongoing',
-    teamSize: 'Solo project',
-    links: { github: 'https://github.com/garciajuni20/Continental-Motores-Vales-Combustible', live: 'https://continental-motores-vales-combustible.pages.dev/login' },
-    featured: true,
-    gradient: 'from-orange-500 to-red-500',
-  },
-  {
-    id: 'flowber-barberia',
-    title: 'Flowber — Digital Barbershop Platform',
-    description: 'Digital platform for a barbershop business built from scratch. Enables online appointment scheduling, service catalog browsing, and business management. Mobile-first responsive design. Deployed on Cloudflare Pages.',
-    descriptionEs: 'Plataforma digital para negocio de barbería construida desde cero. Permite reservas de citas en línea, exploración del catálogo de servicios y gestión del negocio. Diseño responsivo mobile-first. Desplegado en Cloudflare Pages.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Cloudflare Pages', 'Vite', 'Responsive Design'],
-    category: 'web',
-    impact: 'Digitized scheduling — eliminated phone-based bookings and reduced no-shows',
-    impactEs: 'Digitalizó la agenda — eliminó reservas telefónicas y redujo inasistencias',
-    role: 'Full-Stack Developer & Designer',
-    roleEs: 'Desarrollador Full-Stack & Diseñador',
-    duration: 'Ongoing',
-    teamSize: 'Solo project',
-    links: { github: 'https://github.com/garciajuni20/flowber-barberia', live: 'https://flowber-barberia.pages.dev/' },
-    featured: true,
-    gradient: 'from-violet-500 to-indigo-600',
-  },
-  {
-    id: 'portfolio',
-    title: 'This Portfolio — Interactive Resume',
-    description: 'React + TypeScript portfolio with bilingual support (EN/ES), dark/light mode, animated skill meters, tag-based filters, dynamic PDF generation, and auto-deployment to GitHub Pages via GitHub Actions.',
-    descriptionEs: 'Portafolio en React + TypeScript con soporte bilingüe (EN/ES), modo oscuro/claro, medidores animados, filtros por etiqueta, generación dinámica de PDFs y auto-despliegue a GitHub Pages vía GitHub Actions.',
-    technologies: ['React 19', 'TypeScript', 'Tailwind CSS v4', 'Framer Motion', 'GitHub Actions', 'Vite', '@react-pdf/renderer'],
-    category: 'web',
-    impact: 'Demonstrates full-stack product thinking — this site IS the portfolio artifact',
-    impactEs: 'Demuestra pensamiento de producto full-stack — este sitio ES el propio artefacto del portafolio',
-    role: 'Full-Stack Developer & Designer',
-    roleEs: 'Desarrollador Full-Stack & Diseñador',
-    duration: '3 weeks',
-    teamSize: 'Solo project',
-    links: { github: 'https://github.com/garciajuni20/Resume_Khristian_Garcia', live: 'https://garciajuni20.github.io/Resume_Khristian_Garcia/' },
-    featured: true,
-    gradient: 'from-blue-500 to-cyan-500',
-  },
-  {
-    id: 'snowflake-data-layer',
-    title: 'Snowflake Analytics Data Layer',
-    description: 'Designed and built the complete Snowflake data architecture for Alleviate Financial Solutions — star schema models, analytical views, and optimized SQL transformations feeding Power BI and Tableau dashboards across 5 departments.',
-    descriptionEs: 'Diseñé y construí la arquitectura completa de datos en Snowflake para Alleviate Financial Solutions — modelos en esquema estrella, vistas analíticas y transformaciones SQL optimizadas que alimentan dashboards de Power BI y Tableau en 5 departamentos.',
-    technologies: ['Snowflake', 'SQL', 'Star Schema', 'Data Modeling', 'ETL', 'dbt', 'Data Validation'],
-    category: 'data',
-    impact: "Raised data accuracy from 85% to 99.5% — became the company's source of truth",
-    impactEs: 'Elevó la precisión de datos del 85% al 99.5% — se convirtió en la fuente de verdad de la empresa',
-    role: 'Lead Data Engineer / BI Analyst',
-    roleEs: 'Ingeniero de Datos Líder / Analista BI',
-    duration: '14+ months',
-    teamSize: 'Solo (cross-dept collaboration)',
-    featured: true,
-    gradient: 'from-blue-600 to-blue-700',
-  },
-  {
-    id: 'bi-dashboard-suite',
-    title: 'Financial Analytics Dashboard Suite',
-    description: 'Comprehensive Power BI and Tableau dashboard suite for financial and operational reporting at Alleviate Financial Solutions. Real-time data visualization, KPI tracking, trend analysis, and automated PDF reporting.',
-    descriptionEs: 'Suite integral de dashboards en Power BI y Tableau para reportes financieros y operativos en Alleviate Financial Solutions. Visualización en tiempo real, seguimiento de KPIs, análisis de tendencias y reportes PDF automatizados.',
-    technologies: ['Power BI', 'Tableau', 'DAX', 'Power Query', 'Snowflake', 'SQL'],
-    category: 'data',
-    impact: 'Reduced reporting cycle from 2+ days to under 30 minutes — 15+ dashboards in production',
-    impactEs: 'Redujo el ciclo de reportes de 2+ días a menos de 30 minutos — 15+ dashboards en producción',
-    role: 'BI Developer',
-    roleEs: 'Desarrollador BI',
-    duration: '14+ months',
-    teamSize: '2 analysts + US stakeholders',
-    featured: false,
-    gradient: 'from-emerald-500 to-teal-600',
-  },
-  {
-    id: 'fortran-peg-parser',
-    title: 'FortranPEG — Fortran Parser Generator',
-    description: 'A parser generator for the Fortran programming language using PEG (Parsing Expression Grammar) and recursive descent parsing. Includes a web-based IDE for grammar testing. Live on GitHub Pages.',
-    descriptionEs: 'Generador de parsers para Fortran usando PEG (Parsing Expression Grammar) y análisis descendente recursivo. Incluye un IDE web para pruebas de gramática. Disponible en GitHub Pages.',
-    technologies: ['JavaScript', 'PEG Parsers', 'Svelte', 'Compiler Theory', 'Recursive Descent'],
-    category: 'academic',
-    impact: 'Full Fortran grammar implementation with a live, interactive testing environment',
-    impactEs: 'Implementación completa de gramática Fortran con entorno interactivo de pruebas en vivo',
-    role: 'Developer — Group 8, Compilers 2',
-    roleEs: 'Desarrollador — Grupo 8, Compiladores 2',
-    duration: '1 month',
-    teamSize: '3 students',
-    links: { github: 'https://github.com/garciajuni20/G8_Fase2_FortranPEG', live: 'https://garciajuni20.github.io/G8_Fase2_FortranPEG/' },
-    featured: true,
-    gradient: 'from-purple-500 to-pink-500',
-  },
-  {
-    id: 'compilers-phase1',
-    title: 'Compilers 2 — Phase 1 (Svelte App)',
-    description: 'Phase 1 of the Compilers 2 course project — web-based compiler front-end with lexical analysis, tokenization, and early parsing stages.',
-    descriptionEs: 'Fase 1 del proyecto de Compiladores 2 — interfaz web de compilador con análisis léxico, tokenización y etapas tempranas de parsing.',
-    technologies: ['JavaScript', 'Svelte', 'Lexical Analysis', 'Tokenization'],
-    category: 'academic',
-    impact: 'Foundation in compiler front-end theory applied to a working implementation',
-    impactEs: 'Base sólida en teoría de front-end de compiladores aplicada a una implementación funcional',
-    role: 'Developer — Group 8',
-    roleEs: 'Desarrollador — Grupo 8',
-    duration: '3 weeks',
-    teamSize: '3 students',
-    links: { github: 'https://github.com/garciajuni20/Compi2_Grupo8' },
-    featured: false,
-    gradient: 'from-rose-500 to-pink-500',
-  },
-  {
-    id: 'bd2-suficiencia',
-    title: 'Advanced Databases — BD2 Sufficiency',
-    description: 'Python-based advanced database project for the BD2 sufficiency exam at USAC. Covers query optimization, indexing strategies, and complex schema design.',
-    descriptionEs: 'Proyecto avanzado de bases de datos en Python para el examen de suficiencia BD2 en la USAC. Cubre optimización de consultas, estrategias de indexación y diseño complejo de esquemas.',
-    technologies: ['Python', 'Advanced SQL', 'Database Design', 'Query Optimization', 'Indexing'],
-    category: 'academic',
-    impact: 'Applied advanced database theory to a real, graded deliverable',
-    impactEs: 'Aplicó teoría avanzada de bases de datos a un entregable real y calificado',
-    role: 'Student — Systems Engineering, USAC',
-    roleEs: 'Estudiante — Ingeniería en Sistemas, USAC',
-    duration: '2 weeks',
-    teamSize: 'Solo',
-    links: { github: 'https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202' },
-    featured: false,
-    gradient: 'from-amber-500 to-orange-500',
-  },
-  {
-    id: 'docker-workshop',
-    title: 'Docker & Cloud-Native Infrastructure',
-    description: 'Containerization, Docker Compose, Kubernetes basics, and CI/CD pipeline design for cloud-native applications — completed in the Cloud-Native + GT community workshop.',
-    descriptionEs: 'Contenedorización, Docker Compose, fundamentos de Kubernetes y diseño de pipelines CI/CD — completado en el taller de la comunidad Cloud-Native + GT.',
-    technologies: ['Docker', 'Docker Compose', 'Kubernetes', 'CI/CD', 'Microservices', 'GitHub Actions'],
-    category: 'cloud',
-    impact: 'Hands-on containerization skills applied to real DevOps workflows',
-    impactEs: 'Habilidades prácticas de contenedorización aplicadas a flujos de trabajo DevOps reales',
-    role: 'Participant / Developer',
-    roleEs: 'Participante / Desarrollador',
-    duration: '1 week',
-    teamSize: 'Community workshop',
-    links: { github: 'https://github.com/garciajuni20/taller-docker' },
-    featured: false,
-    gradient: 'from-sky-500 to-blue-600',
-  },
-];
+import { profileEN } from '../data/profile-en';
+import { profileES } from '../data/profile-es';
+import type { ProjectItem } from '../types';
 
 const categoryColorMap: Record<string, string> = {
   web: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
@@ -187,7 +18,7 @@ const categoryColorMap: Record<string, string> = {
   architecture: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300',
 };
 
-function ProjectCard({ project, lang, t }: { project: Project; lang: string; t: Record<string, string> }) {
+function ProjectCard({ project, t }: { project: ProjectItem; t: Record<string, string> }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const getCatIcon = (cat: string) => {
@@ -229,14 +60,14 @@ function ProjectCard({ project, lang, t }: { project: Project; lang: string; t: 
           {project.title}
         </h3>
         <p className="mb-3 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-1">
-          {lang === 'en' ? project.description : project.descriptionEs}
+          {project.description}
         </p>
 
         {project.impact && (
           <div className="mb-4 flex items-start gap-2 rounded-xl bg-emerald-50 px-3 py-2.5 dark:bg-emerald-900/15">
             <Zap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
             <p className="text-xs text-emerald-700 dark:text-emerald-300 leading-relaxed font-medium">
-              {lang === 'en' ? project.impact : project.impactEs}
+              {project.impact}
             </p>
           </div>
         )}
@@ -245,7 +76,7 @@ function ProjectCard({ project, lang, t }: { project: Project; lang: string; t: 
           <div>
             <span className="text-neutral-400">{t.role}</span>
             <div className="font-medium text-neutral-800 dark:text-neutral-200 mt-0.5 leading-snug">
-              {lang === 'en' ? project.role : project.roleEs}
+              {project.role}
             </div>
           </div>
           <div>
@@ -290,6 +121,7 @@ function ProjectCard({ project, lang, t }: { project: Project; lang: string; t: 
 
 export default function Projects() {
   const { lang } = useLang();
+  const projects = (lang === 'en' ? profileEN : profileES).projects;
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
   const t = lang === 'en'
@@ -371,7 +203,7 @@ export default function Projects() {
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                       {featured.map(project => (
-                        <ProjectCard key={project.id} project={project} lang={lang} t={t as Record<string, string>} />
+                        <ProjectCard key={project.id} project={project} t={t as Record<string, string>} />
                       ))}
                     </div>
                   </div>
@@ -388,7 +220,7 @@ export default function Projects() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       {others.map(project => (
-                        <ProjectCard key={project.id} project={project} lang={lang} t={t as Record<string, string>} />
+                        <ProjectCard key={project.id} project={project} t={t as Record<string, string>} />
                       ))}
                     </div>
                   </div>

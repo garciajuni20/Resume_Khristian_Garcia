@@ -1,4 +1,4 @@
-import { files } from "./files"
+import type { ProfileData } from "../types"
 
 export const profileES = {
   name: "Khristian Manolo Junior Garcia Pineda",
@@ -14,9 +14,15 @@ export const profileES = {
   ],
   summary:
     "Profesional tecnológico con más de 6 años de experiencia en operaciones de red, infraestructura TI e inteligencia de negocios. Construí desde cero la función de BI para Alleviate Financial Solutions en Guatemala — diseñando modelos de datos en Snowflake, dashboards en Power BI y pipelines SQL que hoy impulsan decisiones financieras en 5 departamentos. Simultáneamente, finalizando la carrera de Ingeniería en Sistemas en la USAC y ejerciendo como instructor académico de Inteligencia de Negocios. También desarrollo aplicaciones web en producción con React y TypeScript, desplegadas en Cloudflare y GitHub Pages.",
-  resumePdfPath: files.resumeES,
 
   badges: ["Snowflake", "Experto SQL", "Power BI", "React · TypeScript", "Modelado de Datos", "Bilingüe EN/ES"],
+
+  keyAchievements: [
+    "Mejoré la precisión de datos del 85% al 99.5% diseñando modelos de datos en Snowflake para reportes financieros en 5 departamentos.",
+    "Reduje el ciclo de reportes financieros de 2+ días a menos de 30 minutos mediante pipelines SQL automatizados y dashboards en Power BI.",
+    "Eliminé el 90% de errores recurrentes en reportes implementando validaciones de datos y flujos de alertas en Snowflake.",
+    "Desarrollé y desplegué 3 aplicaciones web en producción en Cloudflare Pages con React, TypeScript y Tailwind CSS."
+  ],
 
   experience: [
     {
@@ -141,7 +147,8 @@ export const profileES = {
       issuer: "Snowflake Inc.",
       date: "2024-06",
       skills: ["Snowflake", "Data Warehousing", "SQL", "Almacenes Virtuales", "Clustering"],
-      verified: true
+      verified: true,
+      type: "professional"
     },
     {
       id: "power-bi-analytics",
@@ -149,46 +156,165 @@ export const profileES = {
       issuer: "Microsoft",
       date: "2024-03",
       skills: ["Power BI", "DAX", "Power Query", "Modelado de Datos", "Diseño de Dashboards"],
-      verified: true
+      verified: true,
+      type: "professional"
     },
     {
       id: "docker-cloud-native",
       title: "Taller Docker & Contenedores Cloud-Native",
       issuer: "Comunidad Cloud-Native + GT",
       date: "2025-08",
+      url: "https://github.com/garciajuni20/taller-docker",
       skills: ["Docker", "Contenedores", "Kubernetes", "Microservicios", "DevOps"],
-      verified: true
+      verified: true,
+      type: "training"
     },
     {
       id: "usac-compilers",
       title: "Compiladores 2 — Parsers PEG y Diseño de Lenguajes",
       issuer: "USAC — Escuela de Ciencias y Sistemas",
       date: "2024-12",
+      url: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/",
       skills: ["Parsers PEG", "JavaScript", "Svelte", "Teoría de Compiladores", "Gramáticas Formales"],
-      verified: true
+      verified: true,
+      type: "academic"
+    },
+    {
+      id: "usac-bd2",
+      title: "Bases de Datos Avanzadas — Suficiencia BD2",
+      issuer: "USAC — Escuela de Ciencias y Sistemas",
+      date: "2026-01",
+      url: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202",
+      skills: ["Bases de Datos Avanzadas", "Python", "Diseño de Bases de Datos", "Optimización de Consultas"],
+      verified: true,
+      type: "academic"
     }
   ],
 
   projects: [
     {
       id: "vale-combustible",
-      title: "Continental Motores — Sistema de Vales de Combustible",
-      description: "Aplicación web full-stack para gestión de vales de combustible de flota — autenticación, flujos de aprobación, reportes de uso",
-      impact: "Eliminó el proceso manual en papel; las aprobaciones ahora toman minutos en lugar de días",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"],
+      title: "Continental Motores — Vales de Combustible",
+      description: "Sistema full-stack de gestión de vales de combustible para empresa de flota vehicular. Incluye autenticación, generación de vales, flujos de aprobación multinivel y reportes de uso. Desplegado en Cloudflare Pages con CI/CD sin tiempo de inactividad.",
+      impact: "Eliminó el proceso de vales en papel — las aprobaciones bajaron de días a minutos",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Cloudflare Pages", "Vite", "Authentication"],
       role: "Desarrollador Full-Stack",
       duration: "En curso",
-      teamSize: "Individual"
+      teamSize: "Individual",
+      category: "web",
+      links: { github: "https://github.com/garciajuni20/Continental-Motores-Vales-Combustible", live: "https://continental-motores-vales-combustible.pages.dev/login" },
+      featured: true,
+      gradient: "from-orange-500 to-red-500"
     },
     {
-      id: "flowber",
+      id: "flowber-barberia",
       title: "Flowber — Plataforma Digital de Barbería",
-      description: "Plataforma de reservas en línea y gestión de negocio para una barbería",
-      impact: "Digitalizó la agenda — redujo inasistencias y eliminó las reservas telefónicas",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Cloudflare Pages"],
+      description: "Plataforma serverless de reservas y gestión de negocio: control de acceso de 3 roles (cliente/barbero/admin) con RLS de Postgres, citas en tiempo real, notificaciones multicanal (WhatsApp, Telegram, Email), asistente de chat según rol, e-commerce y capa de BI con vistas SQL de ingresos.",
+      impact: "Digitalizó la agenda de punta a punta — eliminó las reservas telefónicas",
+      technologies: ["React", "TypeScript", "Supabase", "PostgreSQL", "Edge Functions", "Cloudflare Pages"],
       role: "Desarrollador Full-Stack & Diseñador",
       duration: "En curso",
-      teamSize: "Individual"
+      teamSize: "Individual",
+      category: "web",
+      links: { github: "https://github.com/garciajuni20/flowber-barberia", live: "https://flowber-barberia.pages.dev/" },
+      featured: true,
+      gradient: "from-violet-500 to-indigo-600"
+    },
+    {
+      id: "portfolio",
+      title: "Este Portafolio — CV Interactivo",
+      description: "Portafolio en React + TypeScript con soporte bilingüe (EN/ES), modo oscuro/claro, medidores animados, filtros por etiqueta, generación dinámica de PDFs y auto-despliegue a GitHub Pages vía GitHub Actions.",
+      impact: "Demuestra pensamiento de producto full-stack — este sitio ES el propio artefacto del portafolio",
+      technologies: ["React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion", "GitHub Actions", "Vite", "@react-pdf/renderer"],
+      role: "Desarrollador Full-Stack & Diseñador",
+      duration: "3 semanas",
+      teamSize: "Individual",
+      category: "web",
+      links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" },
+      featured: true,
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      id: "snowflake-data-layer",
+      title: "Capa de Datos Analítica en Snowflake",
+      description: "Diseñé y construí la arquitectura completa de datos en Snowflake para Alleviate Financial Solutions — modelos en esquema estrella, vistas analíticas y transformaciones SQL optimizadas que alimentan dashboards de Power BI y Tableau en 5 departamentos.",
+      impact: "Elevó la precisión de datos del 85% al 99.5% — se convirtió en la fuente de verdad de la empresa",
+      technologies: ["Snowflake", "SQL", "Star Schema", "Data Modeling", "ETL", "dbt", "Data Validation"],
+      role: "Ingeniero de Datos Líder / Analista BI",
+      duration: "14+ meses",
+      teamSize: "Individual (colaboración entre departamentos)",
+      category: "data",
+      featured: true,
+      gradient: "from-blue-600 to-blue-700"
+    },
+    {
+      id: "bi-dashboard-suite",
+      title: "Suite de Dashboards Financieros",
+      description: "Suite integral de dashboards en Power BI y Tableau para reportes financieros y operativos en Alleviate Financial Solutions. Visualización en tiempo real, seguimiento de KPIs, análisis de tendencias y reportes PDF automatizados.",
+      impact: "Redujo el ciclo de reportes de 2+ días a menos de 30 minutos — 15+ dashboards en producción",
+      technologies: ["Power BI", "Tableau", "DAX", "Power Query", "Snowflake", "SQL"],
+      role: "Desarrollador BI",
+      duration: "14+ meses",
+      teamSize: "2 analistas + stakeholders de EE. UU.",
+      category: "data",
+      featured: false,
+      gradient: "from-emerald-500 to-teal-600"
+    },
+    {
+      id: "fortran-peg-parser",
+      title: "FortranPEG — Generador de Parsers",
+      description: "Generador de parsers para Fortran usando PEG (Parsing Expression Grammar) y análisis descendente recursivo. Incluye un IDE web para pruebas de gramática. Disponible en GitHub Pages.",
+      impact: "Implementación completa de gramática Fortran con entorno interactivo de pruebas en vivo",
+      technologies: ["JavaScript", "PEG Parsers", "Svelte", "Compiler Theory", "Recursive Descent"],
+      role: "Desarrollador — Grupo 8, Compiladores 2",
+      duration: "1 mes",
+      teamSize: "3 estudiantes",
+      category: "academic",
+      links: { github: "https://github.com/garciajuni20/G8_Fase2_FortranPEG", live: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/" },
+      featured: true,
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      id: "compilers-phase1",
+      title: "Compiladores 2 — Fase 1 (App Svelte)",
+      description: "Fase 1 del proyecto de Compiladores 2 — interfaz web de compilador con análisis léxico, tokenización y etapas tempranas de parsing.",
+      impact: "Base sólida en teoría de front-end de compiladores aplicada a una implementación funcional",
+      technologies: ["JavaScript", "Svelte", "Lexical Analysis", "Tokenization"],
+      role: "Desarrollador — Grupo 8",
+      duration: "3 semanas",
+      teamSize: "3 estudiantes",
+      category: "academic",
+      links: { github: "https://github.com/garciajuni20/Compi2_Grupo8" },
+      featured: false,
+      gradient: "from-rose-500 to-pink-500"
+    },
+    {
+      id: "bd2-suficiencia",
+      title: "Bases de Datos Avanzadas — Suficiencia BD2",
+      description: "Proyecto avanzado de bases de datos en Python para el examen de suficiencia BD2 en la USAC. Cubre optimización de consultas, estrategias de indexación y diseño complejo de esquemas.",
+      impact: "Aplicó teoría avanzada de bases de datos a un entregable real y calificado",
+      technologies: ["Python", "Advanced SQL", "Database Design", "Query Optimization", "Indexing"],
+      role: "Estudiante — Ingeniería en Sistemas, USAC",
+      duration: "2 semanas",
+      teamSize: "Individual",
+      category: "academic",
+      links: { github: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202" },
+      featured: false,
+      gradient: "from-amber-500 to-orange-500"
+    },
+    {
+      id: "docker-workshop",
+      title: "Docker & Infraestructura Cloud-Native",
+      description: "Contenedorización, Docker Compose, fundamentos de Kubernetes y diseño de pipelines CI/CD — completado en el taller de la comunidad Cloud-Native + GT.",
+      impact: "Habilidades prácticas de contenedorización aplicadas a flujos de trabajo DevOps reales",
+      technologies: ["Docker", "Docker Compose", "Kubernetes", "CI/CD", "Microservices", "GitHub Actions"],
+      role: "Participante / Desarrollador",
+      duration: "1 semana",
+      teamSize: "Taller comunitario",
+      category: "cloud",
+      links: { github: "https://github.com/garciajuni20/taller-docker" },
+      featured: false,
+      gradient: "from-sky-500 to-blue-600"
     }
   ],
 
@@ -208,10 +334,45 @@ export const profileES = {
 
   metrics: {
     yearsExperience: 6,
+    yearsBI: 2,
+    dashboardsDelivered: 15,
+    sqlModels: 20,
+    kpisTracked: 20,
+    liveApps: 3,
     projectsCompleted: 20,
     technologies: 18,
-    certifications: 4,
+    certifications: 5,
     clientsServed: 8,
     dataProcessed: "100+ TB"
-  }
-} as const
+  },
+
+  testimonials: [
+    {
+      id: "diego-zea",
+      name: "Diego Zea",
+      role: "Business Intelligence Manager",
+      company: "Alleviate Financial Solutions",
+      text: "La capacidad de Khristian para transformar datos complejos y desordenados en insights claros y accionables ha sido notable. Sus implementaciones en Snowflake elevaron la precisión de nuestros reportes del 85% al 99.5% mientras reducían los tiempos de consulta a la mitad. No solo hizo el trabajo — construyó la base en la que todo el equipo ahora se apoya.",
+      relationship: "Gerente directo en Alleviate Financial Solutions",
+      rating: 5
+    },
+    {
+      id: "amit-bansod",
+      name: "Amit Bansod",
+      role: "Director of Analytics",
+      company: "Alleviate Financial Solutions",
+      text: "Los dashboards de Power BI de Khristian transformaron cómo nuestro equipo ejecutivo toma decisiones. La claridad y profundidad que aporta a los reportes financieros nos ha ahorrado incontables horas de análisis manual. Opera como un analista senior a pesar de su experiencia — motivado, autónomo y siempre enfocado en la calidad.",
+      relationship: "Director de Analytics en Alleviate Financial Solutions",
+      rating: 5
+    }
+  ],
+
+  skillCategories: [
+    { id: "data", title: "Ingeniería de Datos", skills: ["Snowflake", "SQL", "PostgreSQL", "MySQL", "Data Modeling", "ETL"], level: "advanced" },
+    { id: "bi", title: "Inteligencia de Negocios", skills: ["Power BI", "Tableau", "Data Analytics", "Dashboard Design", "KPI Metrics"], level: "advanced" },
+    { id: "cloud", title: "Cloud & DevOps", skills: ["GCP", "Kubernetes", "Docker", "CI/CD", "Infrastructure as Code"], level: "intermediate" },
+    { id: "dev", title: "Desarrollo Full-Stack", skills: ["React", "TypeScript", "Python", "REST APIs", "Tailwind CSS"], level: "intermediate" },
+    { id: "systems", title: "Arquitectura de Sistemas", skills: ["System Design", "Microservices", "API Design", "Scalability", "Performance"], level: "advanced" },
+    { id: "tools", title: "Herramientas de Desarrollo", skills: ["Git", "Docker Compose", "K8s Manifests", "Power Automate", "Power Apps"], level: "intermediate" }
+  ]
+} satisfies ProfileData

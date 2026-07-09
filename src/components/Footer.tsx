@@ -1,10 +1,13 @@
 import { useLang } from '../context/LanguageContext';
 import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import Container from './Container';
+import { profileEN } from '../data/profile-en';
 
 export default function Footer() {
   const { lang } = useLang();
   const currentYear = new Date().getFullYear();
+  const github = profileEN.links.find(l => l.label === 'GitHub')?.href ?? '#';
+  const linkedin = profileEN.links.find(l => l.label === 'LinkedIn')?.href ?? '#';
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -35,15 +38,15 @@ export default function Footer() {
 
           {/* Right */}
           <div className="flex items-center gap-5">
-            <a href="https://github.com/garciajuni20" target="_blank" rel="noopener noreferrer"
+            <a href={github} target="_blank" rel="noopener noreferrer"
               className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors" aria-label="GitHub">
               <Github className="h-5 w-5" />
             </a>
-            <a href="https://www.linkedin.com/in/khristian-garcia--/" target="_blank" rel="noopener noreferrer"
+            <a href={linkedin} target="_blank" rel="noopener noreferrer"
               className="text-neutral-500 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-400 transition-colors" aria-label="LinkedIn">
               <Linkedin className="h-5 w-5" />
             </a>
-            <a href="mailto:garciajuni20@gmail.com"
+            <a href={`mailto:${profileEN.email}`}
               className="text-neutral-500 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-400 transition-colors" aria-label="Email">
               <Mail className="h-5 w-5" />
             </a>

@@ -5,9 +5,12 @@ import ContactForm from '../components/ContactForm';
 import { Mail, Phone, MapPin, Clock, Linkedin, Github, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
+import { profileEN } from '../data/profile-en';
+import { profileES } from '../data/profile-es';
 
 export default function Contact() {
   const { lang } = useLang();
+  const profile = lang === 'en' ? profileEN : profileES;
 
   const t = lang === 'en'
     ? {
@@ -30,11 +33,11 @@ export default function Contact() {
       };
 
   const contactInfo = {
-    email: 'garciajuni20@gmail.com',
-    phone: '+502 5633 8735',
-    location: lang === 'en' ? 'Guatemala City, Guatemala' : 'Ciudad de Guatemala, Guatemala',
-    linkedin: 'https://linkedin.com/in/khristian-garcia--',
-    github: 'https://github.com/garciajuni20',
+    email: profile.email,
+    phone: profile.phone,
+    location: profile.location,
+    linkedin: profile.links.find(l => l.label === 'LinkedIn')?.href ?? '#',
+    github: profile.links.find(l => l.label === 'GitHub')?.href ?? '#',
   };
 
   useSEO({

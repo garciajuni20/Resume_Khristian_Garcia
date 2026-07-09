@@ -25,48 +25,29 @@ function getInitialTheme(): Theme {
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
-  const [isSystem, setIsSystem] = useState(false);
 
   useEffect(() => {
     applyThemeToDom(theme);
     localStorage.setItem('portfolio_theme', theme);
-    
+
     // Analytics
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'theme_switch', { theme });
-    }
+    window.gtag?.('event', 'theme_switch', { theme });
   }, [theme]);
 
+  // Follow the OS preference only while the user hasn't chosen a theme explicitly
   useEffect(() => {
+    if (localStorage.getItem('portfolio_theme')) return;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      if (isSystem) {
-        setThemeState(e.matches ? 'dark' : 'light');
-      }
-    };
-
+    const handleChange = (e: MediaQueryListEvent) => setThemeState(e.matches ? 'dark' : 'light');
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
-  }, [isSystem]);
+  }, []);
 
   const value = useMemo(
     () => ({
       theme,
-      setTheme: (t: Theme) => {
-        setThemeState(t);
-        setIsSystem(false);
-      },
-      toggleTheme: () => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
-        setThemeState(newTheme);
-        setIsSystem(false);
-      },
-      useSystemTheme: () => {
-        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
-        setThemeState(prefersDark ? 'dark' : 'light');
-        setIsSystem(true);
-      }
+      setTheme: (t: Theme) => setThemeState(t),
+      toggleTheme: () => setThemeState(theme === 'dark' ? 'light' : 'dark'),
     }),
     [theme]
   );
@@ -74,6 +55,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   const ctx = useContext(ThemeContext);
   if (!ctx) throw new Error('useTheme must be used within ThemeProvider');

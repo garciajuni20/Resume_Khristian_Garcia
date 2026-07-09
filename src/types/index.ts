@@ -1,6 +1,12 @@
 export type Lang = 'en' | 'es';
 export type Theme = 'light' | 'dark';
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 export interface ExperienceItem {
   id: string;
   role: string;
@@ -40,6 +46,7 @@ export interface CertificationItem {
   url?: string;
   skills: string[];
   verified?: boolean;
+  type: 'professional' | 'academic' | 'training';
 }
 
 export interface LanguageItem {
@@ -47,6 +54,8 @@ export interface LanguageItem {
   level: string;
   proficiency: number;
 }
+
+export type ProjectCategory = 'data' | 'web' | 'cloud' | 'architecture' | 'academic';
 
 export interface ProjectItem {
   id: string;
@@ -57,6 +66,27 @@ export interface ProjectItem {
   role: string;
   duration: string;
   teamSize: string;
+  category: ProjectCategory;
+  links?: { github?: string; live?: string };
+  featured?: boolean;
+  gradient?: string;
+}
+
+export interface TestimonialItem {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  text: string;
+  relationship: string;
+  rating: number;
+}
+
+export interface SkillCategoryItem {
+  id: 'data' | 'bi' | 'cloud' | 'dev' | 'systems' | 'tools';
+  title: string;
+  skills: string[];
+  level: 'advanced' | 'intermediate' | 'beginner';
 }
 
 export interface Tools {
@@ -69,6 +99,11 @@ export interface Tools {
 
 export interface Metrics {
   yearsExperience: number;
+  yearsBI: number;
+  dashboardsDelivered: number;
+  sqlModels: number;
+  kpisTracked: number;
+  liveApps: number;
   projectsCompleted: number;
   technologies: number;
   certifications: number;
@@ -84,17 +119,19 @@ export interface ProfileData {
   phone: string;
   summary: string;
   photoUrl: string;
-  resumePdfPath: string;
   links: LinkItem[];
   badges: string[];
+  keyAchievements: string[];
   experience: ExperienceItem[];
   skills: SkillItem[];
   education: EducationItem[];
-  certifications?: CertificationItem[];
-  projects?: ProjectItem[];
-  languages?: LanguageItem[];
-  tools?: Tools;
-  metrics?: Metrics;
+  certifications: CertificationItem[];
+  projects: ProjectItem[];
+  languages: LanguageItem[];
+  tools: Tools;
+  metrics: Metrics;
+  testimonials: TestimonialItem[];
+  skillCategories: SkillCategoryItem[];
   seo?: {
     title: string;
     description: string;

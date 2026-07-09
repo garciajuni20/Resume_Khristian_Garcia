@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLang } from '../context/LanguageContext';
 import { motion } from 'framer-motion';
-import { Layers, Database, Cpu, Network, Server, Cloud, Zap } from 'lucide-react';
+import { Layers, Database, Cpu, Cloud, Zap } from 'lucide-react';
 
 export default function ArchitectureDiagram() {
   const { lang } = useLang();

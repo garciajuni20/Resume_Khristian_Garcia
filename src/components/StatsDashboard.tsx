@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Database, BarChart3, Clock, Code, Layers, TrendingUp } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import { useLang } from '../context/LanguageContext';
+import { profileEN } from '../data/profile-en';
+import { profileES } from '../data/profile-es';
 
 function useCountUp(end: number, duration = 1800) {
   const [count, setCount] = useState(0);
@@ -10,14 +12,16 @@ function useCountUp(end: number, duration = 1800) {
 
   useEffect(() => {
     if (!inView) return;
-    let start = 0;
-    const step = end / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= end) { setCount(end); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, 16);
-    return () => clearInterval(timer);
+    let rafId: number;
+    let startTime: number | null = null;
+    const tick = (now: number) => {
+      if (startTime === null) startTime = now;
+      const progress = Math.min((now - startTime) / duration, 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [inView, end, duration]);
 
   return { count, ref };
@@ -50,12 +54,14 @@ export default function StatsDashboard() {
     description: 'Impacto cuantificado del trabajo real en Alleviate Financial Solutions y proyectos en vivo'
   };
 
-  const { count: techYears, ref: r1 } = useCountUp(6);
-  const { count: biYears, ref: r2 } = useCountUp(2);
-  const { count: dashboards, ref: r3 } = useCountUp(15);
-  const { count: models, ref: r4 } = useCountUp(20);
-  const { count: kpis, ref: r5 } = useCountUp(20);
-  const { count: apps, ref: r6 } = useCountUp(3);
+  const m = (lang === 'en' ? profileEN : profileES).metrics;
+
+  const { count: techYears, ref: r1 } = useCountUp(m.yearsExperience);
+  const { count: biYears, ref: r2 } = useCountUp(m.yearsBI);
+  const { count: dashboards, ref: r3 } = useCountUp(m.dashboardsDelivered);
+  const { count: models, ref: r4 } = useCountUp(m.sqlModels);
+  const { count: kpis, ref: r5 } = useCountUp(m.kpisTracked);
+  const { count: apps, ref: r6 } = useCountUp(m.liveApps);
 
   const metrics = [
     { ref: r1, value: techYears, suffix: '+', label: t.yearsTech, icon: <Clock className="h-5 w-5" />, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useLang } from '../context/LanguageContext';
 
 type Props = {
   name: string;
@@ -23,6 +24,7 @@ function getLevelLabel(level: number, lang?: string): string {
 }
 
 export default function SkillMeter({ name, level }: Props) {
+  const { lang } = useLang();
   const safe = Math.max(0, Math.min(100, level));
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
@@ -35,7 +37,7 @@ export default function SkillMeter({ name, level }: Props) {
       <div className="flex items-center justify-between gap-3 mb-3">
         <div className="font-medium text-neutral-900 dark:text-neutral-100 text-sm">{name}</div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-400 dark:text-neutral-500">{getLevelLabel(safe)}</span>
+          <span className="text-xs text-neutral-400 dark:text-neutral-500">{getLevelLabel(safe, lang)}</span>
           <span className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">{safe}%</span>
         </div>
       </div>

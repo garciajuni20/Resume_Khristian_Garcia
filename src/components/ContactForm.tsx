@@ -81,17 +81,6 @@ export default function ContactForm() {
     setStatus('loading');
     
     try {
-      // Usando EmailJS (gratuito) - Necesitarás crear una cuenta y obtener credenciales
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_email: 'garciajuni20@gmail.com',
-        reply_to: formData.email
-      };
-      
-      // Alternativa:  (también gratis)
       const response = await fetch('https://formspree.io/f/meezgvoq', {
         method: 'POST',
         headers: {
@@ -159,6 +148,8 @@ export default function ContactForm() {
               value={formData.name}
               onChange={(e) => handleChange('name', e.target.value)}
               placeholder={t.placeholderName}
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? 'name-error' : undefined}
               className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.name
                   ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
@@ -167,7 +158,7 @@ export default function ContactForm() {
               disabled={status === 'loading'}
             />
             {errors.name && (
-              <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.name}</p>
+              <p id="name-error" className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.name}</p>
             )}
           </div>
 
@@ -181,6 +172,8 @@ export default function ContactForm() {
               value={formData.email}
               onChange={(e) => handleChange('email', e.target.value)}
               placeholder={t.placeholderEmail}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? 'email-error' : undefined}
               className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.email
                   ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
@@ -189,7 +182,7 @@ export default function ContactForm() {
               disabled={status === 'loading'}
             />
             {errors.email && (
-              <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.email}</p>
+              <p id="email-error" className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.email}</p>
             )}
           </div>
         </div>
@@ -204,6 +197,8 @@ export default function ContactForm() {
             value={formData.subject}
             onChange={(e) => handleChange('subject', e.target.value)}
             placeholder={t.placeholderSubject}
+            aria-invalid={!!errors.subject}
+            aria-describedby={errors.subject ? 'subject-error' : undefined}
             className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
               errors.subject
                 ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
@@ -212,7 +207,7 @@ export default function ContactForm() {
             disabled={status === 'loading'}
           />
           {errors.subject && (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.subject}</p>
+            <p id="subject-error" className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.subject}</p>
           )}
         </div>
 
@@ -226,6 +221,8 @@ export default function ContactForm() {
             onChange={(e) => handleChange('message', e.target.value)}
             placeholder={t.placeholderMessage}
             rows={4}
+            aria-invalid={!!errors.message}
+            aria-describedby={errors.message ? 'message-error' : undefined}
             className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 resize-none ${
               errors.message
                 ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
@@ -234,7 +231,7 @@ export default function ContactForm() {
             disabled={status === 'loading'}
           />
           {errors.message && (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.message}</p>
+            <p id="message-error" className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.message}</p>
           )}
         </div>
 

@@ -176,11 +176,11 @@ export function CVCreative({ data, lang }: Props) {
             {/* Key metrics */}
             <View style={styles.metricsRow}>
               <View style={styles.metricBox}>
-                <Text style={styles.metricValue}>6+</Text>
+                <Text style={styles.metricValue}>{data.metrics.yearsExperience}+</Text>
                 <Text style={styles.metricLabel}>{isEN ? 'Years in Tech' : 'Años en Tech'}</Text>
               </View>
               <View style={styles.metricBox}>
-                <Text style={styles.metricValue}>15+</Text>
+                <Text style={styles.metricValue}>{data.metrics.dashboardsDelivered}+</Text>
                 <Text style={styles.metricLabel}>{isEN ? 'Dashboards' : 'Dashboards'}</Text>
               </View>
               <View style={styles.metricBox}>

@@ -23,28 +23,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.lang = lang;
   }, [lang]);
 
-  const value = useMemo(() => ({
-    lang,
-    setLang: (newLang: Lang) => {
+  const value = useMemo(() => {
+    const switchLang = (newLang: Lang) => {
       setLangState(newLang);
-      // Analytics event
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'language_switch', {
-          language: newLang
-        });
-      }
-    },
-    toggle: () => {
-      const newLang = lang === 'en' ? 'es' : 'en';
-      setLangState(newLang);
-      // Analytics event
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'language_switch', {
-          language: newLang
-        });
-      }
-    }
-  }), [lang]);
+      window.gtag?.('event', 'language_switch', { language: newLang });
+    };
+    return {
+      lang,
+      setLang: switchLang,
+      toggle: () => switchLang(lang === 'en' ? 'es' : 'en'),
+    };
+  }, [lang]);
 
   return (
     <LanguageContext.Provider value={value}>
@@ -53,6 +42,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLang() {
   const context = useContext(LanguageContext);
   if (!context) {

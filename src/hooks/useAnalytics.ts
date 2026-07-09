@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
 import { Lang } from '../types';
 
 export const useAnalytics = () => {
-  const trackEvent = (eventName: string, data?: Record<string, any>) => {
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', eventName, data);
-    }
-    
+  const trackEvent = (eventName: string, data?: Record<string, unknown>) => {
+    window.gtag?.('event', eventName, data);
+
     // Log para desarrollo
-    console.log(`[Analytics] ${eventName}`, data);
+    if (import.meta.env.DEV) {
+      console.log(`[Analytics] ${eventName}`, data);
+    }
   };
 
   const trackPageView = (pagePath: string) => {
