@@ -189,6 +189,7 @@ export default function Home() {
         ctaSecondary: 'See Projects',
         liveProjects: 'Live Projects',
         viewAll: 'View all projects',
+        caseStudy: 'Case Study',
         highlights: [
           'Built BI from scratch at Alleviate Financial Solutions',
           'Raised data accuracy from 85% → 99.5% with Snowflake',
@@ -218,6 +219,7 @@ export default function Home() {
         ctaSecondary: 'Ver Proyectos',
         liveProjects: 'Proyectos en Vivo',
         viewAll: 'Ver todos los proyectos',
+        caseStudy: 'Caso de Estudio',
         highlights: [
           'Construí el área de BI desde cero en Alleviate Financial Solutions',
           'Elevé la precisión de datos del 85% → 99.5% con Snowflake',
@@ -507,6 +509,14 @@ export default function Home() {
                       </div>
 
                       <div className="mt-4 flex gap-2">
+                        {project.caseStudyPath && (
+                          <Link
+                            to={project.caseStudyPath}
+                            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-violet-600 px-3 py-2 text-xs font-semibold text-white hover:bg-violet-700 transition-colors shadow-sm shadow-violet-500/25"
+                          >
+                            {t.caseStudy}
+                          </Link>
+                        )}
                         <a
                           href={project.links?.github}
                           target="_blank"

@@ -10,6 +10,7 @@ import ScrollProgress from './components/ScrollProgress';
 const Home = lazy(() => import('./pages/Home'));
 const Resume = lazy(() => import('./pages/Resume'));
 const Projects = lazy(() => import('./pages/Projects'));
+const FlowberCaseStudy = lazy(() => import('./pages/FlowberCaseStudy'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -30,6 +31,7 @@ function AnimatedRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/flowber" element={<FlowberCaseStudy />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

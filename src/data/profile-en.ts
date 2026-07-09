@@ -218,7 +218,8 @@ export const profileEN = {
       category: "web",
       links: { github: "https://github.com/garciajuni20/flowber-barberia", live: "https://flowber-barberia.pages.dev/" },
       featured: true,
-      gradient: "from-violet-500 to-indigo-600"
+      gradient: "from-violet-500 to-indigo-600",
+      caseStudyPath: "/projects/flowber"
     },
     {
       id: "portfolio",

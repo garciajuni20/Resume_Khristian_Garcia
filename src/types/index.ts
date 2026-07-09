@@ -70,6 +70,8 @@ export interface ProjectItem {
   links?: { github?: string; live?: string };
   featured?: boolean;
   gradient?: string;
+  /** Internal route to a dedicated case-study page */
+  caseStudyPath?: string;
 }
 
 export interface TestimonialItem {

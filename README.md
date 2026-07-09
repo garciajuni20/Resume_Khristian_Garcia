@@ -206,6 +206,13 @@ Consistent code formatting
 
 Comprehensive component documentation
 
+### 📈 Enabling Google Analytics (GA4)
+Analytics hooks (`useAnalytics`, event tracking on downloads/filters/theme/language) are already wired but dormant. To activate:
+
+1. Create a GA4 property at [analytics.google.com](https://analytics.google.com) and copy your Measurement ID (`G-XXXXXXXXXX`).
+2. In `index.html`, uncomment the Google Analytics snippet and replace `G-XXXXXXXXXX` with your real ID.
+3. Deploy — all existing `trackEvent` calls start reporting automatically.
+
 ### 🔧 Customization
 To customize this portfolio with your information:
 
