@@ -9,7 +9,11 @@ import {
 } from '@react-pdf/renderer';
 import type { ProfileData } from '../types';
 
-const BASE = import.meta.env.BASE_URL; // e.g. /Resume_Khristian_Garcia/
+// Font base: Vite's BASE_URL in the browser; PDF_ASSET_BASE (local path) when
+// rendered from Node (scripts/generate-pdfs.tsx)
+const nodeBase = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+  .process?.env?.PDF_ASSET_BASE;
+const BASE = nodeBase ?? import.meta.env?.BASE_URL ?? '/'; // e.g. /Resume_Khristian_Garcia/
 
 Font.register({
   family: 'Inter',

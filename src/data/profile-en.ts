@@ -47,7 +47,7 @@ export const profileEN = {
       role: "Business Intelligence Analyst / Data Analyst",
       start: "2024-12",
       end: "present",
-      location: "Remote (Guatemala → US)",
+      location: "Remote (Guatemala / US)",
       tags: ["BI", "Snowflake", "Power BI", "SQL", "Tableau", "Data Modeling"],
       bullets: [
         "Architect and maintain analytical layers in Snowflake — tables, views, and data models queried across all 5 business departments.",
@@ -64,7 +64,7 @@ export const profileEN = {
       role: "Business Intelligence Analyst Jr",
       start: "2023-11",
       end: "2024-12",
-      location: "Remote (Guatemala → US)",
+      location: "Remote (Guatemala / US)",
       tags: ["BI", "SQL", "Reporting", "Data Analysis"],
       bullets: [
         "First BI hire in Guatemala for the Alleviate Financial Solutions account — built the function from zero.",

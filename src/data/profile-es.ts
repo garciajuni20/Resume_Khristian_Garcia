@@ -47,7 +47,7 @@ export const profileES = {
       role: "Analista de Inteligencia de Negocios / Analista de Datos",
       start: "2024-12",
       end: "present",
-      location: "Remoto (Guatemala → EE. UU.)",
+      location: "Remoto (Guatemala / EE. UU.)",
       tags: ["BI", "Snowflake", "Power BI", "SQL", "Tableau", "Modelado de Datos"],
       bullets: [
         "Diseño y mantengo las capas analíticas en Snowflake — tablas, vistas y modelos de datos consultados en los 5 departamentos de la empresa.",
@@ -64,7 +64,7 @@ export const profileES = {
       role: "Analista de Inteligencia de Negocios Jr",
       start: "2023-11",
       end: "2024-12",
-      location: "Remoto (Guatemala → EE. UU.)",
+      location: "Remoto (Guatemala / EE. UU.)",
       tags: ["BI", "SQL", "Reporting", "Análisis de Datos"],
       bullets: [
         "Primera contratación de BI en Guatemala para la cuenta de Alleviate Financial Solutions — construí la función desde cero.",
