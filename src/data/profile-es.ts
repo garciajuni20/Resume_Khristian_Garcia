@@ -165,56 +165,6 @@ export const profileES = {
     }
   ],
 
-  certifications: [
-    {
-      id: "snowflake-fundamentals",
-      title: "Fundamentos de Snowflake",
-      issuer: "Snowflake Inc.",
-      date: "2024-06",
-      skills: ["Snowflake", "Data Warehousing", "SQL", "Almacenes Virtuales", "Clustering"],
-      verified: true,
-      type: "professional"
-    },
-    {
-      id: "power-bi-analytics",
-      title: "Power BI Data Analytics",
-      issuer: "Microsoft",
-      date: "2024-03",
-      skills: ["Power BI", "DAX", "Power Query", "Modelado de Datos", "Diseño de Dashboards"],
-      verified: true,
-      type: "professional"
-    },
-    {
-      id: "docker-cloud-native",
-      title: "Taller Docker & Contenedores Cloud-Native",
-      issuer: "Comunidad Cloud-Native + GT",
-      date: "2025-08",
-      url: "https://github.com/garciajuni20/taller-docker",
-      skills: ["Docker", "Contenedores", "Kubernetes", "Microservicios", "DevOps"],
-      verified: true,
-      type: "training"
-    },
-    {
-      id: "usac-compilers",
-      title: "Compiladores 2 — Parsers PEG y Diseño de Lenguajes",
-      issuer: "USAC — Escuela de Ciencias y Sistemas",
-      date: "2024-12",
-      url: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/",
-      skills: ["Parsers PEG", "JavaScript", "Svelte", "Teoría de Compiladores", "Gramáticas Formales"],
-      verified: true,
-      type: "academic"
-    },
-    {
-      id: "usac-bd2",
-      title: "Bases de Datos Avanzadas — Suficiencia BD2",
-      issuer: "USAC — Escuela de Ciencias y Sistemas",
-      date: "2026-01",
-      url: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202",
-      skills: ["Bases de Datos Avanzadas", "Python", "Diseño de Bases de Datos", "Optimización de Queries"],
-      verified: true,
-      type: "academic"
-    }
-  ],
 
   projects: [
     {
@@ -386,7 +336,6 @@ export const profileES = {
     liveApps: 3,
     projectsCompleted: 20,
     technologies: 20,
-    certifications: 5,
     clientsServed: 8,
     dataProcessed: "100+ TB"
   },

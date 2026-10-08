@@ -111,7 +111,7 @@ export interface Metrics {
   liveApps: number;
   projectsCompleted: number;
   technologies: number;
-  certifications: number;
+  certifications?: number;
   clientsServed: number;
   dataProcessed: string;
 }
@@ -130,7 +130,7 @@ export interface ProfileData {
   experience: ExperienceItem[];
   skills: SkillItem[];
   education: EducationItem[];
-  certifications: CertificationItem[];
+  certifications?: CertificationItem[];
   projects: ProjectItem[];
   languages: LanguageItem[];
   tools: Tools;

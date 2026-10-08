@@ -165,56 +165,6 @@ export const profileEN = {
     }
   ],
 
-  certifications: [
-    {
-      id: "snowflake-fundamentals",
-      title: "Snowflake Fundamentals",
-      issuer: "Snowflake Inc.",
-      date: "2024-06",
-      skills: ["Snowflake", "Data Warehousing", "SQL", "Virtual Warehouses", "Clustering"],
-      verified: true,
-      type: "professional"
-    },
-    {
-      id: "power-bi-analytics",
-      title: "Power BI Data Analytics",
-      issuer: "Microsoft",
-      date: "2024-03",
-      skills: ["Power BI", "DAX", "Power Query", "Data Modeling", "Dashboard Design"],
-      verified: true,
-      type: "professional"
-    },
-    {
-      id: "docker-cloud-native",
-      title: "Docker & Cloud-Native Containers Workshop",
-      issuer: "Cloud-Native + GT Community",
-      date: "2025-08",
-      url: "https://github.com/garciajuni20/taller-docker",
-      skills: ["Docker", "Containers", "Kubernetes", "Microservices", "DevOps"],
-      verified: true,
-      type: "training"
-    },
-    {
-      id: "usac-compilers",
-      title: "Compilers 2 — PEG Parsers & Language Design",
-      issuer: "USAC — School of Systems Engineering",
-      date: "2024-12",
-      url: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/",
-      skills: ["PEG Parsers", "JavaScript", "Svelte", "Compiler Theory", "Formal Grammars"],
-      verified: true,
-      type: "academic"
-    },
-    {
-      id: "usac-bd2",
-      title: "Advanced Databases — BD2 Sufficiency",
-      issuer: "USAC — School of Systems Engineering",
-      date: "2026-01",
-      url: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202",
-      skills: ["Advanced Databases", "Python", "Database Design", "Query Optimization"],
-      verified: true,
-      type: "academic"
-    }
-  ],
 
   projects: [
     {
@@ -386,7 +336,6 @@ export const profileEN = {
     liveApps: 3,
     projectsCompleted: 20,
     technologies: 20,
-    certifications: 5,
     clientsServed: 8,
     dataProcessed: "100+ TB"
   },

@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
   expBlock: { marginBottom: 10 },
   skillLine: { fontSize: 9, marginBottom: 2 },
   certLine: { fontSize: 9, marginBottom: 3 },
-  note: { fontSize: 8, color: '#555555', marginTop: 2 },
 });
 
 interface Props {
@@ -49,7 +48,7 @@ export function CVATS({ data, lang }: Props) {
     <Document
       title={`${data.name} — ${isEN ? 'Resume' : 'CV'} (ATS)`}
       author={data.name}
-      subject={`${data.name} — ATS-optimized ${isEN ? 'resume' : 'CV'}`}
+      subject={`${data.name} — ${data.headline}`}
     >
       <Page size="A4" style={styles.page}>
         {/* Header */}
@@ -127,7 +126,7 @@ export function CVATS({ data, lang }: Props) {
         ))}
 
         {/* Certifications */}
-        {data.certifications && (
+        {data.certifications && data.certifications.length > 0 && (
           <>
             <Text style={styles.sectionTitle}>{isEN ? 'Certifications' : 'Certificaciones'}</Text>
             {data.certifications.map(cert => (
@@ -147,12 +146,6 @@ export function CVATS({ data, lang }: Props) {
             ))}
           </>
         )}
-
-        <Text style={styles.note}>
-          {isEN
-            ? 'ATS-optimized resume. References available upon request.'
-            : 'CV optimizado para sistemas ATS. Referencias disponibles a solicitud.'}
-        </Text>
       </Page>
     </Document>
   );

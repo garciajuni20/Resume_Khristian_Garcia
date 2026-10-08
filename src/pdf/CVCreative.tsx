@@ -301,7 +301,7 @@ export function CVCreative({ data, lang }: Props) {
             )}
 
             {/* Certifications */}
-            {data.certifications && (
+            {data.certifications && data.certifications.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>{isEN ? 'Certifications' : 'Certificaciones'}</Text>
                 {data.certifications.slice(0, 3).map(cert => (
