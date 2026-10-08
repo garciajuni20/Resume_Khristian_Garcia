@@ -15,6 +15,9 @@ export const profileEN = {
   summary:
     "Data Engineer and BI Analyst with 7+ years across cloud data platforms, analytics, and production operations. I built the analytics platform from scratch for Alleviate Financial Solutions (US fintech) — Snowflake modeling, role profiling and query/stored-procedure optimization, dbt and ETL/ELT pipelines, Azure Data Factory orchestration across Azure and GCP, Databricks, and Salesforce/CRM-to-Snowflake integrations — raising data accuracy from 85% to 99.5% and cutting the financial reporting cycle from 2+ days to under 30 minutes. I lead data projects from inception to completion with US-based finance and operations stakeholders, automate processes with Python, SQL, and Selenium, and design, deploy, and scale REST APIs and dockerized apps. Since January 2024 I have also architected and built Flowber end-to-end as full-stack engineer: a production platform on PostgreSQL/Supabase with an LLM assistant grounded in live business data (RAG through RLS-scoped tool calls) and 18 automated workflows. Systems Engineering at USAC — all coursework completed May 2026.",
 
+  summaryShort:
+    "Data Engineer and BI Analyst with 7+ years building cloud data platforms. I built the analytics platform from scratch for Alleviate Financial Solutions (US fintech) — Snowflake modeling, role profiling and query optimization, dbt and ETL/ELT pipelines, Azure Data Factory orchestration across Azure and GCP, Databricks, and Salesforce-to-Snowflake integrations — raising data accuracy from 85% to 99.5% and cutting the financial reporting cycle from 2+ days to under 30 minutes. I lead data projects from inception to completion with US-based stakeholders, automate processes with Python, SQL, and Selenium, and design and scale REST APIs and dockerized apps.",
+
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "LLM / RAG", "Bilingual EN/ES"],
 
   keyAchievements: [

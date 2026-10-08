@@ -123,6 +123,8 @@ export interface ProfileData {
   email: string;
   phone: string;
   summary: string;
+  /** Tighter 3-sentence version used by the PDF templates; falls back to `summary` */
+  summaryShort?: string;
   photoUrl: string;
   links: LinkItem[];
   badges: string[];
