@@ -21,6 +21,7 @@ export interface ExperienceItem {
 export interface SkillItem {
   name: string;
   level: number;
+  years?: number;
 }
 
 export interface EducationItem {
@@ -28,6 +29,8 @@ export interface EducationItem {
   degree: string;
   area: string;
   end: string;
+  /** Explicit completion wording (e.g. coursework closed) shown instead of the generic "Expected" label */
+  status?: string;
   highlights?: string[];
 }
 
@@ -85,7 +88,7 @@ export interface TestimonialItem {
 }
 
 export interface SkillCategoryItem {
-  id: 'data' | 'bi' | 'cloud' | 'dev' | 'systems' | 'tools';
+  id: 'ba' | 'data' | 'bi' | 'integration' | 'ai' | 'docs' | 'tech';
   title: string;
   skills: string[];
   level: 'advanced' | 'intermediate' | 'beginner';

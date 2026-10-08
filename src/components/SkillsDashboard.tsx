@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import {
   Database,
-  Cloud,
   BarChart3,
   Code2,
-  Server,
+  Workflow,
+  ClipboardList,
+  FileText,
   Container,
-  Workflow
+  Sparkles
 } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
@@ -14,12 +15,13 @@ import { profileES } from '../data/profile-es';
 import type { SkillCategoryItem } from '../types';
 
 const categoryIcons: Record<SkillCategoryItem['id'], React.ReactNode> = {
+  ba: <ClipboardList className="h-5 w-5" aria-hidden="true" />,
   data: <Database className="h-5 w-5" aria-hidden="true" />,
   bi: <BarChart3 className="h-5 w-5" aria-hidden="true" />,
-  cloud: <Cloud className="h-5 w-5" aria-hidden="true" />,
-  dev: <Code2 className="h-5 w-5" aria-hidden="true" />,
-  systems: <Server className="h-5 w-5" aria-hidden="true" />,
-  tools: <Workflow className="h-5 w-5" aria-hidden="true" />,
+  integration: <Workflow className="h-5 w-5" aria-hidden="true" />,
+  ai: <Sparkles className="h-5 w-5" aria-hidden="true" />,
+  docs: <FileText className="h-5 w-5" aria-hidden="true" />,
+  tech: <Code2 className="h-5 w-5" aria-hidden="true" />,
 };
 
 export default function SkillsDashboard() {

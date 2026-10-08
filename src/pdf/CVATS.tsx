@@ -112,7 +112,9 @@ export function CVATS({ data, lang }: Props) {
           <View key={i} style={{ marginBottom: 6 }}>
             <View style={styles.expHeader}>
               <Text style={styles.expTitle}>{edu.degree} — {edu.area}</Text>
-              <Text style={styles.expDate}>{edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : edu.end}</Text>
+              <Text style={styles.expDate}>
+                {edu.status ?? (edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : edu.end)}
+              </Text>
             </View>
             <Text style={styles.expCompany}>{edu.institution}</Text>
             {(edu.highlights ?? []).slice(0, 2).map((h, hi) => (

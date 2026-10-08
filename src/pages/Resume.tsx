@@ -27,7 +27,7 @@ export default function ResumePage() {
   const labels = lang === 'en'
     ? {
         pageTitle: 'Interactive Resume',
-        subtitle: 'Product-style resume demonstrating full-stack mindset — UI + data + structure.',
+        subtitle: 'Product-style resume showing how I build data platforms — pipelines, models, and the BI on top.',
         filterBy: 'Filter by',
         clear: 'Clear',
         skills: 'Skills Overview',
@@ -43,7 +43,7 @@ export default function ResumePage() {
       }
     : {
         pageTitle: 'CV Interactivo',
-        subtitle: 'CV estilo producto que demuestra mentalidad full-stack — UI + datos + estructura.',
+        subtitle: 'CV estilo producto que muestra cómo construyo plataformas de datos — pipelines, modelos y el BI encima.',
         filterBy: 'Filtrar por',
         clear: 'Limpiar',
         skills: 'Resumen de Habilidades',
@@ -62,7 +62,7 @@ export default function ResumePage() {
     title: labels.pageTitle,
     description: `${data.name} — ${data.headline}`,
     lang,
-    keywords: [...data.badges, 'CV', 'Resume', 'Portfolio', 'Data Analyst', 'Business Intelligence'],
+    keywords: [...data.badges, ...(data.seo?.keywords ?? []), 'CV', 'Resume', 'Portfolio'],
   });
 
   const allTags = useMemo(() => {
@@ -274,7 +274,7 @@ export default function ResumePage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.04 }}
                 >
-                  <SkillMeter name={skill.name} level={skill.level} />
+                  <SkillMeter name={skill.name} level={skill.level} years={skill.years} />
                 </motion.div>
               ))}
             </div>
@@ -333,7 +333,11 @@ export default function ResumePage() {
                   </div>
                   <div className="mt-1 flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
                     <Calendar className="h-3.5 w-3.5" />
-                    <span>{lang === 'en' ? 'Expected:' : 'Fin estimado:'} {edu.end === 'present' ? (lang === 'en' ? 'In Progress' : 'En Curso') : edu.end}</span>
+                    <span>
+                      {edu.status
+                        ? edu.status
+                        : `${lang === 'en' ? 'Expected:' : 'Fin estimado:'} ${edu.end === 'present' ? (lang === 'en' ? 'In Progress' : 'En Curso') : edu.end}`}
+                    </span>
                   </div>
                   {edu.highlights && edu.highlights.length > 0 && (
                     <ul className="mt-4 space-y-2">

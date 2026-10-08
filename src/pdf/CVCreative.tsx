@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Font,
   Link,
+  Image,
 } from '@react-pdf/renderer';
 import type { ProfileData } from '../types';
 
@@ -23,6 +24,14 @@ Font.register({
     { src: `${BASE}fonts/inter-bold.ttf`, fontWeight: 700 },
   ],
 });
+
+function levelLabel(level: number, isEN: boolean): string {
+  if (level >= 90) return isEN ? 'Expert' : 'Experto';
+  if (level >= 80) return isEN ? 'Advanced' : 'Avanzado';
+  if (level >= 70) return isEN ? 'Proficient' : 'Competente';
+  if (level >= 60) return isEN ? 'Working knowledge' : 'Conocimiento práctico';
+  return isEN ? 'Basic' : 'Básico';
+}
 
 const BLUE = '#2563EB';
 const BLUE_LIGHT = '#EFF6FF';
@@ -46,11 +55,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingTop: 28,
     paddingBottom: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 18,
   },
   headerAccent: {
     backgroundColor: BLUE,
     height: 4,
   },
+  headerPhoto: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    objectFit: 'cover',
+    borderWidth: 2,
+    borderColor: BLUE,
+    borderStyle: 'solid',
+  },
+  headerText: { flex: 1 },
   headerName: {
     fontFamily: 'Inter',
     fontWeight: 700,
@@ -112,7 +134,7 @@ const styles = StyleSheet.create({
   skillName: { fontSize: 8, color: DARK, width: 80, flexShrink: 0 },
   skillBar: { flex: 1, height: 5, backgroundColor: '#E5E7EB', borderRadius: 3 },
   skillFill: { height: 5, backgroundColor: BLUE, borderRadius: 3 },
-  skillPct: { fontSize: 7, color: MUTED, width: 24, textAlign: 'right' },
+  skillPct: { fontSize: 7, color: MUTED, width: 56, textAlign: 'right' },
   // Tags
   tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 4 },
   tag: { backgroundColor: BLUE_LIGHT, color: BLUE, fontSize: 7, paddingHorizontal: 5, paddingVertical: 2, borderRadius: 3 },
@@ -153,17 +175,20 @@ export function CVCreative({ data, lang }: Props) {
 
         {/* Dark header */}
         <View style={styles.header}>
-          <Text style={styles.headerName}>{data.name}</Text>
-          <Text style={styles.headerTitle}>{data.headline}</Text>
-          <View style={styles.headerContact}>
-            <Text style={styles.contactItem}>{data.email}</Text>
-            <Text style={styles.contactItem}>{data.phone}</Text>
-            <Text style={styles.contactItem}>{data.location}</Text>
-            {data.links.map(l => (
-              <Link key={l.href} src={l.href} style={{ ...styles.contactItem, color: '#93C5FD', textDecoration: 'none' }}>
-                {l.label}
-              </Link>
-            ))}
+          <Image src={data.photoUrl} style={styles.headerPhoto} />
+          <View style={styles.headerText}>
+            <Text style={styles.headerName}>{data.name}</Text>
+            <Text style={styles.headerTitle}>{data.headline}</Text>
+            <View style={styles.headerContact}>
+              <Text style={styles.contactItem}>{data.email}</Text>
+              <Text style={styles.contactItem}>{data.phone}</Text>
+              <Text style={styles.contactItem}>{data.location}</Text>
+              {data.links.map(l => (
+                <Link key={l.href} src={l.href} style={{ ...styles.contactItem, color: '#93C5FD', textDecoration: 'none' }}>
+                  {l.label}
+                </Link>
+              ))}
+            </View>
           </View>
         </View>
 
@@ -231,13 +256,15 @@ export function CVCreative({ data, lang }: Props) {
             {/* Skills */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{isEN ? 'Technical Skills' : 'Habilidades Técnicas'}</Text>
-              {data.skills.map(skill => (
+              {data.skills.slice(0, 16).map(skill => (
                 <View key={skill.name} style={styles.skillRow}>
                   <Text style={styles.skillName}>{skill.name}</Text>
                   <View style={styles.skillBar}>
                     <View style={{ ...styles.skillFill, width: `${skill.level}%` }} />
                   </View>
-                  <Text style={styles.skillPct}>{skill.level}%</Text>
+                  <Text style={styles.skillPct}>
+                    {skill.years ? `${levelLabel(skill.level, isEN)} · ${skill.years}+${isEN ? 'y' : 'a'}` : levelLabel(skill.level, isEN)}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -251,7 +278,7 @@ export function CVCreative({ data, lang }: Props) {
                   <Text style={styles.cardSub}>{edu.area}</Text>
                   <Text style={styles.cardSub}>{edu.institution}</Text>
                   <Text style={{ ...styles.cardSub, marginTop: 2 }}>
-                    {isEN ? 'Expected:' : 'Fin estimado:'} {edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : edu.end}
+                    {edu.status ?? `${isEN ? 'Expected:' : 'Fin estimado:'} ${edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : edu.end}`}
                   </Text>
                 </View>
               ))}
@@ -294,10 +321,23 @@ export function CVCreative({ data, lang }: Props) {
             {/* Tools */}
             {data.tools && (
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>{isEN ? 'Tools' : 'Herramientas'}</Text>
-                <Text style={{ fontSize: 7.5, color: '#374151', lineHeight: 1.6 }}>
-                  {[...data.tools.dataEngineering.slice(0, 4), ...data.tools.biAnalytics.slice(0, 3), ...data.tools.fullStack.slice(0, 3)].join(' · ')}
-                </Text>
+                <Text style={styles.sectionTitle}>{isEN ? 'Tools & Technologies' : 'Herramientas y Tecnologías'}</Text>
+                {[
+                  { label: isEN ? 'Data & Analytics Engineering' : 'Ingeniería de Datos y Analítica', items: data.tools.dataEngineering },
+                  { label: isEN ? 'BI & Reporting' : 'BI & Reporting', items: data.tools.biAnalytics },
+                  { label: isEN ? 'Cloud & DevOps' : 'Cloud & DevOps', items: data.tools.cloudDevOps },
+                  { label: isEN ? 'Full-Stack Development' : 'Desarrollo Full-Stack', items: data.tools.fullStack },
+                  { label: isEN ? 'Methodologies & Practices' : 'Metodologías y Prácticas', items: data.tools.methodologies },
+                ].map(group => (
+                  <View key={group.label} style={{ marginBottom: 6 }}>
+                    <Text style={{ fontSize: 7, fontFamily: 'Inter', fontWeight: 600, color: DARK, marginBottom: 2 }}>
+                      {group.label}
+                    </Text>
+                    <Text style={{ fontSize: 7.3, color: '#374151', lineHeight: 1.5 }}>
+                      {group.items.join(' · ')}
+                    </Text>
+                  </View>
+                ))}
               </View>
             )}
           </View>

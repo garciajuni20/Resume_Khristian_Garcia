@@ -5,6 +5,7 @@ import { useLang } from '../context/LanguageContext';
 type Props = {
   name: string;
   level: number; // 0-100
+  years?: number;
 };
 
 function getBarColor(level: number): string {
@@ -23,11 +24,12 @@ function getLevelLabel(level: number, lang?: string): string {
   return lang === 'es' ? 'Básico' : 'Basic';
 }
 
-export default function SkillMeter({ name, level }: Props) {
+export default function SkillMeter({ name, level, years }: Props) {
   const { lang } = useLang();
   const safe = Math.max(0, Math.min(100, level));
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+  const yearsLabel = years ? (lang === 'es' ? `${years}+ años` : `${years}+ yrs`) : null;
 
   return (
     <div
@@ -37,8 +39,8 @@ export default function SkillMeter({ name, level }: Props) {
       <div className="flex items-center justify-between gap-3 mb-3">
         <div className="font-medium text-neutral-900 dark:text-neutral-100 text-sm">{name}</div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-neutral-400 dark:text-neutral-500">{getLevelLabel(safe, lang)}</span>
-          <span className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">{safe}%</span>
+          <span className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">{getLevelLabel(safe, lang)}</span>
+          {yearsLabel && <span className="text-xs text-neutral-400 dark:text-neutral-500">{yearsLabel}</span>}
         </div>
       </div>
 

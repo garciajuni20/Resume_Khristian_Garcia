@@ -2,7 +2,7 @@ import type { ProfileData } from "../types"
 
 export const profileEN = {
   name: "Khristian Manolo Junior Garcia Pineda",
-  headline: "Data Analyst · Business Intelligence · Full-Stack Developer",
+  headline: "Data Engineer · Analytics Engineering · Cloud Data Platforms",
   location: "Guatemala City, Guatemala",
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",
@@ -13,65 +13,73 @@ export const profileEN = {
     { label: "GitHub", href: "https://github.com/garciajuni20" }
   ],
   summary:
-    "Technology professional with 6+ years of experience spanning network operations, IT infrastructure, and business intelligence. I built the BI function from scratch for Alleviate Financial Solutions in Guatemala — designing Snowflake data models, Power BI dashboards, and SQL pipelines that now drive financial decisions across 5 departments. Concurrently completing a Systems Engineering degree at USAC (Guatemala's national university) and teaching Business Intelligence as an academic instructor. I also build production web applications using React and TypeScript, deployed on Cloudflare and GitHub Pages.",
+    "Data Engineer and BI Analyst with 7+ years across cloud data platforms, analytics, and production operations. I built the analytics platform from scratch for Alleviate Financial Solutions (US fintech) — Snowflake modeling, role profiling and query/stored-procedure optimization, dbt and ETL/ELT pipelines, Azure Data Factory orchestration across Azure and GCP, Databricks, and Salesforce/CRM-to-Snowflake integrations — raising data accuracy from 85% to 99.5% and cutting the financial reporting cycle from 2+ days to under 30 minutes. I lead data projects from inception to completion with US-based finance and operations stakeholders, automate processes with Python, SQL, and Selenium, and design, deploy, and scale REST APIs and dockerized apps. Since January 2024 I have also architected and built Flowber end-to-end as full-stack engineer: a production platform on PostgreSQL/Supabase with an LLM assistant grounded in live business data (RAG through RLS-scoped tool calls) and 18 automated workflows. Systems Engineering at USAC — all coursework completed May 2026.",
 
-  badges: ["Snowflake", "SQL Expert", "Power BI", "React · TypeScript", "Data Modeling", "Bilingual EN/ES"],
+  badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "LLM / RAG", "Bilingual EN/ES"],
 
   keyAchievements: [
-    "Improved data accuracy from 85% to 99.5% by architecting Snowflake data models for financial reporting across 5 departments.",
-    "Reduced financial reporting cycle from 2+ days to under 30 minutes through automated SQL pipelines and Power BI dashboards.",
-    "Eliminated 90% of recurring reporting errors by implementing data validation and alerting workflows in Snowflake.",
-    "Built and deployed 3 production web applications on Cloudflare Pages using React, TypeScript, and Tailwind CSS."
+    "Improved data accuracy from 85% to 99.5% by architecting the Snowflake analytical layer behind financial reporting for 5 departments.",
+    "Reduced the financial reporting cycle from 2+ days to under 30 minutes with automated SQL/dbt pipelines and Power BI dashboards — 70% less manual reporting time.",
+    "Automated internal company processes with Python, SQL, and Selenium — including automations that measurably boosted lead generation.",
+    "Eliminated 90% of recurring reporting errors through data validation, alerting, and documented Standard Operating Procedures.",
+    "Architected and shipped Flowber end-to-end: a production platform with an LLM assistant grounded in live PostgreSQL data and 18 automated workflows."
   ],
 
   experience: [
+    {
+      id: "alleviate-mid",
+      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
+      role: "Business Intelligence Analyst / Data Analyst (Data & Analytics Engineering)",
+      start: "2023-11",
+      end: "present",
+      location: "Remote (Guatemala / US)",
+      tags: ["Data Engineering", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Azure", "GCP", "Python", "SQL", "Salesforce", "Power BI", "Tableau", "REST APIs", "Data Modeling", "BI"],
+      bullets: [
+        "Lead data projects from inception to completion — identifying the proper source systems, ensuring they are imported and joined accurately, and communicating directly with US-based finance, operations, and strategy stakeholders to plan and deliver each initiative.",
+        "Architect and maintain the analytical layer in Snowflake and PostgreSQL: dimensional data models, 8+ core models, views, and stored procedures queried across all 5 business departments — the company's single source of truth, which raised data accuracy from 85% to 99.5%.",
+        "Snowflake platform work beyond modeling: role profiling and access design, database/query and stored-procedure optimization, and native data sharing to distribute datasets across consumers without copying them.",
+        "Build data flows and ETL/ELT pipelines with dbt and SQL on Snowflake, plus Databricks implementation and management for advanced analytics and cross-platform transformations.",
+        "Set up and manage Azure and Google Cloud resources — pipeline creation and orchestration in Azure Data Factory, dockerized applications, and resource scaling matched to workload demand.",
+        "Integrate outside data sources and CRMs (Salesforce) into Snowflake and local databases to unify revenue and operations reporting; consume POST APIs and design, develop, deploy, and scale REST APIs.",
+        "Automate internal company processes with Python, SQL, and Selenium — including automations that boosted lead generation — and implemented validation and alerting workflows that eliminated 90% of recurring reporting errors.",
+        "Delivered 15+ interactive Power BI and Tableau dashboards and defined 20+ KPIs with US stakeholders, replacing manual Excel processes and cutting the financial reporting cycle from 2+ days to under 30 minutes.",
+        "Design new processes and procedures from analysis findings, author Standard Operating Procedures and data documentation, and consult internal teams on data and predictive analysis.",
+        "First BI hire in Guatemala for the Alleviate Financial Solutions account — built the function from zero into the company's full analytical stack; backlog and work items tracked in Azure DevOps."
+      ]
+    },
+    {
+      id: "flowber-freelance",
+      company: "Flowber — Barbershop Digital Transformation (Independent Venture)",
+      role: "Full-Stack Engineer & Solutions Architect",
+      start: "2024-01",
+      end: "present",
+      location: "Remote (Guatemala)",
+      tags: ["Full-Stack", "Architecture", "LLM / RAG", "PostgreSQL", "Supabase", "n8n", "Cloudflare", "ETL", "DevOps"],
+      bullets: [
+        "Led the end-to-end digital transformation of a physical barbershop since January 2024 — sole engineer and architect, owning the data model, the full-stack build, and production deployment.",
+        "Designed the PostgreSQL/Supabase data model and the SQL analytics layer (daily and net revenue, customer loyalty views) the business now uses for revenue and operations reporting.",
+        "Built an LLM assistant on Cloudflare Workers AI (Llama 4 Scout, native function calling) behind a dedicated Worker: it answers from live business data — services, appointments, customer history — retrieved at query time through RLS-scoped tool calls, so the model is grounded in the real database (RAG) and never holds credentials itself.",
+        "Added a provider-router fallback chain (Workers AI → Gemini 2.5 Flash via n8n → rule-based) so the assistant degrades gracefully instead of failing, and normalized tool-calling wire formats across providers.",
+        "Automated the business with 18 self-hosted n8n workflows: 24h/2h appointment reminders, no-show and post-service follow-ups, re-engagement and loyalty tier-ups, daily revenue and weekly admin reports, Google Calendar sync, and health-check/failure alerting.",
+        "Engineered multichannel notifications — a self-hosted WhatsApp gateway (NestJS, Docker, Traefik), a role-aware Telegram bot, and transactional email with one-click confirm/reject links.",
+        "Enforced 3-role access control (customer/barber/admin) entirely with PostgreSQL Row-Level Security, backed by an append-only audit log of application events.",
+        "Ran the full delivery pipeline solo: Agile backlog, structured UAT before each release, and CI/CD to Cloudflare Pages with zero-downtime deploys."
+      ]
+    },
     {
       id: "usac-teaching",
       company: "Universidad de San Carlos de Guatemala",
       role: "Academic Instructor — Organizational Systems (Final Practicum)",
       start: "2025-08",
-      end: "present",
+      end: "2026-08",
       location: "Guatemala City",
       tags: ["Teaching", "BI", "Systems", "Leadership"],
       bullets: [
-        "Selected to teach Sistemas Organizacionales y Gerenciales 1 (Course 0786) as part of the Systems Engineering final practicum.",
-        "Courses taught: Business Analytics fundamentals, Information Systems, ERP/CRM concepts, and Digital Transformation.",
-        "Guided students in real-world Business Intelligence projects and data analysis case studies.",
+        "Selected to teach Sistemas Organizacionales y Gerenciales 1 (Course 0786) as the required final practicum of the Systems Engineering program.",
+        "Taught Business Analytics fundamentals, Information Systems, ERP/CRM concepts, and Digital Transformation.",
+        "Guided students through real-world Business Intelligence projects and data analysis case studies.",
         "Developed lab materials and exercises that translate academic theory into practical data skills.",
-        "Bridge between university curriculum and industry — bringing field experience from Alleviate into the classroom."
-      ]
-    },
-    {
-      id: "alleviate-mid",
-      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
-      role: "Business Intelligence Analyst / Data Analyst",
-      start: "2024-12",
-      end: "present",
-      location: "Remote (Guatemala / US)",
-      tags: ["BI", "Snowflake", "Power BI", "SQL", "Tableau", "Data Modeling"],
-      bullets: [
-        "Architect and maintain analytical layers in Snowflake — tables, views, and data models queried across all 5 business departments.",
-        "Built the company's unified source of truth for financial and operational reporting, improving data accuracy from 85% to 99.5%.",
-        "Developed 15+ interactive Power BI and Tableau dashboards that replaced manual Excel reporting processes.",
-        "Reduced financial reporting cycle from 2+ days to under 30 minutes through automated SQL pipelines.",
-        "Define and track 20+ KPIs in collaboration with US-based stakeholders across finance, operations, and strategy.",
-        "Implemented data validation and alerting workflows that eliminated 90% of recurring reporting errors."
-      ]
-    },
-    {
-      id: "alleviate-jr",
-      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
-      role: "Business Intelligence Analyst Jr",
-      start: "2023-11",
-      end: "2024-12",
-      location: "Remote (Guatemala / US)",
-      tags: ["BI", "SQL", "Reporting", "Data Analysis"],
-      bullets: [
-        "First BI hire in Guatemala for the Alleviate Financial Solutions account — built the function from zero.",
-        "Designed 8+ core Snowflake data models that became the permanent foundation for all future reporting.",
-        "Translated business requirements from US stakeholders into SQL models, reports, and dashboards.",
-        "Cut manual reporting time by 70% by automating recurring data extraction and transformation tasks.",
-        "Established data documentation standards and query libraries still used by the team today."
+        "Acted as a bridge between university curriculum and industry — bringing field experience from Alleviate into the classroom."
       ]
     },
     {
@@ -81,48 +89,64 @@ export const profileEN = {
       start: "2023-01",
       end: "2023-11",
       location: "Guatemala City",
-      tags: ["IT", "Sysadmin", "Networking", "Cloud Migration"],
+      tags: ["IT Support", "Helpdesk", "Sysadmin", "Windows / Linux", "Networking", "Cloud Migration"],
       bullets: [
-        "Provided enterprise IT support and systems administration for 100+ internal users.",
-        "Led migration of on-premise systems to cloud-based infrastructure, reducing hardware costs.",
+        "Provided enterprise IT and helpdesk support plus systems administration for 100+ internal users, tracking every request through a ticketing system to resolution.",
+        "Administered Windows and Linux workstations and servers, endpoint management, access control, and network security protocols.",
+        "Led the migration of on-premise systems to cloud infrastructure, reducing hardware costs.",
         "Automated repetitive support workflows with scripts, cutting helpdesk ticket volume by 40%.",
-        "Managed network security protocols, access control, and endpoint management.",
-        "Transitioned into the BI role organically — identifying reporting gaps while in IT support."
+        "Transitioned into the BI role organically — the reporting gaps I kept finding while in IT support became the business case for the analytics function."
       ]
     },
     {
       id: "idt-gnoc",
       company: "Red Chapina S.A (IDT Guatemala)",
-      role: "GNOC Support Engineer",
+      role: "NOC Analyst / Support Engineer — GNOC (Global Network Operations Center)",
       start: "2019-01",
       end: "2023-01",
       location: "Guatemala City",
-      tags: ["Networking", "NOC", "Incident Response", "Monitoring", "Operations"],
+      tags: ["NOC", "Monitoring", "Splunk", "New Relic", "Grafana", "Zabbix", "Jira", "Windows / Linux", "AWS"],
       bullets: [
-        "Global Network Operations Center engineer — monitored and maintained mission-critical network infrastructure 24/7.",
-        "Handled incident analysis, root cause investigation, and escalation for enterprise-grade services.",
-        "Managed infrastructure serving 5,000+ concurrent users across multiple geographic regions.",
-        "Reduced mean time to recovery (MTTR) by 25% through proactive monitoring and alerting systems.",
-        "Implemented automated alerting that improved incident response times by 60%.",
+        "Proactively monitored all production networks, applications, and services 24/7 using Splunk, New Relic, Grafana, and Zabbix.",
+        "Responded to and resolved alerts/alarms according to standard operating procedures, tracked every issue in Jira, and escalated to the appropriate support teams via Slack, working with them through to timely resolution.",
+        "Participated in high-priority incident bridge calls and authored the post-mortem reports, translating complex technical failures into clear explanations for non-technical stakeholders.",
+        "Administered Windows and Linux servers, networks, and SQL/MongoDB databases — configuring integrations and alerting rules across the monitored estate, with working exposure to AWS infrastructure.",
+        "Reduced mean time to recovery (MTTR) by 25% through proactive monitoring and alerting; automated alerting improved incident response times by 60%.",
+        "Managed infrastructure serving 5,000+ concurrent users across multiple geographic regions, and wrote the SOPs the team used for recurring alert classes.",
         "Mentored 3 junior engineers — the teaching habit that eventually led to my USAC instructor role."
       ]
     }
   ],
 
   skills: [
-    { name: "SQL", level: 95 },
-    { name: "Snowflake", level: 93 },
-    { name: "Power BI", level: 90 },
-    { name: "Data Modeling", level: 88 },
-    { name: "ETL / Data Warehousing", level: 85 },
-    { name: "Tableau", level: 78 },
-    { name: "React", level: 82 },
-    { name: "TypeScript", level: 80 },
-    { name: "Python", level: 72 },
-    { name: "Git", level: 85 },
-    { name: "REST APIs", level: 75 },
-    { name: "Docker", level: 68 },
-    { name: "GCP", level: 65 }
+    { name: "SQL", level: 95, years: 8 },
+    { name: "Snowflake", level: 93, years: 4 },
+    { name: "Data Modeling / Dimensional", level: 90, years: 5 },
+    { name: "ETL / ELT Pipelines", level: 88, years: 4 },
+    { name: "PostgreSQL", level: 85, years: 6 },
+    { name: "Python", level: 80, years: 5 },
+    { name: "dbt", level: 80, years: 4 },
+    { name: "Databricks", level: 80, years: 4 },
+    { name: "REST API Design", level: 80, years: 5 },
+    { name: "Azure Data Factory", level: 75, years: 2 },
+    { name: "Data Governance", level: 78, years: 4 },
+    { name: "Data Mapping / Lineage", level: 78, years: 4 },
+    { name: "n8n / Orchestration", level: 80, years: 2 },
+    { name: "LLM / RAG Integration", level: 78, years: 2 },
+    { name: "Power BI", level: 90, years: 4 },
+    { name: "Tableau", level: 78, years: 4 },
+    { name: "BigQuery", level: 72, years: 3 },
+    { name: "Microsoft Azure", level: 70, years: 2 },
+    { name: "Google Cloud (GCP)", level: 70, years: 2 },
+    { name: "Docker", level: 72, years: 3 },
+    { name: "Selenium", level: 72, years: 3 },
+    { name: "Salesforce", level: 70, years: 3 },
+    { name: "Agile / Scrum", level: 92, years: 8 },
+    { name: "UAT / Acceptance Testing", level: 90, years: 8 },
+    { name: "Git", level: 85, years: 6 },
+    { name: "React", level: 82, years: 4 },
+    { name: "TypeScript", level: 80, years: 4 },
+    { name: "Azure DevOps", level: 60, years: 2 }
   ],
 
   education: [
@@ -130,12 +154,13 @@ export const profileEN = {
       institution: "Universidad de San Carlos de Guatemala",
       degree: "Bachelor of Science",
       area: "Computer Science & Systems Engineering",
-      end: "present",
+      end: "2026-05",
+      status: "All coursework completed (pensum closed) — May 31, 2026",
       highlights: [
+        "Pensum closed: all coursework completed as of May 31, 2026",
+        "Completed the required final practicum as Academic Instructor (Aug 2025 – Aug 2026)",
         "Advanced coursework: Compilers (PEG parsers, Fortran grammar), Advanced Databases (BD2), Data Structures & Algorithms",
-        "Built a Fortran PEG parser in JavaScript as part of the Compilers 2 course (live on GitHub Pages)",
-        "BD2 Sufficiency exam project: advanced database design in Python",
-        "Currently serving as Academic Instructor while completing the degree"
+        "Built a Fortran PEG parser in JavaScript (Compilers 2, live on GitHub Pages); BD2 sufficiency project: advanced database design in Python"
       ]
     }
   ],
@@ -193,6 +218,47 @@ export const profileEN = {
 
   projects: [
     {
+      id: "cloud-data-pipelines",
+      title: "Cloud Data Pipelines & CRM Integration",
+      description: "Production data-engineering work at Alleviate Financial Solutions: ingestion pipelines created and orchestrated in Azure Data Factory across Azure and GCP resources, Salesforce/CRM integration into Snowflake, dbt and SQL transformations, Databricks workloads, and Python/Selenium process automation. Includes Snowflake role profiling, stored-procedure and query optimization, and native data sharing so consumers read datasets without copies.",
+      impact: "Unified revenue and operations reporting on one governed platform — plus automations that boosted lead generation",
+      technologies: ["Azure Data Factory", "Snowflake", "dbt", "Databricks", "Salesforce", "Python", "Selenium", "SQL", "Docker", "GCP", "REST APIs"],
+      role: "Data Engineer / BI Analyst",
+      duration: "Ongoing",
+      teamSize: "Solo (cross-dept collaboration)",
+      category: "data",
+      featured: true,
+      gradient: "from-sky-600 to-indigo-600"
+    },
+    {
+      id: "flowber-barberia",
+      title: "Flowber — Digital Barbershop Platform",
+      description: "End-to-end digital transformation of a physical barbershop, architected and built solo since January 2024. Serverless booking and business management on PostgreSQL/Supabase: 3-role access control enforced with Postgres RLS, realtime appointments, multichannel notifications (WhatsApp, Telegram, email), e-commerce, and a SQL BI layer with revenue and loyalty views. The chat assistant runs on Cloudflare Workers AI (Llama 4 Scout) with function calling — grounded in live business data retrieved through RLS-scoped tool calls (RAG), with a Gemini-via-n8n fallback. 18 self-hosted n8n workflows automate reminders, follow-ups, loyalty, reporting, and health checks.",
+      impact: "Digitized the whole business — bookings, notifications, reporting, and an assistant that answers from live data",
+      technologies: ["React", "TypeScript", "Supabase", "PostgreSQL", "Postgres RLS", "Edge Functions", "Cloudflare Workers AI", "LLM / RAG", "n8n", "NestJS", "Docker", "Cloudflare Pages"],
+      role: "Full-Stack Engineer & Solutions Architect",
+      duration: "Since Jan 2024",
+      teamSize: "Solo project",
+      category: "architecture",
+      links: { github: "https://github.com/garciajuni20/flowber-barberia", live: "https://flowber-barberia.pages.dev/" },
+      featured: true,
+      gradient: "from-violet-500 to-indigo-600",
+      caseStudyPath: "/projects/flowber"
+    },
+    {
+      id: "snowflake-data-layer",
+      title: "Snowflake Analytics Data Layer",
+      description: "Designed and built the complete Snowflake data architecture for Alleviate Financial Solutions — star schema models, analytical views, stored procedures, and optimized SQL transformations feeding Power BI and Tableau dashboards across 5 departments, with role profiling and data validation built in.",
+      impact: "Raised data accuracy from 85% to 99.5% — became the company's source of truth",
+      technologies: ["Snowflake", "SQL", "Star Schema", "Data Modeling", "ETL", "dbt", "Stored Procedures", "Data Validation"],
+      role: "Data Engineer / BI Analyst",
+      duration: "2+ years",
+      teamSize: "Solo (cross-dept collaboration)",
+      category: "data",
+      featured: true,
+      gradient: "from-blue-600 to-blue-700"
+    },
+    {
       id: "vale-combustible",
       title: "Continental Motores — Fuel Voucher System",
       description: "Full-stack fuel voucher management system for a vehicle fleet company. Features authentication, voucher generation, multi-step approval workflows, and usage reporting. Deployed on Cloudflare Pages with zero-downtime CI/CD.",
@@ -207,19 +273,17 @@ export const profileEN = {
       gradient: "from-orange-500 to-red-500"
     },
     {
-      id: "flowber-barberia",
-      title: "Flowber — Digital Barbershop Platform",
-      description: "Serverless booking and business management platform: 3-role access control (customer/barber/admin) enforced with Postgres RLS, real-time appointment updates, multichannel notifications (WhatsApp, Telegram, Email), a role-aware chat assistant, e-commerce, and a BI layer with SQL revenue views.",
-      impact: "Digitized scheduling end-to-end — eliminated phone-based bookings",
-      technologies: ["React", "TypeScript", "Supabase", "PostgreSQL", "Edge Functions", "Cloudflare Pages"],
-      role: "Full-Stack Developer & Designer",
-      duration: "Ongoing",
-      teamSize: "Solo project",
-      category: "web",
-      links: { github: "https://github.com/garciajuni20/flowber-barberia", live: "https://flowber-barberia.pages.dev/" },
-      featured: true,
-      gradient: "from-violet-500 to-indigo-600",
-      caseStudyPath: "/projects/flowber"
+      id: "bi-dashboard-suite",
+      title: "Financial Analytics Dashboard Suite",
+      description: "Comprehensive Power BI and Tableau dashboard suite for financial and operational reporting at Alleviate Financial Solutions. Real-time data visualization, KPI tracking, trend analysis, and automated PDF reporting.",
+      impact: "Reduced reporting cycle from 2+ days to under 30 minutes — 15+ dashboards in production",
+      technologies: ["Power BI", "Tableau", "DAX", "Power Query", "Snowflake", "SQL"],
+      role: "BI Developer",
+      duration: "2+ years",
+      teamSize: "2 analysts + US stakeholders",
+      category: "data",
+      featured: false,
+      gradient: "from-emerald-500 to-teal-600"
     },
     {
       id: "portfolio",
@@ -232,34 +296,8 @@ export const profileEN = {
       teamSize: "Solo project",
       category: "web",
       links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" },
-      featured: true,
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      id: "snowflake-data-layer",
-      title: "Snowflake Analytics Data Layer",
-      description: "Designed and built the complete Snowflake data architecture for Alleviate Financial Solutions — star schema models, analytical views, and optimized SQL transformations feeding Power BI and Tableau dashboards across 5 departments.",
-      impact: "Raised data accuracy from 85% to 99.5% — became the company's source of truth",
-      technologies: ["Snowflake", "SQL", "Star Schema", "Data Modeling", "ETL", "dbt", "Data Validation"],
-      role: "Lead Data Engineer / BI Analyst",
-      duration: "14+ months",
-      teamSize: "Solo (cross-dept collaboration)",
-      category: "data",
-      featured: true,
-      gradient: "from-blue-600 to-blue-700"
-    },
-    {
-      id: "bi-dashboard-suite",
-      title: "Financial Analytics Dashboard Suite",
-      description: "Comprehensive Power BI and Tableau dashboard suite for financial and operational reporting at Alleviate Financial Solutions. Real-time data visualization, KPI tracking, trend analysis, and automated PDF reporting.",
-      impact: "Reduced reporting cycle from 2+ days to under 30 minutes — 15+ dashboards in production",
-      technologies: ["Power BI", "Tableau", "DAX", "Power Query", "Snowflake", "SQL"],
-      role: "BI Developer",
-      duration: "14+ months",
-      teamSize: "2 analysts + US stakeholders",
-      category: "data",
       featured: false,
-      gradient: "from-emerald-500 to-teal-600"
+      gradient: "from-blue-500 to-cyan-500"
     },
     {
       id: "fortran-peg-parser",
@@ -272,22 +310,8 @@ export const profileEN = {
       teamSize: "3 students",
       category: "academic",
       links: { github: "https://github.com/garciajuni20/G8_Fase2_FortranPEG", live: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/" },
-      featured: true,
-      gradient: "from-purple-500 to-pink-500"
-    },
-    {
-      id: "compilers-phase1",
-      title: "Compilers 2 — Phase 1 (Svelte App)",
-      description: "Phase 1 of the Compilers 2 course project — web-based compiler front-end with lexical analysis, tokenization, and early parsing stages.",
-      impact: "Foundation in compiler front-end theory applied to a working implementation",
-      technologies: ["JavaScript", "Svelte", "Lexical Analysis", "Tokenization"],
-      role: "Developer — Group 8",
-      duration: "3 weeks",
-      teamSize: "3 students",
-      category: "academic",
-      links: { github: "https://github.com/garciajuni20/Compi2_Grupo8" },
       featured: false,
-      gradient: "from-rose-500 to-pink-500"
+      gradient: "from-purple-500 to-pink-500"
     },
     {
       id: "bd2-suficiencia",
@@ -302,6 +326,20 @@ export const profileEN = {
       links: { github: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202" },
       featured: false,
       gradient: "from-amber-500 to-orange-500"
+    },
+    {
+      id: "compilers-phase1",
+      title: "Compilers 2 — Phase 1 (Svelte App)",
+      description: "Phase 1 of the Compilers 2 course project — web-based compiler front-end with lexical analysis, tokenization, and early parsing stages.",
+      impact: "Foundation in compiler front-end theory applied to a working implementation",
+      technologies: ["JavaScript", "Svelte", "Lexical Analysis", "Tokenization"],
+      role: "Developer — Group 8",
+      duration: "3 weeks",
+      teamSize: "3 students",
+      category: "academic",
+      links: { github: "https://github.com/garciajuni20/Compi2_Grupo8" },
+      featured: false,
+      gradient: "from-rose-500 to-pink-500"
     },
     {
       id: "docker-workshop",
@@ -326,22 +364,28 @@ export const profileEN = {
   ],
 
   tools: {
-    dataEngineering: ["Snowflake", "SQL", "Python", "dbt", "PostgreSQL", "MySQL", "Apache Airflow", "Great Expectations"],
-    biAnalytics: ["Power BI", "Tableau", "DAX", "Power Query", "Excel", "Google Data Studio"],
-    cloudDevOps: ["GCP", "Cloudflare Pages", "Docker", "GitHub Actions", "CI/CD", "Kubernetes"],
-    fullStack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Node.js", "REST APIs", "Framer Motion"],
-    methodologies: ["Agile", "Scrum", "DataOps", "Data Modeling", "Dimensional Modeling"]
+    dataEngineering: ["Snowflake", "SQL", "Python", "dbt", "Databricks", "Azure Data Factory", "ETL / ELT", "Data Pipelines", "PostgreSQL", "BigQuery", "MySQL", "MongoDB", "Stored Procedures", "Dimensional Modeling", "Selenium", "SSMS", "Postman"],
+    biAnalytics: ["Power BI", "Tableau", "DAX", "Power Query", "Salesforce", "KPI Design", "Excel / VBA", "Google Data Studio", "Confluence", "Lucidchart", "Visio", "Draw.io", "Notion"],
+    cloudDevOps: ["Microsoft Azure", "Google Cloud (GCP)", "AWS", "Azure DevOps", "Docker", "Cloudflare Pages & Workers", "GitHub Actions", "CI/CD", "Kubernetes", "n8n", "Splunk", "New Relic", "Grafana", "Zabbix"],
+    fullStack: ["React", "TypeScript", "Node.js", "REST API Design", "Supabase", "Tailwind CSS", "Vite", "Cloudflare Workers AI", "LLM / RAG Integration"],
+    methodologies: [
+      "Data Pipeline Design", "Dimensional Modeling", "Data Governance", "Data Mapping / Lineage", "DataOps",
+      "Requirements Gathering", "User Stories / Acceptance Criteria", "Stakeholder Management",
+      "Standard Operating Procedures (SOPs)", "UAT / Acceptance Testing", "Change Management",
+      "Agile", "Scrum", "Sprint Planning", "Jira", "Post-Mortem Documentation",
+      "Predictive & Data Analysis Consulting"
+    ]
   },
 
   metrics: {
-    yearsExperience: 6,
-    yearsBI: 2,
+    yearsExperience: 7,
+    yearsBI: 3,
     dashboardsDelivered: 15,
     sqlModels: 20,
     kpisTracked: 20,
     liveApps: 3,
     projectsCompleted: 20,
-    technologies: 18,
+    technologies: 20,
     certifications: 5,
     clientsServed: 8,
     dataProcessed: "100+ TB"
@@ -369,11 +413,18 @@ export const profileEN = {
   ],
 
   skillCategories: [
-    { id: "data", title: "Data Engineering", skills: ["Snowflake", "SQL", "PostgreSQL", "MySQL", "Data Modeling", "ETL"], level: "advanced" },
-    { id: "bi", title: "Business Intelligence", skills: ["Power BI", "Tableau", "Data Analytics", "Dashboard Design", "KPI Metrics"], level: "advanced" },
-    { id: "cloud", title: "Cloud & DevOps", skills: ["GCP", "Kubernetes", "Docker", "CI/CD", "Infrastructure as Code"], level: "intermediate" },
-    { id: "dev", title: "Full-Stack Development", skills: ["React", "TypeScript", "Python", "REST APIs", "Tailwind CSS"], level: "intermediate" },
-    { id: "systems", title: "Systems Architecture", skills: ["System Design", "Microservices", "API Design", "Scalability", "Performance"], level: "advanced" },
-    { id: "tools", title: "Development Tools", skills: ["Git", "Docker Compose", "K8s Manifests", "Power Automate", "Power Apps"], level: "intermediate" }
-  ]
+    { id: "data", title: "Data Engineering", skills: ["SQL", "Snowflake", "dbt", "Databricks", "ETL / ELT Pipelines", "Dimensional Modeling", "Stored Procedures", "Query Optimization", "PostgreSQL", "Data Governance", "Data Lineage"], level: "advanced" },
+    { id: "integration", title: "Cloud, Pipelines & Integration", skills: ["Azure Data Factory", "Microsoft Azure", "Google Cloud (GCP)", "Docker", "Resource Scaling", "REST API Design", "Salesforce / CRM Integration", "BigQuery", "n8n Orchestration", "Python & Selenium Automation"], level: "advanced" },
+    { id: "bi", title: "BI & Reporting", skills: ["Power BI", "DAX", "Power Query", "Tableau", "KPI Definition", "Predictive & Data Analysis"], level: "advanced" },
+    { id: "ai", title: "AI / LLM Systems", skills: ["LLM Integration", "RAG (tool-call grounded)", "Function Calling", "Cloudflare Workers AI", "Prompt & Context Design", "Provider Fallback Design"], level: "intermediate" },
+    { id: "ba", title: "Delivery & Business Analysis", skills: ["Project Leadership (inception to completion)", "Requirements Gathering", "User Stories", "Stakeholder Management", "Business Process Mapping", "UAT", "Agile / Scrum"], level: "advanced" },
+    { id: "tech", title: "Programming & Full-Stack", skills: ["Python", "TypeScript", "React", "Node.js", "Supabase", "Git", "Kubernetes", "Windows / Linux"], level: "intermediate" },
+    { id: "docs", title: "Documentation & SOPs", skills: ["Standard Operating Procedures", "Post-Mortem Reports", "Confluence", "Lucidchart", "Visio", "Data Dictionaries"], level: "advanced" }
+  ],
+
+  seo: {
+    title: "Khristian Garcia — Data Engineer | Snowflake, dbt, Azure Data Factory",
+    description: "Data Engineer and BI Analyst with 7+ years building cloud data platforms: Snowflake, dbt, Databricks, Azure Data Factory, Python. Remote from Guatemala.",
+    keywords: ["Data Engineer", "Analytics Engineer", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "ETL", "Python", "SQL", "Power BI", "Tableau", "Business Intelligence", "Remote Guatemala"]
+  }
 } satisfies ProfileData
