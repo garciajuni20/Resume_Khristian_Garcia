@@ -14,6 +14,8 @@ import PageTransition from '../components/PageTransition';
 import Magnetic from '../components/Magnetic';
 import TechMarquee from '../components/TechMarquee';
 import SlashCommand from '../components/home/SlashCommand';
+import { CareerVideoButton } from '../components/CareerVideo';
+import { PHOTO } from '../data/media';
 import IndustryRail from '../components/home/IndustryRail';
 import FlowberSpotlight from '../components/home/FlowberSpotlight';
 import Services from '../components/home/Services';
@@ -255,6 +257,7 @@ export default function Home() {
                           {t.ctaSecondary}
                         </button>
                       </Magnetic>
+                      <CareerVideoButton className="n-text inline-flex items-center gap-2 rounded-lg px-2 py-2 text-base font-semibold underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current active:scale-[0.98]" />
                     </motion.div>
                   </div>
 
@@ -264,7 +267,7 @@ export default function Home() {
                     transition={{ duration: 0.9, delay: 0.2, ease: FLUID }}
                     className="shrink-0 self-start"
                   >
-                    <ProfilePhoto src={profileEN.photoUrl} alt="Khristian Garcia" />
+                    <ProfilePhoto src={`${import.meta.env.BASE_URL}${PHOTO.squareWebp}`} alt="Khristian Garcia" />
                   </motion.div>
                 </div>
 
