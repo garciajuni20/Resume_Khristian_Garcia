@@ -370,7 +370,7 @@ export default function FlowberCaseStudy() {
                       <span className="n-muted text-xs">SQL · dbt</span>
                       <Wrench className="h-3.5 w-3.5 n-muted" aria-hidden="true" />
                     </div>
-                    <pre className="overflow-x-auto px-4 py-3 text-xs leading-relaxed n-text font-mono-geist"><code>{CHURN_SQL}</code></pre>
+                    <pre className="overflow-x-auto px-4 py-3 text-xs leading-relaxed n-text font-mono-geist"><code>{CHURN_SQL[lang]}</code></pre>
                     <figcaption className="n-muted px-4 pb-3 text-xs">{c.sqlCaption}</figcaption>
                   </figure>
                 </Reveal>

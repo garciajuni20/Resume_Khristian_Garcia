@@ -108,10 +108,8 @@ export interface FlowberContent {
 const LIVE = 'https://flowber-barberia.pages.dev/';
 export const FLOWBER_LIVE_URL = LIVE;
 
-/** Real excerpt from etl/dbt/models/marts/mart_customer_churn_risk.sql */
-export const CHURN_SQL = `-- Riesgo de abandono: compara los días sin venir con
--- el PROPIO ritmo del cliente, no con un umbral global.
-with visits as (
+/** Real excerpt from etl/dbt/models/marts/mart_customer_churn_risk.sql; only the comments are translated */
+const CHURN_SQL_BODY = `with visits as (
   select customer_key, start_local::date as visit_date
   from {{ ref('fact_appointment') }}
   where status = 'completed' and customer_key <> 'walk_in'
@@ -129,6 +127,17 @@ select customer_key,
 from gaps
 group by 1
 having count(*) >= 2`;
+
+export const CHURN_SQL: Record<'es' | 'en', string> = {
+  es: `-- Riesgo de abandono: compara los días sin venir con
+-- el PROPIO ritmo del cliente, no con un umbral global.
+-- Solo clientes con 2+ visitas (con una no hay ritmo que medir).
+${CHURN_SQL_BODY}`,
+  en: `-- Churn risk: compares days since the last visit with
+-- the customer's OWN rhythm, not with a global threshold.
+-- Only customers with 2+ visits (one visit has no rhythm to measure).
+${CHURN_SQL_BODY}`,
+};
 
 const es: FlowberContent = {
   breadcrumb: ['Khristian Garcia', 'Proyectos', 'Flowber'],
@@ -435,7 +444,7 @@ const en: FlowberContent = {
     { name: 'mart_demand_forecast', question: 'How many appointments next week? (EWMA with backtest)' },
     { name: 'mart_data_health', question: 'Which revenue never reaches BI? (found Q4,245)' },
   ],
-  sqlCaption: 'Real excerpt from mart_customer_churn_risk.sql',
+  sqlCaption: 'Real excerpt from mart_customer_churn_risk.sql (comments translated from Spanish)',
   decisions: [
     { title: 'No custom server', body: 'The browser talks straight to Postgres with the user\'s JWT, and RLS decides which rows each role sees. Security does not rely on hiding endpoints: a smaller attack surface and $0 in infrastructure.' },
     { title: 'Business rules live in the database', body: 'An EXCLUDE constraint makes double booking impossible even with two tabs open. Payments are born from a trigger when an appointment completes, so no completed appointment falls out of BI.' },
