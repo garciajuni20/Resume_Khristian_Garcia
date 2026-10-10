@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { X, FileJson, Calendar, Code, Database, Cloud, BarChart3, CheckCircle2, Linkedin, Mail, Phone } from 'lucide-react';
+import { X, FileJson, Calendar, Code, Database, Cloud, BarChart3, CheckCircle2, Linkedin, Mail, Phone, MapPin, Languages, Building2, AtSign, ExternalLink } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
 import Section from '../components/Section';
@@ -17,7 +17,12 @@ import Certifications from '../components/Certifications';
 import SkillsDashboard from '../components/SkillsDashboard';
 import PDFDownloadButtons from '../components/PDFDownloadButtons';
 import PageTransition from '../components/PageTransition';
-import { staggerContainer, cardReveal } from '../utils/animations';
+import { staggerContainer, cardReveal, FLUID } from '../utils/animations';
+import { CareerVideoBlock } from '../components/CareerVideo';
+import { PHOTO } from '../data/media';
+
+const INDUSTRY_TONES = ['blue', 'purple', 'orange', 'green'] as const;
+const LINK = 'n-text inline-flex items-center gap-1 underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current';
 
 export default function ResumePage() {
   const { lang } = useLang();
@@ -26,8 +31,13 @@ export default function ResumePage() {
 
   const labels = lang === 'en'
     ? {
-        pageTitle: 'Interactive Resume',
-        subtitle: 'Product-style resume showing how I build data platforms — pipelines, models, and the BI on top.',
+        eyebrow: 'Resume · 2026',
+        pageTitle: 'Interactive resume',
+        subtitle: 'Data, full-stack and AI across four industries. Filter my experience, watch the film, or take the PDF.',
+        available: 'Open to roles and projects',
+        location: 'Location',
+        remote: 'remote',
+        industries: 'Industries',
         filterBy: 'Filter by',
         clear: 'Clear',
         skills: 'Skills Overview',
@@ -42,8 +52,13 @@ export default function ResumePage() {
         contact: 'Contact',
       }
     : {
-        pageTitle: 'CV Interactivo',
-        subtitle: 'CV estilo producto que muestra cómo construyo plataformas de datos — pipelines, modelos y el BI encima.',
+        eyebrow: 'CV · 2026',
+        pageTitle: 'CV interactivo',
+        subtitle: 'Datos, full-stack e IA en cuatro industrias. Filtra mi experiencia, mira el video o llévate el PDF.',
+        available: 'Disponible para empleo y proyectos',
+        location: 'Ubicación',
+        remote: 'remoto',
+        industries: 'Industrias',
         filterBy: 'Filtrar por',
         clear: 'Limpiar',
         skills: 'Resumen de Habilidades',
@@ -106,6 +121,15 @@ export default function ResumePage() {
   };
 
   const languages = data.languages;
+  // Distinct industries in chronological order of the roles
+  const industries = Array.from(
+    new Set(
+      [...data.experience]
+        .sort((a, b) => a.start.localeCompare(b.start))
+        .map(e => e.industry)
+        .filter((x): x is string => Boolean(x))
+    )
+  );
   const tools = data.tools;
 
   // Modal a11y: close on Escape, move focus into the dialog, restore it on close
@@ -135,93 +159,114 @@ export default function ResumePage() {
     <PageTransition>
       <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
         <Container>
-          {/* ── Page Header ─────────────────────────────────────── */}
-          <div className="py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          {/* ── Page header ─────────────────────────────────────── */}
+          <div className="flex flex-col gap-4 pt-10 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{labels.pageTitle}</h1>
-              <p className="mt-2 text-neutral-500 dark:text-neutral-400 max-w-xl">{labels.subtitle}</p>
+              <p className="font-mono-geist n-muted text-xs uppercase tracking-wider">{labels.eyebrow}</p>
+              <h1 className="n-text mt-2 text-4xl font-bold tracking-tight">{labels.pageTitle}</h1>
+              <p className="n-muted mt-2 max-w-xl text-base">{labels.subtitle}</p>
             </div>
             <button
               onClick={exportToJson}
               disabled={isExporting}
-              className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-semibold text-neutral-700 hover:bg-neutral-50 hover:border-neutral-400 disabled:opacity-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-all"
+              className="n-border n-text n-hover inline-flex items-center gap-2 self-start rounded-lg border px-3 py-2 text-sm font-semibold transition-colors duration-300 active:scale-[0.98] disabled:opacity-50 sm:self-auto"
             >
-              <FileJson className="h-4 w-4" />
+              <FileJson className="h-4 w-4" aria-hidden="true" />
               {labels.downloadJson}
             </button>
           </div>
 
-          {/* ── Profile Card ─────────────────────────────────────── */}
+          {/* ── Profile: portrait + Notion-style properties ─────── */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="rounded-3xl border border-neutral-200 bg-white/90 backdrop-blur-sm p-6 shadow-lg dark:border-neutral-800 dark:bg-neutral-900/90"
+            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.8, ease: FLUID }}
+            className="n-border mt-8 grid gap-8 rounded-3xl border bg-[var(--n-bg)] p-6 sm:p-8 md:grid-cols-[240px_minmax(0,1fr)]"
           >
-            <div className="grid gap-6 sm:grid-cols-[1fr_200px] sm:items-start">
-              <div>
-                <div className="flex flex-wrap items-center gap-3 mb-3">
-                  <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">{data.name}</h2>
-                </div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {data.badges.map(badge => (
-                    <span
-                      key={badge}
-                      className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 dark:border-blue-900 dark:bg-blue-900/30 dark:text-blue-300"
-                    >
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-                <div className="text-base font-medium text-neutral-700 dark:text-neutral-200">{data.headline}</div>
-                <div className="mt-1 flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
-                  <Calendar className="h-3.5 w-3.5" />
-                  {data.location}
-                </div>
-
-                <p className="mt-5 text-neutral-700 dark:text-neutral-300 leading-relaxed">{data.summary}</p>
-
-                {/* Quick contact */}
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <a href={`mailto:${data.email}`}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                    <Mail className="h-3.5 w-3.5" />
-                    {data.email}
-                  </a>
-                  <a href={`tel:${data.phone.replace(/\s/g, '')}`}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                    <Phone className="h-3.5 w-3.5" />
-                    {data.phone}
-                  </a>
-                  {data.links.map(link => (
-                    <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                      {link.label === 'LinkedIn' && <Linkedin className="h-3.5 w-3.5" />}
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
+            <div>
+              <div className="relative mx-auto w-48 md:w-full">
+                <motion.img
+                  src={`${import.meta.env.BASE_URL}${PHOTO.portraitWebp}`}
+                  alt={data.name}
+                  width={800}
+                  height={1200}
+                  whileHover={{ rotate: -1.5, y: -4 }}
+                  transition={{ duration: 0.6, ease: FLUID }}
+                  className="aspect-[2/3] w-full rounded-2xl object-cover shadow-2xl shadow-black/15"
+                />
+                <span className="n-tag n-tag-green absolute -bottom-3 left-1/2 -translate-x-1/2 gap-1.5 whitespace-nowrap px-2 py-0.5 shadow-md">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  {labels.available}
+                </span>
               </div>
+            </div>
 
-              {/* Photo */}
-              <div className="sm:justify-self-end">
-                <div className="rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white p-2 shadow-lg dark:border-blue-900 dark:from-blue-900/20 dark:to-neutral-900">
-                  <div className="aspect-square w-full overflow-hidden rounded-xl">
-                    <img
-                      src={data.photoUrl}
-                      alt={data.name}
-                      className="h-full w-full object-cover object-top transition-transform hover:scale-105 duration-500"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
+            <div className="min-w-0">
+              <h2 className="n-text text-3xl font-bold tracking-tight">{data.name}</h2>
+              <p className="mt-1 text-lg font-medium text-[var(--n-accent)]">{data.headline}</p>
+
+              <dl className="n-border mt-5 space-y-2 border-y py-4 text-sm">
+                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><MapPin className="h-4 w-4" aria-hidden="true" />{labels.location}</dt>
+                  <dd className="n-text">{data.location} · {labels.remote}</dd>
                 </div>
+                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><Languages className="h-4 w-4" aria-hidden="true" />{labels.languages}</dt>
+                  <dd className="n-text">{languages.map(l => `${l.language} (${l.level})`).join(' · ')}</dd>
+                </div>
+                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><Building2 className="h-4 w-4" aria-hidden="true" />{labels.industries}</dt>
+                  <dd className="flex flex-wrap gap-1.5">
+                    {industries.map((ind, i) => (
+                      <span key={ind} className={`n-tag n-tag-${INDUSTRY_TONES[i % INDUSTRY_TONES.length]}`}>{ind}</span>
+                    ))}
+                  </dd>
+                </div>
+                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><AtSign className="h-4 w-4" aria-hidden="true" />{labels.contact}</dt>
+                  <dd className="flex flex-wrap gap-x-4 gap-y-1">
+                    <a href={`mailto:${data.email}`} className={LINK}>
+                      <Mail className="h-3.5 w-3.5" aria-hidden="true" />{data.email}
+                    </a>
+                    <a href={`tel:${data.phone.replace(/\s/g, '')}`} className={LINK}>
+                      <Phone className="h-3.5 w-3.5" aria-hidden="true" />{data.phone}
+                    </a>
+                    {data.links.map(link => (
+                      <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={LINK}>
+                        {link.label === 'LinkedIn' ? <Linkedin className="h-3.5 w-3.5" aria-hidden="true" /> : <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />}
+                        {link.label}
+                      </a>
+                    ))}
+                  </dd>
+                </div>
+              </dl>
+
+              <p className="n-text mt-5 text-base leading-relaxed">{data.summary}</p>
+
+              <div className="mt-5 flex flex-wrap gap-1.5">
+                {data.badges.map(badge => (
+                  <span key={badge} className="n-tag n-tag-gray">{badge}</span>
+                ))}
               </div>
             </div>
           </motion.div>
 
+          {/* ── Career film ─────────────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.8, ease: FLUID }}
+            className="mt-10"
+          >
+            <CareerVideoBlock />
+          </motion.div>
+
           {/* ── PDF Downloads ──────────────────────────────────── */}
-          <div className="mt-6">
+          <div className="mt-12">
             <PDFDownloadButtons />
           </div>
 

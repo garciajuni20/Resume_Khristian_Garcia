@@ -10,22 +10,23 @@ export const profileES = {
     "https://raw.githubusercontent.com/garciajuni20/Resume_Khristian_Garcia/main/khristian-garcia.png",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/khristian-garcia--/" },
-    { label: "GitHub", href: "https://github.com/garciajuni20" }
+    { label: "GitHub", href: "https://github.com/garciajuni20" },
+    { label: "Portafolio", href: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" }
   ],
   summary:
-    "Ingeniero de Datos y Analista de BI con más de 7 años en plataformas de datos en la nube, analítica y operaciones de producción. He trabajado en servicios financieros de EE. UU. (consolidación de deudas en Alleviate y remesas internacionales en IDT), retail de servicios con Flowber y educación universitaria, en inglés y en español. Construí desde cero la plataforma analítica de Alleviate Financial Solutions (fintech de EE. UU.) — modelado en Snowflake, perfilamiento de roles y optimización de queries y stored procedures, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de CRM/Salesforce hacia Snowflake — elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Lidero proyectos de datos de principio a fin con stakeholders de finanzas y operaciones en EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Desde enero de 2024 lidero la transformación digital de Flowber (la barbería de Danover) de la idea a producción como full-stack engineer y arquitecto: React/TypeScript sobre PostgreSQL/Supabase con RLS por rol, un agente de IA con 20 herramientas y RAG sobre pgvector, y un data warehouse con dbt + DuckDB que incluye modelos predictivos. Ingeniería en Sistemas en la USAC — pensum cerrado en mayo de 2026.",
+    "Ingeniero de Datos, desarrollador full-stack e ingeniero de IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas en Alleviate y remesas internacionales en IDT), retail de servicios y educación universitaria, trabajando en inglés y en español. En Alleviate Financial Solutions construí desde cero la plataforma analítica: modelado, perfilamiento de roles y optimización en Snowflake, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de Salesforce hacia Snowflake, elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde enero de 2024 lidero la transformación digital de Flowber, la barbería de Danover, de la idea a producción como full-stack engineer y arquitecto: React/TypeScript sobre PostgreSQL/Supabase con RLS por rol, un agente de IA con 20 herramientas y RAG sobre pgvector, y un data warehouse con dbt + DuckDB que incluye modelos predictivos. Lidero proyectos de principio a fin con stakeholders de EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Ingeniería en Sistemas en la USAC, pensum cerrado en mayo de 2026.",
 
   summaryShort:
-    "Ingeniero de Datos y Analista de BI con más de 7 años construyendo plataformas de datos en la nube. Construí desde cero la plataforma analítica de Alleviate Financial Solutions (fintech de EE. UU.) — modelado en Snowflake, perfilamiento de roles y optimización de queries, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones Salesforce-Snowflake — elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Lidero proyectos de datos de principio a fin con stakeholders en EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño y escalo APIs REST y aplicaciones dockerizadas.",
+    "Ingeniero de Datos, full-stack e IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas y remesas), retail de servicios y educación, bilingüe en inglés y español. En Alleviate Financial Solutions construí desde cero la plataforma analítica con Snowflake, dbt, Azure Data Factory y Databricks: precisión de datos del 85% al 99.5% y reportes financieros de más de 2 días a menos de 30 minutos. Desde 2024 llevo Flowber de la idea a producción como arquitecto y único ingeniero: React + Supabase con seguridad por rol en la base de datos, un agente de IA con RAG sobre pgvector y un warehouse dbt + DuckDB con modelos de machine learning.",
 
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "IA · RAG · pgvector", "Bilingüe EN/ES"],
 
   keyAchievements: [
     "Mejoré la precisión de datos del 85% al 99.5% diseñando la capa analítica en Snowflake detrás del reporting financiero de 5 departamentos.",
+    "Llevé Flowber de la idea a producción (ene 2024 → hoy): 160+ citas y 90+ clientes registrados en la plataforma, un agente de IA con RAG (100% hit@1 en su evaluación) y un warehouse dbt con 50 tests y modelos de ML.",
     "Reduje el ciclo de reportes financieros de más de 2 días a menos de 30 minutos con pipelines automatizados en SQL/dbt y dashboards en Power BI — 70% menos tiempo de reporting manual.",
     "Automaticé procesos internos de la empresa con Python, SQL y Selenium — incluyendo automatizaciones que impulsaron la generación de leads de forma medible.",
-    "Eliminé el 90% de errores recurrentes en reportes mediante validación de datos, alertas y Procedimientos Operativos Estándar documentados.",
-    "Llevé Flowber de la idea a producción (ene 2024 → hoy): 160+ citas y 90+ clientes registrados en la plataforma, un agente de IA con RAG (100% hit@1 en su evaluación) y un warehouse dbt con 50 tests y modelos de ML."
+    "Eliminé el 90% de errores recurrentes en reportes mediante validación de datos, alertas y Procedimientos Operativos Estándar documentados."
   ],
 
   experience: [
@@ -129,19 +130,21 @@ export const profileES = {
   skills: [
     { name: "SQL", level: 95, years: 8 },
     { name: "Snowflake", level: 93, years: 4 },
+    { name: "Python", level: 80, years: 5 },
     { name: "Modelado de Datos / Dimensional", level: 90, years: 5 },
     { name: "Pipelines ETL / ELT", level: 88, years: 4 },
-    { name: "PostgreSQL", level: 85, years: 6 },
-    { name: "Python", level: 80, years: 5 },
     { name: "dbt", level: 80, years: 4 },
+    { name: "PostgreSQL", level: 85, years: 6 },
+    { name: "Power BI", level: 90, years: 4 },
+    { name: "Integración LLM / RAG", level: 78, years: 2 },
+    { name: "React", level: 82, years: 4 },
+    { name: "TypeScript", level: 80, years: 4 },
+    { name: "Azure Data Factory", level: 75, years: 2 },
     { name: "Databricks", level: 80, years: 4 },
     { name: "Diseño de APIs REST", level: 80, years: 5 },
-    { name: "Azure Data Factory", level: 75, years: 2 },
     { name: "Gobernanza de Datos", level: 78, years: 4 },
     { name: "Data Mapping / Lineage", level: 78, years: 4 },
     { name: "n8n / Orquestación", level: 80, years: 2 },
-    { name: "Integración LLM / RAG", level: 78, years: 2 },
-    { name: "Power BI", level: 90, years: 4 },
     { name: "Tableau", level: 78, years: 4 },
     { name: "BigQuery", level: 72, years: 3 },
     { name: "Microsoft Azure", level: 70, years: 2 },
@@ -152,8 +155,6 @@ export const profileES = {
     { name: "Agile / Scrum", level: 92, years: 8 },
     { name: "UAT / Pruebas de Aceptación", level: 90, years: 8 },
     { name: "Git", level: 85, years: 6 },
-    { name: "React", level: 82, years: 4 },
-    { name: "TypeScript", level: 80, years: 4 },
     { name: "Azure DevOps", level: 60, years: 2 }
   ],
 
@@ -380,8 +381,8 @@ export const profileES = {
   ],
 
   seo: {
-    title: "Khristian Garcia — Ingeniero de Datos | Snowflake, dbt, Azure Data Factory",
-    description: "Ingeniero de Datos y Analista de BI con más de 7 años construyendo plataformas de datos en la nube: Snowflake, dbt, Databricks, Azure Data Factory, Python. Remoto desde Guatemala.",
-    keywords: ["Ingeniero de Datos", "Data Engineer", "Analytics Engineer", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "ETL", "Python", "SQL", "Power BI", "Tableau", "Inteligencia de Negocios", "Remoto Guatemala"]
+    title: "Khristian Garcia — Ingeniero de Datos, Full-Stack e IA",
+    description: "Ingeniero de Datos, full-stack e IA con más de 7 años en fintech de EE. UU., remesas, retail y educación: Snowflake, dbt, Azure Data Factory, React, Supabase y RAG. Bilingüe, remoto desde Guatemala.",
+    keywords: ["Ingeniero de Datos", "Data Engineer", "Full-Stack", "Ingeniero de IA", "RAG", "Arquitecto de Soluciones", "Snowflake", "dbt", "Azure Data Factory", "Python", "SQL", "React", "Fintech", "Remoto Guatemala"]
   }
 } satisfies ProfileData

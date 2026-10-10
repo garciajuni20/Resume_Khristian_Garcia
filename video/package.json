@@ -1,0 +1,22 @@
+{
+  "name": "khristian-career-video",
+  "private": true,
+  "description": "Career film (ES/EN) rendered with Remotion: React → MP4",
+  "scripts": {
+    "studio": "remotion studio",
+    "render:es": "remotion render career out/career-es.mp4 --props={\"lang\":\"es\"}",
+    "render:en": "remotion render career out/career-en.mp4 --props={\"lang\":\"en\"}",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.484",
+    "@remotion/fonts": "4.0.484",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.484"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.31",
+    "typescript": "^5.9.3"
+  }
+}

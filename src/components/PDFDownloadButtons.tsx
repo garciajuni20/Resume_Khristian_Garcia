@@ -53,114 +53,95 @@ export default function PDFDownloadButtons() {
 
   const t = lang === 'en'
     ? {
-        title: 'Download Resume',
-        creative: 'Creative',
-        ats: 'ATS-Friendly',
+        title: 'Download my resume',
+        subtitle: '4 versions generated in your browser from the same data as this page, always current.',
+        generating: 'Generating…',
+        creative: { name: 'Creative', desc: 'Two-page designed layout with photo, metrics, industries and the Flowber project. Best for recruiters and clients.' },
+        ats: { name: 'ATS-friendly', desc: 'Single-column text that applicant tracking systems parse cleanly, with photo in the header.' },
         en: 'English',
         es: 'Spanish',
-        generating: 'Generating…',
-        creativeDesc: 'Visual, designed layout for humans',
-        atsDesc: 'Clean plain text, optimized for ATS systems',
+        preview: 'Preview of the',
       }
     : {
-        title: 'Descargar CV',
-        creative: 'Creativo',
-        ats: 'ATS-Optimizado',
+        title: 'Descarga mi CV',
+        subtitle: '4 versiones generadas en tu navegador con los mismos datos de esta página, siempre al día.',
+        generating: 'Generando…',
+        creative: { name: 'Creativo', desc: 'Diseño de dos páginas con foto, métricas, industrias y el proyecto Flowber. Ideal para reclutadores y clientes.' },
+        ats: { name: 'Optimizado para ATS', desc: 'Texto en una columna que los sistemas de selección leen sin errores, con foto en el encabezado.' },
         en: 'Inglés',
         es: 'Español',
-        generating: 'Generando…',
-        creativeDesc: 'Diseño visual, ideal para reclutadores',
-        atsDesc: 'Texto limpio, optimizado para sistemas ATS',
+        preview: 'Vista previa del CV',
       };
 
-  const buttons: { variant: PDFVariant; label: string; sublabel: string; icon: React.ReactNode; color: string }[] = [
-    {
-      variant: 'creative-en',
-      label: `${t.creative} — ${t.en}`,
-      sublabel: t.creativeDesc,
-      icon: <Sparkles className="h-4 w-4" />,
-      color: 'from-blue-500 to-violet-500',
-    },
-    {
-      variant: 'creative-es',
-      label: `${t.creative} — ${t.es}`,
-      sublabel: t.creativeDesc,
-      icon: <Sparkles className="h-4 w-4" />,
-      color: 'from-violet-500 to-indigo-500',
-    },
-    {
-      variant: 'ats-en',
-      label: `${t.ats} — ${t.en}`,
-      sublabel: t.atsDesc,
-      icon: <AlignLeft className="h-4 w-4" />,
-      color: 'from-emerald-500 to-teal-500',
-    },
-    {
-      variant: 'ats-es',
-      label: `${t.ats} — ${t.es}`,
-      sublabel: t.atsDesc,
-      icon: <AlignLeft className="h-4 w-4" />,
-      color: 'from-teal-500 to-cyan-500',
-    },
+  const kinds = [
+    { id: 'creative' as const, icon: <Sparkles className="h-4 w-4" aria-hidden="true" />, ...t.creative },
+    { id: 'ats' as const, icon: <AlignLeft className="h-4 w-4" aria-hidden="true" />, ...t.ats },
   ];
+  const base = import.meta.env.BASE_URL;
 
   return (
-    <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="rounded-xl bg-blue-50 p-2.5 dark:bg-blue-900/20">
-          <FileText className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-        </div>
+    <div>
+      <div className="mb-4 flex items-start gap-3">
+        <FileText className="n-muted mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
         <div>
-          <h3 className="font-semibold text-neutral-900 dark:text-white">{t.title}</h3>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
-            {lang === 'en' ? '4 versions · Generated from live data' : '4 versiones · Generadas desde datos en tiempo real'}
-          </p>
+          <h3 className="n-text text-lg font-semibold">{t.title}</h3>
+          <p className="n-muted text-sm">{t.subtitle}</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {buttons.map(btn => {
-          const isLoading = loading === btn.variant;
-          return (
-            <button
-              key={btn.variant}
-              onClick={() => downloadPDF(btn.variant, setLoading, setError)}
-              disabled={loading !== null}
-              className="group relative overflow-hidden rounded-xl border border-neutral-200 bg-white px-4 py-3 text-left hover:border-blue-300 hover:shadow-md transition-all duration-200 disabled:opacity-60 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-blue-700"
-            >
-              <div className={`absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r ${btn.color}`} />
-              <div className="flex items-center gap-2 mb-1">
-                <div className={`rounded-lg bg-gradient-to-br ${btn.color} p-1.5 text-white`}>
-                  {isLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : btn.icon}
-                </div>
-                <span className="text-sm font-semibold text-neutral-900 dark:text-white">
-                  {isLoading ? t.generating : btn.label}
-                </span>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {kinds.map(kind => (
+          <div key={kind.id} className="n-border group flex flex-col overflow-hidden rounded-2xl border bg-[var(--n-bg)]">
+            <div className="n-callout relative h-56 overflow-hidden px-8 pt-6">
+              <img
+                src={`${base}cv-previews/${kind.id}-${lang}.webp`}
+                alt={`${t.preview} ${kind.name}`}
+                loading="lazy"
+                className="mx-auto w-full max-w-[260px] rounded-t-md shadow-xl shadow-black/15 ring-1 ring-black/5 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-3 group-hover:rotate-[-1.5deg]"
+                width={794}
+                height={1123}
+              />
+            </div>
+            <div className="n-border flex flex-1 flex-col border-t p-4">
+              <div className="n-text flex items-center gap-2 font-semibold">
+                {kind.icon}
+                {kind.name}
               </div>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 pl-9">{btn.sublabel}</p>
-              {!isLoading && (
-                <Download className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-              )}
-            </button>
-          );
-        })}
+              <p className="n-muted mt-1 text-sm leading-relaxed">{kind.desc}</p>
+              <div className="mt-auto flex gap-2 pt-4">
+                {(['en', 'es'] as const).map(l => {
+                  const variant = `${kind.id}-${l}` as PDFVariant;
+                  const busy = loading === variant;
+                  return (
+                    <button
+                      key={l}
+                      type="button"
+                      onClick={() => downloadPDF(variant, setLoading, setError)}
+                      disabled={loading !== null}
+                      className={`inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-transform duration-300 active:scale-[0.98] disabled:opacity-60 ${
+                        l === lang ? 'bg-[var(--n-text)] text-[var(--n-bg)]' : 'n-border n-text n-hover border'
+                      }`}
+                    >
+                      {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Download className="h-4 w-4" aria-hidden="true" />}
+                      {busy ? t.generating : l === 'en' ? t.en : t.es}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {error && (
-        <div className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
-          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+        <div role="alert" className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-300">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="flex-1">{error}</span>
-          <button onClick={() => setError(null)} className="shrink-0 opacity-60 hover:opacity-100 transition-opacity">
-            <X className="h-4 w-4" />
+          <button onClick={() => setError(null)} aria-label="Close" className="shrink-0 opacity-60 transition-opacity hover:opacity-100">
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
       )}
-
-      <p className="mt-4 text-xs text-neutral-400 dark:text-neutral-500 text-center">
-        {lang === 'en'
-          ? 'PDFs are generated client-side from structured profile data — always up-to-date.'
-          : 'Los PDFs se generan en el cliente desde datos estructurados — siempre actualizados.'}
-      </p>
     </div>
   );
 }

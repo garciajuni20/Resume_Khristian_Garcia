@@ -1,11 +1,16 @@
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Fragment } from 'react';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import type { ProfileData } from '../types';
+import { PHOTO } from '../data/media';
+import { pdfImage } from './assets';
 
 /**
- * ATS-first resume: strictly single-column, standard fonts, no images and no
- * side-by-side cells. Everything a parser needs sits on its own line, which is
- * also what removes the alignment problems the old two-column header had.
+ * ATS-first resume: single-column body, standard fonts, no side-by-side text
+ * cells. Everything a parser needs sits on its own line. The only row is the
+ * header, where the photo sits beside the contact block; parsers skip images,
+ * so the text still reads top to bottom.
  */
+
 
 const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTHS_ES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
@@ -22,6 +27,11 @@ function ym(value: string, isEN: boolean): string {
   return `${months[idx]} ${y}`;
 }
 
+/** Helvetica only covers WinAnsi: arrows and the true minus sign would print as junk */
+function ansi(text: string): string {
+  return text.replace(/→/g, '->').replace(/−/g, '-').replace(/≥/g, '>=');
+}
+
 function range(start: string, end: string, isEN: boolean): string {
   return `${ym(start, isEN)} – ${ym(end, isEN)}`;
 }
@@ -29,15 +39,15 @@ function range(start: string, end: string, isEN: boolean): string {
 /** Bullets per role, most-relevant-first in the data. Keeps the resume to 2 pages. */
 const BULLET_CAPS: Record<string, number> = {
   'alleviate-mid': 5,
-  'flowber-freelance': 4,
+  'flowber-freelance': 5,
 };
-const DEFAULT_BULLET_CAP = 3;
+const DEFAULT_BULLET_CAP = 2;
 
 /** Long tool lists read as keyword walls; cap each group. */
 const TOOLS_CAP = 9;
 
 /** Keeps the document to two pages, verified by scripts/inspect-pdf.py */
-const ACHIEVEMENTS_SHOWN = 3;
+const ACHIEVEMENTS_SHOWN = 4;
 
 const styles = StyleSheet.create({
   page: {
@@ -46,13 +56,17 @@ const styles = StyleSheet.create({
     color: '#000000',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 44,
-    paddingVertical: 38,
+    paddingVertical: 34,
     lineHeight: 1.45,
   },
 
+  headerRow: { flexDirection: 'row', alignItems: 'center' },
+  headerText: { flex: 1, marginRight: 16 },
+  photo: { width: 66, height: 66, borderRadius: 6, objectFit: 'cover' },
   name: { fontSize: 17, fontFamily: 'Helvetica-Bold', letterSpacing: 0.3 },
   headline: { fontSize: 10, marginTop: 3, color: '#1F2937' },
   contactLine: { fontSize: 8.5, marginTop: 5, color: '#333333' },
+  linkLine: { fontSize: 8.5, marginTop: 1.5, color: '#333333' },
 
   rule: {
     borderBottomWidth: 1,
@@ -66,16 +80,17 @@ const styles = StyleSheet.create({
     fontSize: 9.5,
     textTransform: 'uppercase',
     letterSpacing: 1,
-    marginTop: 13,
+    marginTop: 11,
     marginBottom: 5,
   },
 
   paragraph: { fontSize: 9, lineHeight: 1.55 },
 
   // Experience — each line is its own block, nothing competes for horizontal space
-  roleBlock: { marginBottom: 9 },
+  roleGap: { height: 7 },
   roleTitle: { fontFamily: 'Helvetica-Bold', fontSize: 9.5 },
-  roleMeta: { fontSize: 8.5, color: '#333333', marginTop: 1.5, marginBottom: 3 },
+  roleMeta: { fontSize: 8.5, color: '#333333', marginTop: 1.5 },
+  roleIndustry: { fontSize: 8.5, color: '#333333', marginTop: 1, marginBottom: 3 },
 
   bullet: { flexDirection: 'row', marginBottom: 2.5 },
   bulletChar: { fontSize: 9, width: 10, flexShrink: 0 },
@@ -127,26 +142,33 @@ export function CVATS({ data, lang }: Props) {
     >
       <Page size="A4" style={styles.page}>
         {/* ── Header: one fact per line, the most parser-friendly shape ── */}
-        <Text style={styles.name}>{data.name}</Text>
-        <Text style={styles.headline}>{data.headline}</Text>
-        <Text style={styles.contactLine}>
-          {data.email} | {data.phone} | {data.location}
-        </Text>
-        <Text style={styles.contactLine}>
-          {data.links.map(l => `${l.label}: ${l.href}`).join('  |  ')}
-        </Text>
+        <View style={styles.headerRow}>
+          <View style={styles.headerText}>
+            <Text style={styles.name}>{data.name}</Text>
+            <Text style={styles.headline}>{data.headline}</Text>
+            <Text style={styles.contactLine}>
+              {data.email} | {data.phone} | {data.location}
+            </Text>
+            {data.links.map(l => (
+              <Text key={l.href} style={styles.linkLine}>
+                {l.label}: {l.href}
+              </Text>
+            ))}
+          </View>
+          <Image src={pdfImage(PHOTO.squareJpg)} style={styles.photo} />
+        </View>
         <View style={styles.rule} />
 
         {/* ── Summary ── */}
         <Text style={styles.sectionTitle}>{t.summary}</Text>
-        <Text style={styles.paragraph}>{data.summaryShort ?? data.summary}</Text>
+        <Text style={styles.paragraph}>{ansi(data.summaryShort ?? data.summary)}</Text>
 
         {/* ── Achievements ── */}
         <Text style={styles.sectionTitle}>{t.achievements}</Text>
         {data.keyAchievements.slice(0, ACHIEVEMENTS_SHOWN).map((achievement, i) => (
           <View key={i} style={styles.bullet}>
             <Text style={styles.bulletChar}>{'•'}</Text>
-            <Text style={styles.bulletText}>{achievement}</Text>
+            <Text style={styles.bulletText}>{ansi(achievement)}</Text>
           </View>
         ))}
 
@@ -155,27 +177,35 @@ export function CVATS({ data, lang }: Props) {
         {toolGroups.map(group => (
           <Text key={group.label} style={styles.skillLine}>
             <Text style={styles.skillLabel}>{group.label}: </Text>
-            {group.items.slice(0, TOOLS_CAP).join(', ')}
+            {group.items.slice(0, group.label === t.methods ? 6 : TOOLS_CAP).join(', ')}
           </Text>
         ))}
 
         {/* ── Experience ── */}
-        <Text style={styles.sectionTitle}>{t.experience}</Text>
+        <Text style={styles.sectionTitle} minPresenceAhead={80}>{t.experience}</Text>
+        {/* Roles render flat (no wrapping View) so the page can break between
+            bullets; each title keeps at least its first lines with it */}
         {data.experience.map(exp => (
-          <View key={exp.id} style={styles.roleBlock} wrap={false}>
-            <Text style={styles.roleTitle}>{exp.role}</Text>
+          <Fragment key={exp.id}>
+            <Text style={styles.roleTitle} minPresenceAhead={70}>{exp.role}</Text>
             <Text style={styles.roleMeta}>
               {exp.company} | {exp.location} | {range(exp.start, exp.end, isEN)}
             </Text>
+            {exp.industry && (
+              <Text style={styles.roleIndustry}>
+                {isEN ? 'Industry' : 'Industria'}: {exp.industry}
+              </Text>
+            )}
             {(exp.bullets ?? [])
               .slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP)
               .map((bullet, i) => (
-                <View key={i} style={styles.bullet}>
+                <View key={i} style={styles.bullet} wrap={false}>
                   <Text style={styles.bulletChar}>{'•'}</Text>
-                  <Text style={styles.bulletText}>{bullet}</Text>
+                  <Text style={styles.bulletText}>{ansi(bullet)}</Text>
                 </View>
               ))}
-          </View>
+            <View style={styles.roleGap} />
+          </Fragment>
         ))}
 
         {/* ── Education: status gets its own line instead of a cramped cell ── */}
@@ -189,17 +219,11 @@ export function CVATS({ data, lang }: Props) {
             <Text style={styles.eduStatus}>
               {edu.status ?? (edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : ym(edu.end, isEN))}
             </Text>
-            {(edu.highlights ?? []).slice(1, 2).map((h, hi) => (
-              <View key={hi} style={styles.bullet}>
-                <Text style={styles.bulletChar}>{'•'}</Text>
-                <Text style={styles.bulletText}>{h}</Text>
-              </View>
-            ))}
           </View>
         ))}
 
         {/* ── Languages: one line, no grid ── */}
-        <Text style={styles.sectionTitle}>{t.languages}</Text>
+        <Text style={styles.sectionTitle} minPresenceAhead={20}>{t.languages}</Text>
         <Text style={styles.paragraph}>
           {data.languages.map(l => `${l.language}: ${l.level}`).join('  |  ')}
         </Text>
