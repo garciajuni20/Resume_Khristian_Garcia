@@ -23,7 +23,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Inter',
+          'Geist',
           'system-ui',
           '-apple-system',
           'BlinkMacSystemFont',

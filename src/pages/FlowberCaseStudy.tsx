@@ -1,365 +1,435 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-  ArrowLeft,
   ArrowRight,
-  Bell,
+  BarChart3,
+  Blocks,
   Bot,
-  Cloud,
+  CalendarDays,
+  ChevronRight,
+  Circle,
+  Code2,
   Database,
   ExternalLink,
-  Github,
   Layers,
+  Lightbulb,
+  Link2,
+  ListTree,
   Lock,
-  MessageCircle,
-  ShoppingBag,
-  BarChart3,
-  FileSpreadsheet,
+  Search,
+  ShieldCheck,
+  Store,
+  Table2,
+  Tags,
+  User,
+  Wrench,
 } from 'lucide-react';
-import Container from '../components/Container';
 import PageTransition from '../components/PageTransition';
-import ArchitectureDiagram, { type ArchLayer } from '../components/ArchitectureDiagram';
+import { Callout, CountUp, Reveal, SectionHeading, TableOfContents, Tag, Toggle } from '../components/notion/primitives';
+import { BrowserFrame, ChatDemo, PhoneFrame, Pipeline, WordReveal } from '../components/notion/visuals';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
+import { CHURN_SQL, FLOWBER_LIVE_URL, flowberContent, type Hat } from '../data/flowber';
+import { FLUID } from '../utils/animations';
 
-const LIVE_URL = 'https://flowber-barberia.pages.dev/';
-const GITHUB_URL = 'https://github.com/garciajuni20/flowber-barberia';
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
+const HAT_ICONS: Record<Hat['icon'], React.ReactNode> = {
+  code: <Code2 className="h-4 w-4" />,
+  blocks: <Blocks className="h-4 w-4" />,
+  store: <Store className="h-4 w-4" />,
+  bot: <Bot className="h-4 w-4" />,
+  search: <Search className="h-4 w-4" />,
+  database: <Database className="h-4 w-4" />,
+  chart: <BarChart3 className="h-4 w-4" />,
+  shield: <ShieldCheck className="h-4 w-4" />,
+};
+
+function PropertyRow({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1 py-1.5 sm:flex-row sm:items-start sm:gap-2">
+      <div className="flex w-40 shrink-0 items-center gap-2 n-muted text-sm">
+        <span aria-hidden="true">{icon}</span>
+        {label}
+      </div>
+      <div className="n-text min-w-0 flex-1 text-sm leading-relaxed">{children}</div>
+    </div>
+  );
+}
+
+function Cover() {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 400], [0, 80]);
+  return (
+    <div className="relative h-48 w-full overflow-hidden sm:h-64 lg:h-72">
+      <motion.img
+        src={asset('flowber/world-landscape.webp')}
+        alt=""
+        style={{ y }}
+        className="cover-drift absolute inset-0 h-full w-full object-cover object-[center_22%]"
+        fetchPriority="high"
+      />
+    </div>
+  );
+}
 
 export default function FlowberCaseStudy() {
   const { lang } = useLang();
-  const isEN = lang === 'en';
-
-  const t = isEN
-    ? {
-        badge: 'Case Study',
-        title: 'Flowber — Digital Barbershop Platform',
-        subtitle:
-          'A serverless booking and business management platform for a real barbershop in Guatemala. Built solo, end-to-end: product design, frontend, database, security model, notifications infrastructure, and BI.',
-        back: 'All projects',
-        live: 'Live Site',
-        github: 'GitHub',
-        problemTitle: 'The Problem',
-        problem:
-          'The barbershop ran everything over phone calls and a paper notebook: double-booked appointments, no-shows with no reminders, zero visibility into revenue, and the owner spending hours coordinating instead of cutting hair.',
-        solutionTitle: 'The Solution',
-        solution:
-          'A single web platform where customers book in real time, barbers manage their day, and the owner sees revenue and occupancy analytics — with automated confirmations and reminders over WhatsApp, Telegram, and email.',
-        archTitle: 'System Architecture',
-        archSubtitle: 'Serverless by design: no custom backend server to maintain — security and business rules live in the database itself.',
-        numbersTitle: 'By the Numbers',
-        highlightsTitle: 'Engineering Highlights',
-        detailTitle: 'How it works',
-        stats: [
-          { value: '19', label: 'Pages (role-gated, lazy-loaded)' },
-          { value: '3', label: 'Roles enforced with Postgres RLS' },
-          { value: '7', label: 'Supabase Edge Functions' },
-          { value: '5', label: 'BI SQL views (revenue, loyalty)' },
-          { value: '3', label: 'Notification channels' },
-          { value: '~28', label: 'Reusable components' },
-        ],
-        highlights: [
-          { icon: <Lock className="h-5 w-5" />, title: 'Security enforced in the database', desc: 'Customer / barber / admin roles are enforced with Postgres Row-Level Security — the same policies protect the UI, realtime subscriptions, and the chat assistant. No service-role key ever reaches the client.' },
-          { icon: <Bell className="h-5 w-5" />, title: 'Multichannel notifications', desc: 'Appointment confirmations and reminders over WhatsApp (self-hosted NestJS gateway), Telegram bot, and email (Resend) — including a one-click confirm/reject link for barbers.' },
-          { icon: <Bot className="h-5 w-5" />, title: 'LLM assistant grounded in live data', desc: 'An LLM assistant on Cloudflare Workers AI (Llama 4 Scout) with native function calling. It books and reschedules for customers, confirms appointments for barbers, and answers metrics questions for admins — retrieving the real services, appointments, and history at query time through RLS-scoped tool calls (RAG), so every answer comes from the database and the model never holds credentials. A provider router falls back to Gemini via n8n, then to a rule-based engine.' },
-          { icon: <BarChart3 className="h-5 w-5" />, title: 'Built-in Business Intelligence', desc: 'SQL views compute net revenue (revenue minus expenses), customer loyalty, and occupancy. Dedicated analytics pages for barbers and admins, with CSV export.' },
-          { icon: <ShoppingBag className="h-5 w-5" />, title: 'E-commerce module', desc: 'Product catalog, cart, and discount codes with usage limits — all under the same data model and audit log.' },
-          { icon: <FileSpreadsheet className="h-5 w-5" />, title: 'Auditability', desc: 'Every sensitive action lands in an append-only app_events table, giving the owner a full audit trail.' },
-        ],
-        cta: 'Want a system like this for your business?',
-        ctaButton: "Let's talk",
-      }
-    : {
-        badge: 'Caso de Estudio',
-        title: 'Flowber — Plataforma Digital de Barbería',
-        subtitle:
-          'Plataforma serverless de reservas y gestión de negocio para una barbería real en Guatemala. Construida en solitario, de punta a punta: diseño de producto, frontend, base de datos, modelo de seguridad, infraestructura de notificaciones y BI.',
-        back: 'Todos los proyectos',
-        live: 'Sitio en Vivo',
-        github: 'GitHub',
-        problemTitle: 'El Problema',
-        problem:
-          'La barbería operaba con llamadas telefónicas y un cuaderno: citas duplicadas, inasistencias sin recordatorios, cero visibilidad de ingresos, y el dueño invirtiendo horas coordinando en lugar de cortar cabello.',
-        solutionTitle: 'La Solución',
-        solution:
-          'Una sola plataforma web donde los clientes reservan en tiempo real, los barberos gestionan su día y el dueño ve analítica de ingresos y ocupación — con confirmaciones y recordatorios automáticos por WhatsApp, Telegram y correo.',
-        archTitle: 'Arquitectura del Sistema',
-        archSubtitle: 'Serverless por diseño: sin servidor backend propio que mantener — la seguridad y las reglas de negocio viven en la propia base de datos.',
-        numbersTitle: 'En Números',
-        highlightsTitle: 'Aspectos Destacados de Ingeniería',
-        detailTitle: 'Cómo funciona',
-        stats: [
-          { value: '19', label: 'Páginas (por rol, lazy-loaded)' },
-          { value: '3', label: 'Roles con RLS de Postgres' },
-          { value: '7', label: 'Edge Functions de Supabase' },
-          { value: '5', label: 'Vistas SQL de BI (ingresos, lealtad)' },
-          { value: '3', label: 'Canales de notificación' },
-          { value: '~28', label: 'Componentes reutilizables' },
-        ],
-        highlights: [
-          { icon: <Lock className="h-5 w-5" />, title: 'Seguridad en la base de datos', desc: 'Los roles cliente / barbero / admin se aplican con Row-Level Security de Postgres — las mismas políticas protegen la UI, las suscripciones realtime y el asistente de chat. La service-role key nunca llega al cliente.' },
-          { icon: <Bell className="h-5 w-5" />, title: 'Notificaciones multicanal', desc: 'Confirmaciones y recordatorios de citas por WhatsApp (gateway NestJS auto-hospedado), bot de Telegram y correo (Resend) — incluyendo un enlace de confirmar/rechazar con un clic para barberos.' },
-          { icon: <Bot className="h-5 w-5" />, title: 'Asistente LLM anclado en datos reales', desc: 'Un asistente LLM sobre Cloudflare Workers AI (Llama 4 Scout) con function calling nativo. Reserva y reagenda para clientes, confirma citas para barberos y responde métricas para admins — recuperando los servicios, citas e historial reales en tiempo de consulta mediante tool calls con alcance RLS (RAG), de modo que cada respuesta viene de la base de datos y el modelo nunca maneja credenciales. Un router de proveedores respalda con Gemini vía n8n y luego con un motor basado en reglas.' },
-          { icon: <BarChart3 className="h-5 w-5" />, title: 'Business Intelligence integrado', desc: 'Vistas SQL calculan ingresos netos (ingresos menos gastos), lealtad de clientes y ocupación. Páginas de analítica dedicadas para barberos y admins, con exportación a CSV.' },
-          { icon: <ShoppingBag className="h-5 w-5" />, title: 'Módulo de e-commerce', desc: 'Catálogo de productos, carrito y códigos de descuento con límites de uso — bajo el mismo modelo de datos y registro de auditoría.' },
-          { icon: <FileSpreadsheet className="h-5 w-5" />, title: 'Auditabilidad', desc: 'Cada acción sensible queda en una tabla app_events de solo escritura, dándole al dueño una traza de auditoría completa.' },
-        ],
-        cta: '¿Quieres un sistema así para tu negocio?',
-        ctaButton: 'Hablemos',
-      };
-
-  const layers: ArchLayer[] = isEN
-    ? [
-        {
-          id: 'frontend',
-          name: 'Frontend SPA',
-          icon: <Layers className="h-5 w-5" />,
-          technologies: ['React 18', 'TypeScript', 'Vite', 'Tailwind v4', 'Framer Motion'],
-          description: '19 pages, lazy-loaded and gated by role, with animated route transitions.',
-          detail: 'Role pages (customer booking, barber dashboard, admin CRUD) are code-split so each user only downloads what they can use. A ProtectedRoute component reads the role from the auth context and redirects unauthorized visitors.',
-        },
-        {
-          id: 'auth',
-          name: 'Auth & Row-Level Security',
-          icon: <Lock className="h-5 w-5" />,
-          technologies: ['Supabase Auth', 'Postgres RLS', 'JWT'],
-          description: 'Three-tier RBAC (customer / barber / admin) enforced by the database, not the client.',
-          detail: 'Every table carries RLS policies, so even a compromised client cannot read or write outside its role. The chat assistant builds its Supabase client from the caller\'s JWT — it inherits exactly the caller\'s permissions.',
-        },
-        {
-          id: 'data',
-          name: 'Data & Realtime',
-          icon: <Database className="h-5 w-5" />,
-          technologies: ['PostgreSQL', 'Supabase Realtime', '14+ tables', 'SQL views'],
-          description: 'Appointments, services, payments, products, audit log — with live updates.',
-          detail: 'Barber and admin dashboards subscribe to Postgres Changes with server-side filtering, so a new booking appears instantly without polling. Five SQL views power the BI pages: daily revenue, net revenue (minus expenses), customer loyalty, and more.',
-        },
-        {
-          id: 'functions',
-          name: 'Edge Functions',
-          icon: <Cloud className="h-5 w-5" />,
-          technologies: ['Deno', 'Supabase Functions', 'Resend'],
-          description: '7 serverless functions for email, WhatsApp, Telegram, the assistant, and one-click actions.',
-          detail: 'handle-appointment-action lets a barber confirm or reject a booking from a signed link in their email — no login needed. Each function validates its inputs and never exposes privileged credentials to the browser.',
-        },
-        {
-          id: 'notifications',
-          name: 'Notification Infrastructure',
-          icon: <MessageCircle className="h-5 w-5" />,
-          technologies: ['OpenWA (NestJS)', 'Telegram Bot', 'Docker', 'Traefik'],
-          description: 'Self-hosted WhatsApp HTTP gateway plus Telegram and email channels.',
-          detail: 'The WhatsApp gateway is a hardened NestJS service (Helmet CSP, API-key auth, rate limiting, Swagger docs) deployed with Docker Compose behind Traefik. Appointment reminders reach customers where they actually read messages: WhatsApp.',
-        },
-        {
-          id: 'infra',
-          name: 'Hosting & CI/CD',
-          icon: <Github className="h-5 w-5" />,
-          technologies: ['Cloudflare Pages', 'GitHub Actions', 'Wrangler'],
-          description: 'Zero-downtime deploys on every push, vendor chunk splitting, bundle analysis.',
-          detail: 'The Vite build drops console calls in production, splits vendor chunks manually, and ships a bundle visualizer report. GitHub Actions deploys to Cloudflare Pages via Wrangler.',
-        },
-      ]
-    : [
-        {
-          id: 'frontend',
-          name: 'Frontend SPA',
-          icon: <Layers className="h-5 w-5" />,
-          technologies: ['React 18', 'TypeScript', 'Vite', 'Tailwind v4', 'Framer Motion'],
-          description: '19 páginas, lazy-loaded y protegidas por rol, con transiciones animadas.',
-          detail: 'Las páginas por rol (reservas de cliente, dashboard de barbero, CRUD de admin) usan code-splitting: cada usuario solo descarga lo que puede usar. Un componente ProtectedRoute lee el rol del contexto de autenticación y redirige a visitantes no autorizados.',
-        },
-        {
-          id: 'auth',
-          name: 'Auth & Row-Level Security',
-          icon: <Lock className="h-5 w-5" />,
-          technologies: ['Supabase Auth', 'RLS de Postgres', 'JWT'],
-          description: 'RBAC de tres niveles (cliente / barbero / admin) aplicado por la base de datos, no por el cliente.',
-          detail: 'Cada tabla tiene políticas RLS: incluso un cliente comprometido no puede leer ni escribir fuera de su rol. El asistente de chat construye su cliente de Supabase con el JWT del usuario — hereda exactamente sus permisos.',
-        },
-        {
-          id: 'data',
-          name: 'Datos & Realtime',
-          icon: <Database className="h-5 w-5" />,
-          technologies: ['PostgreSQL', 'Supabase Realtime', '14+ tablas', 'Vistas SQL'],
-          description: 'Citas, servicios, pagos, productos, auditoría — con actualizaciones en vivo.',
-          detail: 'Los dashboards de barbero y admin se suscriben a Postgres Changes con filtrado del lado del servidor: una nueva reserva aparece al instante sin polling. Cinco vistas SQL alimentan las páginas de BI: ingresos diarios, ingresos netos (menos gastos), lealtad de clientes y más.',
-        },
-        {
-          id: 'functions',
-          name: 'Edge Functions',
-          icon: <Cloud className="h-5 w-5" />,
-          technologies: ['Deno', 'Supabase Functions', 'Resend'],
-          description: '7 funciones serverless para correo, WhatsApp, Telegram, el asistente y acciones de un clic.',
-          detail: 'handle-appointment-action permite al barbero confirmar o rechazar una reserva desde un enlace firmado en su correo — sin iniciar sesión. Cada función valida sus entradas y nunca expone credenciales privilegiadas al navegador.',
-        },
-        {
-          id: 'notifications',
-          name: 'Infraestructura de Notificaciones',
-          icon: <MessageCircle className="h-5 w-5" />,
-          technologies: ['OpenWA (NestJS)', 'Bot de Telegram', 'Docker', 'Traefik'],
-          description: 'Gateway HTTP de WhatsApp auto-hospedado, más canales de Telegram y correo.',
-          detail: 'El gateway de WhatsApp es un servicio NestJS endurecido (CSP con Helmet, auth por API key, rate limiting, docs Swagger) desplegado con Docker Compose detrás de Traefik. Los recordatorios llegan donde la gente realmente lee: WhatsApp.',
-        },
-        {
-          id: 'infra',
-          name: 'Hosting & CI/CD',
-          icon: <Github className="h-5 w-5" />,
-          technologies: ['Cloudflare Pages', 'GitHub Actions', 'Wrangler'],
-          description: 'Deploys sin downtime en cada push, división de chunks y análisis de bundle.',
-          detail: 'El build de Vite elimina console.log en producción, divide chunks de vendors manualmente y genera un reporte de visualización del bundle. GitHub Actions despliega a Cloudflare Pages vía Wrangler.',
-        },
-      ];
+  const c = flowberContent[lang];
+  const [view, setView] = useState<'timeline' | 'table'>('timeline');
+  const [screen, setScreen] = useState(c.screens[0].id);
+  const activeScreen = c.screens.find(s => s.id === screen) ?? c.screens[0];
 
   useSEO({
-    title: isEN ? 'Flowber Case Study' : 'Caso de Estudio Flowber',
-    description: t.subtitle,
+    title: lang === 'en' ? 'Flowber case study' : 'Caso de estudio Flowber',
+    description: c.tldr,
     lang,
-    keywords: ['Flowber', 'Supabase', 'PostgreSQL', 'RLS', 'React', 'TypeScript', 'case study', 'Guatemala'],
+    keywords: ['Flowber', 'Full-Stack', 'RAG', 'pgvector', 'dbt', 'DuckDB', 'Supabase', 'Cloudflare Workers AI', 'Data Engineering', 'Guatemala'],
   });
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white text-neutral-900 dark:from-neutral-950 dark:to-neutral-900 dark:text-neutral-50">
-        <Container>
-          <div className="py-10">
-            {/* Back link */}
-            <Link
-              to="/projects"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-neutral-500 hover:text-blue-600 dark:text-neutral-400 dark:hover:text-blue-400 transition-colors"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              {t.back}
-            </Link>
+      <article className="min-h-screen bg-[var(--n-bg)] pb-24">
+        <Cover />
 
-            {/* Hero */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="mt-6"
-            >
-              <span className="inline-flex items-center rounded-full border border-violet-200 bg-violet-50 px-4 py-1.5 text-sm font-semibold text-violet-700 dark:border-violet-900/40 dark:bg-violet-900/20 dark:text-violet-300">
-                {t.badge}
-              </span>
-              <h1 className="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight">{t.title}</h1>
-              <p className="mt-4 max-w-3xl text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                {t.subtitle}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href={LIVE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 hover:bg-violet-700 transition-colors"
-                >
-                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                  {t.live}
-                </a>
-                <a
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 transition-colors"
-                >
-                  <Github className="h-4 w-4" aria-hidden="true" />
-                  {t.github}
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15, duration: 0.45 }}
-              className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
-            >
-              {t.stats.map(stat => (
-                <div
-                  key={stat.label}
-                  className="rounded-2xl border border-neutral-200 bg-white p-4 text-center dark:border-neutral-800 dark:bg-neutral-900"
-                >
-                  <div className="text-2xl font-extrabold bg-gradient-to-br from-violet-600 to-indigo-500 bg-clip-text text-transparent">
-                    {stat.value}
-                  </div>
-                  <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 leading-snug">{stat.label}</div>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Problem / Solution */}
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              <motion.div
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45 }}
-                className="rounded-2xl border border-red-200/60 bg-red-50/50 p-6 dark:border-red-900/30 dark:bg-red-900/10"
-              >
-                <h2 className="text-lg font-bold text-red-800 dark:text-red-300">{t.problemTitle}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">{t.problem}</p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45 }}
-                className="rounded-2xl border border-emerald-200/60 bg-emerald-50/50 p-6 dark:border-emerald-900/30 dark:bg-emerald-900/10"
-              >
-                <h2 className="text-lg font-bold text-emerald-800 dark:text-emerald-300">{t.solutionTitle}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">{t.solution}</p>
-              </motion.div>
-            </div>
-
-            {/* Architecture */}
-            <div className="mt-14">
-              <ArchitectureDiagram
-                title={t.archTitle}
-                subtitle={t.archSubtitle}
-                layers={layers}
-                detailTitle={t.detailTitle}
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-12">
+            <div className="mx-auto w-full max-w-3xl">
+              {/* Page icon overlapping the cover */}
+              <motion.img
+                src={asset('flowber/logo-mark.webp')}
+                alt="Flowber"
+                initial={{ opacity: 0, y: 16, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.8, ease: FLUID }}
+                className="relative -mt-10 h-20 w-20 rounded-xl shadow-lg ring-4 ring-[var(--n-bg)]"
+                width={80}
+                height={80}
               />
-            </div>
 
-            {/* Engineering highlights */}
-            <div className="mt-14">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-6">{t.highlightsTitle}</h2>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {t.highlights.map((h, i) => (
-                  <motion.div
-                    key={h.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: (i % 3) * 0.08, duration: 0.4 }}
-                    className="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900"
-                  >
-                    <div className="inline-flex rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 p-2.5 text-white shadow-sm">
-                      {h.icon}
-                    </div>
-                    <h3 className="mt-3 font-semibold text-neutral-900 dark:text-white">{h.title}</h3>
-                    <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{h.desc}</p>
+              {/* Breadcrumb */}
+              <nav aria-label="Breadcrumb" className="mt-6 flex flex-wrap items-center gap-1 n-muted text-sm">
+                <Link to="/" className="n-hover rounded px-1">{c.breadcrumb[0]}</Link>
+                <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                <Link to="/projects" className="n-hover rounded px-1">{c.breadcrumb[1]}</Link>
+                <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
+                <span className="n-text px-1" aria-current="page">{c.breadcrumb[2]}</span>
+              </nav>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1, ease: FLUID }}
+                className="n-text mt-4 max-w-[680px] text-4xl font-bold leading-tight tracking-tight sm:text-5xl sm:leading-tight"
+              >
+                {c.title}
+              </motion.h1>
+
+              {/* Properties */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.25, ease: FLUID }}
+                className="n-border mt-6 border-b pb-4"
+              >
+                <PropertyRow icon={<User className="h-4 w-4" />} label={c.propertyLabels.role}>{c.properties.role}</PropertyRow>
+                <PropertyRow icon={<Store className="h-4 w-4" />} label={c.propertyLabels.client}>{c.properties.client}</PropertyRow>
+                <PropertyRow icon={<CalendarDays className="h-4 w-4" />} label={c.propertyLabels.period}>{c.properties.period}</PropertyRow>
+                <PropertyRow icon={<Circle className="h-4 w-4" />} label={c.propertyLabels.status}>
+                  <span className="n-tag n-tag-green gap-1.5">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                    </span>
+                    {c.properties.status}
+                  </span>
+                </PropertyRow>
+                <PropertyRow icon={<Tags className="h-4 w-4" />} label={c.propertyLabels.areas}>
+                  <div className="flex flex-wrap gap-1.5">
+                    {c.properties.areas.map(t => <Tag key={t.label} {...t} />)}
+                  </div>
+                </PropertyRow>
+                <PropertyRow icon={<Layers className="h-4 w-4" />} label={c.propertyLabels.stack}>
+                  <div className="flex flex-wrap gap-1.5">
+                    {c.properties.stack.map(s => <Tag key={s} label={s} color="gray" />)}
+                  </div>
+                </PropertyRow>
+                <PropertyRow icon={<Link2 className="h-4 w-4" />} label={c.propertyLabels.links}>
+                  <a href={FLOWBER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current">
+                    flowber-barberia.pages.dev
+                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </PropertyRow>
+              </motion.div>
+
+              <Reveal className="mt-6">
+                <Callout icon={<Lightbulb className="h-5 w-5" />}>{c.tldr}</Callout>
+              </Reveal>
+
+              {/* Numbers */}
+              <section className="mt-16">
+                <SectionHeading id="numeros">{c.sections.numbers}</SectionHeading>
+                <div className="n-border grid grid-cols-2 overflow-hidden rounded-lg border sm:grid-cols-4">
+                  {c.stats.map((s, i) => (
+                    <Reveal key={s.label} delay={(i % 4) * 0.08} className="n-border border-b border-r p-4 [&:nth-child(2n)]:border-r-0 sm:[&:nth-child(2n)]:border-r sm:[&:nth-child(4n)]:border-r-0 [&:nth-last-child(-n+2)]:border-b-0 sm:[&:nth-last-child(-n+4)]:border-b-0">
+                      <p className="n-text text-3xl font-semibold tracking-tight">
+                        <CountUp value={s.value} decimals={s.decimals} prefix={s.prefix} suffix={s.suffix} />
+                      </p>
+                      <p className="n-text mt-1 text-sm font-semibold">{s.label}</p>
+                      <p className="n-muted mt-0.5 text-xs leading-snug">{s.note}</p>
+                    </Reveal>
+                  ))}
+                </div>
+              </section>
+
+              {/* Product */}
+              <section className="mt-16">
+                <SectionHeading id="producto" intro={c.sections.productIntro}>{c.sections.product}</SectionHeading>
+                <div role="tablist" aria-label={c.sections.product} className="mb-4 flex gap-1">
+                  {c.screens.map(s => (
+                    <button
+                      key={s.id}
+                      role="tab"
+                      aria-selected={screen === s.id}
+                      onClick={() => setScreen(s.id)}
+                      className={`rounded-md px-3 py-1 text-sm transition-colors duration-300 active:scale-[0.98] ${screen === s.id ? 'n-callout n-text font-semibold' : 'n-hover n-muted'}`}
+                    >
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+                <Reveal>
+                  <div className="relative grid grid-cols-[minmax(0,1fr)_28%] items-end gap-4 sm:gap-6">
+                    <motion.div key={`d-${activeScreen.id}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: FLUID }}>
+                      <BrowserFrame src={asset(activeScreen.desktop)} alt={activeScreen.alt} url="flowber-barberia.pages.dev" />
+                    </motion.div>
+                    <motion.div key={`m-${activeScreen.id}`} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: FLUID }} className="translate-y-6">
+                      <PhoneFrame src={asset(activeScreen.mobile)} alt={activeScreen.alt} />
+                    </motion.div>
+                  </div>
+                </Reveal>
+              </section>
+
+              {/* Hats: Notion gallery view */}
+              <section className="mt-24">
+                <SectionHeading id="roles" intro={c.sections.hatsIntro}>{c.sections.hats}</SectionHeading>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {c.hats.map((h, i) => (
+                    <Reveal key={h.id} delay={(i % 2) * 0.08}>
+                      <motion.div
+                        whileHover={{ y: -4 }}
+                        transition={{ duration: 0.5, ease: FLUID }}
+                        className="n-border n-hover h-full rounded-lg border p-4 transition-colors duration-300"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="n-callout n-text flex h-8 w-8 items-center justify-center rounded-md" aria-hidden="true">
+                            {HAT_ICONS[h.icon]}
+                          </span>
+                          <h3 className="n-text text-base font-semibold">{h.title}</h3>
+                          <span className="ml-auto"><Tag {...h.tag} /></span>
+                        </div>
+                        <ul className="mt-3 space-y-1.5">
+                          {h.points.map(p => (
+                            <li key={p} className="n-muted flex gap-2 text-sm leading-relaxed">
+                              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--n-muted)]" aria-hidden="true" />
+                              {p}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    </Reveal>
+                  ))}
+                </div>
+              </section>
+
+              {/* Timeline: Notion database with two views */}
+              <section className="mt-24">
+                <SectionHeading id="bitacora" intro={c.sections.timelineIntro}>{c.sections.timeline}</SectionHeading>
+                <div role="tablist" aria-label={c.sections.timeline} className="n-border mb-4 flex gap-1 border-b">
+                  {(['timeline', 'table'] as const).map(v => (
+                    <button
+                      key={v}
+                      role="tab"
+                      aria-selected={view === v}
+                      onClick={() => setView(v)}
+                      className={`-mb-px flex items-center gap-1.5 border-b-2 px-2 py-2 text-sm transition-colors duration-300 ${view === v ? 'n-text border-current font-semibold' : 'n-muted border-transparent hover:text-[var(--n-text)]'}`}
+                    >
+                      {v === 'timeline' ? <ListTree className="h-4 w-4" aria-hidden="true" /> : <Table2 className="h-4 w-4" aria-hidden="true" />}
+                      {c.views[v]}
+                    </button>
+                  ))}
+                </div>
+
+                {view === 'timeline' ? (
+                  <ol className="relative">
+                    <motion.span
+                      initial={{ scaleY: 0 }}
+                      whileInView={{ scaleY: 1 }}
+                      viewport={{ once: true, margin: '-80px' }}
+                      transition={{ duration: 1.6, ease: FLUID }}
+                      className="absolute bottom-2 left-[7px] top-2 w-px origin-top bg-[var(--n-border)]"
+                      aria-hidden="true"
+                    />
+                    {c.timeline.map((e, i) => (
+                      <li key={e.title} className="relative pb-8 pl-8 last:pb-0">
+                        <motion.span
+                          initial={{ scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          viewport={{ once: true, margin: '-64px' }}
+                          transition={{ duration: 0.6, delay: i * 0.05, ease: FLUID }}
+                          className={`absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-2 ${e.status === 'live' ? 'border-emerald-500 bg-emerald-500' : 'border-[var(--n-muted)] bg-[var(--n-bg)]'}`}
+                          aria-hidden="true"
+                        >
+                          {e.status === 'live' && <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500 opacity-50" />}
+                        </motion.span>
+                        <Reveal delay={i * 0.05}>
+                          <p className="font-mono-geist n-muted text-xs uppercase tracking-wider">{e.date}</p>
+                          <h3 className="n-text mt-1 text-lg font-semibold">{e.title}</h3>
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {e.tags.map(t => <Tag key={t.label} {...t} />)}
+                          </div>
+                          <p className="n-muted mt-2 text-base leading-relaxed">{e.body}</p>
+                        </Reveal>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: FLUID }} className="n-border overflow-x-auto rounded-lg border">
+                    <table className="w-full min-w-[640px] text-left text-sm">
+                      <thead>
+                        <tr className="n-border n-muted border-b">
+                          <th className="px-3 py-2 font-normal">{c.tableHeads.date}</th>
+                          <th className="px-3 py-2 font-normal">{c.tableHeads.milestone}</th>
+                          <th className="px-3 py-2 font-normal">{c.tableHeads.areas}</th>
+                          <th className="px-3 py-2 font-normal">{c.tableHeads.status}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {c.timeline.map(e => (
+                          <tr key={e.title} className="n-border n-hover border-b last:border-b-0 transition-colors duration-300">
+                            <td className="font-mono-geist n-muted whitespace-nowrap px-3 py-2 text-xs">{e.date}</td>
+                            <td className="n-text px-3 py-2 font-semibold">{e.title}</td>
+                            <td className="px-3 py-2"><div className="flex flex-wrap gap-1">{e.tags.map(t => <Tag key={t.label} {...t} />)}</div></td>
+                            <td className="px-3 py-2"><Tag label={c.statusLabels[e.status]} color={e.status === 'live' ? 'green' : 'gray'} /></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </motion.div>
-                ))}
-              </div>
+                )}
+              </section>
+
+              {/* Architecture */}
+              <section className="mt-24">
+                <SectionHeading id="arquitectura" intro={c.sections.architectureIntro}>{c.sections.architecture}</SectionHeading>
+                <Pipeline nodes={c.requestPath} label={c.sections.architecture} />
+                <div className="mt-6 space-y-0.5">
+                  {c.layers.map(l => (
+                    <Toggle key={l.title} title={l.title}>{l.body}</Toggle>
+                  ))}
+                </div>
+              </section>
+
+              {/* AI + RAG */}
+              <section className="mt-24">
+                <SectionHeading id="ia" intro={c.sections.aiIntro}>{c.sections.ai}</SectionHeading>
+                <Pipeline nodes={c.ragPath} label="RAG" />
+                <Reveal className="mt-6">
+                  <ChatDemo turns={c.chat} title={c.chatTitle} note={c.chatNote} />
+                </Reveal>
+              </section>
+
+              {/* Data + ML */}
+              <section className="mt-24">
+                <SectionHeading id="datos" intro={c.sections.dataIntro}>{c.sections.data}</SectionHeading>
+                <Pipeline nodes={c.etlPath} label="ETL" />
+                <Reveal className="mt-6">
+                  <div className="n-border overflow-x-auto rounded-lg border">
+                    <table className="w-full min-w-[560px] text-left text-sm">
+                      <thead>
+                        <tr className="n-border n-muted border-b">
+                          <th className="px-3 py-2 font-normal">{c.martHeads.name}</th>
+                          <th className="px-3 py-2 font-normal">{c.martHeads.question}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {c.marts.map(m => (
+                          <tr key={m.name} className="n-border n-hover border-b last:border-b-0 transition-colors duration-300">
+                            <td className="font-mono-geist whitespace-nowrap px-3 py-2 text-xs text-[#eb5757]">{m.name}</td>
+                            <td className="n-text px-3 py-2">{m.question}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </Reveal>
+                <Reveal className="mt-6">
+                  <figure className="n-code overflow-hidden rounded-lg">
+                    <div className="flex items-center justify-between px-4 pt-3">
+                      <span className="n-muted text-xs">SQL · dbt</span>
+                      <Wrench className="h-3.5 w-3.5 n-muted" aria-hidden="true" />
+                    </div>
+                    <pre className="overflow-x-auto px-4 py-3 text-xs leading-relaxed n-text font-mono-geist"><code>{CHURN_SQL}</code></pre>
+                    <figcaption className="n-muted px-4 pb-3 text-xs">{c.sqlCaption}</figcaption>
+                  </figure>
+                </Reveal>
+              </section>
+
+              {/* Decisions */}
+              <section className="mt-24">
+                <SectionHeading id="decisiones" intro={c.sections.decisionsIntro}>{c.sections.decisions}</SectionHeading>
+                <div className="space-y-0.5">
+                  {c.decisions.map((d, i) => (
+                    <Toggle key={d.title} title={d.title} defaultOpen={i === 0}>{d.body}</Toggle>
+                  ))}
+                </div>
+              </section>
             </div>
 
-            {/* CTA */}
-            <div className="mt-14 relative overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-r from-violet-600 to-indigo-600 p-8 text-center dark:border-neutral-800 shadow-xl shadow-violet-500/20">
-              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }} aria-hidden="true" />
-              <div className="relative z-10">
-                <h3 className="mb-4 text-xl font-bold text-white">{t.cta}</h3>
+            {/* Sticky outline */}
+            <aside className="hidden lg:block">
+              <div className="sticky top-24 mt-16">
+                <TableOfContents items={c.toc} title={lang === 'en' ? 'On this page' : 'En esta página'} />
+              </div>
+            </aside>
+          </div>
+
+          {/* Tagline reveal */}
+          <section className="py-32 text-center" aria-label="Tagline">
+            <WordReveal text={c.tagline} />
+          </section>
+
+          {/* CTA */}
+          <Reveal>
+            <div className="n-callout mx-auto max-w-3xl rounded-xl px-6 py-10 text-center">
+              <h2 className="n-text text-2xl font-semibold tracking-tight">{c.cta.title}</h2>
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <a
+                  href={FLOWBER_LIVE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[var(--n-text)] px-4 py-2 text-base font-semibold text-[var(--n-bg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+                >
+                  {c.cta.live}
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                </a>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-violet-700 hover:bg-violet-50 transition-colors shadow-lg"
+                  className="n-border n-text n-hover inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-base font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
                 >
-                  {t.ctaButton}
+                  {c.cta.contact}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
+              <p className="n-muted mt-4 flex items-center justify-center gap-1.5 text-xs">
+                <Lock className="h-3 w-3" aria-hidden="true" />
+                {c.cta.privateRepo}
+              </p>
             </div>
-          </div>
-        </Container>
-      </main>
+          </Reveal>
+        </div>
+      </article>
     </PageTransition>
   );
 }

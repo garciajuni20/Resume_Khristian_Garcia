@@ -153,7 +153,7 @@ export default function Projects() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white text-neutral-900 dark:from-neutral-950 dark:to-neutral-900 dark:text-neutral-50">
+      <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
         <Container>
           <motion.div
             className="py-10"
@@ -260,7 +260,7 @@ export default function Projects() {
             </div>
           </motion.div>
         </Container>
-      </main>
+      </div>
     </PageTransition>
   );
 }

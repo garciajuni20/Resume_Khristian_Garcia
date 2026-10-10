@@ -3,11 +3,12 @@ import { Award, Calendar, ExternalLink, GraduationCap, Briefcase } from 'lucide-
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
-import type { CertificationItem } from '../types';
+import type { CertificationItem, ProfileData } from '../types';
 
 export default function Certifications() {
   const { lang } = useLang();
-  const certifications: CertificationItem[] = (lang === 'en' ? profileEN : profileES).certifications;
+  const profile: ProfileData = lang === 'en' ? profileEN : profileES;
+  const certifications: CertificationItem[] = profile.certifications ?? [];
 
   const professional = certifications.filter(c => c.type === 'professional');
   const training = certifications.filter(c => c.type === 'training');

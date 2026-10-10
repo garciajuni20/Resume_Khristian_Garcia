@@ -1,25 +1,6 @@
 import { useRef } from 'react';
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useInView,
-  useScroll,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  BarChart3,
-  Code,
-  Database,
-  Cloud,
-  MapPin,
-  GraduationCap,
-  ExternalLink,
-  TrendingUp,
-  CheckCircle2,
-  Github,
-} from 'lucide-react';
+import { motion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
+import { ArrowRight, Briefcase, ExternalLink, GraduationCap, Languages, MapPin, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Container from '../components/Container';
 import { useLang } from '../context/LanguageContext';
@@ -32,528 +13,381 @@ import TypingAnimation from '../components/TypingAnimation';
 import PageTransition from '../components/PageTransition';
 import Magnetic from '../components/Magnetic';
 import TechMarquee from '../components/TechMarquee';
-import { staggerContainer, cardReveal, EASE } from '../utils/animations';
+import SlashCommand from '../components/home/SlashCommand';
+import IndustryRail from '../components/home/IndustryRail';
+import FlowberSpotlight from '../components/home/FlowberSpotlight';
+import Services from '../components/home/Services';
+import { CountUp, Reveal } from '../components/notion/primitives';
+import { WordReveal } from '../components/notion/visuals';
+import { FLUID } from '../utils/animations';
 
-/* ─── 3D Tilt Card ─────────────────────────────────────────────────── */
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+/* ─── Hero backdrop: dot grid lit by a spotlight that follows the cursor ── */
+function HeroGrid({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [7, -7]), { damping: 18, stiffness: 200 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-7, 7]), { damping: 18, stiffness: 200 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
-    // Cursor spotlight position, inherited by .spotlight-card descendants
-    e.currentTarget.style.setProperty('--spot-x', `${e.clientX - rect.left}px`);
-    e.currentTarget.style.setProperty('--spot-y', `${e.clientY - rect.top}px`);
-  };
+  const mx = useMotionValue(-400);
+  const my = useMotionValue(-400);
+  const sx = useSpring(mx, { stiffness: 120, damping: 20 });
+  const sy = useSpring(my, { stiffness: 120, damping: 20 });
+  const mask = useMotionTemplate`radial-gradient(260px circle at ${sx}px ${sy}px, black, transparent 70%)`;
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => { x.set(0); y.set(0); }}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-      className={className}
+      onMouseMove={e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        mx.set(e.clientX - r.left);
+        my.set(e.clientY - r.top);
+      }}
+      onMouseLeave={() => {
+        mx.set(-400);
+        my.set(-400);
+      }}
+      className="n-border relative overflow-hidden rounded-3xl border bg-[var(--n-bg)]"
     >
-      {children}
-    </motion.div>
-  );
-}
-
-/* ─── Animated Hero Background (with scroll parallax) ──────────────── */
-function HeroBackground() {
-  const { scrollY } = useScroll();
-  const parallaxSlow = useTransform(scrollY, [0, 600], [0, 70]);
-  const parallaxFast = useTransform(scrollY, [0, 600], [0, -50]);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
-      {/* Blue orb top-right */}
-      <motion.div
-        className="absolute -top-24 -right-24 h-[480px] w-[480px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.18) 0%, transparent 70%)', y: parallaxSlow }}
-        animate={{ x: [0, 18, 0], scale: [1, 1.08, 1] }}
-        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      {/* Violet orb bottom-left */}
-      <motion.div
-        className="absolute -bottom-16 -left-16 h-[400px] w-[400px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 70%)', y: parallaxFast }}
-        animate={{ x: [0, -12, 0], scale: [1, 1.06, 1] }}
-        transition={{ duration: 13, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-      />
-      {/* Cyan orb center */}
-      <motion.div
-        className="absolute top-1/2 left-[30%] h-[300px] w-[300px] rounded-full blur-3xl"
-        style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 70%)', y: parallaxSlow }}
-        animate={{ x: [0, 10, 0], scale: [1, 1.12, 1] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 6 }}
-      />
-      {/* Dot grid */}
       <div
-        className="absolute inset-0 opacity-[0.025] dark:opacity-[0.045]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, #64748b 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{ backgroundImage: 'radial-gradient(circle, var(--n-border) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
+        aria-hidden="true"
       />
+      <motion.div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: 'radial-gradient(circle, var(--n-accent) 1.2px, transparent 1.2px)',
+          backgroundSize: '24px 24px',
+          WebkitMaskImage: mask,
+          maskImage: mask,
+        }}
+        aria-hidden="true"
+      />
+      <div className="relative">{children}</div>
     </div>
   );
 }
 
-/* ─── Animated Photo with rotating gradient ring ────────────────────── */
 function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative shrink-0">
-      {/* Glow pulse */}
-      <motion.div
-        className="absolute -inset-3 rounded-2xl opacity-50"
-        style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4)', filter: 'blur(12px)' }}
-        animate={{ opacity: [0.25, 0.55, 0.25], scale: [1, 1.04, 1] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      {/* Spinning border container */}
-      <div
-        className="relative overflow-hidden"
-        style={{ padding: '3px', borderRadius: '16px' }}
-      >
+      <div className="relative overflow-hidden rounded-2xl p-[3px]">
         <motion.div
-          className="absolute"
-          style={{
-            inset: '-60%',
-            background: 'conic-gradient(from 0deg, #3b82f6, #8b5cf6, #06b6d4, #10b981, #3b82f6)',
-          }}
+          className="absolute -inset-[60%]"
+          style={{ background: 'conic-gradient(from 0deg, #2383e2, #9065b0, #dfab01, #0f7b6c, #2383e2)' }}
           animate={{ rotate: 360 }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
         />
-        <div
-          className="relative z-10 overflow-hidden bg-white dark:bg-neutral-900"
-          style={{ borderRadius: '13px' }}
-        >
-          <img
-            src={src}
-            alt={alt}
-            className="h-32 w-32 sm:h-40 sm:w-40 block object-cover object-top hover:scale-105 transition-transform duration-500"
-            loading="eager"
-          />
+        <div className="relative z-10 overflow-hidden rounded-[13px] bg-[var(--n-bg)]">
+          <img src={src} alt={alt} className="block h-32 w-32 object-cover object-top sm:h-40 sm:w-40" loading="eager" width={160} height={160} />
         </div>
       </div>
-      {/* Online indicator */}
-      <motion.div
-        className="absolute -bottom-1 -right-1 flex items-center justify-center rounded-full bg-green-500 ring-2 ring-white dark:ring-neutral-900"
-        style={{ width: 18, height: 18 }}
-        animate={{ scale: [1, 1.15, 1] }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <div className="h-2 w-2 rounded-full bg-white" />
-      </motion.div>
+      <span className="absolute -bottom-1 -right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-emerald-500 ring-2 ring-[var(--n-bg)]">
+        <span className="h-2 w-2 rounded-full bg-white" />
+      </span>
     </div>
   );
 }
 
-/* ─── Scroll-triggered section wrapper ─────────────────────────────── */
-function RevealSection({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+/* ─── Name that assembles letter by letter ──────────────────────────── */
+function SplitName({ text }: { text: string }) {
+  let index = 0;
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 28, filter: 'blur(8px)' }}
-      animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-      transition={{ duration: 0.55, ease: EASE }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <span aria-label={text} className="inline-block">
+      {text.split(' ').map((word, w) => (
+        // Letters of a word stay together so the name never breaks mid-word
+        <span key={w} aria-hidden="true" className="inline-block whitespace-nowrap">
+          {word.split('').map(ch => {
+            const i = index++;
+            return (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: '0.5em', filter: 'blur(8px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 0.8, delay: 0.15 + i * 0.03, ease: FLUID }}
+                className="inline-block bg-gradient-to-r from-black to-[#666666] bg-clip-text text-transparent dark:from-white dark:to-[#9b9b9b]"
+              >
+                {ch}
+              </motion.span>
+            );
+          })}
+          {w < text.split(' ').length - 1 && '\u00A0'}
+        </span>
+      ))}
+    </span>
   );
 }
 
-/* ─── Home Page ─────────────────────────────────────────────────────── */
 export default function Home() {
   const { lang } = useLang();
 
   const t = lang === 'en'
     ? {
-        badge: 'Open to Opportunities',
+        badge: 'Open to full-time roles and freelance projects',
         name: 'Khristian Garcia',
-        roles: ['Data Analyst', 'BI Engineer · Snowflake', 'Full-Stack Developer', 'Academic Instructor'],
+        roles: ['Data Engineer', 'Full-Stack Developer', 'AI & RAG Engineer', 'Solutions Architect', 'Analytics Engineer'],
         summary:
-          'Built the entire BI function for a US fintech company from Guatemala — Snowflake data models, Power BI dashboards, SQL pipelines that drive decisions across 5 departments. Also teaching BI at USAC and shipping production web apps with React & TypeScript.',
-        location: 'Guatemala City, Guatemala',
-        education: 'Systems Engineering — USAC · Academic Instructor',
-        ctaPrimary: 'View Interactive Resume',
-        ctaSecondary: 'See Projects',
-        liveProjects: 'Live Projects',
+          'I turn messy operations into systems people can use and data they can trust. 7+ years across US financial services (debt consolidation and remittances), service retail, and education: from Snowflake platforms for a US fintech to Flowber, a barbershop I took from idea to production with AI and a data warehouse.',
+        location: 'Guatemala City · Remote',
+        education: 'Systems Engineering, USAC',
+        bilingual: 'English and Spanish',
+        ctaPrimary: 'View interactive resume',
+        ctaSecondary: 'Hire me for a project',
+        slashTitle: 'Explore my profiles',
+        slashSub: 'A Notion-style command menu. Pick a block or let it play.',
+        liveProjects: 'Live projects',
         viewAll: 'View all projects',
-        caseStudy: 'Case Study',
-        highlights: [
-          'Built BI from scratch at Alleviate Financial Solutions',
-          'Raised data accuracy from 85% → 99.5% with Snowflake',
-          'Cut reporting time from 2+ days to under 30 minutes',
-        ],
-        domains: [
-          { icon: <Database className="h-5 w-5" />, title: 'Data Engineering', desc: 'Snowflake · SQL · ETL · dbt · Data Modeling', color: 'from-blue-500 to-blue-600', glow: 'rgba(59,130,246,0.2)' },
-          { icon: <BarChart3 className="h-5 w-5" />, title: 'Business Intelligence', desc: 'Power BI · Tableau · DAX · KPI Dashboards', color: 'from-emerald-500 to-teal-600', glow: 'rgba(16,185,129,0.2)' },
-          { icon: <Code className="h-5 w-5" />, title: 'Full-Stack Dev', desc: 'React · TypeScript · Tailwind · Vite · REST APIs', color: 'from-violet-500 to-purple-600', glow: 'rgba(139,92,246,0.2)' },
-          { icon: <Cloud className="h-5 w-5" />, title: 'Cloud & DevOps', desc: 'Cloudflare · GCP · Docker · GitHub Actions · CI/CD', color: 'from-orange-500 to-red-500', glow: 'rgba(249,115,22,0.2)' },
-        ],
+        caseStudy: 'Case study',
+        liveDemo: 'Live demo',
         stats: [
-          { value: '6+', label: 'Years in Tech', sub: 'since 2019' },
-          { value: '15+', label: 'Dashboards Delivered', sub: 'Power BI · Tableau' },
-          { value: '99.5%', label: 'Data Accuracy', sub: 'Snowflake models' },
+          { v: 7, s: '+', label: 'years in tech', sub: 'since 2019' },
+          { v: 99.5, d: 1, s: '%', label: 'data accuracy', sub: 'Snowflake at Alleviate' },
+          { v: 160, s: '+', label: 'appointments', sub: 'Flowber in production' },
         ],
+        tagline: 'I learn the business first, then build the system: clean data, honest AI, and software the team actually uses.',
       }
     : {
-        badge: 'Disponible para Oportunidades',
+        badge: 'Disponible para empleo y proyectos por servicios',
         name: 'Khristian Garcia',
-        roles: ['Analista de Datos', 'Ingeniero BI · Snowflake', 'Desarrollador Full-Stack', 'Instructor Académico'],
+        roles: ['Ingeniero de Datos', 'Desarrollador Full-Stack', 'Ingeniero de IA y RAG', 'Arquitecto de Soluciones', 'Analytics Engineer'],
         summary:
-          'Construí la función completa de BI para una fintech de EE. UU. desde Guatemala — modelos en Snowflake, dashboards en Power BI y pipelines SQL que hoy impulsan decisiones en 5 departamentos. También enseño BI en la USAC y desarrollo apps web en producción con React y TypeScript.',
-        location: 'Ciudad de Guatemala, Guatemala',
-        education: 'Ingeniería en Sistemas — USAC · Instructor Académico',
-        ctaPrimary: 'Ver CV Interactivo',
-        ctaSecondary: 'Ver Proyectos',
-        liveProjects: 'Proyectos en Vivo',
+          'Convierto operaciones desordenadas en sistemas que la gente usa y datos en los que se puede confiar. Más de 7 años entre servicios financieros de EE. UU. (consolidación de deudas y remesas), retail de servicios y educación: desde plataformas en Snowflake para una fintech estadounidense hasta Flowber, una barbería que llevé de la idea a producción con IA y un data warehouse.',
+        location: 'Ciudad de Guatemala · Remoto',
+        education: 'Ingeniería en Sistemas, USAC',
+        bilingual: 'Inglés y español',
+        ctaPrimary: 'Ver CV interactivo',
+        ctaSecondary: 'Contratar por proyecto',
+        slashTitle: 'Explora mis perfiles',
+        slashSub: 'Un menú de comandos al estilo Notion. Elige un bloque o déjalo correr.',
+        liveProjects: 'Proyectos en vivo',
         viewAll: 'Ver todos los proyectos',
-        caseStudy: 'Caso de Estudio',
-        highlights: [
-          'Construí el área de BI desde cero en Alleviate Financial Solutions',
-          'Elevé la precisión de datos del 85% → 99.5% con Snowflake',
-          'Reduje el ciclo de reportes de 2+ días a menos de 30 minutos',
-        ],
-        domains: [
-          { icon: <Database className="h-5 w-5" />, title: 'Ingeniería de Datos', desc: 'Snowflake · SQL · ETL · dbt · Modelado de Datos', color: 'from-blue-500 to-blue-600', glow: 'rgba(59,130,246,0.2)' },
-          { icon: <BarChart3 className="h-5 w-5" />, title: 'Inteligencia de Negocios', desc: 'Power BI · Tableau · DAX · Dashboards KPI', color: 'from-emerald-500 to-teal-600', glow: 'rgba(16,185,129,0.2)' },
-          { icon: <Code className="h-5 w-5" />, title: 'Desarrollo Full-Stack', desc: 'React · TypeScript · Tailwind · Vite · REST APIs', color: 'from-violet-500 to-purple-600', glow: 'rgba(139,92,246,0.2)' },
-          { icon: <Cloud className="h-5 w-5" />, title: 'Cloud & DevOps', desc: 'Cloudflare · GCP · Docker · GitHub Actions · CI/CD', color: 'from-orange-500 to-red-500', glow: 'rgba(249,115,22,0.2)' },
-        ],
+        caseStudy: 'Caso de estudio',
+        liveDemo: 'Demo en vivo',
         stats: [
-          { value: '6+', label: 'Años en Tecnología', sub: 'desde 2019' },
-          { value: '15+', label: 'Dashboards Entregados', sub: 'Power BI · Tableau' },
-          { value: '99.5%', label: 'Precisión de Datos', sub: 'modelos Snowflake' },
+          { v: 7, s: '+', label: 'años en tecnología', sub: 'desde 2019' },
+          { v: 99.5, d: 1, s: '%', label: 'precisión de datos', sub: 'Snowflake en Alleviate' },
+          { v: 160, s: '+', label: 'citas', sub: 'Flowber en producción' },
         ],
+        tagline: 'Primero entiendo el negocio, después construyo el sistema: datos limpios, IA honesta y software que el equipo de verdad usa.',
       };
 
-  // Featured live projects come straight from the profile data (single source of truth)
   const profile = lang === 'en' ? profileEN : profileES;
-  const homeProjects = profile.projects.filter(
-    p => p.id === 'vale-combustible' || p.id === 'flowber-barberia'
-  );
+  const homeProjects = profile.projects.filter(p => p.id === 'vale-combustible' || p.id === 'flowber-barberia');
 
   useSEO({
-    title: `${t.name} — ${lang === 'en' ? 'Data Analyst · BI Engineer · Full-Stack Developer' : 'Analista de Datos · Ingeniero BI · Desarrollador Full-Stack'}`,
+    title: `${t.name} — ${lang === 'en' ? 'Data Engineer · Full-Stack & AI · Solutions Architect' : 'Ingeniero de Datos · Full-Stack & IA · Arquitecto de Soluciones'}`,
     description: t.summary,
     lang,
-    keywords: ['Data Analyst', 'Business Intelligence', 'Full Stack Developer', 'React', 'TypeScript', 'Snowflake', 'Power BI', 'Guatemala'],
+    keywords: ['Data Engineer', 'Full Stack Developer', 'AI Engineer', 'RAG', 'Solutions Architect', 'Snowflake', 'dbt', 'React', 'Fintech', 'Guatemala', 'Freelance'],
   });
+
+  const scrollToServices = () => document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-950 dark:to-neutral-900">
+      <div className="min-h-screen bg-[var(--n-bg)]">
         <Container>
-          <div className="pt-8 pb-20 space-y-8">
+          <div className="space-y-24 pb-24 pt-8">
+            {/* ── Hero ─────────────────────────────────────────────── */}
+            <HeroGrid>
+              <div className="p-6 sm:p-10">
+                <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex-1">
+                    <motion.p
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, ease: FLUID }}
+                      className="n-tag n-tag-green mb-5 gap-2 py-0.5 text-sm"
+                    >
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                      </span>
+                      {t.badge}
+                    </motion.p>
 
-            {/* ── Hero ──────────────────────────────────────────────── */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-white/80 backdrop-blur-sm p-8 sm:p-10 dark:border-neutral-800/80 dark:bg-neutral-900/80 shadow-xl shadow-neutral-900/5"
-            >
-              <HeroBackground />
+                    <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
+                      <SplitName text={t.name} />
+                    </h1>
 
-              <div className="relative z-10 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8">
-                {/* Left */}
-                <div className="flex-1">
-                  {/* Badge */}
+                    <p className="n-text mt-3 min-h-[1.75rem] text-xl font-semibold">
+                      <TypingAnimation words={t.roles} />
+                    </p>
+
+                    <motion.p
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.5, ease: FLUID }}
+                      className="n-muted mt-4 max-w-[680px] text-base leading-relaxed"
+                    >
+                      {t.summary}
+                    </motion.p>
+
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.6, ease: FLUID }}
+                      className="n-muted mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm"
+                    >
+                      <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" aria-hidden="true" />{t.location}</span>
+                      <span className="flex items-center gap-1.5"><Languages className="h-3.5 w-3.5" aria-hidden="true" />{t.bilingual}</span>
+                      <span className="flex items-center gap-1.5"><GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />{t.education}</span>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.7, ease: FLUID }}
+                      className="mt-7 flex flex-wrap gap-3"
+                    >
+                      <Magnetic>
+                        <Link
+                          to="/resume"
+                          className="group inline-flex items-center gap-2 rounded-lg bg-[var(--n-text)] px-4 py-2 text-base font-semibold text-[var(--n-bg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]"
+                        >
+                          {t.ctaPrimary}
+                          <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
+                        </Link>
+                      </Magnetic>
+                      <Magnetic>
+                        <button
+                          type="button"
+                          onClick={scrollToServices}
+                          className="n-border n-text n-hover inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-base font-semibold transition-colors duration-300 active:scale-[0.98]"
+                        >
+                          <Briefcase className="h-4 w-4" aria-hidden="true" />
+                          {t.ctaSecondary}
+                        </button>
+                      </Magnetic>
+                    </motion.div>
+                  </div>
+
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.15 }}
-                    className="mb-5 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-1.5 text-sm font-semibold text-green-700 dark:border-green-900/40 dark:bg-green-900/20 dark:text-green-400"
+                    initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.9, delay: 0.2, ease: FLUID }}
+                    className="shrink-0 self-start"
                   >
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-                    </span>
-                    {t.badge}
-                  </motion.div>
-
-                  {/* Name */}
-                  <motion.h1
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="text-4xl sm:text-5xl font-extrabold tracking-tight"
-                  >
-                    <span className="text-shimmer">{t.name}</span>
-                  </motion.h1>
-
-                  {/* Typing role */}
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.35 }}
-                    className="mt-2 text-lg font-semibold text-blue-600 dark:text-blue-400 min-h-[1.75rem]"
-                  >
-                    <TypingAnimation words={t.roles} />
-                  </motion.p>
-
-                  {/* Summary */}
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.45 }}
-                    className="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300 leading-relaxed"
-                  >
-                    {t.summary}
-                  </motion.p>
-
-                  {/* Highlights */}
-                  <motion.ul
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-4 space-y-1.5"
-                  >
-                    {t.highlights.map(h => (
-                      <li key={h} className="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-300">
-                        <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
-                        {h}
-                      </li>
-                    ))}
-                  </motion.ul>
-
-                  {/* Meta */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.55 }}
-                    className="mt-5 flex flex-wrap gap-4 text-sm text-neutral-500 dark:text-neutral-400"
-                  >
-                    <div className="flex items-center gap-1.5">
-                      <MapPin className="h-3.5 w-3.5" />
-                      {t.location}
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <GraduationCap className="h-3.5 w-3.5" />
-                      {t.education}
-                    </div>
-                  </motion.div>
-
-                  {/* CTAs */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="mt-7 flex flex-wrap gap-3"
-                  >
-                    <Magnetic>
-                      <Link
-                        to="/resume"
-                        className="group inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:shadow-blue-500/40 transition-all duration-200"
-                      >
-                        {t.ctaPrimary}
-                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </Magnetic>
-                    <Magnetic>
-                      <Link
-                        to="/projects"
-                        className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white/80 px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-white hover:border-neutral-400 transition-all duration-200 dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-white dark:hover:bg-neutral-700"
-                      >
-                        {t.ctaSecondary}
-                      </Link>
-                    </Magnetic>
+                    <ProfilePhoto src={profileEN.photoUrl} alt="Khristian Garcia" />
                   </motion.div>
                 </div>
 
-                {/* Photo */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.25, duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
-                  className="shrink-0 self-start"
-                >
-                  <ProfilePhoto src={profileEN.photoUrl} alt="Khristian Garcia" />
-                </motion.div>
-              </div>
-
-              {/* Stats bar */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.65 }}
-                className="relative z-10 mt-8 grid grid-cols-3 gap-4 border-t border-neutral-200/60 pt-7 dark:border-neutral-800/60"
-              >
-                {t.stats.map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7 + i * 0.07 }}
-                    className="text-center"
-                  >
-                    <div className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-br from-blue-600 to-violet-500 bg-clip-text text-transparent">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mt-0.5">
-                      {stat.label}
-                    </div>
-                    <div className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">{stat.sub}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            {/* ── Domain Cards ─────────────────────────────────────── */}
-            <RevealSection>
-              <motion.div
-                variants={staggerContainer}
-                initial="initial"
-                whileInView="animate"
-                viewport={{ once: true, margin: '-60px' }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-              >
-                {t.domains.map(domain => (
-                  <motion.div key={domain.title} variants={cardReveal}>
-                    <TiltCard className="h-full">
-                      <div
-                        className="spotlight-card relative h-full overflow-hidden rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-800 dark:bg-neutral-900 cursor-default transition-all duration-300 hover:shadow-xl"
-                        style={{ '--spot-color': domain.glow } as React.CSSProperties}
-                      >
-                        {/* Top accent bar */}
-                        <div className={`absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r ${domain.color}`} />
-
-                        <div className={`mb-3 inline-flex rounded-xl bg-gradient-to-br ${domain.color} p-2.5 shadow-sm`}>
-                          <div className="text-white">{domain.icon}</div>
-                        </div>
-                        <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">{domain.title}</h3>
-                        <p className="mt-1.5 text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                          {domain.desc}
-                        </p>
-                      </div>
-                    </TiltCard>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </RevealSection>
-
-            {/* ── Tech Stack Marquee ────────────────────────────────── */}
-            <RevealSection>
-              <TechMarquee />
-            </RevealSection>
-
-            {/* ── Live Projects ─────────────────────────────────────── */}
-            <RevealSection>
-              <div className="mb-5 flex items-center justify-between">
-                <h2 className="text-xl font-bold text-neutral-900 dark:text-white">{t.liveProjects}</h2>
-                <Link
-                  to="/projects"
-                  className="group flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors"
-                >
-                  {t.viewAll}
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {homeProjects.map((project, idx) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.08, duration: 0.45 }}
-                    whileHover={{ y: -4 }}
-                    className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900 transition-shadow duration-300 hover:shadow-xl"
-                  >
-                    {/* Gradient header strip */}
-                    <div className={`h-1.5 w-full bg-gradient-to-r ${project.gradient}`} />
-
-                    <div className="p-5">
-                      <div className="mb-3 flex items-center justify-between">
-                        <div className="flex flex-wrap gap-1.5">
-                          {project.technologies.slice(0, 3).map(tag => (
-                            <span
-                              key={tag}
-                              className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs font-medium text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                          Live
-                        </span>
-                      </div>
-
-                      <h3 className="font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
-                        {project.title}
-                      </h3>
-                      <p className="mt-1.5 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                        {project.description}
+                <div className="n-border mt-10 grid grid-cols-3 gap-4 border-t pt-6">
+                  {t.stats.map((s, i) => (
+                    <motion.div
+                      key={s.label}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.8 + i * 0.08, ease: FLUID }}
+                    >
+                      <p className="n-text text-2xl font-semibold tracking-tight sm:text-3xl">
+                        <CountUp value={s.v} decimals={s.d} suffix={s.s} />
                       </p>
-
-                      {/* Impact badge */}
-                      <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-3 py-1.5 dark:bg-emerald-900/20">
-                        <TrendingUp className="h-3 w-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                        <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">
-                          {project.impact}
-                        </span>
-                      </div>
-
-                      <div className="mt-4 flex gap-2">
-                        {project.caseStudyPath && (
-                          <Link
-                            to={project.caseStudyPath}
-                            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-violet-600 px-3 py-2 text-xs font-semibold text-white hover:bg-violet-700 transition-colors shadow-sm shadow-violet-500/25"
-                          >
-                            {t.caseStudy}
-                          </Link>
-                        )}
-                        <a
-                          href={project.links?.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 transition-all"
-                        >
-                          <Github className="h-3.5 w-3.5" />
-                          GitHub
-                        </a>
-                        <a
-                          href={project.links?.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/25"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" />
-                          {lang === 'en' ? 'Live Demo' : 'Demo en Vivo'}
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                      <p className="n-text mt-0.5 text-sm font-semibold">{s.label}</p>
+                      <p className="n-muted text-xs">{s.sub}</p>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-            </RevealSection>
+            </HeroGrid>
 
-            {/* ── Stats Dashboard ───────────────────────────────────── */}
-            <RevealSection>
-              <StatsDashboard />
-            </RevealSection>
+            {/* ── Slash command explorer ───────────────────────────── */}
+            <Reveal>
+              <h2 className="n-text text-3xl font-semibold tracking-tight">{t.slashTitle}</h2>
+              <p className="n-muted mb-6 mt-2 text-base">{t.slashSub}</p>
+              <SlashCommand />
+            </Reveal>
 
-            {/* ── Testimonials ─────────────────────────────────────── */}
-            <RevealSection>
-              <Testimonials />
-            </RevealSection>
+            {/* ── Flowber spotlight ────────────────────────────────── */}
+            <FlowberSpotlight />
           </div>
         </Container>
-      </main>
+
+        {/* Pinned rail lives outside Container: overflow on an ancestor would break sticky */}
+        <IndustryRail />
+
+        <Container>
+          <div className="space-y-24 pb-24 pt-24">
+            {/* ── Tagline reveal ───────────────────────────────────── */}
+            <section className="py-12 text-center" aria-label="Tagline">
+              <WordReveal text={t.tagline} />
+            </section>
+
+            <Services />
+
+            <Reveal>
+              <TechMarquee />
+            </Reveal>
+
+            {/* ── Live projects ────────────────────────────────────── */}
+            <Reveal>
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="n-text text-2xl font-semibold tracking-tight">{t.liveProjects}</h2>
+                <Link to="/projects" className="n-text group flex items-center gap-1 text-sm font-semibold">
+                  {t.viewAll}
+                  <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {homeProjects.map((project, idx) => (
+                  <motion.article
+                    key={project.id}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1, duration: 0.8, ease: FLUID }}
+                    whileHover={{ y: -4 }}
+                    className="n-border flex flex-col rounded-2xl border bg-[var(--n-bg)] p-5 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5"
+                  >
+                    <div className="mb-3 flex items-center justify-between gap-2">
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.technologies.slice(0, 3).map(tag => (
+                          <span key={tag} className="n-tag n-tag-gray">{tag}</span>
+                        ))}
+                      </div>
+                      <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                        Live
+                      </span>
+                    </div>
+                    <h3 className="n-text font-semibold leading-snug">{project.title}</h3>
+                    <p className="n-muted mt-1.5 line-clamp-4 text-sm leading-relaxed">{project.description}</p>
+                    <p className="mt-3 inline-flex items-start gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+                      <TrendingUp className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
+                      {project.impact}
+                    </p>
+                    <div className="mt-auto flex gap-2 pt-4">
+                      {project.caseStudyPath && (
+                        <Link
+                          to={project.caseStudyPath}
+                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[var(--n-text)] px-3 py-2 text-xs font-semibold text-[var(--n-bg)] transition-transform duration-300 active:scale-[0.98]"
+                        >
+                          {t.caseStudy}
+                        </Link>
+                      )}
+                      {project.links?.live && (
+                        <a
+                          href={project.links.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="n-border n-text n-hover inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors duration-300"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                          {t.liveDemo}
+                        </a>
+                      )}
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal>
+              <StatsDashboard />
+            </Reveal>
+
+            <Reveal>
+              <Testimonials />
+            </Reveal>
+          </div>
+        </Container>
+      </div>
     </PageTransition>
   );
 }

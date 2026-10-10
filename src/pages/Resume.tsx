@@ -12,7 +12,7 @@ import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { getDuration } from '../utils/dateFormatter';
-import { ProfileData } from '../types';
+import type { ProfileData } from '../types';
 import Certifications from '../components/Certifications';
 import SkillsDashboard from '../components/SkillsDashboard';
 import PDFDownloadButtons from '../components/PDFDownloadButtons';
@@ -133,7 +133,7 @@ export default function ResumePage() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-gradient-to-b from-neutral-50 to-white text-neutral-900 dark:from-neutral-950 dark:to-neutral-900 dark:text-neutral-50">
+      <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
         <Container>
           {/* ── Page Header ─────────────────────────────────────── */}
           <div className="py-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -459,7 +459,7 @@ export default function ResumePage() {
 
           <div className="h-16" />
         </Container>
-      </main>
+      </div>
     </PageTransition>
   );
 }

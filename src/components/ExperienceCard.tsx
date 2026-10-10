@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MapPin, ChevronRight } from 'lucide-react';
+import { MapPin, ChevronRight, Building2 } from 'lucide-react';
 import { getDuration } from '../utils/dateFormatter';
 
 type Lang = 'en' | 'es';
@@ -11,6 +11,7 @@ type Item = {
   location: string;
   start: string;
   end: string;
+  industry?: string;
   tags?: string[];
   bullets?: string[];
 };
@@ -44,6 +45,12 @@ export default function ExperienceCard({ item, onOpen, lang }: Props) {
             <MapPin className="h-3 w-3 shrink-0" />
             {item.location}
           </div>
+          {item.industry && (
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800 dark:bg-amber-900/20 dark:text-amber-300">
+              <Building2 className="h-3 w-3 shrink-0" aria-hidden="true" />
+              {item.industry}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col items-end gap-2 shrink-0">

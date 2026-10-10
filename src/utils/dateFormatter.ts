@@ -1,4 +1,4 @@
-import { Lang } from '../types';
+import type { Lang } from '../types';
 
 export const formatDate = (dateStr: string, lang: Lang): string => {
   if (!dateStr) return '';

@@ -1,6 +1,6 @@
 /**
  * Renders the 4 CV variants (EN/ES x ATS/Creative) to job-search/CVs/ from Node.
- * Run: npx tsx scripts/generate-pdfs.tsx
+ * Run: npx tsx --tsconfig tsconfig.app.json scripts/generate-pdfs.tsx
  */
 import React from 'react';
 import path from 'node:path';

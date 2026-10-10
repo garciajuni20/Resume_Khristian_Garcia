@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Lang } from '../types';
+import type { Lang } from '../types';
 
 const SITE_URL = 'https://garciajuni20.github.io/Resume_Khristian_Garcia/';
 

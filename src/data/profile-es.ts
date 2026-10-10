@@ -2,7 +2,7 @@ import type { ProfileData } from "../types"
 
 export const profileES = {
   name: "Khristian Manolo Junior Garcia Pineda",
-  headline: "Ingeniero de Datos · Analytics Engineering · Plataformas de Datos en la Nube",
+  headline: "Ingeniero de Datos · Full-Stack & IA · Arquitecto de Soluciones",
   location: "Ciudad de Guatemala, Guatemala",
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",
@@ -13,24 +13,25 @@ export const profileES = {
     { label: "GitHub", href: "https://github.com/garciajuni20" }
   ],
   summary:
-    "Ingeniero de Datos y Analista de BI con más de 7 años en plataformas de datos en la nube, analítica y operaciones de producción. Construí desde cero la plataforma analítica de Alleviate Financial Solutions (fintech de EE. UU.) — modelado en Snowflake, perfilamiento de roles y optimización de queries y stored procedures, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de CRM/Salesforce hacia Snowflake — elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Lidero proyectos de datos de principio a fin con stakeholders de finanzas y operaciones en EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Desde enero de 2024 también arquitecté y construí Flowber de punta a punta como full-stack engineer: una plataforma en producción sobre PostgreSQL/Supabase con un asistente LLM anclado en datos reales del negocio (RAG mediante tool calls con alcance RLS) y 18 flujos automatizados. Ingeniería en Sistemas en la USAC — pensum cerrado en mayo de 2026.",
+    "Ingeniero de Datos y Analista de BI con más de 7 años en plataformas de datos en la nube, analítica y operaciones de producción. He trabajado en servicios financieros de EE. UU. (consolidación de deudas en Alleviate y remesas internacionales en IDT), retail de servicios con Flowber y educación universitaria, en inglés y en español. Construí desde cero la plataforma analítica de Alleviate Financial Solutions (fintech de EE. UU.) — modelado en Snowflake, perfilamiento de roles y optimización de queries y stored procedures, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de CRM/Salesforce hacia Snowflake — elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Lidero proyectos de datos de principio a fin con stakeholders de finanzas y operaciones en EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Desde enero de 2024 lidero la transformación digital de Flowber (la barbería de Danover) de la idea a producción como full-stack engineer y arquitecto: React/TypeScript sobre PostgreSQL/Supabase con RLS por rol, un agente de IA con 20 herramientas y RAG sobre pgvector, y un data warehouse con dbt + DuckDB que incluye modelos predictivos. Ingeniería en Sistemas en la USAC — pensum cerrado en mayo de 2026.",
 
   summaryShort:
     "Ingeniero de Datos y Analista de BI con más de 7 años construyendo plataformas de datos en la nube. Construí desde cero la plataforma analítica de Alleviate Financial Solutions (fintech de EE. UU.) — modelado en Snowflake, perfilamiento de roles y optimización de queries, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones Salesforce-Snowflake — elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Lidero proyectos de datos de principio a fin con stakeholders en EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño y escalo APIs REST y aplicaciones dockerizadas.",
 
-  badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "LLM / RAG", "Bilingüe EN/ES"],
+  badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "IA · RAG · pgvector", "Bilingüe EN/ES"],
 
   keyAchievements: [
     "Mejoré la precisión de datos del 85% al 99.5% diseñando la capa analítica en Snowflake detrás del reporting financiero de 5 departamentos.",
     "Reduje el ciclo de reportes financieros de más de 2 días a menos de 30 minutos con pipelines automatizados en SQL/dbt y dashboards en Power BI — 70% menos tiempo de reporting manual.",
     "Automaticé procesos internos de la empresa con Python, SQL y Selenium — incluyendo automatizaciones que impulsaron la generación de leads de forma medible.",
     "Eliminé el 90% de errores recurrentes en reportes mediante validación de datos, alertas y Procedimientos Operativos Estándar documentados.",
-    "Arquitecté y entregué Flowber de punta a punta: una plataforma en producción con un asistente LLM anclado en datos reales de PostgreSQL y 18 flujos automatizados."
+    "Llevé Flowber de la idea a producción (ene 2024 → hoy): 160+ citas y 90+ clientes registrados en la plataforma, un agente de IA con RAG (100% hit@1 en su evaluación) y un warehouse dbt con 50 tests y modelos de ML."
   ],
 
   experience: [
     {
       id: "alleviate-mid",
+      industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
       role: "Analista de Inteligencia de Negocios / Analista de Datos (Ingeniería de Datos y Analítica)",
       start: "2023-11",
@@ -52,25 +53,27 @@ export const profileES = {
     },
     {
       id: "flowber-freelance",
+      industry: "Retail de servicios · Barbería",
       company: "Flowber — Transformación Digital de Barbería (Proyecto Independiente)",
-      role: "Full-Stack Engineer & Arquitecto de Soluciones",
+      role: "Full-Stack Engineer · Arquitecto de Soluciones · Data & AI Engineer",
       start: "2024-01",
       end: "present",
       location: "Remoto (Guatemala)",
-      tags: ["Full-Stack", "Arquitectura", "LLM / RAG", "PostgreSQL", "Supabase", "n8n", "Cloudflare", "ETL", "DevOps"],
+      tags: ["Full-Stack", "Arquitectura", "Transformación Digital", "IA / LLM", "RAG", "pgvector", "ETL", "dbt", "DuckDB", "PostgreSQL", "Supabase", "Cloudflare"],
       bullets: [
-        "Lideré la transformación digital de punta a punta de una barbería física desde enero de 2024 — único ingeniero y arquitecto, responsable del modelo de datos, el desarrollo full-stack y el despliegue en producción.",
-        "Diseñé el modelo de datos en PostgreSQL/Supabase y la capa analítica SQL (vistas de ingresos diarios y netos, lealtad de clientes) que el negocio usa hoy para el reporting de ingresos y operaciones.",
-        "Construí un asistente LLM sobre Cloudflare Workers AI (Llama 4 Scout, con function calling nativo) detrás de un Worker dedicado: responde a partir de datos reales del negocio — servicios, citas, historial del cliente — recuperados en tiempo de consulta mediante tool calls con alcance RLS, de modo que el modelo queda anclado en la base de datos real (RAG) y nunca maneja credenciales.",
-        "Agregué una cadena de respaldo con router de proveedores (Workers AI → Gemini 2.5 Flash vía n8n → motor basado en reglas) para que el asistente degrade con gracia en lugar de fallar, normalizando los formatos de tool calling entre proveedores.",
-        "Automaticé el negocio con 18 flujos de n8n autoalojados: recordatorios de citas a 24h/2h, seguimientos por no-show y post-servicio, reactivación de clientes y ascensos de nivel de lealtad, reportes diarios de ingresos y resúmenes semanales para administración, sincronización con Google Calendar y alertas de health-check y fallos.",
-        "Desarrollé notificaciones multicanal — un gateway de WhatsApp autoalojado (NestJS, Docker, Traefik), un bot de Telegram según rol y correo transaccional con enlaces de confirmación/rechazo en un clic.",
-        "Implementé control de acceso de 3 roles (cliente/barbero/admin) enteramente con Row-Level Security de PostgreSQL, respaldado por un log de auditoría de eventos de la aplicación de solo inserción.",
-        "Ejecuté todo el pipeline de entrega en solitario: backlog Agile, ciclos estructurados de UAT antes de cada release y CI/CD hacia Cloudflare Pages con despliegues sin tiempo de inactividad."
+        "Lideré la transformación digital de la barbería de Danover desde la idea (enero de 2024) hasta producción: levantamiento de procesos con el dueño, producto, arquitectura y operación como único ingeniero. Hoy la plataforma gestiona 160+ citas y 90+ clientes registrados.",
+        "Arquitecté un sistema serverless sin servidor propio (React + TypeScript en Cloudflare Pages, PostgreSQL/Supabase y 13 Edge Functions en Deno) donde la seguridad vive en la base de datos: Row-Level Security por rol (cliente/barbero/admin) en todas las tablas y una restricción EXCLUDE con GiST que hace imposible la doble reserva. Costo de infraestructura: $0 en planes gratuitos.",
+        "Construí un agente de IA sobre Cloudflare Workers AI (Llama 4 Scout) con function calling multi-turno: 20 herramientas filtradas por rol, 5 de ellas escriben datos (reservar, cancelar, reagendar, confirmar, completar) con confirmación explícita y re-verificación en servidor; proveedores intercambiables (Workers AI, Groq, n8n/Gemini) con respaldo determinista basado en reglas.",
+        "Implementé RAG con pgvector (HNSW) y embeddings multilingües bge-m3: búsqueda SECURITY INVOKER que respeta el RLS de cada rol, ingesta incremental por hash SHA-256 y un golden set de evaluación (hit@k, MRR) que llegó a 100% hit@1; filtros anti-alucinación rechazan cifras sin resultado de herramienta.",
+        "Construí el data warehouse medallion (Postgres → Parquet bronze → dbt + DuckDB silver/gold): esquema estrella con 4 dimensiones y 3 hechos, 24 modelos y 50 tests, sin PII (llaves md5) y con corrida nocturna en GitHub Actions usando un rol de solo lectura.",
+        "Agregué modelos predictivos dentro del DAG de dbt (riesgo de cancelación con regresión logística y validación temporal contra baseline; pronóstico de demanda EWMA con backtest), segmentación RFM y riesgo de abandono; un mart de salud de datos encontró Q4,245 de ingresos que no llegaban al BI.",
+        "Unifiqué las métricas del negocio en una sola función SQL (business_summary) que consumen el panel, el asistente, el resumen semanal y Telegram; automaticé recordatorios, cierre diario y campañas de lealtad con pg_cron + Vault, un bot de Telegram por rol con acciones en lote y correo transaccional con Brevo.",
+        "Ejecuté toda la entrega en solitario: CI/CD a Cloudflare Pages, auditorías documentadas de seguridad, roles y negocio, y rendimiento medido con Lighthouse (LCP móvil de 4.8 s a 2.5 s)."
       ]
     },
     {
       id: "usac-teaching",
+      industry: "Educación superior",
       company: "Universidad de San Carlos de Guatemala",
       role: "Instructor Académico — Sistemas Organizacionales (Práctica Final)",
       start: "2025-08",
@@ -87,6 +90,7 @@ export const profileES = {
     },
     {
       id: "icon-it",
+      industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
       role: "Ingeniero de Soporte TI / Administrador de Sistemas",
       start: "2023-01",
@@ -103,6 +107,7 @@ export const profileES = {
     },
     {
       id: "idt-gnoc",
+      industry: "Servicios financieros · Remesas internacionales",
       company: "Red Chapina S.A (IDT Guatemala)",
       role: "Analista NOC / Ingeniero de Soporte — GNOC (Global Network Operations Center)",
       start: "2019-01",
@@ -185,18 +190,18 @@ export const profileES = {
     },
     {
       id: "flowber-barberia",
-      title: "Flowber — Plataforma Digital para Barberías",
-      description: "Transformación digital de punta a punta de una barbería física, arquitectada y construida en solitario desde enero de 2024. Reservas y gestión de negocio serverless sobre PostgreSQL/Supabase: control de acceso de 3 roles con RLS de Postgres, citas en tiempo real, notificaciones multicanal (WhatsApp, Telegram, correo), e-commerce y una capa de BI en SQL con vistas de ingresos y lealtad. El asistente de chat corre sobre Cloudflare Workers AI (Llama 4 Scout) con function calling — anclado en datos reales del negocio recuperados mediante tool calls con alcance RLS (RAG), con respaldo en Gemini vía n8n. 18 flujos de n8n autoalojados automatizan recordatorios, seguimientos, lealtad, reportes y health checks.",
-      impact: "Digitalizó el negocio completo — reservas, notificaciones, reporting y un asistente que responde con datos reales",
-      technologies: ["React", "TypeScript", "Supabase", "PostgreSQL", "RLS de Postgres", "Edge Functions", "Cloudflare Workers AI", "LLM / RAG", "n8n", "NestJS", "Docker", "Cloudflare Pages"],
-      role: "Full-Stack Engineer & Arquitecto de Soluciones",
+      title: "Flowber — Transformación Digital de una Barbería",
+      description: "Transformación digital de punta a punta de la barbería de Danover, de la idea (enero de 2024) a producción. React + TypeScript sobre PostgreSQL/Supabase con RLS por rol, reservas en tiempo real sin dobles citas, notificaciones por Telegram y correo, y BI integrado. Un agente de IA (Llama 4 Scout en Workers AI) con 20 herramientas y RAG sobre pgvector responde y actúa con datos reales. Debajo, un warehouse medallion con dbt + DuckDB, 50 tests y modelos de ML de cancelación y demanda.",
+      impact: "160+ citas y 90+ clientes en la plataforma · RAG con 100% hit@1 · LCP móvil de 4.8 s a 2.5 s",
+      technologies: ["React", "TypeScript", "Supabase", "PostgreSQL", "RLS", "Edge Functions", "Workers AI", "RAG · pgvector", "dbt", "DuckDB", "Python", "Cloudflare"],
+      role: "Full-Stack · Arquitecto · Data & AI Engineer",
       duration: "Desde ene 2024",
       teamSize: "Proyecto individual",
       category: "architecture",
-      links: { github: "https://github.com/garciajuni20/flowber-barberia", live: "https://flowber-barberia.pages.dev/" },
+      links: { live: "https://flowber-barberia.pages.dev/" },
       featured: true,
       gradient: "from-violet-500 to-indigo-600",
-      caseStudyPath: "/projects/flowber"
+      caseStudyPath: "/flowber"
     },
     {
       id: "snowflake-data-layer",
@@ -317,10 +322,10 @@ export const profileES = {
   ],
 
   tools: {
-    dataEngineering: ["Snowflake", "SQL", "Python", "dbt", "Databricks", "Azure Data Factory", "ETL / ELT", "Pipelines de Datos", "PostgreSQL", "BigQuery", "MySQL", "MongoDB", "Stored Procedures", "Modelado Dimensional", "Selenium", "SSMS", "Postman"],
+    dataEngineering: ["Snowflake", "SQL", "Python", "dbt", "Databricks", "Azure Data Factory", "ETL / ELT", "Pipelines de Datos", "PostgreSQL", "DuckDB", "BigQuery", "MySQL", "MongoDB", "Stored Procedures", "Modelado Dimensional", "Selenium", "SSMS", "Postman"],
     biAnalytics: ["Power BI", "Tableau", "DAX", "Power Query", "Salesforce", "Diseño de KPIs", "Excel / VBA", "Google Data Studio", "Confluence", "Lucidchart", "Visio", "Draw.io", "Notion"],
     cloudDevOps: ["Microsoft Azure", "Google Cloud (GCP)", "AWS", "Azure DevOps", "Docker", "Cloudflare Pages & Workers", "GitHub Actions", "CI/CD", "Kubernetes", "n8n", "Splunk", "New Relic", "Grafana", "Zabbix"],
-    fullStack: ["React", "TypeScript", "Node.js", "Diseño de APIs REST", "Supabase", "Tailwind CSS", "Vite", "Cloudflare Workers AI", "Integración LLM / RAG"],
+    fullStack: ["React", "TypeScript", "Node.js", "Diseño de APIs REST", "Supabase", "Tailwind CSS", "Vite", "Cloudflare Workers AI", "Integración LLM / RAG", "pgvector", "Deno Edge Functions"],
     methodologies: [
       "Diseño de Pipelines de Datos", "Modelado Dimensional", "Gobernanza de Datos", "Data Mapping / Lineage", "DataOps",
       "Levantamiento de Requerimientos", "User Stories / Criterios de Aceptación", "Gestión de Stakeholders",
@@ -368,7 +373,7 @@ export const profileES = {
     { id: "data", title: "Ingeniería de Datos", skills: ["SQL", "Snowflake", "dbt", "Databricks", "Pipelines ETL / ELT", "Modelado Dimensional", "Stored Procedures", "Optimización de Queries", "PostgreSQL", "Gobernanza de Datos", "Data Lineage"], level: "advanced" },
     { id: "integration", title: "Cloud, Pipelines e Integración", skills: ["Azure Data Factory", "Microsoft Azure", "Google Cloud (GCP)", "Docker", "Escalamiento de Recursos", "Diseño de APIs REST", "Integración Salesforce / CRM", "BigQuery", "Orquestación con n8n", "Automatización con Python y Selenium"], level: "advanced" },
     { id: "bi", title: "BI & Reporting", skills: ["Power BI", "DAX", "Power Query", "Tableau", "Definición de KPIs", "Análisis Predictivo y de Datos"], level: "advanced" },
-    { id: "ai", title: "Sistemas de IA / LLM", skills: ["Integración de LLM", "RAG (anclado en tool calls)", "Function Calling", "Cloudflare Workers AI", "Diseño de Prompts y Contexto", "Diseño de Respaldo entre Proveedores"], level: "intermediate" },
+    { id: "ai", title: "Sistemas de IA / LLM", skills: ["Agentes LLM con Function Calling", "RAG (pgvector + embeddings bge-m3)", "Evaluación de Recuperación (hit@k, MRR)", "Cloudflare Workers AI", "Groq", "Diseño de Prompts y Contexto", "Guardrails Anti-Alucinación", "Respaldo entre Proveedores"], level: "intermediate" },
     { id: "ba", title: "Entrega y Análisis de Negocio", skills: ["Liderazgo de Proyectos (de inicio a fin)", "Levantamiento de Requerimientos", "User Stories", "Gestión de Stakeholders", "Mapeo de Procesos de Negocio", "UAT", "Agile / Scrum"], level: "advanced" },
     { id: "tech", title: "Programación & Full-Stack", skills: ["Python", "TypeScript", "React", "Node.js", "Supabase", "Git", "Kubernetes", "Windows / Linux"], level: "intermediate" },
     { id: "docs", title: "Documentación & SOPs", skills: ["Procedimientos Operativos Estándar", "Reportes Post-Mortem", "Confluence", "Lucidchart", "Visio", "Diccionarios de Datos"], level: "advanced" }

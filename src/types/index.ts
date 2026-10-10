@@ -14,6 +14,8 @@ export interface ExperienceItem {
   location: string;
   start: string;
   end: string;
+  /** Business domain of the employer (e.g. debt consolidation, remittances) */
+  industry?: string;
   tags?: string[];
   bullets?: string[];
 }

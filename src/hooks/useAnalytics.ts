@@ -1,4 +1,4 @@
-import { Lang } from '../types';
+import type { Lang } from '../types';
 
 export const useAnalytics = () => {
   const trackEvent = (eventName: string, data?: Record<string, unknown>) => {

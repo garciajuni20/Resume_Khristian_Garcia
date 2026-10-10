@@ -32,7 +32,7 @@ export default function NotFound() {
 
   return (
     <PageTransition>
-      <main className="min-h-screen bg-gradient-to-br from-neutral-50 to-blue-50 text-neutral-900 dark:from-neutral-950 dark:to-blue-950/20 dark:text-neutral-50">
+      <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
         <Container>
           <div className="flex min-h-screen flex-col items-center justify-center py-20">
             <motion.div
@@ -90,7 +90,7 @@ export default function NotFound() {
             </motion.div>
           </div>
         </Container>
-      </main>
+      </div>
     </PageTransition>
   );
 }
