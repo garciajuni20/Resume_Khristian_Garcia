@@ -14,7 +14,7 @@ const COPY = {
   es: {
     eyebrow: 'Proyecto destacado · ene 2024 → hoy',
     title: 'Flowber: llevé una barbería del cuaderno a la nube',
-    body: 'Con Danover, el dueño, convertimos una agenda en papel en una plataforma con reservas en línea, un agente de IA que consulta y reserva con datos reales, y un warehouse que predice cancelaciones y demanda. Yo diseñé, construí y opero todo.',
+    body: 'Con Danover, el dueño, a quien conozco desde hace seis años, convertimos una agenda en papel en una plataforma con reservas en línea, un agente de IA que consulta y reserva con datos reales, y un warehouse que predice cancelaciones y demanda. Yo diseñé, construí y opero todo.',
     tags: [['Full-Stack', 'blue'], ['Arquitectura', 'purple'], ['Transformación digital', 'orange'], ['IA · RAG', 'pink'], ['ETL · dbt', 'green']] as [string, TagColor][],
     stats: [
       { v: 160, s: '+', l: 'citas gestionadas' },
@@ -27,7 +27,7 @@ const COPY = {
   en: {
     eyebrow: 'Featured project · Jan 2024 → today',
     title: 'Flowber: I took a barbershop from a notebook to the cloud',
-    body: 'With Danover, the owner, we turned a paper schedule into a platform with online booking, an AI agent that queries and books with real data, and a warehouse that predicts cancellations and demand. I designed, built, and run all of it.',
+    body: 'With Danover, the owner and a friend of six years, we turned a paper schedule into a platform with online booking, an AI agent that queries and books with real data, and a warehouse that predicts cancellations and demand. I designed, built, and run all of it.',
     tags: [['Full-Stack', 'blue'], ['Architecture', 'purple'], ['Digital transformation', 'orange'], ['AI · RAG', 'pink'], ['ETL · dbt', 'green']] as [string, TagColor][],
     stats: [
       { v: 160, s: '+', l: 'appointments managed' },
