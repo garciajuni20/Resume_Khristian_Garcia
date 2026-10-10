@@ -18,7 +18,7 @@ export const useSEO = ({
   description,
   lang = 'en',
   keywords = [],
-  image = 'https://raw.githubusercontent.com/garciajuni20/Resume_Khristian_Garcia/main/khristian-garcia.png',
+  image = 'https://garciajuni20.github.io/Resume_Khristian_Garcia/og-image.jpg',
   url,
 }: SEOProps) => {
   const { pathname } = useLocation();

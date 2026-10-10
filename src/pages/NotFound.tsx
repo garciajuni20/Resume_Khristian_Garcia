@@ -4,6 +4,7 @@ import Container from '../components/Container';
 import { useLang } from '../context/LanguageContext';
 import { motion } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
+import { useSEO } from '../hooks/useSEO';
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ export default function NotFound() {
     backButton: 'Regresar',
     looking: '¿Buscas algo específico?',
   };
+
+  useSEO({ title: t.title, description: t.message, lang });
 
   const links = [
     { to: '/', label: lang === 'en' ? 'Home' : 'Inicio' },

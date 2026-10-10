@@ -7,7 +7,7 @@ export const profileEN = {
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",
   photoUrl:
-    "https://raw.githubusercontent.com/garciajuni20/Resume_Khristian_Garcia/main/khristian-garcia.png",
+    "https://garciajuni20.github.io/Resume_Khristian_Garcia/me/khristian-portrait.jpg",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/khristian-garcia--/" },
     { label: "GitHub", href: "https://github.com/garciajuni20" },
@@ -227,7 +227,7 @@ export const profileEN = {
       duration: "Ongoing",
       teamSize: "Solo project",
       category: "web",
-      links: { github: "https://github.com/garciajuni20/Continental-Motores-Vales-Combustible", live: "https://continental-motores-vales-combustible.pages.dev/login" },
+      links: { live: "https://continental-motores-vales-combustible.pages.dev/login" },
       featured: true,
       gradient: "from-orange-500 to-red-500"
     },

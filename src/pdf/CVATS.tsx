@@ -8,7 +8,8 @@ import { pdfImage } from './assets';
  * ATS-first resume: single-column body, standard fonts, no side-by-side text
  * cells. Everything a parser needs sits on its own line. The only row is the
  * header, where the photo sits beside the contact block; parsers skip images,
- * so the text still reads top to bottom.
+ * so the text still reads top to bottom. `photo={false}` drops it for markets
+ * (US, Canada, UK) where recruiters expect resumes without one.
  */
 
 
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
 
   headerRow: { flexDirection: 'row', alignItems: 'center' },
   headerText: { flex: 1, marginRight: 16 },
+  headerTextFull: { flex: 1 },
   photo: { width: 66, height: 66, borderRadius: 6, objectFit: 'cover' },
   name: { fontSize: 17, fontFamily: 'Helvetica-Bold', letterSpacing: 0.3 },
   headline: { fontSize: 10, marginTop: 3, color: '#1F2937' },
@@ -107,9 +109,10 @@ const styles = StyleSheet.create({
 interface Props {
   data: ProfileData;
   lang: 'en' | 'es';
+  photo?: boolean;
 }
 
-export function CVATS({ data, lang }: Props) {
+export function CVATS({ data, lang, photo = true }: Props) {
   const isEN = lang === 'en';
   const t = {
     summary: isEN ? 'Professional Summary' : 'Resumen Profesional',
@@ -143,7 +146,7 @@ export function CVATS({ data, lang }: Props) {
       <Page size="A4" style={styles.page}>
         {/* ── Header: one fact per line, the most parser-friendly shape ── */}
         <View style={styles.headerRow}>
-          <View style={styles.headerText}>
+          <View style={photo ? styles.headerText : styles.headerTextFull}>
             <Text style={styles.name}>{data.name}</Text>
             <Text style={styles.headline}>{data.headline}</Text>
             <Text style={styles.contactLine}>
@@ -155,7 +158,7 @@ export function CVATS({ data, lang }: Props) {
               </Text>
             ))}
           </View>
-          <Image src={pdfImage(PHOTO.squareJpg)} style={styles.photo} />
+          {photo && <Image src={pdfImage(PHOTO.squareJpg)} style={styles.photo} />}
         </View>
         <View style={styles.rule} />
 

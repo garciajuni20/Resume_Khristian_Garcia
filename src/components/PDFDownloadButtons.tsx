@@ -4,7 +4,7 @@ import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
 
-type PDFVariant = 'creative-en' | 'creative-es' | 'ats-en' | 'ats-es';
+type PDFVariant = 'creative-en' | 'creative-es' | 'ats-en' | 'ats-es' | 'ats-nophoto-en' | 'ats-nophoto-es';
 
 async function downloadPDF(
   variant: PDFVariant,
@@ -18,7 +18,8 @@ async function downloadPDF(
     const lang = variant.endsWith('en') ? 'en' : 'es';
     const data = lang === 'en' ? profileEN : profileES;
     const isCreative = variant.startsWith('creative');
-    const fileName = `khristian-garcia-${lang === 'en' ? 'resume' : 'cv'}-${isCreative ? 'creative' : 'ats'}.pdf`;
+    const noPhoto = variant.includes('nophoto');
+    const fileName = `khristian-garcia-${lang === 'en' ? 'resume' : 'cv'}-${isCreative ? 'creative' : noPhoto ? 'ats-no-photo' : 'ats'}.pdf`;
 
     let element;
     if (isCreative) {
@@ -26,7 +27,7 @@ async function downloadPDF(
       element = <CVCreative data={data} lang={lang} />;
     } else {
       const { CVATS } = await import('../pdf/CVATS');
-      element = <CVATS data={data} lang={lang} />;
+      element = <CVATS data={data} lang={lang} photo={!noPhoto} />;
     }
 
     const blob = await pdf(element).toBlob();
@@ -50,24 +51,29 @@ export default function PDFDownloadButtons() {
   const { lang } = useLang();
   const [loading, setLoading] = useState<PDFVariant | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [atsNoPhoto, setAtsNoPhoto] = useState(false);
 
   const t = lang === 'en'
     ? {
         title: 'Download my resume',
-        subtitle: '4 versions generated in your browser from the same data as this page, always current.',
+        subtitle: 'Generated in your browser from the same data as this page, always current.',
         generating: 'Generating…',
         creative: { name: 'Creative', desc: 'Two-page designed layout with photo, metrics, industries and the Flowber project. Best for recruiters and clients.' },
-        ats: { name: 'ATS-friendly', desc: 'Single-column text that applicant tracking systems parse cleanly, with photo in the header.' },
+        ats: { name: 'ATS-friendly', desc: 'Single-column text that applicant tracking systems parse cleanly, with optional photo in the header.' },
+        noPhoto: 'Without photo',
+        noPhotoHint: 'standard for US, Canada and UK',
         en: 'English',
         es: 'Spanish',
         preview: 'Preview of the',
       }
     : {
         title: 'Descarga mi CV',
-        subtitle: '4 versiones generadas en tu navegador con los mismos datos de esta página, siempre al día.',
+        subtitle: 'Generadas en tu navegador con los mismos datos de esta página, siempre al día.',
         generating: 'Generando…',
         creative: { name: 'Creativo', desc: 'Diseño de dos páginas con foto, métricas, industrias y el proyecto Flowber. Ideal para reclutadores y clientes.' },
-        ats: { name: 'Optimizado para ATS', desc: 'Texto en una columna que los sistemas de selección leen sin errores, con foto en el encabezado.' },
+        ats: { name: 'Optimizado para ATS', desc: 'Texto en una columna que los sistemas de selección leen sin errores, con foto opcional en el encabezado.' },
+        noPhoto: 'Sin foto',
+        noPhotoHint: 'lo habitual en EE. UU., Canadá y Reino Unido',
         en: 'Inglés',
         es: 'Español',
         preview: 'Vista previa del CV',
@@ -108,9 +114,21 @@ export default function PDFDownloadButtons() {
                 {kind.name}
               </div>
               <p className="n-muted mt-1 text-sm leading-relaxed">{kind.desc}</p>
+              {kind.id === 'ats' && (
+                <label className="n-text mt-3 flex cursor-pointer flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={atsNoPhoto}
+                    onChange={e => setAtsNoPhoto(e.target.checked)}
+                    className="h-4 w-4 cursor-pointer rounded accent-[var(--n-text)]"
+                  />
+                  <span className="whitespace-nowrap font-medium">{t.noPhoto}</span>
+                  <span className="n-muted">({t.noPhotoHint})</span>
+                </label>
+              )}
               <div className="mt-auto flex gap-2 pt-4">
                 {(['en', 'es'] as const).map(l => {
-                  const variant = `${kind.id}-${l}` as PDFVariant;
+                  const variant = (kind.id === 'ats' && atsNoPhoto ? `ats-nophoto-${l}` : `${kind.id}-${l}`) as PDFVariant;
                   const busy = loading === variant;
                   return (
                     <button

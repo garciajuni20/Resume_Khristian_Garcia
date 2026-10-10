@@ -58,18 +58,19 @@ function PropertyRow({ icon, label, children }: { icon: React.ReactNode; label: 
   );
 }
 
-function Cover() {
+function Cover({ note }: { note: string }) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 400], [0, 80]);
   return (
-    <div className="relative h-48 w-full overflow-hidden sm:h-64 lg:h-72">
+    <div className="relative h-48 w-full overflow-hidden bg-black sm:h-64 lg:h-80">
       <motion.img
-        src={asset('flowber/world-landscape.webp')}
+        src={asset('ai/flowber-cover.webp')}
         alt=""
         style={{ y }}
-        className="cover-drift absolute inset-0 h-full w-full object-cover object-[center_22%]"
+        className="cover-drift absolute inset-0 h-full w-full object-cover object-[center_62%]"
         fetchPriority="high"
       />
+      <p className="absolute bottom-3 right-4 rounded-md bg-black/50 px-2 py-1 font-mono-geist text-xs text-white/70 backdrop-blur">{note}</p>
     </div>
   );
 }
@@ -91,7 +92,7 @@ export default function FlowberCaseStudy() {
   return (
     <PageTransition>
       <article className="min-h-screen bg-[var(--n-bg)] pb-24">
-        <Cover />
+        <Cover note={lang === 'en' ? 'AI-generated image · Wan 2.2, run locally' : 'Imagen generada con IA · Wan 2.2 local'} />
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-12">

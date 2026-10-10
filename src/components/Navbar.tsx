@@ -35,7 +35,7 @@ export default function Navbar() {
 
   const navClass = (isActive: boolean) => {
     const base =
-      'inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500';
+      'inline-flex items-center justify-center whitespace-nowrap px-3 lg:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500';
     if (isActive) return `${base} bg-neutral-900 text-white dark:bg-white dark:text-neutral-900`;
     return `${base} text-neutral-700 hover:bg-neutral-100 hover:text-blue-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-blue-400`;
   };
@@ -43,24 +43,24 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`sticky top-2 z-50 mx-4 sm:mx-6 lg:mx-auto lg:max-w-5xl transition-all duration-300 ${
+        className={`sticky top-2 z-50 mx-4 sm:mx-6 lg:mx-auto lg:max-w-6xl transition-all duration-300 ${
           scrolled
             ? 'rounded-2xl border border-neutral-200/80 bg-white/90 backdrop-blur-xl shadow-lg shadow-neutral-900/5 dark:border-neutral-800/80 dark:bg-neutral-950/90'
             : 'rounded-2xl border border-transparent bg-white/60 backdrop-blur-md dark:bg-neutral-950/60'
         }`}
       >
         <div className="px-4 sm:px-5">
-          <div className="flex h-14 items-center justify-between">
+          <div className="flex h-14 items-center justify-between gap-6">
             {/* Logo */}
             <NavLink
               to="/"
-              className="font-bold text-lg tracking-tight text-neutral-900 dark:text-white flex items-center gap-2"
+              className="flex shrink-0 items-center gap-2 whitespace-nowrap text-lg font-bold tracking-tight text-neutral-900 dark:text-white"
             >
               <span className="bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-transparent font-extrabold">
                 KG
               </span>
               <span className="hidden sm:inline text-neutral-900 dark:text-white font-semibold">Khristian Garcia</span>
-              <span className="hidden sm:inline text-xs font-normal px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50">
+              <span className="ml-1 hidden lg:inline text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50">
                 {lang === 'en' ? 'Portfolio' : 'Portafolio'}
               </span>
             </NavLink>
@@ -73,7 +73,7 @@ export default function Navbar() {
                 </NavLink>
               ))}
 
-              <div className="mx-2 h-5 w-px bg-neutral-200 dark:bg-neutral-700" />
+              <div className="mx-1 h-5 w-px shrink-0 bg-neutral-200 lg:mx-2 dark:bg-neutral-700" />
 
               <button
                 onClick={toggleTheme}

@@ -1,5 +1,5 @@
 /**
- * Renders the 4 CV variants (EN/ES x ATS/Creative) to job-search/CVs/ from Node.
+ * Renders the 6 CV variants (EN/ES x ATS/ATS without photo/Creative) to job-search/CVs/ from Node.
  * Run: npx tsx --tsconfig tsconfig.app.json scripts/generate-pdfs.tsx
  */
 import React from 'react';
@@ -32,6 +32,8 @@ async function main() {
   const jobs = [
     { name: 'khristian-garcia-resume-ats-en.pdf', el: <CVATS data={profileEN} lang="en" /> },
     { name: 'khristian-garcia-cv-ats-es.pdf', el: <CVATS data={profileES} lang="es" /> },
+    { name: 'khristian-garcia-resume-ats-no-photo-en.pdf', el: <CVATS data={profileEN} lang="en" photo={false} /> },
+    { name: 'khristian-garcia-cv-ats-no-photo-es.pdf', el: <CVATS data={profileES} lang="es" photo={false} /> },
     { name: 'khristian-garcia-resume-creative-en.pdf', el: <CVCreative data={profileEN} lang="en" /> },
     { name: 'khristian-garcia-cv-creative-es.pdf', el: <CVCreative data={profileES} lang="es" /> },
   ];
