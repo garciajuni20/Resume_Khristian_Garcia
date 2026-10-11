@@ -128,7 +128,7 @@ export default function ContactForm() {
       className="w-full"
     >
       <div className="mb-6">
-        <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">{t.title}</h3>
+        <h2 className="text-xl font-semibold text-neutral-900 dark:text-white">{t.title}</h2>
         <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
           {lang === 'en' 
             ? 'I\'ll respond within 24 hours' 

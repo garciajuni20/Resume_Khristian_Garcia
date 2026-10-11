@@ -202,7 +202,8 @@ export const profileES = {
       links: { live: "https://flowber-barberia.pages.dev/" },
       featured: true,
       gradient: "from-violet-500 to-indigo-600",
-      caseStudyPath: "/flowber"
+      caseStudyPath: "/flowber",
+      cover: { image: "ai/flowber-cover.webp", video: "ai/flowber-cover.mp4", alt: "Clip generado con IA de una barbería neón vacía" }
     },
     {
       id: "snowflake-data-layer",
@@ -247,8 +248,8 @@ export const profileES = {
     {
       id: "portfolio",
       title: "Este Portafolio — CV Interactivo",
-      description: "Portafolio en React + TypeScript con soporte bilingüe (EN/ES), modo oscuro/claro, medidores de habilidades animados, filtros por etiquetas, generación dinámica de PDF y despliegue automático a GitHub Pages vía GitHub Actions.",
-      impact: "Demuestra pensamiento de producto full-stack — este sitio ES el artefacto del portafolio",
+      description: "Portafolio estilo Notion en React + TypeScript, bilingüe (EN/ES) con modo oscuro/claro. CV ATS y CV de diseño generados en el navegador con react-pdf, una película de trayectoria de 54 segundos programada en Remotion y clips ambientales generados con un modelo de video local (Wan 2.2 en una RTX 3060, sin APIs de pago). Despliegue automático a GitHub Pages con GitHub Actions.",
+      impact: "Un solo archivo de datos alimenta el sitio y los dos CV en PDF, así el contenido nunca se desalinea; respeta el modo de movimiento reducido",
       technologies: ["React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion", "GitHub Actions", "Vite", "@react-pdf/renderer"],
       role: "Desarrollador Full-Stack & Diseñador",
       duration: "3 semanas",
@@ -256,7 +257,8 @@ export const profileES = {
       category: "web",
       links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" },
       featured: false,
-      gradient: "from-blue-500 to-cyan-500"
+      gradient: "from-blue-500 to-cyan-500",
+      cover: { image: "og-image.jpg", alt: "Tarjeta social del portafolio con la foto de Khristian Garcia" }
     },
     {
       id: "fortran-peg-parser",

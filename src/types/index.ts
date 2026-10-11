@@ -77,6 +77,8 @@ export interface ProjectItem {
   gradient?: string;
   /** Internal route to a dedicated case-study page */
   caseStudyPath?: string;
+  /** Card artwork (paths relative to the base URL); the video loops while visible */
+  cover?: { image: string; video?: string; alt: string };
 }
 
 export interface TestimonialItem {

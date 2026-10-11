@@ -53,6 +53,16 @@ A professional bilingual portfolio showcasing expertise in **Data Analysis / Bus
 - Dark/Light theme with system preference detection
 - Gradient backgrounds and modern UI components
 
+## 📚 Documentation
+
+| Doc | What it covers |
+|---|---|
+| [docs/AI-MEDIA.md](docs/AI-MEDIA.md) | Local AI video pipeline (Wan 2.2 on an RTX 3060), ffmpeg encoding, where every clip and image is used |
+| [docs/AUDIT-2026-10-10.md](docs/AUDIT-2026-10-10.md) | Latest full audit: build, runtime checks, Lighthouse scores, fixes, known items |
+| [docs/linkedin/LINKEDIN.md](docs/linkedin/LINKEDIN.md) | LinkedIn kit: headline, About, experience, Featured, skills, banner and cards |
+
+Scripts: `scripts/encode-ai-media.sh` (web encodes of the AI clips), `scripts/linkedin-assets.py` (LinkedIn images), `scripts/generate-pdfs.tsx` (CV PDFs), `scripts/check-i18n.ts` (EN/ES parity).
+
 ## 🛠️ Technology Stack
 
 ### **Frontend**

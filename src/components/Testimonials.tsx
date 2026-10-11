@@ -66,7 +66,7 @@ export default function Testimonials() {
                   <div className="text-sm text-neutral-600 dark:text-neutral-400">
                     {testimonial.role}
                   </div>
-                  <div className="mt-1 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-500">
+                  <div className="mt-1 flex items-center gap-1 text-xs text-neutral-600 dark:text-neutral-400">
                     <Building className="h-3 w-3" aria-hidden="true" />
                     {testimonial.relationship}
                   </div>

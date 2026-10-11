@@ -77,12 +77,12 @@ function Word({ word, progress, range }: { word: string; progress: MotionValue<n
   );
 }
 
-export function WordReveal({ text }: { text: string }) {
+export function WordReveal({ text, className = 'n-text' }: { text: string; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 85%', 'end 45%'] });
   const words = text.split(' ');
   return (
-    <p ref={ref} className="n-text mx-auto max-w-[680px] text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+    <p ref={ref} className={`${className} mx-auto max-w-[680px] text-3xl font-semibold leading-tight tracking-tight sm:text-5xl`}>
       {words.map((w, i) => (
         <Word key={`${w}-${i}`} word={w} progress={scrollYProgress} range={[i / words.length, (i + 1) / words.length]} />
       ))}

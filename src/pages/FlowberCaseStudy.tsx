@@ -26,6 +26,8 @@ import {
   Wrench,
 } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
+import AmbientVideo from '../components/AmbientVideo';
+import BrandSection from '../components/flowber/BrandSection';
 import { Callout, CountUp, Reveal, SectionHeading, TableOfContents, Tag, Toggle } from '../components/notion/primitives';
 import { BrowserFrame, ChatDemo, PhoneFrame, Pipeline, WordReveal } from '../components/notion/visuals';
 import { useLang } from '../context/LanguageContext';
@@ -63,13 +65,21 @@ function Cover({ note }: { note: string }) {
   const y = useTransform(scrollY, [0, 400], [0, 80]);
   return (
     <div className="relative h-48 w-full overflow-hidden bg-black sm:h-64 lg:h-80">
-      <motion.img
-        src={asset('ai/flowber-cover.webp')}
-        alt=""
-        style={{ y }}
-        className="cover-drift absolute inset-0 h-full w-full object-cover object-[center_62%]"
-        fetchPriority="high"
-      />
+      <motion.div style={{ y }} className="cover-drift absolute inset-0">
+        {/* The still is the LCP candidate; the loop covers it once it can play */}
+        <img
+          src={asset('ai/flowber-cover.webp')}
+          alt=""
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover object-[center_62%]"
+        />
+        <AmbientVideo
+          mp4="ai/flowber-cover.mp4"
+          webm="ai/flowber-cover.webm"
+          poster="ai/flowber-cover.webp"
+          className="relative h-full w-full object-cover object-[center_62%]"
+        />
+      </motion.div>
       <p className="absolute bottom-3 right-4 rounded-md bg-black/50 px-2 py-1 font-mono-geist text-xs text-white/70 backdrop-blur">{note}</p>
     </div>
   );
@@ -92,7 +102,7 @@ export default function FlowberCaseStudy() {
   return (
     <PageTransition>
       <article className="min-h-screen bg-[var(--n-bg)] pb-24">
-        <Cover note={lang === 'en' ? 'AI-generated image · Wan 2.2, run locally' : 'Imagen generada con IA · Wan 2.2 local'} />
+        <Cover note={lang === 'en' ? 'AI-generated clip · Wan 2.2, run locally' : 'Clip generado con IA · Wan 2.2 local'} />
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-12">
@@ -211,6 +221,8 @@ export default function FlowberCaseStudy() {
                   </div>
                 </Reveal>
               </section>
+
+              <BrandSection b={c.brand} />
 
               {/* Hats: Notion gallery view */}
               <section className="mt-24">
@@ -403,27 +415,35 @@ export default function FlowberCaseStudy() {
 
           {/* CTA */}
           <Reveal>
-            <div className="n-callout mx-auto max-w-3xl rounded-xl px-6 py-10 text-center">
-              <h2 className="n-text text-2xl font-semibold tracking-tight">{c.cta.title}</h2>
+            <div className="relative isolate mx-auto max-w-3xl overflow-hidden rounded-xl bg-black px-6 py-14 text-center">
+              <img
+                src={asset('flowber/world-landscape.webp')}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="cover-drift absolute inset-0 -z-10 h-full w-full object-cover object-[center_30%] opacity-45"
+              />
+              <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/50 to-black/30" aria-hidden="true" />
+              <h2 className="text-2xl font-semibold tracking-tight text-white">{c.cta.title}</h2>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <a
                   href={FLOWBER_LIVE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-[var(--n-text)] px-4 py-2 text-base font-semibold text-[var(--n-bg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[#c6f432] px-4 py-2 text-base font-semibold text-neutral-900 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
                 >
                   {c.cta.live}
                   <ExternalLink className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <Link
                   to="/contact"
-                  className="n-border n-text n-hover inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-base font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+                  className="inline-flex items-center gap-2 rounded-lg border border-white/30 px-4 py-2 text-base font-semibold text-white transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:bg-white/10 active:scale-[0.98]"
                 >
                   {c.cta.contact}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
-              <p className="n-muted mt-4 flex items-center justify-center gap-1.5 text-xs">
+              <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-white/70">
                 <Lock className="h-3 w-3" aria-hidden="true" />
                 {c.cta.privateRepo}
               </p>

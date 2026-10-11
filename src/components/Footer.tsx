@@ -21,18 +21,18 @@ export default function Footer() {
               <span className="bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-transparent">KG</span>
               {' '}Khristian Garcia
             </div>
-            <div className="mt-1.5 text-xs text-neutral-500 dark:text-neutral-500">
+            <div className="mt-1.5 text-xs text-neutral-600 dark:text-neutral-400">
               © {currentYear} · {lang === 'en' ? 'All rights reserved.' : 'Todos los derechos reservados.'}
             </div>
-            <div className="mt-1 flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-600">
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-neutral-600 dark:text-neutral-400">
               <span>{lang === 'en' ? 'Built with' : 'Hecho con'}</span>
-              <span className="font-medium text-neutral-500">React</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">React</span>
               <span>·</span>
-              <span className="font-medium text-neutral-500">TypeScript</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">TypeScript</span>
               <span>·</span>
-              <span className="font-medium text-neutral-500">Tailwind v4</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">Tailwind v4</span>
               <span>·</span>
-              <span className="font-medium text-neutral-500">Framer Motion</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">Framer Motion</span>
             </div>
           </div>
 

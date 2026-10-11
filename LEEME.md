@@ -53,6 +53,16 @@ Portafolio profesional bilingüe que muestra experiencia en **Análisis de Datos
 - Tema oscuro/claro con detección de preferencia del sistema
 - Fondos degradados y componentes UI modernos
 
+## 📚 Documentación
+
+| Documento | Contenido |
+|---|---|
+| [docs/AI-MEDIA.md](docs/AI-MEDIA.md) | Pipeline de video con IA local (Wan 2.2 en una RTX 3060), codificación con ffmpeg y dónde se usa cada clip e imagen |
+| [docs/AUDIT-2026-10-10.md](docs/AUDIT-2026-10-10.md) | Auditoría completa más reciente: build, pruebas en navegador, Lighthouse, correcciones y pendientes |
+| [docs/linkedin/LINKEDIN.md](docs/linkedin/LINKEDIN.md) | Kit de LinkedIn: titular, Acerca de, experiencia, Destacados, aptitudes, banner y tarjetas |
+
+Scripts: `scripts/encode-ai-media.sh` (codificación web de los clips de IA), `scripts/linkedin-assets.py` (imágenes de LinkedIn), `scripts/generate-pdfs.tsx` (CV en PDF), `scripts/check-i18n.ts` (paridad EN/ES).
+
 ## 🛠️ Stack Tecnológico
 
 ### **Frontend**

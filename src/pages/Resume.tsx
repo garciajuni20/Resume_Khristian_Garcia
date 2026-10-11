@@ -338,7 +338,7 @@ export default function ResumePage() {
                   <div key={cat.key}>
                     <div className="mb-3 flex items-center gap-2">
                       {cat.icon}
-                      <h4 className="font-semibold text-sm text-neutral-900 dark:text-white">{cat.label}</h4>
+                      <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">{cat.label}</h3>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {cat.items.map(tool => (
@@ -463,7 +463,7 @@ export default function ResumePage() {
                       <div className="mt-0.5 text-sm font-medium text-neutral-600 dark:text-neutral-300">
                         {selected.company} · {selected.location}
                       </div>
-                      <div className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">
+                      <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                         {getDuration(selected.start, selected.end, lang)}
                       </div>
                     </div>

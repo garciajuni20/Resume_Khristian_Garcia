@@ -202,7 +202,8 @@ export const profileEN = {
       links: { live: "https://flowber-barberia.pages.dev/" },
       featured: true,
       gradient: "from-violet-500 to-indigo-600",
-      caseStudyPath: "/flowber"
+      caseStudyPath: "/flowber",
+      cover: { image: "ai/flowber-cover.webp", video: "ai/flowber-cover.mp4", alt: "AI-generated clip of an empty neon barbershop" }
     },
     {
       id: "snowflake-data-layer",
@@ -247,8 +248,8 @@ export const profileEN = {
     {
       id: "portfolio",
       title: "This Portfolio — Interactive Resume",
-      description: "React + TypeScript portfolio with bilingual support (EN/ES), dark/light mode, animated skill meters, tag-based filters, dynamic PDF generation, and auto-deployment to GitHub Pages via GitHub Actions.",
-      impact: "Demonstrates full-stack product thinking — this site IS the portfolio artifact",
+      description: "Notion-style React + TypeScript portfolio, bilingual (EN/ES) with dark/light mode. ATS and designed CVs generated in the browser with react-pdf, a 54-second career film coded in Remotion, and ambient clips generated with a local video model (Wan 2.2 on an RTX 3060, no paid APIs). Auto-deployed to GitHub Pages via GitHub Actions.",
+      impact: "One data file feeds the site and both PDF CVs, so content never drifts; honors reduced motion",
       technologies: ["React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion", "GitHub Actions", "Vite", "@react-pdf/renderer"],
       role: "Full-Stack Developer & Designer",
       duration: "3 weeks",
@@ -256,7 +257,8 @@ export const profileEN = {
       category: "web",
       links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" },
       featured: false,
-      gradient: "from-blue-500 to-cyan-500"
+      gradient: "from-blue-500 to-cyan-500",
+      cover: { image: "og-image.jpg", alt: "Portfolio social card with Khristian Garcia's photo" }
     },
     {
       id: "fortran-peg-parser",

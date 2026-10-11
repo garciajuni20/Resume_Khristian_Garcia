@@ -22,6 +22,7 @@ export default function TechMarquee() {
   return (
     <div
       className="marquee relative overflow-hidden py-3 border-y border-neutral-200/70 dark:border-neutral-800/70"
+      role="region"
       aria-label={lang === 'en' ? 'Technology stack' : 'Stack tecnológico'}
     >
       {/* Edge fades */}

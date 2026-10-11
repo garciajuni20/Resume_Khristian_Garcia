@@ -5,6 +5,7 @@ import { useSEO } from '../hooks/useSEO';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ExternalLink, Database, Cloud, Server, Zap, Layers, Globe, GraduationCap, Github, ArrowRight, BookOpen } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
+import AmbientVideo from '../components/AmbientVideo';
 import { Link } from 'react-router-dom';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
@@ -38,8 +39,31 @@ function ProjectCard({ project, t }: { project: ProjectItem; t: Record<string, s
       whileHover={{ y: -5 }}
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm hover:shadow-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900"
     >
-      {/* Gradient top */}
-      <div className={`h-1.5 w-full bg-gradient-to-r ${project.gradient}`} />
+      {project.cover ? (
+        <div className="relative aspect-[1200/630] overflow-hidden bg-black">
+          {project.cover.video ? (
+            <AmbientVideo
+              mp4={project.cover.video}
+              poster={project.cover.image}
+              label={project.cover.alt}
+              className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+            />
+          ) : (
+            <img
+              src={`${import.meta.env.BASE_URL}${project.cover.image}`}
+              alt={project.cover.alt}
+              loading="lazy"
+              decoding="async"
+              width={1200}
+              height={630}
+              className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+            />
+          )}
+          <div className={`absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r ${project.gradient}`} />
+        </div>
+      ) : (
+        <div className={`h-1.5 w-full bg-gradient-to-r ${project.gradient}`} />
+      )}
 
       <div className="flex flex-col flex-1 p-5">
         {/* Header row */}
@@ -183,7 +207,7 @@ export default function Projects() {
                   >
                     {cat.icon}
                     {lang === 'en' ? cat.labelEn : cat.labelEs}
-                    <span className={`ml-0.5 rounded-full px-2 py-0.5 text-xs font-semibold ${isActive ? 'bg-white/20 text-white' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300'}`}>
+                    <span className={`ml-0.5 rounded-full px-2 py-0.5 text-xs font-semibold ${isActive ? 'bg-black/25 text-white' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300'}`}>
                       {cat.count}
                     </span>
                   </button>

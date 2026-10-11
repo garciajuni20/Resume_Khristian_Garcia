@@ -51,6 +51,31 @@ export interface ChatTurn {
   text: string;
 }
 
+export interface BrandClip {
+  id: string;
+  label: string;
+  src: string;
+  poster: string;
+}
+
+/** The business side: real footage from the shop, the brand film and the client's audience. */
+export interface BrandContent {
+  heading: string;
+  intro: string;
+  filmTitle: string;
+  filmNote: string;
+  filmPlay: string;
+  clipsTitle: string;
+  clipsNote: string;
+  clips: BrandClip[];
+  evolutionTitle: string;
+  evolution: { src: string; label: string; alt: string }[];
+  audienceTitle: string;
+  audienceBody: string;
+  audienceAlt: string;
+  audienceGridAlt: string;
+}
+
 export interface FlowberContent {
   breadcrumb: string[];
   title: string;
@@ -84,6 +109,7 @@ export interface FlowberContent {
     decisionsIntro: string;
   };
   stats: Stat[];
+  brand: BrandContent;
   screens: { id: string; label: string; desktop: string; mobile: string; alt: string }[];
   hats: Hat[];
   timeline: TimelineEntry[];
@@ -104,6 +130,8 @@ export interface FlowberContent {
   tagline: string;
   cta: { title: string; live: string; contact: string; privateRepo: string };
 }
+
+const clip = (id: string, label: string): BrandClip => ({ id, label, src: `flowber/cortes/${id}.mp4`, poster: `flowber/cortes/${id}.webp` });
 
 const LIVE = 'https://flowber-barberia.pages.dev/';
 export const FLOWBER_LIVE_URL = LIVE;
@@ -173,6 +201,7 @@ const es: FlowberContent = {
   toc: [
     { id: 'numeros', label: 'En números' },
     { id: 'producto', label: 'El producto' },
+    { id: 'marca', label: 'Marca y negocio' },
     { id: 'roles', label: 'Los roles que asumí' },
     { id: 'bitacora', label: 'Bitácora' },
     { id: 'arquitectura', label: 'Arquitectura' },
@@ -207,6 +236,26 @@ const es: FlowberContent = {
     { value: 2.5, decimals: 1, suffix: ' s', label: 'LCP móvil', note: 'antes 4.8 s, medido con Lighthouse' },
     { value: 0, prefix: '$', label: 'costo de infraestructura', note: 'planes gratuitos con margen medido' },
   ],
+  brand: {
+    heading: 'Marca y negocio',
+    intro: 'Flowber no es un demo: detrás hay un local real, un barbero con clientela fiel y una marca que yo ayudé a llevar a lo digital. La tecnología está al servicio de eso.',
+    filmTitle: 'Película de marca (50 s)',
+    filmNote: 'Hecha con código en Remotion: tomas reales del local, el logo oficial animado, clips generados con IA local y la reserva en la app.',
+    filmPlay: 'Reproducir la película de marca',
+    clipsTitle: 'Trabajo real en el local',
+    clipsNote: 'Tomas reales de Danover y su equipo; son las mismas que alimentan el catálogo y las campañas.',
+    clips: [clip('danover', 'Danover en acción'), clip('taper', 'Taper'), clip('rizos', 'Rizos'), clip('platinado', 'Platinado')],
+    evolutionTitle: 'Evolución de la identidad',
+    evolution: [
+      { src: 'flowber/brand/logo-v1.webp', label: 'Logo original', alt: 'Primer logo de Flowber: barbero con máquina y poste de barbería' },
+      { src: 'flowber/brand/logo-v2.webp', label: 'Logo oficial', alt: 'Logo oficial de Flowber, versión sticker' },
+      { src: 'flowber/brand/mascot.webp', label: 'Arte para campañas', alt: 'Ilustración estilo anime del barbero de Flowber frente a un poste de barbería neón' },
+    ],
+    audienceTitle: 'La audiencia que ya existía',
+    audienceBody: '@danover.barbero tiene más de 2 mil seguidores y 188 publicaciones. La plataforma convierte esa audiencia en citas: el enlace de reserva vive en el perfil y cada cita queda medida en el BI.',
+    audienceAlt: 'Perfil de Instagram @danover.barbero con su cuadrícula de cortes',
+    audienceGridAlt: 'Más publicaciones de @danover.barbero: cortes, clientes y el local',
+  },
   screens: [
     { id: 'home', label: 'Inicio', desktop: 'flowber/home-desktop.webp', mobile: 'flowber/home-mobile.webp', alt: 'Página de inicio de Flowber con el diseño Neón de barrio' },
     { id: 'services', label: 'Servicios', desktop: 'flowber/servicios.webp', mobile: 'flowber/servicios-mobile.webp', alt: 'Catálogo de servicios de Flowber con precios en vivo' },
@@ -333,6 +382,7 @@ const en: FlowberContent = {
   toc: [
     { id: 'numeros', label: 'By the numbers' },
     { id: 'producto', label: 'The product' },
+    { id: 'marca', label: 'Brand and business' },
     { id: 'roles', label: 'Roles I took on' },
     { id: 'bitacora', label: 'Logbook' },
     { id: 'arquitectura', label: 'Architecture' },
@@ -367,6 +417,26 @@ const en: FlowberContent = {
     { value: 2.5, decimals: 1, suffix: ' s', label: 'mobile LCP', note: 'down from 4.8 s, measured with Lighthouse' },
     { value: 0, prefix: '$', label: 'infrastructure cost', note: 'free tiers with measured headroom' },
   ],
+  brand: {
+    heading: 'Brand and business',
+    intro: 'Flowber is not a demo: behind it there is a real shop, a barber with a loyal clientele, and a brand I helped take digital. The technology serves that.',
+    filmTitle: 'Brand film (50 s)',
+    filmNote: 'Made with code in Remotion: real footage from the shop, the official animated logo, clips generated with local AI, and booking in the app.',
+    filmPlay: 'Play the brand film',
+    clipsTitle: 'Real work from the shop',
+    clipsNote: 'Real footage of Danover and his team; the same clips feed the catalog and the campaigns.',
+    clips: [clip('danover', 'Danover at work'), clip('taper', 'Taper'), clip('rizos', 'Curls'), clip('platinado', 'Platinum')],
+    evolutionTitle: 'How the identity evolved',
+    evolution: [
+      { src: 'flowber/brand/logo-v1.webp', label: 'Original logo', alt: 'First Flowber logo: a barber holding clippers next to a barber pole' },
+      { src: 'flowber/brand/logo-v2.webp', label: 'Official logo', alt: 'Official Flowber logo, sticker version' },
+      { src: 'flowber/brand/mascot.webp', label: 'Campaign art', alt: 'Anime-style illustration of the Flowber barber in front of a neon barber pole' },
+    ],
+    audienceTitle: 'The audience that already existed',
+    audienceBody: '@danover.barbero has 2,000+ followers and 188 posts. The platform turns that audience into appointments: the booking link lives in the profile and every appointment is measured in the BI layer.',
+    audienceAlt: 'Instagram profile @danover.barbero with its grid of haircuts',
+    audienceGridAlt: 'More @danover.barbero posts: haircuts, clients, and the shop',
+  },
   screens: [
     { id: 'home', label: 'Home', desktop: 'flowber/home-desktop.webp', mobile: 'flowber/home-mobile.webp', alt: 'Flowber home page with the neon barbershop design' },
     { id: 'services', label: 'Services', desktop: 'flowber/servicios.webp', mobile: 'flowber/servicios-mobile.webp', alt: 'Flowber service catalog with live prices' },

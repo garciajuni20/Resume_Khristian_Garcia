@@ -40,7 +40,7 @@ export default function SkillMeter({ name, level, years }: Props) {
         <div className="font-medium text-neutral-900 dark:text-neutral-100 text-sm">{name}</div>
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-neutral-600 dark:text-neutral-300">{getLevelLabel(safe, lang)}</span>
-          {yearsLabel && <span className="text-xs text-neutral-400 dark:text-neutral-500">{yearsLabel}</span>}
+          {yearsLabel && <span className="text-xs text-neutral-500 dark:text-neutral-400">{yearsLabel}</span>}
         </div>
       </div>
 

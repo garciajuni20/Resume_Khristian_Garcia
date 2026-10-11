@@ -16,6 +16,7 @@ import TechMarquee from '../components/TechMarquee';
 import SlashCommand from '../components/home/SlashCommand';
 import { CareerVideoButton } from '../components/CareerVideo';
 import { PHOTO } from '../data/media';
+import AmbientVideo from '../components/AmbientVideo';
 import IndustryRail from '../components/home/IndustryRail';
 import FlowberSpotlight from '../components/home/FlowberSpotlight';
 import Services from '../components/home/Services';
@@ -91,7 +92,8 @@ function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
 function SplitName({ text }: { text: string }) {
   let index = 0;
   return (
-    <span aria-label={text} className="inline-block">
+    <span className="inline-block">
+      <span className="sr-only">{text}</span>
       {text.split(' ').map((word, w) => (
         // Letters of a word stay together so the name never breaks mid-word
         <span key={w} aria-hidden="true" className="inline-block whitespace-nowrap">
@@ -143,6 +145,7 @@ export default function Home() {
           { v: 160, s: '+', label: 'appointments', sub: 'Flowber in production' },
         ],
         tagline: 'I learn the business first, then build the system: clean data, honest AI, and software the team actually uses.',
+        aiNote: 'Background clip generated with local AI · Wan 2.2 on an RTX 3060',
       }
     : {
         badge: 'Disponible para empleo y proyectos por servicios',
@@ -167,6 +170,7 @@ export default function Home() {
           { v: 160, s: '+', label: 'citas', sub: 'Flowber en producción' },
         ],
         tagline: 'Primero entiendo el negocio, después construyo el sistema: datos limpios, IA honesta y software que el equipo de verdad usa.',
+        aiNote: 'Clip de fondo generado con IA local · Wan 2.2 en una RTX 3060',
       };
 
   const profile = lang === 'en' ? profileEN : profileES;
@@ -308,8 +312,16 @@ export default function Home() {
         <Container>
           <div className="space-y-24 pb-24 pt-24">
             {/* ── Tagline reveal ───────────────────────────────────── */}
-            <section className="py-12 text-center" aria-label="Tagline">
-              <WordReveal text={t.tagline} />
+            <section className="relative isolate overflow-hidden rounded-3xl bg-black px-6 py-24 text-center sm:py-32" aria-label="Tagline">
+              <AmbientVideo
+                mp4="ai/hero-data.mp4"
+                webm="ai/hero-data.webm"
+                poster="ai/hero-data.webp"
+                className="absolute inset-0 -z-10 h-full w-full object-cover opacity-70"
+              />
+              <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_70%)]" aria-hidden="true" />
+              <WordReveal text={t.tagline} className="text-white" />
+              <p className="mt-8 font-mono-geist text-xs uppercase tracking-wider text-white/50">{t.aiNote}</p>
             </section>
 
             <Services />
