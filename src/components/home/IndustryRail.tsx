@@ -21,13 +21,13 @@ const STOPS: Record<'es' | 'en', Stop[]> = {
     { year: '2019', company: 'IDT · Red Chapina', industry: 'Remesas internacionales', role: 'Analista NOC 24/7', proof: 'MTTR 25% menor sobre infraestructura para 5,000+ usuarios concurrentes', icon: <Banknote className="h-5 w-5" />, tone: 'n-tag-green', image: 'ind-remit' },
     { year: '2023', company: 'Alleviate Financial Solutions', industry: 'Consolidación de deudas · EE. UU.', role: 'De soporte TI a BI y datos', proof: 'Precisión de datos de 85% a 99.5% y reportes de 2+ días a menos de 30 min', icon: <Landmark className="h-5 w-5" />, tone: 'n-tag-blue', image: 'ind-fintech' },
     { year: '2024', company: 'Flowber · Danover', industry: 'Retail de servicios · Barbería', role: 'Full-stack, arquitecto, datos e IA', proof: 'De la idea a producción: 160+ citas, agente con RAG y warehouse con ML', icon: <Scissors className="h-5 w-5" />, tone: 'n-tag-purple', image: 'ind-retail' },
-    { year: '2025', company: 'Universidad de San Carlos', industry: 'Educación superior', role: 'Instructor académico', proof: 'Sistemas Organizacionales: BI, ERP/CRM y transformación digital', icon: <GraduationCap className="h-5 w-5" />, tone: 'n-tag-orange' },
+    { year: '2025', company: 'Universidad de San Carlos', industry: 'Educación superior', role: 'Instructor académico', proof: 'Sistemas Organizacionales: BI, ERP/CRM y transformación digital', icon: <GraduationCap className="h-5 w-5" />, tone: 'n-tag-orange', image: 'ind-edu' },
   ],
   en: [
     { year: '2019', company: 'IDT · Red Chapina', industry: 'International remittances', role: '24/7 NOC analyst', proof: '25% lower MTTR on infrastructure serving 5,000+ concurrent users', icon: <Banknote className="h-5 w-5" />, tone: 'n-tag-green', image: 'ind-remit' },
     { year: '2023', company: 'Alleviate Financial Solutions', industry: 'Debt consolidation · US', role: 'From IT support to BI and data', proof: 'Data accuracy from 85% to 99.5%; reporting from 2+ days to under 30 min', icon: <Landmark className="h-5 w-5" />, tone: 'n-tag-blue', image: 'ind-fintech' },
     { year: '2024', company: 'Flowber · Danover', industry: 'Service retail · Barbershop', role: 'Full-stack, architect, data and AI', proof: 'Idea to production: 160+ appointments, a RAG agent, and an ML warehouse', icon: <Scissors className="h-5 w-5" />, tone: 'n-tag-purple', image: 'ind-retail' },
-    { year: '2025', company: 'Universidad de San Carlos', industry: 'Higher education', role: 'Academic instructor', proof: 'Organizational Systems: BI, ERP/CRM, and digital transformation', icon: <GraduationCap className="h-5 w-5" />, tone: 'n-tag-orange' },
+    { year: '2025', company: 'Universidad de San Carlos', industry: 'Higher education', role: 'Academic instructor', proof: 'Organizational Systems: BI, ERP/CRM, and digital transformation', icon: <GraduationCap className="h-5 w-5" />, tone: 'n-tag-orange', image: 'ind-edu' },
   ],
 };
 
