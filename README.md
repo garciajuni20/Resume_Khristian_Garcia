@@ -61,7 +61,7 @@ A professional bilingual portfolio showcasing expertise in **Data Analysis / Bus
 | [docs/AUDIT-2026-10-10.md](docs/AUDIT-2026-10-10.md) | Latest full audit: build, runtime checks, Lighthouse scores, fixes, known items |
 | [docs/linkedin/LINKEDIN.md](docs/linkedin/LINKEDIN.md) | LinkedIn kit: headline, About, experience, Featured, skills, banner and cards |
 
-Scripts: `scripts/encode-ai-media.sh` (web encodes of the AI clips), `scripts/linkedin-assets.py` (LinkedIn images), `scripts/generate-pdfs.tsx` (CV PDFs), `scripts/check-i18n.ts` (EN/ES parity).
+Scripts: `scripts/encode-ai-media.sh` (web encodes of the AI clips), `scripts/linkedin-assets.py` (LinkedIn images), `scripts/generate-pdfs.tsx` (CV PDFs), `scripts/check-i18n.ts` (EN/ES parity). Shortcuts: `npm run pdf` (build + pagination check + previews), `npm run i18n:check`, `npm run audit` (lint, types, i18n, PDFs, build).
 
 ## 🛠️ Technology Stack
 

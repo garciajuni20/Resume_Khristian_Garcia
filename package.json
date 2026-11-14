@@ -12,7 +12,13 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
     "type-check": "tsc --noEmit",
     "analyze": "npx vite-bundle-analyzer",
-    "preview:build": "npm run build && npm run preview"
+    "preview:build": "npm run build && npm run preview",
+    "i18n:check": "npx tsx --tsconfig tsconfig.app.json scripts/check-i18n.ts",
+    "pdf:build": "npx tsx --tsconfig tsconfig.app.json scripts/generate-pdfs.tsx",
+    "pdf:check": "python scripts/inspect-pdf.py",
+    "pdf:previews": "python scripts/pdf-previews.py",
+    "pdf": "npm run pdf:build && npm run pdf:check && npm run pdf:previews",
+    "audit": "npm run lint && npm run type-check && npm run i18n:check && npm run pdf && npm run build"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.5.1",

@@ -4,8 +4,8 @@
   "description": "Career film (ES/EN) rendered with Remotion: React → MP4",
   "scripts": {
     "studio": "remotion studio",
-    "render:es": "remotion render career out/career-es.mp4 --props={\"lang\":\"es\"}",
-    "render:en": "remotion render career out/career-en.mp4 --props={\"lang\":\"en\"}",
+    "render:es": "remotion render career out/career-es.mp4 --props=props-es.json",
+    "render:en": "remotion render career out/career-en.mp4 --props=props-en.json",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -23,6 +23,7 @@ import Services from '../components/home/Services';
 import { CountUp, Reveal } from '../components/notion/primitives';
 import { WordReveal } from '../components/notion/visuals';
 import { FLUID } from '../utils/animations';
+import NowStrip from '../components/NowStrip';
 
 /* ─── Hero backdrop: dot grid lit by a spotlight that follows the cursor ── */
 function HeroGrid({ children }: { children: React.ReactNode }) {
@@ -78,7 +79,7 @@ function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
           transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
         />
         <div className="relative z-10 overflow-hidden rounded-[13px] bg-[var(--n-bg)]">
-          <img src={src} alt={alt} className="block h-32 w-32 object-cover object-top sm:h-40 sm:w-40" loading="eager" width={160} height={160} />
+          <img src={src} alt={alt} className="block h-32 w-32 object-cover object-top sm:h-40 sm:w-40" loading="eager" fetchPriority="high" decoding="async" width={160} height={160} />
         </div>
       </div>
       <span className="absolute -bottom-1 -right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-emerald-500 ring-2 ring-[var(--n-bg)]">
@@ -125,11 +126,11 @@ export default function Home() {
     ? {
         badge: 'Open to full-time roles and freelance projects',
         name: 'Khristian Garcia',
-        roles: ['Data Engineer', 'Full-Stack Developer', 'AI & RAG Engineer', 'Solutions Architect', 'Analytics Engineer'],
+        roles: ['Data Engineer', 'AI Implementation Engineer', 'Full-Stack Developer', 'AI & RAG Engineer', 'Solutions Architect'],
         summary:
-          'I turn messy operations into systems people can use and data they can trust. 7+ years across US financial services (debt consolidation and remittances), service retail, and education: from Snowflake platforms for a US fintech to Flowber, a barbershop I took from idea to production with AI and a data warehouse.',
+          'I turn messy operations into systems people can use and data they can trust. 7+ years across US financial services (debt consolidation and remittances), wellness, service retail, and education: Data Engineer at a US fintech (promoted Nov 2026), part-time AI Implementation Engineer for a US wellness brand, and the sole engineer behind Flowber, a barbershop taken from idea to production with AI and a data warehouse.',
         location: 'Guatemala City · Remote',
-        education: 'Systems Engineering, USAC',
+        education: 'Systems Engineering, USAC · completed 2026',
         bilingual: 'English and Spanish',
         ctaPrimary: 'View interactive resume',
         ctaSecondary: 'Hire me for a project',
@@ -150,11 +151,11 @@ export default function Home() {
     : {
         badge: 'Disponible para empleo y proyectos por servicios',
         name: 'Khristian Garcia',
-        roles: ['Ingeniero de Datos', 'Desarrollador Full-Stack', 'Ingeniero de IA y RAG', 'Arquitecto de Soluciones', 'Analytics Engineer'],
+        roles: ['Ingeniero de Datos', 'AI Implementation Engineer', 'Desarrollador Full-Stack', 'Ingeniero de IA y RAG', 'Arquitecto de Soluciones'],
         summary:
-          'Convierto operaciones desordenadas en sistemas que la gente usa y datos en los que se puede confiar. Más de 7 años entre servicios financieros de EE. UU. (consolidación de deudas y remesas), retail de servicios y educación: desde plataformas en Snowflake para una fintech estadounidense hasta Flowber, una barbería que llevé de la idea a producción con IA y un data warehouse.',
+          'Convierto operaciones desordenadas en sistemas que la gente usa y datos en los que se puede confiar. Más de 7 años entre servicios financieros de EE. UU. (consolidación de deudas y remesas), bienestar, retail de servicios y educación: Ingeniero de Datos en una fintech estadounidense (promovido en nov 2026), AI Implementation Engineer de medio tiempo para una marca de bienestar de EE. UU. y único ingeniero detrás de Flowber, una barbería que llevé de la idea a producción con IA y un data warehouse.',
         location: 'Ciudad de Guatemala · Remoto',
-        education: 'Ingeniería en Sistemas, USAC',
+        education: 'Ingeniería en Sistemas, USAC · completada 2026',
         bilingual: 'Inglés y español',
         ctaPrimary: 'Ver CV interactivo',
         ctaSecondary: 'Contratar por proyecto',
@@ -291,6 +292,15 @@ export default function Home() {
                     </motion.div>
                   ))}
                 </div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 1.05, ease: FLUID }}
+                  className="n-border mt-6 border-t pt-5"
+                >
+                  <NowStrip lang={lang} />
+                </motion.div>
               </div>
             </HeroGrid>
 

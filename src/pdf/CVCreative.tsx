@@ -9,7 +9,7 @@ import {
   Image,
 } from '@react-pdf/renderer';
 import type { ExperienceItem, ProfileData, SkillItem } from '../types';
-import { PHOTO } from '../data/media';
+import { CV_UPDATED, PHOTO } from '../data/media';
 import { PDF_BASE, pdfImage } from './assets';
 
 /**
@@ -251,6 +251,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
 
+  footer: { position: 'absolute', left: 34, right: 34, bottom: 8, fontSize: 6.6, color: MUTED, textAlign: 'center' },
 });
 
 interface Props {
@@ -304,7 +305,7 @@ export function CVCreative({ data, lang }: Props) {
     tagline: isEN
       ? 'Bilingual English / Spanish · Remote from Guatemala · Open to full-time roles and freelance projects'
       : 'Bilingüe inglés / español · Remoto desde Guatemala · Disponible para empleo y proyectos por servicios',
-    page: isEN ? 'Page 2 of 2' : 'Página 2 de 2',
+    updated: isEN ? `Updated ${CV_UPDATED.en}` : `Actualizado en ${CV_UPDATED.es}`,
     featuredEyebrow: isEN ? 'Featured project · Jan 2024 → today' : 'Proyecto destacado · ene 2024 → hoy',
     featuredTitle: isEN ? 'Flowber: a barbershop from paper to AI and data' : 'Flowber: una barbería del papel a la IA y los datos',
     featuredBody: isEN
@@ -462,6 +463,9 @@ export function CVCreative({ data, lang }: Props) {
           </View>
 
         </View>
+        <Text style={styles.footer} fixed>
+          {t.updated} · garciajuni20.github.io/Resume_Khristian_Garcia · {data.email}
+        </Text>
       </Page>
 
       {/* ══════════════ PAGE 2 — experience, full width ══════════════ */}
@@ -472,7 +476,7 @@ export function CVCreative({ data, lang }: Props) {
             <Text style={styles.slimName}>{data.name}</Text>
             <Text style={styles.slimMeta}>{data.headline}</Text>
           </View>
-          <Text style={styles.slimPage}>{t.page}</Text>
+          <Text style={styles.slimPage} render={({ pageNumber, totalPages }) => (isEN ? `Page ${pageNumber} of ${totalPages}` : `Página ${pageNumber} de ${totalPages}`)} />
         </View>
 
         <View style={styles.content}>
@@ -514,6 +518,9 @@ export function CVCreative({ data, lang }: Props) {
           </View>
 
         </View>
+        <Text style={styles.footer} fixed>
+          {t.updated} · garciajuni20.github.io/Resume_Khristian_Garcia · {data.email}
+        </Text>
       </Page>
     </Document>
   );

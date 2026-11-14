@@ -241,6 +241,20 @@ export const profileES = {
       cover: { image: "ai/flowber-cover.webp", video: "ai/flowber-cover.mp4", alt: "Clip generado con IA de una barbería neón vacía" }
     },
     {
+      id: "virtrify-ai-ops",
+      title: "Sistema Operativo con IA para una Marca de Bienestar y Retiros en EE. UU.",
+      description: "Contrato de medio tiempo a través de Virtrify (desde el 23 de noviembre de 2026): la columna vertebral operativa de un negocio de retiros y comunidad en crecimiento, dirigido por una sola fundadora. Alcance: un CRM ligero con captura y nutrición de leads, el pipeline de inscripción a retiros (consulta, depósito, pago, secuencias previas y posteriores), agenda, un sistema centralizado de contenido para podcast/YouTube/redes, automatizaciones en n8n, Make o Zapier conectadas a plataformas de anuncios, Stripe y calendarios, y un manual operativo en lenguaje claro para que la fundadora lo opere sola.",
+      impact: "Fase de construcción: flujos clave previstos en producción en los primeros tres meses, documentados para el traspaso",
+      technologies: ["CRM (GoHighLevel / HubSpot)", "n8n", "Make · Zapier", "Stripe", "Herramientas LLM", "Diseño de flujos", "Documentación"],
+      role: "AI Implementation Engineer (medio tiempo)",
+      duration: "Desde nov 2026",
+      teamSize: "Contratista individual + fundadora",
+      category: "architecture",
+      featured: true,
+      gradient: "from-teal-600 to-emerald-600",
+      cover: { image: "ai/ind-ai-ops.webp", alt: "Render generado con IA de un flujo de automatización que converge en una tarjeta" }
+    },
+    {
       id: "snowflake-data-layer",
       title: "Capa Analítica de Datos en Snowflake",
       description: "Diseñé y construí la arquitectura completa de datos en Snowflake para Alleviate Financial Solutions — modelos en esquema estrella, vistas analíticas, stored procedures y transformaciones SQL optimizadas que alimentan dashboards de Power BI y Tableau en 5 departamentos, con perfilamiento de roles y validación de datos integrados.",
@@ -283,7 +297,7 @@ export const profileES = {
     {
       id: "portfolio",
       title: "Este Portafolio — CV Interactivo",
-      description: "Portafolio estilo Notion en React + TypeScript, bilingüe (EN/ES) con modo oscuro/claro. CV ATS y CV de diseño generados en el navegador con react-pdf, una película de trayectoria de 54 segundos programada en Remotion y clips ambientales generados con un modelo de video local (Wan 2.2 en una RTX 3060, sin APIs de pago). Despliegue automático a GitHub Pages con GitHub Actions.",
+      description: "Portafolio estilo Notion en React + TypeScript, bilingüe (EN/ES) con modo oscuro/claro. CV ATS y CV de diseño generados en el navegador con react-pdf, una película de trayectoria de 57 segundos programada en Remotion y clips ambientales generados con un modelo de video local (Wan 2.2 en una RTX 3060, sin APIs de pago). Despliegue automático a GitHub Pages con GitHub Actions.",
       impact: "Un solo archivo de datos alimenta el sitio y los dos CV en PDF, así el contenido nunca se desalinea; respeta el modo de movimiento reducido",
       technologies: ["React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion", "GitHub Actions", "Vite", "@react-pdf/renderer"],
       role: "Desarrollador Full-Stack & Diseñador",

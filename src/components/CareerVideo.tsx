@@ -12,8 +12,8 @@ function sources(lang: 'en' | 'es') {
 }
 
 const LABELS = {
-  es: { title: 'Mi trayectoria en 54 segundos', sub: 'De remesas y fintech a IA y datos: hecho con código en Remotion.', play: 'Ver video', close: 'Cerrar video' },
-  en: { title: 'My career in 54 seconds', sub: 'From remittances and fintech to AI and data: made with code in Remotion.', play: 'Watch video', close: 'Close video' },
+  es: { title: 'Mi trayectoria en 57 segundos', sub: 'De remesas y fintech a IA y datos: hecho con código en Remotion.', play: 'Ver video', close: 'Cerrar video' },
+  en: { title: 'My career in 57 seconds', sub: 'From remittances and fintech to AI and data: made with code in Remotion.', play: 'Watch video', close: 'Close video' },
 };
 
 /** Poster with a play button; the video only loads once the visitor asks for it. */

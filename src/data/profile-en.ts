@@ -241,6 +241,20 @@ export const profileEN = {
       cover: { image: "ai/flowber-cover.webp", video: "ai/flowber-cover.mp4", alt: "AI-generated clip of an empty neon barbershop" }
     },
     {
+      id: "virtrify-ai-ops",
+      title: "AI Operating System for a US Wellness & Retreat Brand",
+      description: "Part-time engagement through Virtrify (from November 23, 2026): the operational backbone of a growth-stage retreat and community business run by a single founder. Scope: a lean CRM with lead capture and nurture, the retreat enrollment pipeline (inquiry, deposit, payment, pre- and post-retreat sequences), scheduling, a centralized podcast/YouTube/social content system, automations on n8n, Make, or Zapier wired to ad platforms, Stripe, and calendars, and a plain-language operating manual so the founder runs it alone.",
+      impact: "Build phase: core workflows planned to be live within the first three months, documented for handoff",
+      technologies: ["CRM (GoHighLevel / HubSpot)", "n8n", "Make · Zapier", "Stripe", "LLM tooling", "Workflow design", "Documentation"],
+      role: "AI Implementation Engineer (part-time)",
+      duration: "Since Nov 2026",
+      teamSize: "Solo contractor + founder",
+      category: "architecture",
+      featured: true,
+      gradient: "from-teal-600 to-emerald-600",
+      cover: { image: "ai/ind-ai-ops.webp", alt: "AI-generated render of an automation workflow converging into one card" }
+    },
+    {
       id: "snowflake-data-layer",
       title: "Snowflake Analytics Data Layer",
       description: "Designed and built the complete Snowflake data architecture for Alleviate Financial Solutions — star schema models, analytical views, stored procedures, and optimized SQL transformations feeding Power BI and Tableau dashboards across 5 departments, with role profiling and data validation built in.",
@@ -283,7 +297,7 @@ export const profileEN = {
     {
       id: "portfolio",
       title: "This Portfolio — Interactive Resume",
-      description: "Notion-style React + TypeScript portfolio, bilingual (EN/ES) with dark/light mode. ATS and designed CVs generated in the browser with react-pdf, a 54-second career film coded in Remotion, and ambient clips generated with a local video model (Wan 2.2 on an RTX 3060, no paid APIs). Auto-deployed to GitHub Pages via GitHub Actions.",
+      description: "Notion-style React + TypeScript portfolio, bilingual (EN/ES) with dark/light mode. ATS and designed CVs generated in the browser with react-pdf, a 57-second career film coded in Remotion, and ambient clips generated with a local video model (Wan 2.2 on an RTX 3060, no paid APIs). Auto-deployed to GitHub Pages via GitHub Actions.",
       impact: "One data file feeds the site and both PDF CVs, so content never drifts; honors reduced motion",
       technologies: ["React 19", "TypeScript", "Tailwind CSS v4", "Framer Motion", "GitHub Actions", "Vite", "@react-pdf/renderer"],
       role: "Full-Stack Developer & Designer",

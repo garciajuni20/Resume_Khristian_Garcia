@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
-import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image, Link } from '@react-pdf/renderer';
 import type { ProfileData } from '../types';
-import { PHOTO } from '../data/media';
+import { CV_UPDATED, PHOTO } from '../data/media';
 import { pdfImage } from './assets';
 
 /**
@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
   eduTitle: { fontFamily: 'Helvetica-Bold', fontSize: 9.5 },
   eduMeta: { fontSize: 8.5, color: '#333333', marginTop: 1.5 },
   eduStatus: { fontSize: 8.5, fontFamily: 'Helvetica-Bold', marginTop: 1.5, marginBottom: 3 },
+
+  footer: { position: 'absolute', left: 44, right: 44, bottom: 14, fontSize: 7.2, color: '#555555', textAlign: 'center' },
 });
 
 interface Props {
@@ -156,9 +158,9 @@ export function CVATS({ data, lang, photo = true }: Props) {
               {data.email} | {data.phone} | {data.location}
             </Text>
             {data.links.map(l => (
-              <Text key={l.href} style={styles.linkLine}>
+              <Link key={l.href} src={l.href} style={{ ...styles.linkLine, textDecoration: 'none' }}>
                 {l.label}: {l.href}
-              </Text>
+              </Link>
             ))}
           </View>
           {photo && <Image src={pdfImage(PHOTO.squareJpg)} style={styles.photo} />}
@@ -232,6 +234,11 @@ export function CVATS({ data, lang, photo = true }: Props) {
         <Text style={styles.sectionTitle} minPresenceAhead={20}>{t.languages}</Text>
         <Text style={styles.paragraph}>
           {data.languages.map(l => `${l.language}: ${l.level}`).join('  |  ')}
+        </Text>
+
+        {/* Plain fixed text: a `render` callback inside an absolute footer is dropped by react-pdf 4.5 */}
+        <Text style={styles.footer} fixed>
+          {data.name}  |  {isEN ? 'Updated' : 'Actualizado'}: {CV_UPDATED[lang]}  |  garciajuni20.github.io/Resume_Khristian_Garcia
         </Text>
       </Page>
     </Document>

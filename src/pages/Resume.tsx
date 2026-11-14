@@ -20,6 +20,8 @@ import PageTransition from '../components/PageTransition';
 import { staggerContainer, cardReveal, FLUID } from '../utils/animations';
 import { CareerVideoBlock } from '../components/CareerVideo';
 import { PHOTO } from '../data/media';
+import NowStrip from '../components/NowStrip';
+import CareerTimeline from '../components/CareerTimeline';
 
 const INDUSTRY_TONES = ['blue', 'purple', 'orange', 'green'] as const;
 const LINK = 'n-text inline-flex items-center gap-1 underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current';
@@ -244,6 +246,8 @@ export default function ResumePage() {
                 </div>
               </dl>
 
+              <NowStrip lang={lang} className="mt-5" />
+
               <p className="n-text mt-5 text-base leading-relaxed">{data.summary}</p>
 
               <div className="mt-5 flex flex-wrap gap-1.5">
@@ -272,6 +276,9 @@ export default function ResumePage() {
 
           {/* ── Experience ────────────────────────────────────── */}
           <Section title={lang === 'en' ? 'Experience' : 'Experiencia'}>
+            <div className="mb-6">
+              <CareerTimeline experience={data.experience} industries={industries} lang={lang} onOpen={setSelected} />
+            </div>
             <FilterChips
               allTags={allTags}
               activeTags={activeTags}

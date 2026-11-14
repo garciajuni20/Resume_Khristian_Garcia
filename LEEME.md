@@ -61,7 +61,7 @@ Portafolio profesional bilingüe que muestra experiencia en **Análisis de Datos
 | [docs/AUDIT-2026-10-10.md](docs/AUDIT-2026-10-10.md) | Auditoría completa más reciente: build, pruebas en navegador, Lighthouse, correcciones y pendientes |
 | [docs/linkedin/LINKEDIN.md](docs/linkedin/LINKEDIN.md) | Kit de LinkedIn: titular, Acerca de, experiencia, Destacados, aptitudes, banner y tarjetas |
 
-Scripts: `scripts/encode-ai-media.sh` (codificación web de los clips de IA), `scripts/linkedin-assets.py` (imágenes de LinkedIn), `scripts/generate-pdfs.tsx` (CV en PDF), `scripts/check-i18n.ts` (paridad EN/ES).
+Scripts: `scripts/encode-ai-media.sh` (codificación web de los clips de IA), `scripts/linkedin-assets.py` (imágenes de LinkedIn), `scripts/generate-pdfs.tsx` (CV en PDF), `scripts/check-i18n.ts` (paridad EN/ES). Atajos: `npm run pdf` (genera + verifica paginación + previews), `npm run i18n:check`, `npm run audit` (lint, tipos, i18n, PDFs, build).
 
 ## 🛠️ Stack Tecnológico
 

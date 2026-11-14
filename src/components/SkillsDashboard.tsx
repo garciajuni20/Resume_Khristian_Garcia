@@ -6,7 +6,6 @@ import {
   Workflow,
   ClipboardList,
   FileText,
-  Container,
   Sparkles
 } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
@@ -55,10 +54,10 @@ export default function SkillsDashboard() {
   return (
     <div className="w-full">
       <div className="mb-8">
-        <h3 className="text-2xl font-bold text-neutral-900 dark:text-white">
+        <h3 className="n-text text-2xl font-semibold tracking-tight">
           {lang === 'en' ? 'Technical Skills Dashboard' : 'Panel de Habilidades Técnicas'}
         </h3>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+        <p className="n-muted mt-2">
           {lang === 'en'
             ? 'Comprehensive overview of my technical expertise across different domains'
             : 'Visión completa de mi experiencia técnica en diferentes dominios'}
@@ -73,14 +72,14 @@ export default function SkillsDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="rounded-2xl border border-neutral-200 bg-white p-6 dark:border-neutral-800 dark:bg-neutral-900"
+            className="n-border rounded-2xl border bg-[var(--n-bg)] p-6"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-blue-100 p-2 dark:bg-blue-900/30">
+                <div className="n-callout n-text rounded-xl p-2">
                   {categoryIcons[category.id]}
                 </div>
-                <h4 className="font-semibold text-neutral-900 dark:text-white">
+                <h4 className="n-text font-semibold">
                   {category.title}
                 </h4>
               </div>
@@ -92,15 +91,15 @@ export default function SkillsDashboard() {
             <div className="space-y-3">
               {category.skills.map((skill) => (
                 <div key={skill} className="flex items-center justify-between">
-                  <span className="text-sm text-neutral-700 dark:text-neutral-300">{skill}</span>
+                  <span className="n-text text-sm">{skill}</span>
                   <div className="flex items-center gap-1" aria-hidden="true">
                     {[1, 2, 3].map((i) => (
                       <div
                         key={i}
                         className={`h-1.5 w-6 rounded-full ${
                           i <= (category.level === 'advanced' ? 3 : category.level === 'intermediate' ? 2 : 1)
-                            ? 'bg-blue-500 dark:bg-blue-400'
-                            : 'bg-neutral-200 dark:bg-neutral-700'
+                            ? 'bg-[var(--n-accent)]'
+                            : 'bg-[var(--n-border)]'
                         }`}
                       />
                     ))}
@@ -109,8 +108,8 @@ export default function SkillsDashboard() {
               ))}
             </div>
 
-            <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800">
-              <div className="text-xs text-neutral-500 dark:text-neutral-400">
+            <div className="n-border mt-4 border-t pt-4">
+              <div className="n-muted text-xs">
                 {lang === 'en' ? 'Experience' : 'Experiencia'}:{' '}
                 <span className="font-semibold">
                   {category.level === 'advanced'
@@ -125,24 +124,22 @@ export default function SkillsDashboard() {
         ))}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-neutral-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 dark:border-neutral-800 dark:from-blue-900/10 dark:to-indigo-900/10">
+      {/* AI and automation that is actually running, not a wish list */}
+      <div className="n-callout mt-8 rounded-2xl p-6">
         <div className="flex items-center gap-3">
-          <Container className="h-5 w-5 text-blue-600 dark:text-blue-400" aria-hidden="true" />
-          <h4 className="font-semibold text-neutral-900 dark:text-white">
-            {lang === 'en' ? 'Containerization Expertise' : 'Expertise en Contenedores'}
+          <Workflow className="n-text h-5 w-5" aria-hidden="true" />
+          <h4 className="n-text font-semibold">
+            {lang === 'en' ? 'AI and automation in production' : 'IA y automatización en producción'}
           </h4>
         </div>
-        <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="n-muted mt-2 text-sm leading-relaxed">
           {lang === 'en'
-            ? 'Proficient in Docker containerization and Kubernetes orchestration for scalable, production-ready applications.'
-            : 'Competente en contenedores Docker y orquestación Kubernetes para aplicaciones escalables y listas para producción.'}
+            ? 'At Flowber: an LLM agent with 20 role-scoped tools, RAG on pgvector at 100% hit@1, and 18 self-hosted n8n workflows (reminders, follow-ups, loyalty, reports, Google Calendar sync). At Virtrify, since November 2026: the CRM, automations, and content system of a US wellness brand, built to be run by its founder.'
+            : 'En Flowber: un agente LLM con 20 herramientas filtradas por rol, RAG sobre pgvector con 100% hit@1 y 18 workflows de n8n autoalojados (recordatorios, seguimientos, lealtad, reportes, sincronización con Google Calendar). En Virtrify, desde noviembre de 2026: el CRM, las automatizaciones y el sistema de contenido de una marca de bienestar de EE. UU., construido para que lo opere su fundadora.'}
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
-          {['Docker', 'Kubernetes', 'Docker Compose', 'Container Security', 'Pod Design'].map((tech) => (
-            <span
-              key={tech}
-              className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-neutral-800 dark:text-blue-300"
-            >
+          {['n8n', 'Make · Zapier', 'GoHighLevel · HubSpot', 'Stripe', 'Workers AI · Llama 4', 'pgvector · bge-m3', 'Telegram bots', 'Docker · Traefik'].map((tech) => (
+            <span key={tech} className="n-tag n-tag-gray text-xs">
               {tech}
             </span>
           ))}

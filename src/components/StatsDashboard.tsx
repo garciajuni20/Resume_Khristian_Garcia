@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Database, BarChart3, Clock, Code, Layers, TrendingUp } from 'lucide-react';
+import { Database, BarChart3, Clock, Code, Layers, Sparkles, TrendingUp } from 'lucide-react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
@@ -66,27 +66,28 @@ export default function StatsDashboard() {
   const { count: apps, ref: r6 } = useCountUp(m.liveApps);
 
   const metrics = [
-    { ref: r1, value: techYears, suffix: '+', label: t.yearsTech, icon: <Clock className="h-5 w-5" />, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-    { ref: r2, value: biYears, suffix: '+', label: t.yearsBI, icon: <Database className="h-5 w-5" />, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20' },
-    { ref: r3, value: dashboards, suffix: '+', label: t.dashboards, icon: <BarChart3 className="h-5 w-5" />, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
-    { ref: r4, value: models, suffix: '+', label: t.queries, icon: <Layers className="h-5 w-5" />, color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20' },
-    { ref: r5, value: kpis, suffix: '+', label: t.kpis, icon: <TrendingUp className="h-5 w-5" />, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/20' },
-    { ref: r6, value: apps, suffix: '', label: t.apps, icon: <Code className="h-5 w-5" />, color: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/20' },
+    { ref: r1, value: techYears, suffix: '+', label: t.yearsTech, icon: <Clock className="h-5 w-5" />, color: 'text-blue-600 dark:text-blue-400' },
+    { ref: r2, value: biYears, suffix: '+', label: t.yearsBI, icon: <Database className="h-5 w-5" />, color: 'text-emerald-600 dark:text-emerald-400' },
+    { ref: r3, value: dashboards, suffix: '+', label: t.dashboards, icon: <BarChart3 className="h-5 w-5" />, color: 'text-purple-600 dark:text-purple-400' },
+    { ref: r4, value: models, suffix: '+', label: t.queries, icon: <Layers className="h-5 w-5" />, color: 'text-orange-600 dark:text-orange-400' },
+    { ref: r5, value: kpis, suffix: '+', label: t.kpis, icon: <TrendingUp className="h-5 w-5" />, color: 'text-rose-600 dark:text-rose-400' },
+    { ref: r6, value: apps, suffix: '', label: t.apps, icon: <Code className="h-5 w-5" />, color: 'text-cyan-600 dark:text-cyan-400' },
   ];
 
   const domains = [
-    { label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300', icon: <Database className="h-3.5 w-3.5" /> },
-    { label: lang === 'en' ? 'Business Intelligence' : 'Inteligencia de Negocios', color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300', icon: <BarChart3 className="h-3.5 w-3.5" /> },
-    { label: lang === 'en' ? 'Full-Stack Web Dev' : 'Desarrollo Web Full-Stack', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300', icon: <Code className="h-3.5 w-3.5" /> },
-    { label: lang === 'en' ? 'Network Operations' : 'Operaciones de Red', color: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300', icon: <Layers className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', tone: 'n-tag-blue', icon: <Database className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Business Intelligence' : 'Inteligencia de Negocios', tone: 'n-tag-green', icon: <BarChart3 className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'AI & Automation' : 'IA y Automatización', tone: 'n-tag-pink', icon: <Sparkles className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Full-Stack Web Dev' : 'Desarrollo Web Full-Stack', tone: 'n-tag-purple', icon: <Code className="h-3.5 w-3.5" /> },
+    { label: lang === 'en' ? 'Network Operations' : 'Operaciones de Red', tone: 'n-tag-orange', icon: <Layers className="h-3.5 w-3.5" /> },
   ];
 
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+    <div className="n-border w-full rounded-2xl border bg-[var(--n-bg)] p-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h3 className="text-xl font-bold text-neutral-900 dark:text-white">{t.title}</h3>
-          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{t.description}</p>
+          <h3 className="n-text text-xl font-semibold tracking-tight">{t.title}</h3>
+          <p className="n-muted mt-1 text-sm">{t.description}</p>
         </div>
       </div>
 
@@ -99,13 +100,13 @@ export default function StatsDashboard() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.07 }}
-            className={`rounded-xl ${metric.bg} p-4`}
+            className="n-callout rounded-xl p-4"
           >
             <div className={`mb-2 ${metric.color}`}>{metric.icon}</div>
-            <div className={`text-3xl font-bold ${metric.color}`}>
+            <div className="n-text text-3xl font-semibold tabular-nums tracking-tight">
               {metric.value}{metric.suffix}
             </div>
-            <div className="mt-1 text-xs text-neutral-600 dark:text-neutral-400 leading-snug">
+            <div className="n-muted mt-1 text-xs leading-snug">
               {metric.label}
             </div>
           </motion.div>
@@ -113,26 +114,26 @@ export default function StatsDashboard() {
       </div>
 
       {/* Accuracy Highlight */}
-      <div className="mb-5 rounded-xl border border-green-200 bg-green-50 p-4 dark:border-green-900/30 dark:bg-green-900/10">
-        <div className="flex items-center justify-between">
+      <div className="n-callout mb-5 rounded-xl p-4">
+        <div className="flex items-center justify-between gap-4">
           <div>
-            <div className="text-sm font-semibold text-green-800 dark:text-green-300">{t.accuracy}</div>
-            <div className="text-xs text-green-600 dark:text-green-400 mt-0.5">
+            <div className="n-text text-sm font-semibold">{t.accuracy}</div>
+            <div className="n-muted mt-0.5 text-xs">
               {lang === 'en' ? 'Snowflake data models at Alleviate Financial Solutions' : 'Modelos de datos en Snowflake para Alleviate Financial Solutions'}
             </div>
           </div>
-          <div className="text-3xl font-bold text-green-700 dark:text-green-300">99.5%</div>
+          <div className="text-3xl font-semibold tabular-nums tracking-tight text-emerald-700 dark:text-emerald-300">99.5%</div>
         </div>
       </div>
 
       {/* Technical Domains */}
       <div>
-        <div className="mb-3 text-sm font-medium text-neutral-700 dark:text-neutral-300">
+        <div className="n-text mb-3 text-sm font-medium">
           {t.domains}
         </div>
         <div className="flex flex-wrap gap-2">
           {domains.map((d) => (
-            <span key={d.label} className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold ${d.color}`}>
+            <span key={d.label} className={`n-tag ${d.tone} gap-1.5 text-xs`}>
               {d.icon}
               {d.label}
             </span>

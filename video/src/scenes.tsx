@@ -3,7 +3,7 @@ import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from 'rem
 import type { Copy } from './copy';
 import { C, Chip, Count, FLUID, Grid, Rise, SceneFade, usePop, useProgress } from './kit';
 
-export const DUR = { intro: 165, numbers: 150, timeline: 600, showcase: 300, stack: 180, outro: 210 } as const;
+export const DUR = { intro: 165, numbers: 150, timeline: 700, showcase: 300, stack: 180, outro: 210 } as const;
 
 /* ── 1. Intro: portrait reveal + name letter by letter ─────────────────── */
 export const Intro: React.FC<{ c: Copy }> = ({ c }) => {
@@ -83,12 +83,13 @@ export const Numbers: React.FC<{ c: Copy }> = ({ c }) => (
 
 /* ── 3. Timeline: a camera slides from stop to stop ─────────────────────── */
 const STOP_START = 40;
-const STOP_LEN = 140;
 const CARD_W = 1400;
 
 export const Timeline: React.FC<{ c: Copy }> = ({ c }) => {
   const frame = useCurrentFrame();
   const n = c.stops.length;
+  // Each stop gets an equal share of the scene, whatever the number of stops
+  const STOP_LEN = Math.floor((DUR.timeline - STOP_START) / n);
 
   // Camera position (in cards) with an eased move between consecutive stops
   const keys: number[] = [];

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BarChart3, Bot, Check, Languages, Store, Workflow } from 'lucide-react';
+import { ArrowRight, BarChart3, Bot, Check, Cog, Languages, Store, Workflow } from 'lucide-react';
 import { useLang } from '../../context/LanguageContext';
 import { FLUID } from '../../utils/animations';
 
@@ -16,6 +16,7 @@ const COPY: Record<'es' | 'en', { title: string; intro: string; services: Servic
       { icon: <Workflow className="h-5 w-5" />, title: 'Pipelines y data warehouse', for: 'Equipos que necesitan una sola fuente de verdad', deliverables: ['ETL/ELT con dbt, ADF o Python', 'Modelado dimensional y tests de calidad', 'Corridas programadas y documentadas'], proof: 'Alleviate: precisión de 85% a 99.5%' },
       { icon: <Bot className="h-5 w-5" />, title: 'Asistentes de IA sobre tus datos', for: 'Empresas que quieren IA sin inventos', deliverables: ['Agente con herramientas y permisos por rol', 'RAG con pgvector y evaluación medida', 'Guardrails contra alucinaciones'], proof: 'Flowber: RAG con 100% hit@1' },
       { icon: <BarChart3 className="h-5 w-5" />, title: 'Dashboards y KPIs', for: 'Dirección que decide con reportes manuales', deliverables: ['Dashboards en Power BI o Tableau', 'Definición de KPIs con el negocio', 'Reportes automáticos'], proof: 'Alleviate: de 2+ días a menos de 30 min' },
+      { icon: <Cog className="h-5 w-5" />, title: 'Implementación de IA y automatización', for: 'Fundadores y equipos pequeños que administran todo a mano', deliverables: ['CRM configurado con captura y nutrición de leads', 'Automatizaciones en n8n, Make o Zapier con pagos y agenda', 'Manual operativo en lenguaje claro y traspaso'], proof: 'Flowber: 18 workflows de n8n en producción' },
     ],
     bilingual: 'Trabajo en inglés y español, remoto desde Guatemala (UTC−6), con horario alineado a EE. UU.',
     cta: 'Cuéntame tu proyecto',
@@ -29,6 +30,7 @@ const COPY: Record<'es' | 'en', { title: string; intro: string; services: Servic
       { icon: <Workflow className="h-5 w-5" />, title: 'Pipelines and data warehouse', for: 'Teams that need a single source of truth', deliverables: ['ETL/ELT with dbt, ADF, or Python', 'Dimensional modeling and quality tests', 'Scheduled, documented runs'], proof: 'Alleviate: accuracy from 85% to 99.5%' },
       { icon: <Bot className="h-5 w-5" />, title: 'AI assistants on your data', for: 'Companies that want AI without made-up answers', deliverables: ['Agent with tools and role permissions', 'RAG on pgvector with measured evaluation', 'Anti-hallucination guardrails'], proof: 'Flowber: RAG at 100% hit@1' },
       { icon: <BarChart3 className="h-5 w-5" />, title: 'Dashboards and KPIs', for: 'Leadership deciding from manual reports', deliverables: ['Power BI or Tableau dashboards', 'KPI definition with the business', 'Automated reporting'], proof: 'Alleviate: from 2+ days to under 30 min' },
+      { icon: <Cog className="h-5 w-5" />, title: 'AI implementation and automation', for: 'Founders and small teams running everything by hand', deliverables: ['CRM configured with lead capture and nurture', 'n8n, Make, or Zapier automations wired to payments and scheduling', 'Plain-language operating manual and handoff'], proof: 'Flowber: 18 n8n workflows in production' },
     ],
     bilingual: 'I work in English and Spanish, remotely from Guatemala (UTC−6), with hours aligned to the US.',
     cta: 'Tell me about your project',
@@ -53,7 +55,7 @@ export default function Services() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.9, delay: (i % 2) * 0.12, ease: FLUID }}
             whileHover={{ y: -6 }}
-            className="n-border group flex flex-col rounded-2xl border bg-[var(--n-bg)] p-6 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5"
+            className={`n-border group flex flex-col rounded-2xl border bg-[var(--n-bg)] p-6 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5 ${i === t.services.length - 1 && t.services.length % 2 === 1 ? 'sm:col-span-2' : ''}`}
           >
             <span className="n-callout n-text flex h-10 w-10 items-center justify-center rounded-lg transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-8deg] group-hover:scale-110" aria-hidden="true">
               {s.icon}
