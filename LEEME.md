@@ -229,7 +229,7 @@ Este proyecto está bajo la licencia MIT. Ver el archivo LICENSE para más detal
 ## 👤 Autor
 Khristian Manolo Junior Garcia Pineda
 
-Analista de Datos | Analista de Inteligencia de Negocios | Desarrollador Full-Stack
+Ingeniero de Datos | AI Implementation Engineer | Desarrollador Full-Stack
 
 Ubicación: Ciudad de Guatemala, Guatemala
 

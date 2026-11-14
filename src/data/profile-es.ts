@@ -14,15 +14,16 @@ export const profileES = {
     { label: "Portafolio", href: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" }
   ],
   summary:
-    "Ingeniero de Datos, desarrollador full-stack e ingeniero de IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas en Alleviate y remesas internacionales en IDT), retail de servicios y educación universitaria, trabajando en inglés y en español. En Alleviate Financial Solutions construí desde cero la plataforma analítica: modelado, perfilamiento de roles y optimización en Snowflake, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de Salesforce hacia Snowflake, elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde enero de 2024 lidero la transformación digital de Flowber, la barbería de Danover, de la idea a producción como full-stack engineer y arquitecto: React/TypeScript sobre PostgreSQL/Supabase con RLS por rol, un agente de IA con 20 herramientas y RAG sobre pgvector, y un data warehouse con dbt + DuckDB que incluye modelos predictivos. Lidero proyectos de principio a fin con stakeholders de EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Ingeniería en Sistemas en la USAC, pensum cerrado en mayo de 2026.",
+    "Ingeniero de Datos, desarrollador full-stack e ingeniero de IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas en Alleviate y remesas internacionales en IDT), bienestar, retail de servicios y educación universitaria, trabajando en inglés y en español. En Alleviate Financial Solutions construí desde cero la plataforma analítica como primera contratación de BI de la cuenta y fui promovido a Ingeniero de Datos en noviembre de 2026: modelado, perfilamiento de roles y optimización en Snowflake, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de Salesforce hacia Snowflake, elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde noviembre de 2026 también trabajo medio tiempo como AI Implementation Engineer a través de Virtrify, construyendo el CRM, las automatizaciones en n8n y el sistema de contenido de una marca de bienestar y retiros en EE. UU. Desde enero de 2024 lidero la transformación digital de Flowber, la barbería de Danover, de la idea a producción como full-stack engineer y arquitecto: React/TypeScript sobre PostgreSQL/Supabase con RLS por rol, un agente de IA con 20 herramientas y RAG sobre pgvector, y un data warehouse con dbt + DuckDB que incluye modelos predictivos. Lidero proyectos de principio a fin con stakeholders de EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Ingeniería en Sistemas en la USAC completada (pensum cerrado y examen privado aprobado, 2026); maestría a partir de febrero de 2027.",
 
   summaryShort:
-    "Ingeniero de Datos, full-stack e IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas y remesas), retail de servicios y educación, bilingüe en inglés y español. En Alleviate Financial Solutions construí desde cero la plataforma analítica con Snowflake, dbt, Azure Data Factory y Databricks: precisión de datos del 85% al 99.5% y reportes financieros de más de 2 días a menos de 30 minutos. Desde 2024 llevo Flowber de la idea a producción como arquitecto y único ingeniero: React + Supabase con seguridad por rol en la base de datos, un agente de IA con RAG sobre pgvector y un warehouse dbt + DuckDB con modelos de machine learning.",
+    "Ingeniero de Datos, full-stack e IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas y remesas), bienestar, retail de servicios y educación, bilingüe en inglés y español. En Alleviate Financial Solutions construí desde cero la plataforma analítica con Snowflake, dbt, Azure Data Factory y Databricks (precisión de datos del 85% al 99.5%, reportes financieros de más de 2 días a menos de 30 minutos) y fui promovido a Ingeniero de Datos en noviembre de 2026; desde entonces también soy AI Implementation Engineer de medio tiempo vía Virtrify. Desde 2024 llevo Flowber de la idea a producción como arquitecto y único ingeniero: React + Supabase con seguridad por rol en la base de datos, un agente de IA con RAG sobre pgvector y un warehouse dbt + DuckDB con modelos de machine learning.",
 
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "IA · RAG · pgvector", "Bilingüe EN/ES"],
 
   keyAchievements: [
     "Mejoré la precisión de datos del 85% al 99.5% diseñando la capa analítica en Snowflake detrás del reporting financiero de 5 departamentos.",
+    "Promovido a Ingeniero de Datos en Alleviate Financial Solutions (noviembre de 2026) tras construir la plataforma analítica desde cero como primera contratación de BI de la cuenta.",
     "Llevé Flowber de la idea a producción (ene 2024 → hoy): 160+ citas y 90+ clientes registrados en la plataforma, un agente de IA con RAG (100% hit@1 en su evaluación) y un warehouse dbt con 50 tests y modelos de ML.",
     "Reduje el ciclo de reportes financieros de más de 2 días a menos de 30 minutos con pipelines automatizados en SQL/dbt y dashboards en Power BI — 70% menos tiempo de reporting manual.",
     "Automaticé procesos internos de la empresa con Python, SQL y Selenium — incluyendo automatizaciones que impulsaron la generación de leads de forma medible.",
@@ -31,25 +32,40 @@ export const profileES = {
 
   experience: [
     {
-      id: "alleviate-mid",
+      id: "alleviate-de",
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
-      role: "Analista de Inteligencia de Negocios / Analista de Datos (Ingeniería de Datos y Analítica)",
-      start: "2023-11",
+      role: "Ingeniero de Datos",
+      start: "2026-11",
       end: "present",
       location: "Remoto (Guatemala / EE. UU.)",
-      tags: ["Ingeniería de Datos", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Azure", "GCP", "Python", "SQL", "Salesforce", "Power BI", "Tableau", "APIs REST", "Modelado de Datos", "BI"],
+      tags: ["Ingeniería de Datos", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Azure", "GCP", "Python", "SQL", "Salesforce", "APIs REST", "Docker", "GitLab", "Modelado de Datos"],
       bullets: [
-        "Lidero proyectos de datos de principio a fin — identificando las fuentes de datos adecuadas, asegurando que se importen y se unan correctamente, y comunicándome directamente con stakeholders de finanzas, operaciones y estrategia en EE. UU. para planificar y entregar cada iniciativa.",
-        "Diseño y mantengo la capa analítica en Snowflake y PostgreSQL: modelos dimensionales, 8+ modelos core, vistas y stored procedures consultados por los 5 departamentos del negocio — la fuente única de verdad de la empresa, que elevó la precisión de datos del 85% al 99.5%.",
-        "Trabajo de plataforma en Snowflake más allá del modelado: perfilamiento de roles y diseño de accesos, optimización de bases de datos, queries y stored procedures, e implementación de data sharing nativo para distribuir datasets entre consumidores sin copiarlos.",
-        "Construyo flujos de datos y pipelines ETL/ELT con dbt y SQL sobre Snowflake, además de la implementación y administración de Databricks para analítica avanzada y transformaciones entre plataformas.",
-        "Configuro y administro recursos en Azure y Google Cloud — creación y orquestación de pipelines en Azure Data Factory, aplicaciones dockerizadas y escalamiento de recursos según la demanda de carga.",
-        "Integro fuentes de datos externas y CRMs (Salesforce) hacia Snowflake y bases de datos locales para unificar el reporting de ingresos y operaciones; consumo APIs POST y diseño, desarrollo, despliego y escalo APIs REST.",
-        "Automatizo procesos internos de la empresa con Python, SQL y Selenium — incluyendo automatizaciones que impulsaron la generación de leads — e implementé flujos de validación y alertas que eliminaron el 90% de errores recurrentes en reportes.",
-        "Entregué 15+ dashboards interactivos en Power BI y Tableau y definí 20+ KPIs con stakeholders de EE. UU., reemplazando procesos manuales en Excel y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos.",
-        "Diseño nuevos procesos y procedimientos a partir de los hallazgos del análisis, elaboro Procedimientos Operativos Estándar y documentación de datos, y asesoro a equipos internos en análisis de datos y análisis predictivo.",
-        "Primera contratación de BI en Guatemala para la cuenta de Alleviate Financial Solutions — construí la función desde cero hasta convertirla en el stack analítico completo de la empresa; backlog y work items gestionados en Azure DevOps."
+        "Promovido a Ingeniero de Datos en noviembre de 2026 tras tres años construyendo desde cero la plataforma analítica de la cuenta como su primera contratación de BI; hoy soy responsable de la plataforma de datos de punta a punta, desde los recursos en la nube hasta los modelos que consulta el negocio.",
+        "Configuro y administro recursos en Azure y Google Cloud: creación y orquestación de pipelines en Azure Data Factory, aplicaciones dockerizadas y escalamiento de recursos según la demanda de carga.",
+        "Responsable de la plataforma Snowflake: perfilamiento de roles y diseño de accesos, optimización de bases de datos, stored procedures y queries, data sharing nativo y modelado dimensional de bases de datos.",
+        "Implemento y administro Databricks, y construyo los flujos de datos y pipelines ETL/ELT (dbt, SQL, Python) que mueven la información entre los sistemas fuente, las bases de datos locales y en la nube y el warehouse.",
+        "Integro CRMs (Salesforce) y fuentes de datos externas hacia Snowflake; consumo APIs POST y diseño, desarrollo, despliego y escalo APIs REST.",
+        "Automatizo procesos internos de la empresa con Python, SQL y Selenium, incluyendo automatizaciones que impulsaron la generación de leads, y asesoro a equipos internos en análisis predictivo y de datos.",
+        "Elaboro Procedimientos Operativos Estándar y entrego en un entorno basado en GitLab para control de versiones y CI."
+      ]
+    },
+    {
+      id: "virtrify-ai",
+      industry: "Bienestar · Retiros y comunidad (EE. UU.)",
+      company: "Virtrify — asignado a una marca de bienestar y retiros en EE. UU.",
+      role: "AI Implementation Engineer (medio tiempo, remoto)",
+      start: "2026-11",
+      end: "present",
+      location: "Remoto (Guatemala / EE. UU.) · ~20 h/semana",
+      tags: ["Implementación de IA", "CRM", "n8n", "Automatización de Flujos", "LLM", "Stripe", "Integraciones", "Documentación"],
+      bullets: [
+        "Contrato de medio tiempo que inicia el 23 de noviembre de 2026 (unas 20 horas semanales) en paralelo al rol de Ingeniero de Datos: diseñar y desplegar el sistema operativo aumentado con IA de un negocio de bienestar y retiros en crecimiento, dirigido por una sola fundadora: CRM, flujos automatizados y sistemas centralizados para leads, reservas de retiros y contenido.",
+        "Auditar cómo llegan los leads desde anuncios pagados, consultas orgánicas, teléfono y correo hasta la venta; mapear el ciclo de venta de los retiros (consulta, inscripción, pago, comunicación previa y posterior) y priorizar las automatizaciones de mayor impacto dentro de un presupuesto limitado.",
+        "Seleccionar y configurar un CRM ligero y de bajo costo (GoHighLevel, HubSpot o equivalente); construir los flujos de captura y nutrición de leads, el pipeline de inscripción a retiros (consulta, depósito, pago, secuencia previa), el seguimiento posterior con recolección de reseñas y la agenda de retiros, llamadas y el meetup mensual de la comunidad.",
+        "Construir las automatizaciones en n8n, Make o Zapier integrando el CRM con las plataformas de anuncios, el procesador de pagos (Stripe) y las herramientas de agenda; escribir scripts a medida solo donde las herramientas no-code llegan a un límite real.",
+        "Centralizar los activos de podcast, YouTube y redes sociales en un solo sistema organizado con un calendario de contenido ligero, conectado al CRM para el seguimiento de leads.",
+        "Probar cada flujo contra escenarios reales de leads y reservas, documentar todo en lenguaje claro y entregar a la fundadora un manual operativo para que el sistema funcione sin el contratista; reportes asíncronos de avance contra KPIs (flujos clave en producción, horas administrativas reducidas, confiabilidad tras la entrega)."
       ]
     },
     {
@@ -70,6 +86,24 @@ export const profileES = {
         "Agregué modelos predictivos dentro del DAG de dbt (riesgo de cancelación con regresión logística y validación temporal contra baseline; pronóstico de demanda EWMA con backtest), segmentación RFM y riesgo de abandono; un mart de salud de datos encontró Q4,245 de ingresos que no llegaban al BI.",
         "Unifiqué las métricas del negocio en una sola función SQL (business_summary) que consumen el panel, el asistente, el resumen semanal y Telegram; automaticé recordatorios, cierre diario y campañas de lealtad con pg_cron + Vault, un bot de Telegram por rol con acciones en lote y correo transaccional con Brevo.",
         "Ejecuté toda la entrega en solitario: CI/CD a Cloudflare Pages, auditorías documentadas de seguridad, roles y negocio, y rendimiento medido con Lighthouse (LCP móvil de 4.8 s a 2.5 s)."
+      ]
+    },
+    {
+      id: "alleviate-mid",
+      industry: "Fintech · Consolidación de deudas (EE. UU.)",
+      company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
+      role: "Analista de Inteligencia de Negocios / Analista de Datos (Ingeniería de Datos y Analítica)",
+      start: "2023-11",
+      end: "2026-10",
+      location: "Remoto (Guatemala / EE. UU.)",
+      tags: ["Ingeniería de Datos", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Python", "SQL", "Salesforce", "Power BI", "Tableau", "Modelado de Datos", "BI"],
+      bullets: [
+        "Lideré proyectos de datos de principio a fin — identificando las fuentes de datos adecuadas, asegurando que se importaran y unieran correctamente, y comunicándome directamente con stakeholders de finanzas, operaciones y estrategia en EE. UU. para planificar y entregar cada iniciativa.",
+        "Diseñé la capa analítica en Snowflake y PostgreSQL: modelos dimensionales, 8+ modelos core, vistas y stored procedures consultados por los 5 departamentos del negocio — la fuente única de verdad de la empresa, que elevó la precisión de datos del 85% al 99.5%.",
+        "Entregué 15+ dashboards interactivos en Power BI y Tableau y definí 20+ KPIs con stakeholders de EE. UU., reemplazando procesos manuales en Excel y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos.",
+        "Senté las bases del rol de Ingeniero de Datos: pipelines ELT con dbt y SQL sobre Snowflake, orquestación en Azure Data Factory, Databricks e integraciones de Salesforce hacia Snowflake, además de flujos de validación y alertas que eliminaron el 90% de errores recurrentes en reportes.",
+        "Diseñé nuevos procesos a partir de los hallazgos del análisis, elaboré Procedimientos Operativos Estándar y documentación de datos, y asesoré a equipos internos en análisis de datos y análisis predictivo.",
+        "Primera contratación de BI en Guatemala para la cuenta de Alleviate Financial Solutions — construí la función desde cero hasta convertirla en el stack analítico completo de la empresa; backlog y work items gestionados en Azure DevOps. Promovido a Ingeniero de Datos en noviembre de 2026."
       ]
     },
     {
@@ -164,10 +198,11 @@ export const profileES = {
       degree: "Licenciatura",
       area: "Ingeniería en Ciencias y Sistemas",
       end: "2026-05",
-      status: "Pensum cerrado (todos los cursos completados) — 31 de mayo de 2026",
+      status: "Completada — pensum cerrado el 31 de mayo de 2026 · examen privado aprobado (2026)",
       highlights: [
-        "Pensum cerrado: todos los cursos completados al 31 de mayo de 2026",
+        "Pensum cerrado (todos los cursos completados) el 31 de mayo de 2026 y examen privado aprobado en 2026",
         "Completé la práctica final obligatoria como Instructor Académico (ago 2025 – ago 2026)",
+        "Siguiente paso: maestría a partir de febrero de 2027",
         "Cursos avanzados: Compiladores (parsers PEG, gramática Fortran), Bases de Datos 2 (BD2), Estructuras de Datos y Algoritmos",
         "Construí un parser PEG para Fortran en JavaScript (Compiladores 2, disponible en GitHub Pages); proyecto de suficiencia BD2: diseño avanzado de bases de datos en Python"
       ]
@@ -327,7 +362,7 @@ export const profileES = {
   tools: {
     dataEngineering: ["Snowflake", "SQL", "Python", "dbt", "Databricks", "Azure Data Factory", "ETL / ELT", "Pipelines de Datos", "PostgreSQL", "DuckDB", "BigQuery", "MySQL", "MongoDB", "Stored Procedures", "Modelado Dimensional", "Selenium", "SSMS", "Postman"],
     biAnalytics: ["Power BI", "Tableau", "DAX", "Power Query", "Salesforce", "Diseño de KPIs", "Excel / VBA", "Google Data Studio", "Confluence", "Lucidchart", "Visio", "Draw.io", "Notion"],
-    cloudDevOps: ["Microsoft Azure", "Google Cloud (GCP)", "AWS", "Azure DevOps", "Docker", "Cloudflare Pages & Workers", "GitHub Actions", "CI/CD", "Kubernetes", "n8n", "Splunk", "New Relic", "Grafana", "Zabbix"],
+    cloudDevOps: ["Microsoft Azure", "Google Cloud (GCP)", "AWS", "Azure DevOps", "Docker", "GitLab", "Cloudflare Pages & Workers", "GitHub Actions", "CI/CD", "Kubernetes", "n8n", "Splunk", "New Relic", "Grafana", "Zabbix"],
     fullStack: ["React", "TypeScript", "Node.js", "Diseño de APIs REST", "Supabase", "Tailwind CSS", "Vite", "Cloudflare Workers AI", "Integración LLM / RAG", "pgvector", "Deno Edge Functions"],
     methodologies: [
       "Diseño de Pipelines de Datos", "Modelado Dimensional", "Gobernanza de Datos", "Data Mapping / Lineage", "DataOps",
@@ -385,6 +420,6 @@ export const profileES = {
   seo: {
     title: "Khristian Garcia — Ingeniero de Datos, Full-Stack e IA",
     description: "Ingeniero de Datos, full-stack e IA con más de 7 años en fintech de EE. UU., remesas, retail y educación: Snowflake, dbt, Azure Data Factory, React, Supabase y RAG. Bilingüe, remoto desde Guatemala.",
-    keywords: ["Ingeniero de Datos", "Data Engineer", "Full-Stack", "Ingeniero de IA", "RAG", "Arquitecto de Soluciones", "Snowflake", "dbt", "Azure Data Factory", "Python", "SQL", "React", "Fintech", "Remoto Guatemala"]
+    keywords: ["Ingeniero de Datos", "Data Engineer", "AI Implementation Engineer", "Full-Stack", "Ingeniero de IA", "RAG", "Arquitecto de Soluciones", "Snowflake", "dbt", "Azure Data Factory", "n8n", "Python", "SQL", "React", "Fintech", "Remoto Guatemala"]
   }
 } satisfies ProfileData

@@ -56,14 +56,18 @@ const year = (value: string, isEN: boolean) =>
 
 /** Bullets per role on page 2; data is ordered most-relevant-first. */
 const BULLET_CAPS: Record<string, number> = {
-  'alleviate-mid': 4,
-  'flowber-freelance': 5,
-  'idt-gnoc': 2,
+  'alleviate-de': 3,
+  'virtrify-ai': 1,
+  'alleviate-mid': 2,
+  'flowber-freelance': 3,
+  'idt-gnoc': 1,
 };
 const DEFAULT_BULLET_CAP = 1;
 
 /** Short employer names for the industries panel */
 const COMPANY_SHORT: Record<string, string> = {
+  'alleviate-de': 'Alleviate Financial Solutions',
+  'virtrify-ai': 'Virtrify',
   'alleviate-mid': 'Alleviate Financial Solutions',
   'icon-it': 'Alleviate Financial Solutions',
   'flowber-freelance': 'Flowber',
@@ -71,7 +75,7 @@ const COMPANY_SHORT: Record<string, string> = {
   'idt-gnoc': 'IDT · Red Chapina',
 };
 
-const SKILLS_SHOWN = 12;
+const SKILLS_SHOWN = 10;
 const ACHIEVEMENTS_SHOWN = 4;
 
 const INK = '#191919';
@@ -125,9 +129,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 34,
-    paddingTop: 20,
-    paddingBottom: 10,
-    marginBottom: 4,
+    paddingTop: 16,
+    paddingBottom: 9,
+    marginBottom: 2,
     borderBottomWidth: 1,
     borderBottomColor: BORDER,
     borderBottomStyle: 'solid',
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
   slimPage: { fontSize: 7.4, color: MUTED, marginLeft: 'auto' },
 
   // ── Sections
-  section: { marginTop: 11 },
+  section: { marginTop: 9 },
   sectionTitle: {
     fontWeight: 600,
     fontSize: 7.6,
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
   paragraph: { fontSize: 8.6, color: TEXT, lineHeight: 1.6 },
 
   // ── Metrics
-  metricsRow: { flexDirection: 'row', marginTop: 14 },
+  metricsRow: { flexDirection: 'row', marginTop: 10 },
   metricBox: {
     flex: 1,
     borderWidth: 1,
@@ -203,10 +207,10 @@ const styles = StyleSheet.create({
 
   // ── Featured project
   featured: {
-    marginTop: 10,
+    marginTop: 8,
     backgroundColor: ACCENT_SOFT,
     borderRadius: 8,
-    paddingVertical: 11,
+    paddingVertical: 8,
     paddingHorizontal: 13,
   },
   featuredEyebrow: { fontSize: 6.8, fontWeight: 600, color: ACCENT, textTransform: 'uppercase', letterSpacing: 1.1 },
@@ -229,7 +233,7 @@ const styles = StyleSheet.create({
   skillYears: { fontSize: 6.8, color: MUTED, width: 34, textAlign: 'right', flexShrink: 0 },
 
   // ── Experience
-  expBlock: { marginBottom: 9 },
+  expBlock: { marginBottom: 7 },
   expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   expTitle: { fontWeight: 700, fontSize: 9.2, color: INK, flex: 1, marginRight: 10 },
   expDates: { fontSize: 7.4, color: MUTED, fontWeight: 500, marginTop: 1 },
@@ -309,11 +313,12 @@ export function CVCreative({ data, lang }: Props) {
     featuredLink: isEN ? 'Case study: garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber' : 'Caso de estudio: garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber',
   };
 
+  const industryRows = industries(data.experience, isEN);
   const metrics = [
     { value: `${data.metrics.yearsExperience}+`, label: isEN ? 'years in tech' : 'años en tecnología', note: isEN ? 'since 2019' : 'desde 2019' },
     { value: '99.5%', label: isEN ? 'data accuracy' : 'precisión de datos', note: isEN ? 'from 85% at Alleviate' : 'desde 85% en Alleviate' },
     { value: '160+', label: isEN ? 'appointments' : 'citas gestionadas', note: isEN ? 'Flowber in production' : 'Flowber en producción' },
-    { value: '4', label: isEN ? 'industries' : 'industrias', note: isEN ? 'fintech to education' : 'de fintech a educación' },
+    { value: String(industryRows.length), label: isEN ? 'industries' : 'industrias', note: isEN ? 'fintech to wellness' : 'de fintech a bienestar' },
   ];
 
   const featuredStats = [
@@ -382,11 +387,23 @@ export function CVCreative({ data, lang }: Props) {
                   <Text style={styles.bulletText}>{a}</Text>
                 </View>
               ))}
+
+              {/* Education sits under the achievements: the side column is the taller one */}
+              <Text style={{ ...styles.sectionTitle, marginTop: 8 }}>{t.education}</Text>
+              {data.education.map((edu, i) => (
+                <View key={i}>
+                  <Text style={styles.cardTitle}>{edu.degree} · {edu.area}</Text>
+                  <Text style={styles.cardSub}>{edu.institution}</Text>
+                  <Text style={styles.cardStatus}>
+                    {edu.status ?? (edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : ym(edu.end, isEN))}
+                  </Text>
+                </View>
+              ))}
             </View>
 
             <View style={styles.colSide}>
               <Text style={styles.sectionTitle}>{t.industries}</Text>
-              {industries(data.experience, isEN).map((ind, i) => (
+              {industryRows.map((ind, i) => (
                 <View key={ind.name} style={styles.industryRow}>
                   <View style={{ ...styles.industryDot, backgroundColor: INDUSTRY_DOTS[i % INDUSTRY_DOTS.length] }} />
                   <View style={{ flex: 1 }}>
@@ -409,16 +426,6 @@ export function CVCreative({ data, lang }: Props) {
                 </View>
               ))}
 
-              <Text style={{ ...styles.sectionTitle, marginTop: 6 }}>{t.education}</Text>
-              {data.education.map((edu, i) => (
-                <View key={i}>
-                  <Text style={styles.cardTitle}>{edu.area}</Text>
-                  <Text style={styles.cardSub}>{edu.institution}</Text>
-                  <Text style={styles.cardStatus}>
-                    {edu.status ?? (edu.end === 'present' ? (isEN ? 'In progress' : 'En curso') : ym(edu.end, isEN))}
-                  </Text>
-                </View>
-              ))}
             </View>
           </View>
 

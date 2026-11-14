@@ -39,13 +39,16 @@ function range(start: string, end: string, isEN: boolean): string {
 
 /** Bullets per role, most-relevant-first in the data. Keeps the resume to 2 pages. */
 const BULLET_CAPS: Record<string, number> = {
-  'alleviate-mid': 5,
-  'flowber-freelance': 5,
+  'alleviate-de': 4,
+  'virtrify-ai': 2,
+  'alleviate-mid': 2,
+  'flowber-freelance': 3,
+  'idt-gnoc': 2,
 };
-const DEFAULT_BULLET_CAP = 2;
+const DEFAULT_BULLET_CAP = 1;
 
 /** Long tool lists read as keyword walls; cap each group. */
-const TOOLS_CAP = 9;
+const TOOLS_CAP = 8;
 
 /** Keeps the document to two pages, verified by scripts/inspect-pdf.py */
 const ACHIEVEMENTS_SHOWN = 4;
@@ -53,12 +56,12 @@ const ACHIEVEMENTS_SHOWN = 4;
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
-    fontSize: 9.5,
+    fontSize: 9.2,
     color: '#000000',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 44,
-    paddingVertical: 34,
-    lineHeight: 1.45,
+    paddingVertical: 32,
+    lineHeight: 1.42,
   },
 
   headerRow: { flexDirection: 'row', alignItems: 'center' },
@@ -82,21 +85,21 @@ const styles = StyleSheet.create({
     fontSize: 9.5,
     textTransform: 'uppercase',
     letterSpacing: 1,
-    marginTop: 11,
-    marginBottom: 5,
+    marginTop: 9,
+    marginBottom: 4,
   },
 
-  paragraph: { fontSize: 9, lineHeight: 1.55 },
+  paragraph: { fontSize: 8.8, lineHeight: 1.5 },
 
   // Experience — each line is its own block, nothing competes for horizontal space
-  roleGap: { height: 7 },
+  roleGap: { height: 5 },
   roleTitle: { fontFamily: 'Helvetica-Bold', fontSize: 9.5 },
   roleMeta: { fontSize: 8.5, color: '#333333', marginTop: 1.5 },
   roleIndustry: { fontSize: 8.5, color: '#333333', marginTop: 1, marginBottom: 3 },
 
   bullet: { flexDirection: 'row', marginBottom: 2.5 },
-  bulletChar: { fontSize: 9, width: 10, flexShrink: 0 },
-  bulletText: { fontSize: 9, flex: 1, lineHeight: 1.5 },
+  bulletChar: { fontSize: 8.8, width: 10, flexShrink: 0 },
+  bulletText: { fontSize: 8.8, flex: 1, lineHeight: 1.45 },
 
   skillLine: { fontSize: 8.8, marginBottom: 2.5, lineHeight: 1.5 },
   skillLabel: { fontFamily: 'Helvetica-Bold' },

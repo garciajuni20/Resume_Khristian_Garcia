@@ -150,8 +150,8 @@ export default function Certifications() {
         </p>
         <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
           {lang === 'en'
-            ? 'Currently completing Systems Engineering at USAC while working full-time as a BI Analyst. Next target: AWS Data Analytics Specialty.'
-            : 'Actualmente completando Ingeniería en Sistemas en la USAC mientras trabaja a tiempo completo como Analista BI. Próximo objetivo: AWS Data Analytics Specialty.'}
+            ? 'Systems Engineering at USAC completed in 2026 (pensum closed, private exam passed) while working full-time in data; now a Data Engineer. Next: a master\'s degree starting February 2027.'
+            : 'Ingeniería en Sistemas en la USAC completada en 2026 (pensum cerrado, examen privado aprobado) mientras trabajaba a tiempo completo en datos; hoy Ingeniero de Datos. Siguiente paso: maestría a partir de febrero de 2027.'}
         </p>
       </div>
     </div>

@@ -244,7 +244,7 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ### 👤 Author
 Khristian Manolo Junior Garcia Pineda
 
-Data Analyst | Business Intelligence Analyst | Full-Stack Developer
+Data Engineer | AI Implementation Engineer | Full-Stack Developer
 
 Location: Guatemala City, Guatemala
 

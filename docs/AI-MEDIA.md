@@ -7,6 +7,7 @@ Every clip and illustration on the site is either real footage or was generated 
 | Step | Tool | Where |
 |---|---|---|
 | Generate stills and clips | **Wan 2.2 TI2V 5B** through [Wan2GP](https://github.com/deepbeepmeep/Wan2GP) on an RTX 3060 12 GB (`--profile 5`, SDPA attention) | `D:\AI\portfolio_gen.py` + `D:\AI\portfolio_jobs.json` → `D:\AI\portfolio-out\` |
+| Generate stills (text-to-image) and edit photos | **Flux 2 Klein 4B** (int8, 4 steps, ~2 min per image) through the same Wan2GP install | `D:\AI\cv_headshot.py` + a jobs JSON → `D:\AI\cv-out\` |
 | Trim, loop, compress | ffmpeg (bundled with Wan2GP) | `scripts/encode-ai-media.sh` (brand stills were resized to display size with Pillow) |
 | Career film (54 s, EN/ES) | Remotion (video as React code) | `video/` |
 | Flowber brand film (50 s) | Remotion in the Flowber repo, real shop footage + local AI clips | `Flowber/flowber-barberia/remotion` |
@@ -27,7 +28,7 @@ bash scripts/encode-ai-media.sh
 |---|---|---|
 | `public/ai/hero-data.{webm,mp4,webp}` (≈0.9 MB) | Wan 2.2 text-to-video, slowed 2× and boomeranged | Home, tagline band (`AmbientVideo`) |
 | `public/ai/flowber-cover.{webm,mp4}` (≈0.1 MB) | Wan 2.2 image-to-video from `ind-retail`, trimmed to 2 s (a stray figure walks in at 2.2 s) and boomeranged | Flowber case-study cover, Flowber card on /projects |
-| `public/ai/flowber-cover.webp`, `ind-*.webp` | Wan 2.2 stills | Case-study cover poster, industry rail |
+| `public/ai/flowber-cover.webp`, `ind-*.webp` | Wan 2.2 stills (`ind-wellness` is Flux 2 Klein, resized to 960×528 with Pillow) | Case-study cover poster, industry rail |
 | `public/flowber/flowber-film.{mp4,webp}` (4.2 MB, click to play) | Flowber brand film | Case study → Brand and business |
 | `public/flowber/cortes/*.{mp4,webp}` | Real footage from the shop | Case study → Brand and business |
 | `public/flowber/brand/logo-v1, logo-v2, mascot` | Flowber logos and campaign illustration | Case study → identity evolution |

@@ -33,7 +33,7 @@ export default function ResumePage() {
     ? {
         eyebrow: 'Resume · 2026',
         pageTitle: 'Interactive resume',
-        subtitle: 'Data, full-stack and AI across four industries. Filter my experience, watch the film, or take the PDF.',
+        subtitle: 'Data, full-stack and AI across five industries. Filter my experience, watch the film, or take the PDF.',
         available: 'Open to roles and projects',
         location: 'Location',
         remote: 'remote',
@@ -54,7 +54,7 @@ export default function ResumePage() {
     : {
         eyebrow: 'CV · 2026',
         pageTitle: 'CV interactivo',
-        subtitle: 'Datos, full-stack e IA en cuatro industrias. Filtra mi experiencia, mira el video o llévate el PDF.',
+        subtitle: 'Datos, full-stack e IA en cinco industrias. Filtra mi experiencia, mira el video o llévate el PDF.',
         available: 'Disponible para empleo y proyectos',
         location: 'Ubicación',
         remote: 'remoto',

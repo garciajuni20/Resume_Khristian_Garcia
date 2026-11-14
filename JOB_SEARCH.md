@@ -4,8 +4,9 @@
 > Source of truth: `src/data/profile-en.ts` / `profile-es.ts`. Keep this file in sync with those.
 
 ## Target Roles
-- **Data Analyst / Business Intelligence Analyst** (primary)
-- **BI Engineer / Analytics Engineer** (Snowflake, dbt, SQL modeling)
+- **Data Engineer / Analytics Engineer** (primary — current title since Nov 2026)
+- **BI Engineer / Data Analyst** (Snowflake, dbt, SQL modeling, Power BI)
+- **AI Implementation / Automation Engineer** (n8n, CRM, LLM integrations — current part-time role via Virtrify)
 - **Full-Stack Developer** (React + TypeScript, secondary track)
 - Remote-first, US/LATAM/EU companies. Based in Guatemala City, **CST (UTC-6)** — full overlap with US time zones. Already 2+ years working remotely for a US fintech.
 
@@ -24,8 +25,11 @@ Technology professional with 6+ years across network operations, IT infrastructu
 ## Experience Timeline
 | Period | Role | Company |
 |---|---|---|
-| 2025-08 → present | Academic Instructor (Practicum) | Universidad de San Carlos de Guatemala |
-| 2024-12 → present | BI Analyst / Data Analyst | Icon Solutions Group / Alleviate Financial Solutions (remote, US) |
+| 2026-11 → present | **Data Engineer** (promoted 1 Nov 2026) | Icon Solutions Group / Alleviate Financial Solutions (remote, US) |
+| 2026-11 → present | AI Implementation Engineer (part-time, ~20 h/week, starts 23 Nov 2026) | Virtrify — US wellness & retreat brand (remote) |
+| 2025-08 → 2026-08 | Academic Instructor (Practicum) | Universidad de San Carlos de Guatemala |
+| 2024-01 → present | Full-Stack · Architect · Data & AI (independent) | Flowber |
+| 2024-12 → 2026-10 | BI Analyst / Data Analyst | Icon Solutions Group / Alleviate Financial Solutions (remote, US) |
 | 2023-11 → 2024-12 | BI Analyst Jr | Icon Solutions Group / Alleviate Financial Solutions |
 | 2023-01 → 2023-11 | IT Support Engineer / Sysadmin | Icon Solutions Group |
 | 2019-01 → 2023-01 | GNOC Support Engineer | Red Chapina S.A (IDT Guatemala) |
@@ -34,7 +38,7 @@ Technology professional with 6+ years across network operations, IT infrastructu
 SQL (expert) · Snowflake · Power BI · DAX · Tableau · Data Modeling · Star Schema · ETL/ELT · dbt · Data Warehousing · PostgreSQL · MySQL · Python · React · TypeScript · Tailwind CSS · REST APIs · Supabase · Docker · Kubernetes · GCP · Cloudflare · GitHub Actions · CI/CD · Git · Agile/Scrum · DataOps
 
 ## Education & Certifications
-- **Systems Engineering — USAC** (in progress; currently also teaching as academic instructor)
+- **Systems Engineering — USAC** (completed: pensum closed 31 May 2026, private exam passed 2026; master's degree starts Feb 2027)
 - Snowflake Fundamentals — Snowflake Inc. (2024)
 - Power BI Data Analytics — Microsoft (2024)
 - Docker & Cloud-Native Containers Workshop — Cloud-Native + GT (2025)

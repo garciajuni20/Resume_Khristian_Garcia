@@ -35,7 +35,7 @@ Why: the first ~60 characters show up in search results and comments, so the rol
 
 > I build data platforms people can trust, and the software around them.
 >
-> For the last three years I've been the data engineer behind the analytics platform at Alleviate Financial Solutions, a US debt-consolidation fintech, working remotely from Guatemala. I was the first BI hire on the account and built the function from zero:
+> For the last three years I've been the engineer behind the analytics platform at Alleviate Financial Solutions, a US debt-consolidation fintech, working remotely from Guatemala. I was the first BI hire on the account, built the function from zero, and was promoted to Data Engineer in November 2026:
 > • Snowflake as the single source of truth for 5 departments: dimensional models, role profiling, query and stored-procedure optimization, native data sharing.
 > • dbt and SQL ELT pipelines, Azure Data Factory orchestration across Azure and GCP, Databricks, and Salesforce → Snowflake integrations.
 > • Data accuracy from 85% to 99.5%. Financial reporting from 2+ days to under 30 minutes. 15+ Power BI / Tableau dashboards and 20+ KPIs defined with US stakeholders.
@@ -46,9 +46,11 @@ Why: the first ~60 characters show up in search results and comments, so the rol
 > • A medallion warehouse (dbt + DuckDB, 24 models, 50 tests) with cancellation-risk and demand-forecast models.
 > • 160+ appointments and 90+ customers on the platform.
 >
+> Since November 2026 I also work part-time as an AI Implementation Engineer through Virtrify: CRM, n8n automations, and a content system for a US wellness and retreat brand, documented so a solo founder can run it.
+>
 > Before data, I spent four years in a 24/7 global NOC for international remittances (IDT), which is where I learned incident response, SOPs, and how much a wrong number costs.
 >
-> Systems Engineering at USAC (all coursework completed, 2026). I also taught Organizational Systems (BI, ERP/CRM) there as my final practicum.
+> Systems Engineering at USAC completed in 2026 (pensum closed, private exam passed); master's degree starting February 2027. I also taught Organizational Systems (BI, ERP/CRM) there as my final practicum.
 >
 > Open to remote Data Engineer / Analytics Engineer roles. English and Spanish.
 > Portfolio and case study: garciajuni20.github.io/Resume_Khristian_Garcia
@@ -57,7 +59,7 @@ Why: the first ~60 characters show up in search results and comments, so the rol
 
 > Construyo plataformas de datos en las que se puede confiar, y el software que las rodea.
 >
-> Los últimos tres años he sido el ingeniero de datos detrás de la plataforma analítica de Alleviate Financial Solutions, una fintech de consolidación de deudas en EE. UU., trabajando remoto desde Guatemala. Fui la primera contratación de BI de la cuenta y construí el área desde cero:
+> Los últimos tres años he sido el ingeniero detrás de la plataforma analítica de Alleviate Financial Solutions, una fintech de consolidación de deudas en EE. UU., trabajando remoto desde Guatemala. Fui la primera contratación de BI de la cuenta, construí el área desde cero y en noviembre de 2026 fui promovido a Ingeniero de Datos:
 > • Snowflake como fuente única de verdad para 5 departamentos: modelos dimensionales, perfiles de roles, optimización de consultas y procedimientos almacenados, data sharing nativo.
 > • Pipelines ELT con dbt y SQL, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones Salesforce → Snowflake.
 > • Precisión de datos de 85% a 99.5%. Reportes financieros de más de 2 días a menos de 30 minutos. Más de 15 dashboards en Power BI / Tableau y más de 20 KPIs definidos con stakeholders de EE. UU.
@@ -68,19 +70,40 @@ Why: the first ~60 characters show up in search results and comments, so the rol
 > • Un warehouse medallion (dbt + DuckDB, 24 modelos, 50 tests) con modelos de riesgo de cancelación y pronóstico de demanda.
 > • Más de 160 citas y 90 clientes en la plataforma.
 >
+> Desde noviembre de 2026 también trabajo medio tiempo como AI Implementation Engineer a través de Virtrify: CRM, automatizaciones en n8n y un sistema de contenido para una marca de bienestar y retiros en EE. UU., documentado para que una fundadora lo opere sola.
+>
 > Antes de datos pasé cuatro años en un NOC global 24/7 de remesas internacionales (IDT): ahí aprendí respuesta a incidentes, SOPs y cuánto cuesta un número equivocado.
 >
-> Ingeniería en Ciencias y Sistemas en la USAC (pensum cerrado en 2026), donde además fui instructor de Sistemas Organizacionales (BI, ERP/CRM) como práctica final.
+> Ingeniería en Ciencias y Sistemas en la USAC completada en 2026 (pensum cerrado y examen privado aprobado); maestría a partir de febrero de 2027. Además fui instructor de Sistemas Organizacionales (BI, ERP/CRM) como práctica final.
 >
 > Disponible para roles remotos de Data Engineer / Analytics Engineer. Inglés y español.
 > Portafolio y caso de estudio: garciajuni20.github.io/Resume_Khristian_Garcia
 
 ## 4. Experience
 
-Show the Alleviate promotion as **two positions under the same company** (LinkedIn groups them and displays the progression). Dates come from the CV.
+Show the Alleviate progression as **three positions under the same company** (LinkedIn groups them and displays the promotion). Dates come from the CV.
+
+### Data Engineer
+Icon Solutions Group S.A / Alleviate Financial Solutions · Full-time · Nov 2026 – Present · Remote
+
+> Promoted to Data Engineer on 1 Nov 2026 after building the account's analytics platform from zero. Own the data platform end to end:
+> • Azure and Google Cloud resources: Azure Data Factory pipelines and orchestration, dockerized apps, resource scaling.
+> • Snowflake: role profiling, database/stored-procedure/query optimization, native data sharing, database modeling.
+> • Databricks implementation and management; data flows and ETL/ELT pipelines (dbt, SQL, Python).
+> • CRM (Salesforce) and external-source integration into local and cloud databases; POST API consumption and REST API design, deployment, and scaling.
+> • Python, SQL, and Selenium automation (lead-generation automations included); predictive and data-analysis consulting; SOPs; GitLab environment.
+>
+> Skills: Snowflake · dbt · Databricks · Azure Data Factory · GCP · Python · SQL · REST APIs · GitLab
+
+### AI Implementation Engineer (Part-time)
+Virtrify · Contract · Nov 2026 – Present · Remote (US client)
+
+> Part-time (~20 h/week, from 23 Nov 2026) build-out of the AI-augmented operating system for a US wellness and retreat brand run by a solo founder: lean CRM (GoHighLevel/HubSpot or equivalent), lead capture and nurture, retreat enrollment pipeline (inquiry → deposit → payment → pre-retreat sequence), post-retreat follow-up, scheduling, and a centralized podcast/YouTube/social content system. Automations on n8n/Make/Zapier integrated with ad platforms, Stripe, and scheduling tools; every workflow tested against real scenarios and documented in plain language so the founder runs it without me.
+>
+> Skills: n8n · CRM · Workflow Automation · LLM tooling · Stripe · Documentation
 
 ### Business Intelligence Analyst / Data Analyst (Data & Analytics Engineering)
-Icon Solutions Group S.A / Alleviate Financial Solutions · Full-time · Dec 2024 – Present · Remote
+Icon Solutions Group S.A / Alleviate Financial Solutions · Full-time · Dec 2024 – Oct 2026 · Remote
 
 > Data engineering and analytics for a US debt-consolidation fintech, working directly with finance, operations, and strategy stakeholders.
 > • Architect the Snowflake analytical layer (dimensional models, views, stored procedures) used by 5 departments as the single source of truth; data accuracy from 85% to 99.5%.
@@ -157,7 +180,9 @@ Do **not** list Airflow, Great Expectations, or Redshift: they are not in the pr
 
 - [ ] Banner, photo, headline, About (EN) updated
 - [ ] Spanish secondary profile added
-- [ ] Alleviate split into two positions (promotion visible)
+- [ ] Alleviate split into three positions (Data Engineer promotion visible)
+- [ ] Virtrify part-time role added (Contract)
+- [ ] Education updated: pensum closed + private exam passed (2026); add the master's once enrolled (Feb 2027)
 - [ ] Flowber added as a position (Self-employed)
 - [ ] Featured: 4 items in the order above
 - [ ] Top 3 skills pinned
