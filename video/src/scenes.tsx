@@ -211,7 +211,7 @@ export const Showcase: React.FC<{ c: Copy }> = ({ c }) => {
               const pop = usePop(60 + i * 14);
               return (
                 <div key={chip} style={{ transform: `scale(${pop})`, transformOrigin: 'left center', opacity: Math.min(1, pop * 1.5) }}>
-                  <Chip color={['#9A6DD7', '#E255A1', '#4DAB9A', '#529CCA'][i % 4]} size={28}>
+                  <Chip color={['#533483', '#E94560', '#0F3460', '#C9A800'][i % 4]} size={28}>
                     {chip}
                   </Chip>
                 </div>
@@ -248,7 +248,7 @@ export const Showcase: React.FC<{ c: Copy }> = ({ c }) => {
               bottom: -80,
               width: 250,
               borderRadius: 40,
-              border: '8px solid #2A2A2A',
+              border: '8px solid #16213E',
               overflow: 'hidden',
               boxShadow: '0 40px 100px rgba(0,0,0,0.8)',
               transform: `translateY(${(1 - phone) * 260}px)`,
@@ -305,7 +305,7 @@ export const Outro: React.FC<{ c: Copy }> = ({ c }) => {
               position: 'absolute',
               inset: -8,
               borderRadius: '50%',
-              background: `conic-gradient(from ${frame * 3}deg, #529CCA, #9A6DD7, #FFA344, #4DAB9A, #529CCA)`,
+              background: `conic-gradient(from ${frame * 3}deg, #0F3460, #533483, #E94560, #EFCC06, #0F3460)`,
             }}
           />
           <Img

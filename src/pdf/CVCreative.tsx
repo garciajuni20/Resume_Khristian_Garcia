@@ -78,15 +78,15 @@ const COMPANY_SHORT: Record<string, string> = {
 const SKILLS_SHOWN = 10;
 const ACHIEVEMENTS_SHOWN = 4;
 
-const INK = '#191919';
-const TEXT = '#37352F';
+const INK = '#1A1A2E';
+const TEXT = '#1A1A2E';
 const MUTED = '#787774';
 const BORDER = '#E9E9E7';
 const SURFACE = '#F7F6F3';
-const ACCENT = '#2383E2';
-const ACCENT_SOFT = '#E7F3F8';
-const ACCENT_ON_DARK = '#8EC5F2';
-const INDUSTRY_DOTS = ['#448361', '#2383E2', '#9065B0', '#D9730D'];
+const ACCENT = '#D1324F';
+const ACCENT_SOFT = '#FBE4E9';
+const ACCENT_ON_DARK = '#F48CA0';
+const INDUSTRY_DOTS = ['#0F3460', '#533483', '#E94560', '#C9A800', '#448361'];
 
 const styles = StyleSheet.create({
   page: {

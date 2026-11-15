@@ -23,7 +23,7 @@ export function Mark({ size = 24, className = '', title }: { size?: number; clas
       <path d="M12 16v32M12 32l12.5-12M12 32l12.5 12" />
       {/* G */}
       <path d="M48.5 21A15 15 0 1 0 53 33" />
-      <path d="M53 33H41" stroke="var(--n-accent, #2383e2)" />
+      <path d="M53 33H41" stroke="var(--n-accent, #E94560)" />
     </svg>
   );
 }

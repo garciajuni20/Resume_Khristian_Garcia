@@ -72,7 +72,7 @@ export default function Contact() {
                 <div className="relative overflow-hidden rounded-full p-[3px]">
                   <motion.div
                     className="absolute -inset-[60%]"
-                    style={{ background: 'conic-gradient(from 0deg, #2383e2, #9065b0, #dfab01, #0f7b6c, #2383e2)' }}
+                    style={{ background: 'conic-gradient(from 0deg, #0F3460, #533483, #E94560, #EFCC06, #0F3460)' }}
                     animate={{ rotate: 360 }}
                     transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
                     aria-hidden="true"

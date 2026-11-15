@@ -16,6 +16,10 @@
   --color-n-callout: var(--n-callout);
   --color-n-code: var(--n-code);
   --color-n-accent: var(--n-accent);
+  --color-n-accent-soft: var(--n-accent-soft);
+  --color-n-highlight: var(--n-highlight);
+  --color-n-deep: var(--n-deep);
+  --color-n-violet: var(--n-violet);
 }
 
 /* ── Design tokens ──────────────────────────────────────────────── */
@@ -23,28 +27,38 @@
   --ease-brand: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
 
-  /* Notion-style surfaces (flat, no gradients) */
-  --n-bg: #ffffff;
-  --n-text: #37352f;
-  --n-muted: #787774;
-  --n-faint: rgba(55, 53, 47, 0.45);
-  --n-border: rgba(55, 53, 47, 0.12);
-  --n-hover: rgba(55, 53, 47, 0.06);
-  --n-callout: #f1f1ef;
-  --n-code: #f7f6f3;
-  --n-accent: #2383e2;
+  /* Midnight Garden palette: #1A1A2E #16213E #0F3460 #533483 #E94560 #EFCC06.
+     Light theme: night-blue ink on a faintly violet paper; coral is THE accent
+     (darkened for text so it stays AA on white); yellow only for "now". */
+  --n-bg: #FBFAFF;
+  --n-text: #1A1A2E;
+  --n-muted: #5C5F7E;
+  --n-faint: rgba(26, 26, 46, 0.45);
+  --n-border: rgba(26, 26, 46, 0.12);
+  --n-hover: rgba(26, 26, 46, 0.06);
+  --n-callout: #F1F0F9;
+  --n-code: #F4F3FA;
+  --n-accent: #D1324F;
+  --n-accent-soft: #FBE4E9;
+  --n-highlight: #7A6600;
+  --n-deep: #0F3460;
+  --n-violet: #533483;
 }
 
 .dark {
-  --n-bg: #181818;
-  --n-text: rgba(255, 255, 255, 0.86);
-  --n-muted: #9b9b9b;
-  --n-faint: rgba(255, 255, 255, 0.4);
-  --n-border: rgba(255, 255, 255, 0.1);
-  --n-hover: rgba(255, 255, 255, 0.055);
-  --n-callout: #272727;
-  --n-code: #1f1f1f;
-  --n-accent: #529cca;
+  --n-bg: #1A1A2E;
+  --n-text: #F2F2F7;
+  --n-muted: #A6A9C4;
+  --n-faint: rgba(242, 242, 247, 0.4);
+  --n-border: rgba(242, 242, 247, 0.11);
+  --n-hover: rgba(242, 242, 247, 0.06);
+  --n-callout: #16213E;
+  --n-code: #141C33;
+  --n-accent: #EF5A73; /* brand coral #E94560 lifted one step so text on the night blue clears AA */
+  --n-accent-soft: rgba(233, 69, 96, 0.16);
+  --n-highlight: #EFCC06;
+  --n-deep: #0F3460;
+  --n-violet: #533483;
 }
 
 @layer base {
@@ -55,7 +69,7 @@
   }
 
   body {
-    @apply m-0 bg-white text-neutral-900 dark:bg-[#181818] dark:text-neutral-50;
+    @apply m-0 bg-n-bg text-n-text;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -98,7 +112,7 @@
     font-size: 0.75rem;
     line-height: 1.25rem;
     white-space: nowrap;
-    color: #32302c;
+    color: #1A1A2E;
   }
   .dark .n-tag { color: rgba(255, 255, 255, 0.86); }
   .n-tag-gray { background: #e3e2e0; }
@@ -113,7 +127,7 @@
   .dark .n-tag-gray { background: #5a5a5a; }
   .dark .n-tag-brown { background: #603b2c; }
   .dark .n-tag-orange { background: #854c1d; }
-  .dark .n-tag-yellow { background: #89632a; }
+  .dark .n-tag-yellow { background: #6E4E1C; }
   .dark .n-tag-green { background: #2b593f; }
   .dark .n-tag-blue { background: #28456c; }
   .dark .n-tag-purple { background: #492f64; }

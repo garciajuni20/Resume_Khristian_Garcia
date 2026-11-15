@@ -24,7 +24,7 @@ export default function NowStrip({ lang, className = '' }: { lang: Lang; classNa
 
   return (
     <div className={`flex flex-col gap-3 sm:flex-row sm:items-start ${className}`}>
-      <span className="n-tag n-tag-green shrink-0 gap-1.5 self-start py-0.5 text-xs">
+      <span className="n-tag n-tag-yellow shrink-0 gap-1.5 self-start py-0.5 text-xs">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />

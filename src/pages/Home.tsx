@@ -74,7 +74,7 @@ function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
       <div className="relative overflow-hidden rounded-2xl p-[3px]">
         <motion.div
           className="absolute -inset-[60%]"
-          style={{ background: 'conic-gradient(from 0deg, #2383e2, #9065b0, #dfab01, #0f7b6c, #2383e2)' }}
+          style={{ background: 'conic-gradient(from 0deg, #0F3460, #533483, #E94560, #EFCC06, #0F3460)' }}
           animate={{ rotate: 360 }}
           transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
         />
@@ -367,7 +367,7 @@ export default function Home() {
                           <span key={tag} className="n-tag n-tag-gray">{tag}</span>
                         ))}
                       </div>
-                      <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                      <span className="flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
                         <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                         Live
                       </span>

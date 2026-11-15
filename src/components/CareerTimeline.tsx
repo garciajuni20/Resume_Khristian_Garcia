@@ -75,11 +75,11 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
           ))}
           {/* Today */}
           <span
-            className="pointer-events-none absolute bottom-0 top-0 z-10 w-px border-l border-dashed border-n-accent"
+            className="pointer-events-none absolute bottom-0 top-0 z-10 w-px border-l border-dashed border-n-highlight"
             style={{ left: `${pct(nowM)}%` }}
             aria-hidden="true"
           >
-            <span className="absolute -top-1 right-1 whitespace-nowrap rounded px-1 font-mono-geist text-[10px] font-semibold text-n-accent">{t.now}</span>
+            <span className="absolute -top-1 right-1 whitespace-nowrap rounded px-1 font-mono-geist text-[10px] font-semibold text-n-highlight">{t.now}</span>
           </span>
 
           {rows.map((e, i) => {

@@ -16,6 +16,12 @@ function applyThemeToDom(theme: Theme) {
 }
 
 function getInitialTheme(): Theme {
+  // Explicit link wins: ?theme=light|dark, before or after the hash (used for sharing and for visual checks)
+  const { search, hash } = window.location;
+  const hashQuery = hash.includes('?') ? hash.slice(hash.indexOf('?')) : '';
+  const fromUrl = new URLSearchParams(search).get('theme') ?? new URLSearchParams(hashQuery).get('theme');
+  if (fromUrl === 'light' || fromUrl === 'dark') return fromUrl;
+
   const saved = localStorage.getItem('portfolio_theme');
   if (saved === 'light' || saved === 'dark') return saved;
 

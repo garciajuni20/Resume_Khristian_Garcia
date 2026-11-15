@@ -6,12 +6,12 @@ loadFont({ family: 'Geist', url: staticFile('fonts/Geist-Variable.woff2'), weigh
 loadFont({ family: 'Geist Mono', url: staticFile('fonts/GeistMono-Variable.woff2'), weight: '100 800' });
 
 export const C = {
-  bg: '#111111',
-  surface: '#1C1C1C',
+  bg: '#1A1A2E',
+  surface: '#16213E',
   border: 'rgba(255,255,255,0.10)',
-  text: '#F2F2F0',
-  muted: '#9B9B9B',
-  accent: '#529CCA',
+  text: '#F2F2F7',
+  muted: '#A6A9C4',
+  accent: '#E94560',
   font: 'Geist, sans-serif',
   mono: '"Geist Mono", monospace',
 } as const;
