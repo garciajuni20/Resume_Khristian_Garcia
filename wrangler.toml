@@ -1,0 +1,5 @@
+# Cloudflare Pages: publish only the Vite build, never the repository root.
+# Build command (set in the dashboard): npm run build
+name = "resume-khristian-garcia"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-11-01"
