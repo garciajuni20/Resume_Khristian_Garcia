@@ -327,7 +327,7 @@ export default function ResumePage() {
               initial="initial"
               whileInView="animate"
               viewport={{ once: true }}
-              className="mt-6 grid gap-4"
+              className="mt-6 grid grid-cols-1 gap-4"
             >
               <AnimatePresence mode="popLayout">
                 {filteredExperience.map(exp => (

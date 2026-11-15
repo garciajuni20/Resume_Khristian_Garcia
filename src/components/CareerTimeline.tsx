@@ -65,7 +65,9 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
               className={`n-muted absolute top-0 font-mono-geist text-[11px] ${i === 0 ? '' : i === years.length - 1 ? '-translate-x-full' : '-translate-x-1/2'}`}
               style={{ left: `${pct(y * 12)}%` }}
             >
-              {y}
+              {/* Two digits on phones: the first and last pairs of years collide otherwise */}
+              <span className="sm:hidden" aria-hidden="true">’{String(y).slice(2)}</span>
+              <span className="sr-only sm:not-sr-only">{y}</span>
             </span>
           ))}
         </div>
@@ -112,10 +114,11 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
                 </motion.button>
                 {!wide && (
                   <span
-                    className="n-text pointer-events-none absolute top-0 flex h-8 items-center whitespace-nowrap pl-2 text-xs font-semibold"
-                    style={left + width > 70 ? { right: `${100 - left}%`, paddingRight: 8, paddingLeft: 0 } : { left: `${left + width}%` }}
+                    className={`n-text pointer-events-none absolute top-0 flex h-8 min-w-0 items-center text-xs font-semibold ${left + width > 50 ? 'justify-end pr-2' : 'pl-2'}`}
+                    style={left + width > 50 ? { left: 0, right: `${100 - left}%` } : { left: `${left + width}%`, right: 0 }}
                   >
-                    {label}
+                    {/* Pinned to the free side of the bar and truncated, so it never runs off the chart */}
+                    <span className="truncate">{label}</span>
                   </span>
                 )}
               </div>

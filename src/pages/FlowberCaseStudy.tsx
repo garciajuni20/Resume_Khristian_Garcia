@@ -369,7 +369,7 @@ export default function FlowberCaseStudy() {
                       <tbody>
                         {c.marts.map(m => (
                           <tr key={m.name} className="n-border n-hover border-b last:border-b-0 transition-colors duration-300">
-                            <td className="font-mono-geist whitespace-nowrap px-3 py-2 text-xs text-[#eb5757]">{m.name}</td>
+                            <td className="font-mono-geist whitespace-nowrap px-3 py-2 text-xs text-n-accent-2">{m.name}</td>
                             <td className="n-text px-3 py-2">{m.question}</td>
                           </tr>
                         ))}

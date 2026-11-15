@@ -343,7 +343,7 @@ export default function Home() {
 
             {/* ── Live projects ────────────────────────────────────── */}
             <Reveal>
-              <div className="mb-5 flex items-center justify-between">
+              <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <h2 className="n-text text-2xl font-semibold tracking-tight">{t.liveProjects}</h2>
                 <Link to="/projects" className="n-text group flex items-center gap-1 text-sm font-semibold">
                   {t.viewAll}

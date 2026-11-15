@@ -69,7 +69,7 @@ export function PhoneFrame({ src, alt }: { src: string; alt: string }) {
 
 /* ─── Tagline: words light up one by one as the block scrolls past ──── */
 function Word({ word, progress, range }: { word: string; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.28, 1]);
+  const opacity = useTransform(progress, range, [0.5, 1]);
   return (
     <motion.span style={{ opacity }} className="mr-[0.25em] inline-block">
       {word}

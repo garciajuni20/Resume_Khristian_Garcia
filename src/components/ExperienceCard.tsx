@@ -49,7 +49,7 @@ export default function ExperienceCard({ item, onOpen, lang }: Props) {
             {item.location}
           </div>
           {item.industry && (
-            <div className="n-tag n-tag-brown mt-2 gap-1.5 text-xs">
+            <div className="n-tag n-tag-brown mt-2 max-w-full gap-1.5 whitespace-normal text-xs">
               <Building2 className="h-3 w-3 shrink-0" aria-hidden="true" />
               {item.industry}
             </div>

@@ -30,7 +30,7 @@ export default function Section({ title, intro, aside, children }: Props) {
           </h2>
           {intro && <p className="n-muted mt-1 text-sm">{intro}</p>}
         </div>
-        {aside && <div className="n-muted shrink-0 font-mono-geist text-xs">{aside}</div>}
+        {aside && <div className="n-muted hidden shrink-0 font-mono-geist text-xs sm:block">{aside}</div>}
       </div>
       <div className="mt-5">{children}</div>
     </section>
