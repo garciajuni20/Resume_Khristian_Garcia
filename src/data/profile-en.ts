@@ -222,7 +222,8 @@ export const profileEN = {
       teamSize: "Solo (cross-dept collaboration)",
       category: "data",
       featured: true,
-      gradient: "from-sky-600 to-indigo-600"
+      gradient: "from-sky-600 to-indigo-600",
+      cover: { image: "ai/cover-cloud-data-pipelines.webp", alt: "AI-generated render of glowing data streams flowing from clouds into a crystal vault" },
     },
     {
       id: "flowber-barberia",
@@ -265,7 +266,8 @@ export const profileEN = {
       teamSize: "Solo (cross-dept collaboration)",
       category: "data",
       featured: true,
-      gradient: "from-blue-600 to-blue-700"
+      gradient: "from-blue-600 to-blue-700",
+      cover: { image: "ai/cover-snowflake-data-layer.webp", alt: "AI-generated render of stacked glass plates with a crystalline core, like a star schema" },
     },
     {
       id: "vale-combustible",
@@ -279,7 +281,8 @@ export const profileEN = {
       category: "web",
       links: { live: "https://continental-motores-vales-combustible.pages.dev/login" },
       featured: true,
-      gradient: "from-orange-500 to-red-500"
+      gradient: "from-orange-500 to-red-500",
+      cover: { image: "ai/cover-vale-combustible.webp", alt: "AI-generated render of a frosted glass card with a fuel-drop symbol beside a model pickup truck" },
     },
     {
       id: "bi-dashboard-suite",
@@ -292,7 +295,8 @@ export const profileEN = {
       teamSize: "2 analysts + US stakeholders",
       category: "data",
       featured: false,
-      gradient: "from-emerald-500 to-teal-600"
+      gradient: "from-emerald-500 to-teal-600",
+      cover: { image: "ai/cover-bi-dashboard-suite.webp", alt: "AI-generated render of a floating dashboard made of frosted glass bars and one rising line" },
     },
     {
       id: "portfolio",
@@ -321,7 +325,8 @@ export const profileEN = {
       category: "academic",
       links: { github: "https://github.com/garciajuni20/G8_Fase2_FortranPEG", live: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/" },
       featured: false,
-      gradient: "from-purple-500 to-pink-500"
+      gradient: "from-purple-500 to-pink-500",
+      cover: { image: "ai/cover-fortran-peg-parser.webp", alt: "AI-generated render of a syntax tree of glowing glass spheres over a punch-card texture" },
     },
     {
       id: "bd2-suficiencia",
@@ -335,7 +340,8 @@ export const profileEN = {
       category: "academic",
       links: { github: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202" },
       featured: false,
-      gradient: "from-amber-500 to-orange-500"
+      gradient: "from-amber-500 to-orange-500",
+      cover: { image: "ai/cover-bd2-suficiencia.webp", alt: "AI-generated render of three glass database cylinders crossed by a glowing index lattice" },
     },
     {
       id: "compilers-phase1",
@@ -349,7 +355,8 @@ export const profileEN = {
       category: "academic",
       links: { github: "https://github.com/garciajuni20/Compi2_Grupo8" },
       featured: false,
-      gradient: "from-rose-500 to-pink-500"
+      gradient: "from-rose-500 to-pink-500",
+      cover: { image: "ai/cover-compilers-phase1.webp", alt: "AI-generated render of colored glass tokens flowing along a track into a branching tree" }
     },
     {
       id: "docker-workshop",
@@ -363,7 +370,8 @@ export const profileEN = {
       category: "cloud",
       links: { github: "https://github.com/garciajuni20/taller-docker" },
       featured: false,
-      gradient: "from-sky-500 to-blue-600"
+      gradient: "from-sky-500 to-blue-600",
+      cover: { image: "ai/cover-docker-workshop.webp", alt: "AI-generated render of an isometric stack of frosted glass shipping containers with glowing edges" }
     }
   ],
 

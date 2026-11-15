@@ -222,7 +222,8 @@ export const profileES = {
       teamSize: "Individual (colaboración entre departamentos)",
       category: "data",
       featured: true,
-      gradient: "from-sky-600 to-indigo-600"
+      gradient: "from-sky-600 to-indigo-600",
+      cover: { image: "ai/cover-cloud-data-pipelines.webp", alt: "Render generado con IA de flujos de datos luminosos que van de nubes a una bóveda de cristal" },
     },
     {
       id: "flowber-barberia",
@@ -265,7 +266,8 @@ export const profileES = {
       teamSize: "Individual (colaboración entre departamentos)",
       category: "data",
       featured: true,
-      gradient: "from-blue-600 to-blue-700"
+      gradient: "from-blue-600 to-blue-700",
+      cover: { image: "ai/cover-snowflake-data-layer.webp", alt: "Render generado con IA de placas de vidrio apiladas con un núcleo cristalino, como un esquema estrella" },
     },
     {
       id: "vale-combustible",
@@ -279,7 +281,8 @@ export const profileES = {
       category: "web",
       links: { live: "https://continental-motores-vales-combustible.pages.dev/login" },
       featured: true,
-      gradient: "from-orange-500 to-red-500"
+      gradient: "from-orange-500 to-red-500",
+      cover: { image: "ai/cover-vale-combustible.webp", alt: "Render generado con IA de una tarjeta de vidrio esmerilado con una gota de combustible junto a un pickup en miniatura" },
     },
     {
       id: "bi-dashboard-suite",
@@ -292,7 +295,8 @@ export const profileES = {
       teamSize: "2 analistas + stakeholders de EE. UU.",
       category: "data",
       featured: false,
-      gradient: "from-emerald-500 to-teal-600"
+      gradient: "from-emerald-500 to-teal-600",
+      cover: { image: "ai/cover-bi-dashboard-suite.webp", alt: "Render generado con IA de un dashboard flotante de barras de vidrio esmerilado y una línea ascendente" },
     },
     {
       id: "portfolio",
@@ -321,7 +325,8 @@ export const profileES = {
       category: "academic",
       links: { github: "https://github.com/garciajuni20/G8_Fase2_FortranPEG", live: "https://garciajuni20.github.io/G8_Fase2_FortranPEG/" },
       featured: false,
-      gradient: "from-purple-500 to-pink-500"
+      gradient: "from-purple-500 to-pink-500",
+      cover: { image: "ai/cover-fortran-peg-parser.webp", alt: "Render generado con IA de un árbol sintáctico de esferas de vidrio luminosas sobre una textura de tarjeta perforada" },
     },
     {
       id: "bd2-suficiencia",
@@ -335,7 +340,8 @@ export const profileES = {
       category: "academic",
       links: { github: "https://github.com/garciajuni20/BD2_SUFICIENCIA_201404202" },
       featured: false,
-      gradient: "from-amber-500 to-orange-500"
+      gradient: "from-amber-500 to-orange-500",
+      cover: { image: "ai/cover-bd2-suficiencia.webp", alt: "Render generado con IA de tres cilindros de base de datos de vidrio cruzados por una retícula luminosa" },
     },
     {
       id: "compilers-phase1",
@@ -349,7 +355,8 @@ export const profileES = {
       category: "academic",
       links: { github: "https://github.com/garciajuni20/Compi2_Grupo8" },
       featured: false,
-      gradient: "from-rose-500 to-pink-500"
+      gradient: "from-rose-500 to-pink-500",
+      cover: { image: "ai/cover-compilers-phase1.webp", alt: "Render generado con IA de fichas de vidrio de colores que fluyen por una pista hasta un árbol" }
     },
     {
       id: "docker-workshop",
@@ -363,7 +370,8 @@ export const profileES = {
       category: "cloud",
       links: { github: "https://github.com/garciajuni20/taller-docker" },
       featured: false,
-      gradient: "from-sky-500 to-blue-600"
+      gradient: "from-sky-500 to-blue-600",
+      cover: { image: "ai/cover-docker-workshop.webp", alt: "Render generado con IA de una pila isométrica de contenedores de vidrio esmerilado con bordes luminosos" }
     }
   ],
 
