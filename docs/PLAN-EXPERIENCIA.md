@@ -1,5 +1,7 @@
 # Plan: una experiencia que solo puede ser de Khristian
 
+> Estado (15 nov 2026): los puntos 1 a 13 están hechos y publicados. El 14 (Web Analytics) solo falta activarlo en el panel de Cloudflare; Turnstile, Resend y `AUTO_REPLY_FROM` son variables opcionales del proyecto.
+
 Base actual (noviembre 2026): diseño "en tinta" estilo billete (grabados Flux 2 Klein, Bodoni,
 guilloché, una tinta por industria), música por página y efectos de sonido sintetizados, URLs
 limpias en Cloudflare Pages, accesibilidad 100 en Lighthouse en claro y oscuro.
@@ -19,7 +21,7 @@ brillos de neón, fondos animados ni glassmorphism, que es lo que delata una web
 | Cada pieza mantiene Lighthouse accesibilidad 100 y no empeora el LCP móvil | Un reclutador en el teléfono es el caso más común |
 | Lo que se genera con IA local (Wan2GP, Flux, ACE-Step) queda horneado en archivos estáticos | Cero costo, cero dependencia en tiempo de ejecución |
 
-## Fase 1: transiciones con identidad (en curso)
+## Fase 1: transiciones con identidad
 
 1. **Florecimiento de tinta entre páginas** (hecho en este paso). Una gota de tinta real filmada
    con Wan 2.2, cortada en 16 cuadros y horneada en una tira de máscara (`scripts/ink-transition.py`).

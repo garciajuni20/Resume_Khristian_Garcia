@@ -9,7 +9,8 @@ export default function ScrollProgress() {
       className="fixed top-0 left-0 right-0 z-[60] h-[2px] origin-left"
       style={{
         scaleX,
-        background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4)',
+        // One ink, like the rule under a banknote's serial number
+        background: 'var(--ink-blue)',
       }}
     />
   );
