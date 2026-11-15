@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { guillocheRing } from '../../utils/guilloche';
+import { INK_TONES } from '../../data/ink';
 
 /**
  * The portrait in a guilloché oval, like the portrait window of a banknote.
@@ -26,8 +27,9 @@ export default function InkPortrait({ alt, width = 136, className = '' }: { alt:
       />
       <svg aria-hidden="true" width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="absolute inset-0 overflow-visible">
         <g fill="none" stroke="currentColor">
+          {/* Five strands, one per industry ink: the career woven around the portrait */}
           {ring.strands.map((d, i) => (
-            <path key={i} d={d} strokeWidth={0.5} opacity={0.85} />
+            <path key={i} d={d} strokeWidth={0.6} style={{ stroke: `var(--ink-${INK_TONES[i % INK_TONES.length]})` }} />
           ))}
           <path d={ring.inner} strokeWidth={0.9} />
           <path d={ring.outer} strokeWidth={0.9} />

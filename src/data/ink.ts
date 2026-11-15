@@ -17,6 +17,44 @@ export const INK_VIGNETTE: Record<string, string> = {
   'virtrify-ai': 'ink-bienestar',
 };
 
+/**
+ * Banknotes give each denomination its own ink; the resume gives each industry
+ * one. The same five inks are the five strands of the portrait's guilloché.
+ * Gold is reserved for "today". All pass WCAG AA as text on their ground.
+ */
+export type InkTone = 'teal' | 'blue' | 'coral' | 'violet' | 'green';
+
+export const INK_TONES: InkTone[] = ['teal', 'blue', 'coral', 'violet', 'green'];
+
+export const INK_TONE: Record<string, InkTone> = {
+  'idt-gnoc': 'teal', // remittances
+  'icon-it': 'blue', // US fintech
+  'alleviate-mid': 'blue',
+  'alleviate-de': 'blue',
+  'flowber-freelance': 'coral', // barbershop
+  'usac-teaching': 'violet', // education
+  'virtrify-ai': 'green', // wellness
+};
+
+/** Print values, for the PDF (light paper). The site reads --ink-* from index.css. */
+export const INK_HEX: Record<InkTone | 'gold', string> = {
+  teal: '#0B7A75',
+  blue: '#1F4FA3',
+  coral: '#C42B47',
+  violet: '#6A3FA0',
+  green: '#2E7D4A',
+  gold: '#7A6600',
+};
+
+/** Tailwind classes per tone, spelled out so the scanner sees them */
+export const INK_TEXT: Record<InkTone, string> = {
+  teal: 'text-ink-teal',
+  blue: 'text-ink-blue',
+  coral: 'text-ink-coral',
+  violet: 'text-ink-violet',
+  green: 'text-ink-green',
+};
+
 /** Short names for the career route, oldest first */
 export const INK_ROUTE: Record<string, { en: string; es: string; at: string }> = {
   'idt-gnoc': { en: 'NOC analyst, 24/7', es: 'Analista NOC 24/7', at: 'IDT, Red Chapina' },
@@ -33,6 +71,8 @@ export interface InkFigure {
   value: [string] | [string, string];
   /** Footnote number */
   n: number;
+  /** Ink of the industry the number comes from */
+  tone: InkTone;
   label: string;
   note: string;
 }
@@ -40,9 +80,9 @@ export interface InkFigure {
 export function inkFigures(lang: Lang): InkFigure[] {
   const en = lang === 'en';
   return [
-    { value: ['85%', '99.5%'], n: 1, label: en ? 'data accuracy' : 'precisión de datos', note: en ? 'financial reporting, 5 departments' : 'reportes financieros, 5 departamentos' },
-    { value: en ? ['2+ days', '30 min'] : ['2+ días', '30 min'], n: 2, label: en ? 'reporting cycle' : 'ciclo de reportes', note: en ? 'now under 30 minutes, SQL and dbt pipelines' : 'hoy menos de 30 minutos, pipelines SQL y dbt' },
-    { value: ['160+'], n: 3, label: en ? 'appointments in production' : 'citas en producción', note: en ? 'Flowber, built end to end' : 'Flowber, construido de punta a punta' },
+    { value: ['85%', '99.5%'], n: 1, tone: 'blue', label: en ? 'data accuracy' : 'precisión de datos', note: en ? 'financial reporting, 5 departments' : 'reportes financieros, 5 departamentos' },
+    { value: en ? ['2+ days', '30 min'] : ['2+ días', '30 min'], n: 2, tone: 'blue', label: en ? 'reporting cycle' : 'ciclo de reportes', note: en ? 'now under 30 minutes, SQL and dbt pipelines' : 'hoy menos de 30 minutos, pipelines SQL y dbt' },
+    { value: ['160+'], n: 3, tone: 'coral', label: en ? 'appointments in production' : 'citas en producción', note: en ? 'Flowber, built end to end' : 'Flowber, construido de punta a punta' },
   ];
 }
 

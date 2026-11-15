@@ -14,7 +14,7 @@ import type { ExperienceItem, ProfileData } from '../types';
 import { CV_UPDATED } from '../data/media';
 import { PDF_BASE, pdfImage } from './assets';
 import { guillocheRing, guillocheRule } from '../utils/guilloche';
-import { FLOWBER_CASE_URL, INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkMonth, inkNotes } from '../data/ink';
+import { FLOWBER_CASE_URL, INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkMonth, inkNotes, INK_HEX, INK_TONE, INK_TONES } from '../data/ink';
 
 /**
  * Designed two-page resume, set like a banknote: one navy ink on a cool paper,
@@ -62,8 +62,9 @@ const PAPER = '#F5F6F8';
 const INK = '#16213E';
 const INK_2 = '#4A5677';
 const RULE = '#D3D7E0';
-/** The one accent: footnote marks and the roles held today. AA on the paper. */
-const CORAL = '#C42B47';
+/** Gold marks what is happening today; each industry prints in its own ink (INK_HEX) */
+const GOLD = INK_HEX.gold;
+const tone = (id: string) => INK_HEX[INK_TONE[id] ?? 'blue'];
 
 const X = 36;
 
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   // ── Hero (page 1): portrait and name on the left, the engraving on the right
   hero: { height: 198, position: 'relative' },
   // The engraving keeps its own proportions (1.82:1); its faded left side runs under the name
-  heroArt: { position: 'absolute', top: 0, right: 0, width: 360, height: 198 },
+  heroArt: { position: 'absolute', top: 12, right: X, width: 340, height: 187 },
   heroLeft: { position: 'absolute', top: 20, left: X, width: 270, flexDirection: 'row' },
   oval: { width: 92, height: 115, position: 'relative', marginRight: 16 },
   ovalImage: { position: 'absolute', top: 7, left: 7, width: 78, height: 101 },
@@ -93,13 +94,17 @@ const styles = StyleSheet.create({
   contactLink: { fontSize: 7.6, color: INK, textDecoration: 'none', marginRight: 12 },
 
   // ── Figures: the proof, set large, each with a footnote mark
-  figures: { flexDirection: 'row', marginTop: 4, borderTopWidth: 0.75, borderTopColor: RULE, borderBottomWidth: 0.75, borderBottomColor: RULE },
-  figure: { flex: 1, paddingVertical: 9, paddingRight: 12 },
-  figureDivided: { borderLeftWidth: 0.75, borderLeftColor: RULE, paddingLeft: 14 },
-  figureValue: { fontFamily: 'Bodoni', fontSize: 20, color: INK },
+  band: { marginTop: 2 },
+  figures: { flexDirection: 'row', borderBottomWidth: 0.75, borderBottomColor: RULE },
+  // The main column's two figures, a rule in the gutter, then the one over the route
+  figMain: { flex: 1, flexDirection: 'row', marginRight: 13, paddingRight: 13, borderRightWidth: 0.75, borderRightColor: RULE },
+  figure: { flex: 1, paddingVertical: 9, paddingRight: 13 },
+  figureDivided: { borderLeftWidth: 0.75, borderLeftColor: RULE, paddingLeft: 13, paddingRight: 0 },
+  figSide: { width: 178, paddingVertical: 9 },
+  figureValue: { fontFamily: 'Bodoni', fontSize: 19, color: INK },
   /** Bodoni's subset has no arrow; Geist draws it, a little lighter than the figures */
   arrow: { fontFamily: 'Geist', fontSize: 12, color: INK_2 },
-  mark: { fontFamily: 'Geist', fontSize: 7.5, color: CORAL, verticalAlign: 'super' },
+  mark: { fontFamily: 'Geist', fontSize: 7.5, verticalAlign: 'super' },
   figureLabel: { fontSize: 7.8, color: INK, marginTop: 4 },
   figureNote: { fontSize: 7, color: INK_2, marginTop: 1.5 },
 
@@ -126,14 +131,16 @@ const styles = StyleSheet.create({
 
   // ── Tools as words, grouped: no meters
   tools: { flexDirection: 'row', marginTop: 12, borderTopWidth: 0.75, borderTopColor: RULE, paddingTop: 9 },
-  toolCol: { flex: 1, paddingRight: 12 },
+  toolsMain: { flex: 1, flexDirection: 'row', marginRight: 26 },
+  toolCol: { flex: 1, paddingRight: 10 },
+  toolSide: { width: 178 },
   toolHead: { fontFamily: 'Bodoni', fontSize: 10.5, color: INK, marginBottom: 3 },
   toolList: { fontSize: 7.4, color: INK_2, lineHeight: 1.55 },
 
   // ── Footnotes and footer
   notes: { marginTop: 10 },
   note: { fontSize: 6.8, color: INK_2, lineHeight: 1.5 },
-  noteMark: { fontSize: 6.8, color: CORAL },
+  noteMark: { fontSize: 6.8 },
   noteLink: { fontSize: 6.8, color: INK, textDecoration: 'none' },
   footer: { position: 'absolute', left: X, right: X, bottom: 9, fontSize: 6.6, color: INK_2, flexDirection: 'row', justifyContent: 'space-between' },
 
@@ -148,8 +155,8 @@ const styles = StyleSheet.create({
   entryWhen: { width: 70 },
   entryYear: { fontFamily: 'Bodoni', fontSize: 15, color: INK, lineHeight: 1 },
   entrySpan: { fontSize: 6.8, color: INK_2, marginTop: 3 },
-  entryNow: { fontSize: 6.8, color: CORAL, marginTop: 1 },
-  entryHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingRight: 4 },
+  // Fixed height, so the dates sit at the same depth whether or not a vignette is stamped
+  entryHead: { height: 18, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingRight: 4 },
   entryArt: { width: 20, height: 20, marginTop: -2 },
   entryBody: { flex: 1 },
   role: { fontWeight: 600, fontSize: 9, color: INK },
@@ -157,7 +164,6 @@ const styles = StyleSheet.create({
   meta: { fontSize: 7, color: INK_2, marginTop: 1.5, marginBottom: 4 },
   beat: { flexDirection: 'row', marginBottom: 1.8 },
   beatLabel: { width: 52, fontSize: 7.4, fontWeight: 500, color: INK_2, marginTop: 0.4 },
-  beatLabelResult: { color: CORAL },
   beatText: { flex: 1, fontSize: 7.9, color: INK, lineHeight: 1.48 },
   bullet: { flexDirection: 'row', marginTop: 1.5 },
   bulletDash: { width: 52, fontSize: 7.4, color: INK_2 },
@@ -185,7 +191,7 @@ function Portrait({ w, h, src, band = 5 }: { w: number; h: number; src: ReturnTy
       <Image src={src} style={{ position: 'absolute', top: inset, left: inset, width: w - inset * 2, height: h - inset * 2 }} />
       <Svg width={w} height={h} style={{ position: 'absolute', top: 0, left: 0 }}>
         {ring.strands.map((d, i) => (
-          <Path key={i} d={d} stroke={INK} strokeWidth={0.35} fill="none" />
+          <Path key={i} d={d} stroke={INK_HEX[INK_TONES[i % INK_TONES.length]]} strokeWidth={0.4} fill="none" />
         ))}
         <Path d={ring.inner} stroke={INK} strokeWidth={0.6} fill="none" />
         <Path d={ring.outer} stroke={INK} strokeWidth={0.6} fill="none" />
@@ -219,6 +225,19 @@ export function CVCreative({ data, lang }: Props) {
   const figures = inkFigures(lang);
   const achievements = inkAchievements(data.keyAchievements);
   const notes = inkNotes(lang);
+  // A figure in the ink of the industry it comes from; its footnote mark matches
+  const figureBody = (f: (typeof figures)[number]) => (
+    <>
+      <Text style={{ ...styles.figureValue, color: INK_HEX[f.tone] }}>
+        {figure(f.value[0])}
+        {f.value[1] && <Text style={styles.arrow}>{' → '}</Text>}
+        {f.value[1] && figure(f.value[1])}
+        <Text style={{ ...styles.mark, color: INK_HEX[f.tone] }}> {f.n}</Text>
+      </Text>
+      <Text style={styles.figureLabel}>{f.label}</Text>
+      <Text style={styles.figureNote}>{f.note}</Text>
+    </>
+  );
 
   const route = [...data.experience].sort((a, b) => a.start.localeCompare(b.start));
   const seenArt = new Set<string>();
@@ -273,17 +292,22 @@ export function CVCreative({ data, lang }: Props) {
         </View>
 
         <View style={styles.content}>
+          <Svg width={595.28 - X * 2} height={7} style={styles.band}>
+            {guillocheRule(595.28 - X * 2, 7, INK_TONES.length, 16).map((d, i) => (
+              <Path key={i} d={d} stroke={INK_HEX[INK_TONES[i]]} strokeWidth={0.45} fill="none" />
+            ))}
+          </Svg>
           <View style={styles.figures} wrap={false}>
-            {figures.map((f, i) => (
-              <View key={f.n} style={i === 0 ? styles.figure : { ...styles.figure, ...styles.figureDivided }}>
-                <Text style={styles.figureValue}>
-                  {figure(f.value[0])}
-                  {f.value[1] && <Text style={styles.arrow}>{' → '}</Text>}
-                  {f.value[1] && figure(f.value[1])}
-                  <Text style={styles.mark}> {f.n}</Text>
-                </Text>
-                <Text style={styles.figureLabel}>{f.label}</Text>
-                <Text style={styles.figureNote}>{f.note}</Text>
+            <View style={styles.figMain}>
+              {figures.slice(0, 2).map((f, i) => (
+                <View key={f.n} style={i === 0 ? styles.figure : { ...styles.figure, ...styles.figureDivided }}>
+                  {figureBody(f)}
+                </View>
+              ))}
+            </View>
+            {figures.slice(2).map(f => (
+              <View key={f.n} style={styles.figSide}>
+                {figureBody(f)}
               </View>
             ))}
           </View>
@@ -309,10 +333,13 @@ export function CVCreative({ data, lang }: Props) {
                 const now = e.end === 'present';
                 return (
                   <View key={e.id} style={styles.stop}>
-                    <Text style={now ? { ...styles.stopYear, color: CORAL } : styles.stopYear}>{e.start.slice(0, 4)}</Text>
+                    <Text style={{ ...styles.stopYear, color: tone(e.id) }}>{e.start.slice(0, 4)}</Text>
                     <View style={styles.stopText}>
                       <Text style={styles.stopRole}>{r ? (isEN ? r.en : r.es) : e.role}</Text>
-                      <Text style={styles.stopAt}>{r?.at ?? e.company}{now ? `, ${t.now}` : ''}</Text>
+                      <Text style={styles.stopAt}>
+                        {r?.at ?? e.company}
+                        {now ? <Text style={{ color: GOLD }}>{`, ${t.now}`}</Text> : null}
+                      </Text>
                     </View>
                     {art ? <Image src={pdfImage(`ink/pdf/${art}.jpg`)} style={styles.stopArt} /> : <View style={styles.stopArtSlot} />}
                   </View>
@@ -342,23 +369,31 @@ export function CVCreative({ data, lang }: Props) {
           </View>
 
           <View style={styles.tools} wrap={false}>
-            {tools.map(([head, list]) => (
-              <View key={head} style={styles.toolCol}>
+            <View style={styles.toolsMain}>
+              {tools.slice(0, 3).map(([head, list]) => (
+                <View key={head} style={styles.toolCol}>
+                  <Text style={styles.toolHead}>{head}</Text>
+                  <Text style={styles.toolList}>{list.slice(0, 7).join(', ')}</Text>
+                </View>
+              ))}
+            </View>
+            {tools.slice(3).map(([head, list]) => (
+              <View key={head} style={styles.toolSide}>
                 <Text style={styles.toolHead}>{head}</Text>
                 <Text style={styles.toolList}>{list.slice(0, 7).join(', ')}</Text>
               </View>
             ))}
           </View>
-        </View>
 
-        <View style={styles.notes} wrap={false}>
-          {notes.map((n, i) => (
-            <Text key={i} style={styles.note}>
-              <Text style={styles.noteMark}>{i + 1}  </Text>
-              {n}
-              {i === 2 && <Link src={FLOWBER_CASE_URL} style={styles.noteLink}>garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber</Link>}
-            </Text>
-          ))}
+          <View style={styles.notes} wrap={false}>
+            {notes.map((n, i) => (
+              <Text key={i} style={styles.note}>
+                <Text style={{ ...styles.noteMark, color: INK_HEX[figures[i]?.tone ?? 'blue'] }}>{i + 1}  </Text>
+                {n}
+                {i === 2 && <Link src={FLOWBER_CASE_URL} style={styles.noteLink}>garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber</Link>}
+              </Text>
+            ))}
+          </View>
         </View>
         {footer}
       </Page>
@@ -374,8 +409,8 @@ export function CVCreative({ data, lang }: Props) {
             <Text style={styles.slimMeta}>{data.headline}</Text>
           </View>
           <Svg width={120} height={6} style={{ marginLeft: 'auto' }}>
-            {guillocheRule(120, 6).map((d, i) => (
-              <Path key={i} d={d} stroke={RULE} strokeWidth={0.5} fill="none" />
+            {guillocheRule(120, 6, INK_TONES.length, 16).map((d, i) => (
+              <Path key={i} d={d} stroke={INK_HEX[INK_TONES[i]]} strokeWidth={0.45} fill="none" />
             ))}
           </Svg>
         </View>
@@ -389,7 +424,7 @@ export function CVCreative({ data, lang }: Props) {
               <View key={exp.id} style={styles.entry} wrap={false}>
                 <View style={styles.entryWhen}>
                   <View style={styles.entryHead}>
-                    <Text style={styles.entryYear}>{exp.start.slice(0, 4)}</Text>
+                    <Text style={{ ...styles.entryYear, color: tone(exp.id) }}>{exp.start.slice(0, 4)}</Text>
                     {art && <Image src={pdfImage(`ink/pdf/${art}.jpg`)} style={styles.entryArt} />}
                   </View>
                   <Text style={styles.entrySpan}>{inkMonth(exp.start, lang)} –</Text>
@@ -401,12 +436,12 @@ export function CVCreative({ data, lang }: Props) {
                   <Text style={styles.meta}>
                     {exp.industry ? `${exp.industry}. ` : ''}
                     {exp.location}
-                    {now ? <Text style={{ color: CORAL }}>{`. ${isEN ? 'Current' : 'Actual'}`}</Text> : null}
+                    {now ? <Text style={{ color: GOLD }}>{`. ${isEN ? 'Current' : 'Actual'}`}</Text> : null}
                   </Text>
                   {exp.approach &&
                     ([['context', t.context], ['how', t.how], ['result', exp.approach.planned ? t.goal : t.result]] as const).map(([key, label]) => (
                       <View key={key} style={styles.beat}>
-                        <Text style={key === 'result' ? { ...styles.beatLabel, ...styles.beatLabelResult } : styles.beatLabel}>{label}</Text>
+                        <Text style={key === 'result' ? { ...styles.beatLabel, color: tone(exp.id) } : styles.beatLabel}>{label}</Text>
                         <Text style={styles.beatText}>{exp.approach?.[key]}</Text>
                       </View>
                     ))}

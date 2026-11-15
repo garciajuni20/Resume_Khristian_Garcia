@@ -21,6 +21,11 @@
   --color-n-highlight: var(--n-highlight);
   --color-n-deep: var(--n-deep);
   --color-n-violet: var(--n-violet);
+  --color-ink-teal: var(--ink-teal);
+  --color-ink-blue: var(--ink-blue);
+  --color-ink-coral: var(--ink-coral);
+  --color-ink-violet: var(--ink-violet);
+  --color-ink-green: var(--ink-green);
 }
 
 /* ── Design tokens ──────────────────────────────────────────────── */
@@ -45,6 +50,14 @@
   --n-highlight: #7A6600;
   --n-deep: #0F3460;
   --n-violet: #533483;
+
+  /* Industry inks of the resume (src/data/ink.ts): like banknote denominations,
+     each industry prints in its own colour. All AA as text on --n-bg. */
+  --ink-teal: #0B7A75;
+  --ink-blue: #1F4FA3;
+  --ink-coral: #C42B47;
+  --ink-violet: #6A3FA0;
+  --ink-green: #2E7D4A;
 }
 
 .dark {
@@ -62,6 +75,12 @@
   --n-highlight: #EFCC06;
   --n-deep: #0F3460;
   --n-violet: #533483;
+
+  --ink-teal: #4FD1C5;
+  --ink-blue: #7FB0F2;
+  --ink-coral: #F26A82;
+  --ink-violet: #C3A6F5;
+  --ink-green: #74D39A;
 }
 
 @layer base {
@@ -120,9 +139,16 @@
 .ink-hatch {
   background-image: repeating-linear-gradient(
     135deg,
-    color-mix(in srgb, var(--n-text) 16%, transparent) 0 1px,
+    color-mix(in srgb, var(--tone, var(--n-text)) 30%, transparent) 0 1px,
     transparent 1px 4px
   );
+  border-color: color-mix(in srgb, var(--tone, var(--n-text)) 45%, transparent);
+}
+
+/* The hero engraving in two inks, like a banknote: blue sky and volcano, the town
+   in the text ink, the terracotta tile roofs of Antigua in coral */
+.ink-iris {
+  background: linear-gradient(180deg, var(--ink-blue) 0 40%, var(--n-text) 60% 70%, var(--ink-coral) 80%);
 }
 
 /* The one orchestrated moment of the resume: the engraving is printed in, from the

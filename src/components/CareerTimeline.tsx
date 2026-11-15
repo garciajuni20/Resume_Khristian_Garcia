@@ -2,12 +2,14 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { ExperienceItem, Lang } from '../types';
 import { shortCompany } from '../utils/company';
 import { FLUID } from '../utils/animations';
+import { INK_TONE } from '../data/ink';
 
 /**
  * Career map: one bar per role on a shared month scale, so overlapping roles
  * (the promotion, the part-time AI role, the side venture) read at a glance.
  * Set in ink like the rest of the resume: bars are engraved hatching
- * (`.ink-hatch`), the roles held today are outlined in coral.
+ * in the ink of each role's industry (`.ink-hatch`), the roles held today
+ * are outlined in gold, the colour of the "today" line.
  * With sound on, each bar rings one note up the scale, oldest first: sweeping
  * the pointer across the map plays the career as a rising melody.
  */
@@ -95,8 +97,8 @@ export default function CareerTimeline({ experience, lang, onOpen }: Props) {
                   whileInView={{ scaleX: 1, opacity: 1 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.9, delay: i * 0.06, ease: FLUID }}
-                  className={`ink-hatch n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-sm border px-2 text-left text-xs font-semibold transition-colors duration-300 hover:bg-n-hover n-focus ${current ? 'border-n-accent-2' : 'border-n-border'}`}
-                  style={{ left: `${left}%`, width: `${width}%`, minWidth: 10 }}
+                  className={`ink-hatch n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-sm border px-2 text-left text-xs font-semibold transition-colors duration-300 hover:bg-n-hover n-focus ${current ? 'outline outline-1 outline-offset-1 outline-n-highlight' : ''}`}
+                  style={{ left: `${left}%`, width: `${width}%`, minWidth: 10, '--tone': `var(--ink-${INK_TONE[e.id] ?? 'blue'})` } as React.CSSProperties}
                 >
                   {wide && (
                     <span className="truncate">

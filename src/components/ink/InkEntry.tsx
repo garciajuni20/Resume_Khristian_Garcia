@@ -1,5 +1,5 @@
 import type { ExperienceItem, Lang } from '../../types';
-import { inkMonth } from '../../data/ink';
+import { INK_TEXT, INK_TONE, inkMonth } from '../../data/ink';
 import InkArt from './InkArt';
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
 export default function InkEntry({ item, art, lang, onOpen }: Props) {
   const en = lang === 'en';
   const now = item.end === 'present';
+  const ink = INK_TEXT[INK_TONE[item.id] ?? 'blue'];
   const beats = item.approach
     ? ([
         [en ? 'Context' : 'Contexto', item.approach.context, false],
@@ -29,12 +30,12 @@ export default function InkEntry({ item, art, lang, onOpen }: Props) {
   return (
     <article className="group relative grid grid-cols-[4.75rem_minmax(0,1fr)] gap-x-4 border-t border-n-border py-6 transition-colors duration-300 hover:bg-n-hover sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-x-6 sm:px-2">
       <div>
-        <p className="font-display text-3xl leading-none sm:text-4xl">{item.start.slice(0, 4)}</p>
+        <p className={`font-display text-3xl leading-none sm:text-4xl ${ink}`}>{item.start.slice(0, 4)}</p>
         <p className="n-muted mt-2 text-xs leading-relaxed">
           {inkMonth(item.start, lang)} –<br />
           {inkMonth(item.end, lang)}
         </p>
-        {art && <InkArt name={art} className="mt-3 h-11 w-11 sm:h-14 sm:w-14" />}
+        {art && <InkArt name={art} className={`mt-3 h-11 w-11 sm:h-14 sm:w-14 ${ink}`} />}
       </div>
 
       <div className="min-w-0">
@@ -43,14 +44,14 @@ export default function InkEntry({ item, art, lang, onOpen }: Props) {
         <p className="n-muted mt-1 text-xs">
           {item.industry ? `${item.industry}. ` : ''}
           {item.location}
-          {now && <span className="text-n-accent-2">. {en ? 'Current' : 'Actual'}</span>}
+          {now && <span className="text-n-highlight">. {en ? 'Current' : 'Actual'}</span>}
         </p>
 
         {beats ? (
           <dl className="mt-4 grid gap-y-2 text-sm sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:gap-x-4">
             {beats.map(([label, text, result]) => (
               <div key={label} className="contents">
-                <dt className={`text-xs font-medium sm:pt-0.5 ${result ? 'text-n-accent-2' : 'n-muted'}`}>{label}</dt>
+                <dt className={`text-xs font-medium sm:pt-0.5 ${result ? ink : 'n-muted'}`}>{label}</dt>
                 <dd className="n-text mb-1 leading-relaxed sm:mb-0">{text}</dd>
               </div>
             ))}

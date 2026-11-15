@@ -23,8 +23,9 @@ import HowIWork from '../components/HowIWork';
 import InkArt from '../components/ink/InkArt';
 import InkPortrait from '../components/ink/InkPortrait';
 import InkEntry from '../components/ink/InkEntry';
+import { guillocheRule } from '../utils/guilloche';
 import { sfx } from '../audio/engine';
-import { INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkNotes } from '../data/ink';
+import { INK_ROUTE, INK_TEXT, INK_TONE, INK_TONES, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkNotes } from '../data/ink';
 
 /** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
 function lead(text: string): string {
@@ -185,6 +186,7 @@ export default function ResumePage() {
   });
 
   const figures = inkFigures(lang);
+  const band = useMemo(() => guillocheRule(1400, 7, INK_TONES.length, 18), []);
   const notes = inkNotes(lang);
   const achievements = inkAchievements(data.keyAchievements);
   const tools = data.tools;
@@ -229,7 +231,7 @@ export default function ResumePage() {
           <header className="relative pt-6 lg:min-h-[21rem] lg:pt-12">
             <InkArt
               name="ink-hero"
-              className="ink-print n-text pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[56%]"
+              className="ink-print ink-iris pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[56%]"
             />
             <div className="relative mt-2 flex items-center gap-5 sm:-mt-12 sm:gap-7 lg:mt-0">
               <InkPortrait alt={data.name} width={124} className="n-text sm:hidden" />
@@ -264,10 +266,17 @@ export default function ResumePage() {
           </header>
 
           {/* ── The proof: three figures, each with its source below ── */}
-          <div className="mt-8 grid border-y border-n-border sm:grid-cols-3">
+          <div className="mt-8 h-[7px] overflow-hidden" aria-hidden="true">
+            <svg width={1400} height={7} className="block">
+              {band.map((d, i) => (
+                <path key={i} d={d} fill="none" strokeWidth={0.7} style={{ stroke: `var(--ink-${INK_TONES[i]})` }} />
+              ))}
+            </svg>
+          </div>
+          <div className="grid border-b border-n-border sm:grid-cols-3">
             {figures.map((f, i) => (
               <div key={f.n} className={`py-5 sm:px-6 ${i === 0 ? 'sm:pl-0' : 'border-t border-n-border sm:border-t-0 sm:border-l'}`}>
-                <p className="font-display whitespace-nowrap text-4xl leading-none tabular-nums sm:text-[1.85rem] lg:text-[2.3rem]">
+                <p className={`font-display whitespace-nowrap text-4xl leading-none tabular-nums sm:text-[1.85rem] lg:text-[2.3rem] ${INK_TEXT[f.tone]}`}>
                   <Figure text={f.value[0]} />
                   {f.value[1] && (
                     <>
@@ -278,7 +287,7 @@ export default function ResumePage() {
                       <Figure text={f.value[1]} />
                     </>
                   )}
-                  <a href={`#nota-${f.n}`} className="ml-1 align-super font-sans text-sm text-n-accent-2 n-focus" aria-label={labels.note(f.n)}>
+                  <a href={`#nota-${f.n}`} className={`ml-1 align-super font-sans text-sm n-focus ${INK_TEXT[f.tone]}`} aria-label={labels.note(f.n)}>
                     {f.n}
                   </a>
                 </p>
@@ -315,15 +324,15 @@ export default function ResumePage() {
                     const now = e.end === 'present';
                     return (
                       <li key={e.id} className="grid grid-cols-[3rem_minmax(0,1fr)_2.5rem] items-start gap-x-3">
-                        <span className={`font-display text-lg leading-tight ${now ? 'text-n-accent-2' : ''}`}>{e.start.slice(0, 4)}</span>
+                        <span className={`font-display text-lg leading-tight ${INK_TEXT[INK_TONE[e.id] ?? 'blue']}`}>{e.start.slice(0, 4)}</span>
                         <span>
                           <span className="n-text block text-sm leading-snug">{r ? (en ? r.en : r.es) : e.role}</span>
                           <span className="n-muted block text-xs">
                             {r?.at ?? e.company}
-                            {now ? `, ${labels.today}` : ''}
+                            {now && <span className="text-n-highlight">, {labels.today}</span>}
                           </span>
                         </span>
-                        {art ? <InkArt name={art} className="n-text h-10 w-10" /> : <span />}
+                        {art ? <InkArt name={art} className={`h-10 w-10 ${INK_TEXT[INK_TONE[e.id] ?? 'blue']}`} /> : <span />}
                       </li>
                     );
                   })}
@@ -334,7 +343,7 @@ export default function ResumePage() {
             <ol className="n-muted mt-12 space-y-1 border-t border-n-border pt-4 text-xs leading-relaxed" aria-label={labels.notes}>
               {notes.map((n, i) => (
                 <li key={i} id={`nota-${i + 1}`} className="scroll-mt-28">
-                  <span className="mr-1.5 text-n-accent-2">{i + 1}</span>
+                  <span className={`mr-1.5 ${INK_TEXT[figures[i]?.tone ?? 'blue']}`}>{i + 1}</span>
                   {n}
                   {i === notes.length - 1 && (
                     <a href={`${import.meta.env.BASE_URL}#/flowber`} className={LINK}>

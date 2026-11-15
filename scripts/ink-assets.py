@@ -27,15 +27,39 @@ OUT_PDF = os.path.join(OUT, "pdf")
 INK = (0x16, 0x21, 0x3E)
 PAPER = (0xF5, 0xF6, 0xF8)
 
-# name -> (output width in px, fade the left side for the headline/portrait)
+def hexrgb(h: str):
+    return tuple(int(h[i:i + 2], 16) for i in (1, 3, 5))
+
+
+# The industry inks of src/data/ink.ts (INK_HEX), as printed on the PDF's paper
+TONE = {k: hexrgb(v) for k, v in {
+    "teal": "#0B7A75", "blue": "#1F4FA3", "coral": "#C42B47", "violet": "#6A3FA0", "green": "#2E7D4A",
+}.items()}
+
+# The hero is printed in two inks like a banknote: blue sky and volcano, navy
+# town, the terracotta tile roofs of Antigua in coral. (stop, rgb) top to bottom.
+HERO_INKS = [(0.0, TONE["blue"]), (0.40, TONE["blue"]), (0.6, INK), (0.7, INK), (0.8, TONE["coral"]), (1.0, TONE["coral"])]
+
+# name -> (output width in px, fade the left side for the headline/portrait, ink)
 SET = {
-    "ink-hero": (1400, True),
-    "ink-remesas": (400, False),
-    "ink-fintech": (400, False),
-    "ink-barberia": (400, False),
-    "ink-bienestar": (400, False),
-    "ink-educacion": (400, False),
+    "ink-hero": (1400, True, HERO_INKS),
+    "ink-remesas": (400, False, TONE["teal"]),
+    "ink-fintech": (400, False, TONE["blue"]),
+    "ink-barberia": (400, False, TONE["coral"]),
+    "ink-bienestar": (400, False, TONE["green"]),
+    "ink-educacion": (400, False, TONE["violet"]),
 }
+
+
+def ink_field(ink, shape) -> np.ndarray:
+    """An (h, w, 3) field of ink colour: flat, or a vertical blend between stops."""
+    h, w = shape
+    if isinstance(ink, tuple):
+        return np.broadcast_to(np.array(ink, np.float32), (h, w, 3))
+    y = np.linspace(0, 1, h)
+    stops = [s for s, _ in ink]
+    col = np.stack([np.interp(y, stops, [c[i] for _, c in ink]) for i in range(3)], axis=-1)
+    return np.broadcast_to(col[:, None, :].astype(np.float32), (h, w, 3))
 
 
 def ink_alpha(img: Image.Image, lo: int = 18, hi: int = 205) -> np.ndarray:
@@ -73,7 +97,7 @@ def crop_to_ink(alpha: np.ndarray, pad: float = 0.05) -> np.ndarray:
     return alpha[y0:y1, x0:x1]
 
 
-def save_pair(name: str, alpha: np.ndarray, width: int):
+def save_pair(name: str, alpha: np.ndarray, width: int, ink=INK):
     h, w = alpha.shape
     height = round(width * h / w)
     a = Image.fromarray(alpha.astype(np.uint8)).resize((width, height), Image.LANCZOS)
@@ -82,9 +106,9 @@ def save_pair(name: str, alpha: np.ndarray, width: int):
     web.putalpha(a)
     # Only the alpha channel matters for a mask, so it is the one that gets compressed
     web.save(os.path.join(OUT, f"{name}.webp"), "WEBP", quality=80, alpha_quality=72, method=6)
-    # PDF: navy composited on paper
+    # PDF: the ink composited on paper (react-pdf has no masks to tint it later)
     k = np.asarray(a, dtype=np.float32)[..., None] / 255.0
-    rgb = np.array(PAPER, np.float32) * (1 - k) + np.array(INK, np.float32) * k
+    rgb = np.array(PAPER, np.float32) * (1 - k) + ink_field(ink, k.shape[:2]) * k
     # JPEG: the page is the same paper, so no alpha is needed and the PDF stays small
     Image.fromarray(rgb.astype(np.uint8), "RGB").save(os.path.join(OUT_PDF, f"{name}.jpg"), "JPEG", quality=88, optimize=True)
     print("ok", name, a.size)
@@ -116,7 +140,7 @@ def portrait():
 
 def main():
     os.makedirs(OUT_PDF, exist_ok=True)
-    for name, (width, left) in SET.items():
+    for name, (width, left, ink) in SET.items():
         path = next((p for p in (os.path.join(SRC, f"{name}.{ext}") for ext in ("png", "jpg")) if os.path.exists(p)), None)
         if not path:
             print("skip", name, "(not generated yet)")
@@ -125,7 +149,7 @@ def main():
         alpha = ink_alpha(src) * edge_fade(src.size[::-1], left)
         if not left:
             alpha = crop_to_ink(alpha)
-        save_pair(name, alpha, width)
+        save_pair(name, alpha, width, ink)
     portrait()
 
 
