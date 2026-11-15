@@ -1,89 +1,106 @@
 import React from 'react';
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import type { Copy } from './copy';
-import { C, Chip, Count, FLUID, Grid, Rise, SceneFade, usePop, useProgress } from './kit';
+import { C, EASE, Engraving, Eyebrow, Figure, INK, Paper, Portrait, Press, Rise, Thread, useProgress } from './kit';
 
 export const DUR = { intro: 165, numbers: 150, timeline: 700, showcase: 300, stack: 180, outro: 210 } as const;
 
-/* ── 1. Intro: portrait reveal + name letter by letter ─────────────────── */
+/** A thin vertical rule between items on one line, instead of pills */
+const Sep: React.FC<{ height?: number }> = ({ height = 26 }) => <span style={{ display: 'inline-block', width: 1, height, background: C.rule, flexShrink: 0, verticalAlign: 'middle' }} />;
+
+/* ── 1. Intro: the banknote header — engraving, portrait window, name ───── */
 export const Intro: React.FC<{ c: Copy }> = ({ c }) => {
   const frame = useCurrentFrame();
-  const reveal = useProgress(0, 36);
-  const photoZoom = interpolate(frame, [0, DUR.intro], [1.12, 1.0], { extrapolateRight: 'clamp' });
+  const [first, ...rest] = c.name.split(' ');
+  const lines = [first, rest.join(' ')];
+  let idx = 0;
   return (
-    <SceneFade duration={DUR.intro}>
-      <Grid />
-      <AbsoluteFill style={{ flexDirection: 'row', alignItems: 'center', padding: '0 150px', gap: 110, fontFamily: C.font }}>
-        <div
-          style={{
-            width: 420,
-            height: 600,
-            borderRadius: 28,
-            overflow: 'hidden',
-            flexShrink: 0,
-            clipPath: `inset(${(1 - reveal) * 50}% 0 ${(1 - reveal) * 50}% 0 round 28px)`,
-            boxShadow: '0 40px 120px rgba(0,0,0,0.6)',
-          }}
-        >
-          <Img src={staticFile('img/khristian-portrait.jpg')} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${photoZoom})` }} />
-        </div>
-        <div style={{ color: C.text }}>
-          <Rise delay={10}>
-            <div style={{ fontFamily: C.mono, fontSize: 26, color: C.muted, letterSpacing: 3, textTransform: 'uppercase' }}>{c.tag}</div>
+    <AbsoluteFill>
+      <Paper />
+      {/* Antigua engraving, its left side dissolving into the paper for the name */}
+      <Engraving name="ink-hero" width={1150} dur={46} style={{ position: 'absolute', right: 60, top: 70 }} />
+
+      <div style={{ position: 'absolute', left: 140, top: 236, display: 'flex', alignItems: 'center', gap: 56 }}>
+        <Portrait width={280} delay={4} />
+        <div>
+          <Rise delay={8}>
+            <Eyebrow tone="blue">{c.tag}</Eyebrow>
           </Rise>
-          <div style={{ fontSize: 132, fontWeight: 700, letterSpacing: -4, lineHeight: 1, marginTop: 26, display: 'flex' }}>
-            {c.name.split('').map((ch, i) => {
-              const p = interpolate(frame, [16 + i * 2, 40 + i * 2], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: FLUID });
-              return (
-                <span key={i} style={{ opacity: p, transform: `translateY(${(1 - p) * 60}px)`, filter: `blur(${(1 - p) * 12}px)`, whiteSpace: 'pre' }}>
-                  {ch}
-                </span>
-              );
-            })}
-          </div>
-          <Rise delay={52}>
-            <div style={{ fontSize: 40, color: C.accent, fontWeight: 500, marginTop: 30, textWrap: 'balance' } as React.CSSProperties}>{c.headline}</div>
-          </Rise>
-          <div style={{ display: 'flex', gap: 16, marginTop: 44 }}>
-            {c.roles.map((r, i) => (
-              <Rise key={r} delay={72 + i * 8} distance={24}>
-                <Chip>{r}</Chip>
-              </Rise>
+          <div style={{ fontFamily: C.serif, fontSize: 150, lineHeight: 0.98, color: C.ink, marginTop: 20 }}>
+            {lines.map(line => (
+              <div key={line} style={{ display: 'flex' }}>
+                {line.split('').map(ch => {
+                  const i = idx++;
+                  const p = interpolate(frame, [14 + i * 2, 36 + i * 2], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE });
+                  return (
+                    <span key={i} style={{ opacity: p, transform: `translateY(${(1 - p) * 28}px)`, whiteSpace: 'pre' }}>
+                      {ch}
+                    </span>
+                  );
+                })}
+              </div>
             ))}
           </div>
         </div>
-      </AbsoluteFill>
-    </SceneFade>
+      </div>
+
+      <div style={{ position: 'absolute', left: 140, top: 734, width: 1640 }}>
+        <Thread width={1640} delay={40} dur={44} />
+        <Rise delay={52}>
+          <div style={{ fontFamily: C.font, fontSize: 46, fontWeight: 500, color: C.ink, marginTop: 34, letterSpacing: -0.5 }}>{c.headline}</div>
+        </Rise>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 26, marginTop: 26 }}>
+          {c.roles.map((r, i) => (
+            <React.Fragment key={r}>
+              {i > 0 && (
+                <Rise delay={70 + i * 6} distance={0}>
+                  <Sep />
+                </Rise>
+              )}
+              <Rise delay={70 + i * 6} distance={14}>
+                <span style={{ fontFamily: C.font, fontSize: 30, color: C.muted }}>{r}</span>
+              </Rise>
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+    </AbsoluteFill>
   );
 };
 
-/* ── 2. Numbers ─────────────────────────────────────────────────────────── */
+/* ── 2. Numbers: three figures printed in Bodoni ─────────────────────────── */
 export const Numbers: React.FC<{ c: Copy }> = ({ c }) => (
-  <SceneFade duration={DUR.numbers}>
-    <Grid />
-    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', fontFamily: C.font, color: C.text }}>
+  <AbsoluteFill>
+    <Paper />
+    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', fontFamily: C.font, color: C.ink }}>
       <Rise>
-        <div style={{ fontFamily: C.mono, fontSize: 28, color: C.muted, letterSpacing: 3, textTransform: 'uppercase', textAlign: 'center' }}>{c.numbersTitle}</div>
+        <Eyebrow tone="blue">{c.numbersTitle}</Eyebrow>
       </Rise>
-      <div style={{ display: 'flex', gap: 120, marginTop: 60 }}>
+      <div style={{ marginTop: 44 }}>
+        <Thread width={1380} delay={6} dur={40} />
+      </div>
+      <div style={{ display: 'flex', marginTop: 56 }}>
         {c.numbers.map((n, i) => (
-          <Rise key={n.label} delay={10 + i * 10}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 220, fontWeight: 700, letterSpacing: -8, lineHeight: 1 }}>
-                <Count value={n.value} suffix={n.suffix} start={14 + i * 10} />
+          <div key={n.label} style={{ width: 460, textAlign: 'center', borderLeft: i ? `1px solid ${C.rule}` : 'none' }}>
+            <Press delay={14 + i * 10} dur={26}>
+              <div style={{ fontFamily: C.serif, fontSize: 230, lineHeight: 1.05, fontVariantNumeric: 'lining-nums' }}>
+                <Figure text={`${n.value}${n.suffix}`} />
               </div>
-              <div style={{ fontSize: 36, color: C.muted, marginTop: 16 }}>{n.label}</div>
-            </div>
-          </Rise>
+            </Press>
+            <Rise delay={26 + i * 10} distance={14}>
+              <div style={{ fontSize: 36, color: C.muted, marginTop: 14 }}>{n.label}</div>
+            </Rise>
+          </div>
         ))}
       </div>
     </AbsoluteFill>
-  </SceneFade>
+  </AbsoluteFill>
 );
 
 /* ── 3. Timeline: a camera slides from stop to stop ─────────────────────── */
 const STOP_START = 40;
-const CARD_W = 1400;
+const CARD_W = 1600;
+const CARD_GAP = 160;
 
 export const Timeline: React.FC<{ c: Copy }> = ({ c }) => {
   const frame = useCurrentFrame();
@@ -103,72 +120,87 @@ export const Timeline: React.FC<{ c: Copy }> = ({ c }) => {
     keys.push(t);
     vals.push(i);
   }
-  const cam = interpolate(frame, keys, vals, { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: FLUID });
+  const cam = interpolate(frame, keys, vals, { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE });
   const line = interpolate(frame, [STOP_START - 20, STOP_START + (n - 1) * STOP_LEN], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   const active = Math.min(n - 1, Math.max(0, Math.round(cam)));
 
   return (
-    <SceneFade duration={DUR.timeline}>
-      <Grid />
-      <AbsoluteFill style={{ fontFamily: C.font, color: C.text }}>
-        <Rise style={{ position: 'absolute', top: 90, left: 160 }}>
-          <div style={{ fontFamily: C.mono, fontSize: 28, color: C.muted, letterSpacing: 3, textTransform: 'uppercase' }}>{c.timelineTitle}</div>
+    <AbsoluteFill>
+      <Paper />
+      <AbsoluteFill style={{ fontFamily: C.font, color: C.ink }}>
+        <Rise style={{ position: 'absolute', top: 100, left: 160 }}>
+          <Eyebrow tone="blue">{c.timelineTitle}</Eyebrow>
         </Rise>
 
-        {/* Track with one node per stop */}
-        <div style={{ position: 'absolute', top: 180, left: 160, right: 160, height: 4 }}>
-          <div style={{ position: 'absolute', inset: 0, background: C.border, borderRadius: 2 }} />
-          <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: `${line * 100}%`, background: C.accent, borderRadius: 2 }} />
+        {/* Track with one node per stop, each in the ink of its industry */}
+        <div style={{ position: 'absolute', top: 200, left: 160, right: 160, height: 2 }}>
+          <div style={{ position: 'absolute', inset: 0, background: C.rule }} />
+          <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: `${line * 100}%`, background: C.ink }} />
           {c.stops.map((s, i) => {
             const left = (i / (n - 1)) * 100;
             const on = i <= active;
+            const last = i === n - 1;
             return (
-              <div key={s.year} style={{ position: 'absolute', left: `${left}%`, top: -14, transform: 'translateX(-50%)', textAlign: 'center' }}>
-                <div style={{ width: 32, height: 32, borderRadius: 16, background: on ? s.color : C.bg, border: `4px solid ${on ? s.color : C.muted}`, margin: '0 auto', boxShadow: i === active ? `0 0 30px ${s.color}` : 'none' }} />
-                <div style={{ fontFamily: C.mono, fontSize: 24, marginTop: 14, color: i === active ? C.text : C.muted }}>{s.year}</div>
+              <div key={s.year} style={{ position: 'absolute', left: `${left}%`, top: -10, transform: 'translateX(-50%)', textAlign: 'center' }}>
+                <div style={{ width: 22, height: 22, borderRadius: 11, boxSizing: 'border-box', background: on ? INK[s.tone] : C.paper, border: `2px solid ${INK[s.tone]}`, margin: '0 auto' }} />
+                <div style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 36, marginTop: 12, color: i === active ? C.ink : C.muted }}>{s.year}</div>
+                {last && <div style={{ fontSize: 20, fontWeight: 500, color: INK.gold, marginTop: 2 }}>{c.today}</div>}
               </div>
             );
           })}
         </div>
 
-        {/* Cards strip */}
-        <div style={{ position: 'absolute', top: 320, left: (1920 - CARD_W) / 2, width: CARD_W, height: 600, overflow: 'visible' }}>
-          <div style={{ display: 'flex', transform: `translateX(${-cam * (CARD_W + 120)}px)` }}>
+        {/* Plates strip */}
+        <div style={{ position: 'absolute', top: 350, left: (1920 - CARD_W) / 2, width: CARD_W, height: 600 }}>
+          <div style={{ display: 'flex', transform: `translateX(${-cam * (CARD_W + CARD_GAP)}px)` }}>
             {c.stops.map((s, i) => {
-              const local = frame - (STOP_START + i * STOP_LEN);
+              const arrive = STOP_START + i * STOP_LEN;
+              const local = frame - arrive;
               const dist = Math.abs(cam - i);
+              const last = i === n - 1;
+              const two = s.art.length > 1;
               return (
                 <div
                   key={s.year}
                   style={{
                     width: CARD_W,
-                    marginRight: 120,
+                    marginRight: CARD_GAP,
                     flexShrink: 0,
-                    opacity: interpolate(dist, [0, 1], [1, 0.15], { extrapolateRight: 'clamp' }),
-                    transform: `scale(${interpolate(dist, [0, 1], [1, 0.9], { extrapolateRight: 'clamp' })})`,
-                    border: `1px solid ${C.border}`,
-                    borderRadius: 32,
-                    background: C.surface,
-                    padding: '64px 72px',
+                    opacity: interpolate(dist, [0, 1], [1, 0.1], { extrapolateRight: 'clamp' }),
                     display: 'flex',
-                    gap: 80,
+                    alignItems: 'center',
+                    gap: 64,
+                    height: 560,
                   }}
                 >
-                  <div style={{ flex: 1.2 }}>
-                    <div style={{ fontFamily: C.mono, fontSize: 120, fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.year}</div>
-                    <div style={{ marginTop: 36 }}>
-                      <Chip color={s.color}>{s.industry}</Chip>
-                    </div>
-                    <div style={{ fontSize: 64, fontWeight: 700, letterSpacing: -2, marginTop: 30, lineHeight: 1.05 }}>{s.company}</div>
-                    <div style={{ fontSize: 34, color: C.muted, marginTop: 18 }}>{s.role}</div>
+                  {/* The engraving of the industry prints as the camera arrives */}
+                  <div style={{ width: 420, flexShrink: 0, display: 'flex', flexDirection: two ? 'column' : 'row', alignItems: 'center', gap: 20 }}>
+                    {s.art.map((a, ai) => (
+                      <Engraving key={a} name={a} width={two ? 250 : 420} delay={arrive - 20 + ai * 10} dur={30} />
+                    ))}
                   </div>
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 54 }}>
+
+                  <div style={{ width: 520, flexShrink: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 22 }}>
+                      <div style={{ fontFamily: C.serif, fontSize: 140, lineHeight: 1, color: INK[s.tone] }}>{s.year}</div>
+                      {last && <div style={{ fontSize: 32, fontWeight: 500, color: INK.gold }}>{c.today}</div>}
+                    </div>
+                    <Eyebrow tone={s.tone} size={28} style={{ marginTop: 26, color: INK[s.tone] }}>
+                      {s.industry}
+                    </Eyebrow>
+                    <div style={{ fontSize: 58, fontWeight: 600, letterSpacing: -1.5, marginTop: 22, lineHeight: 1.06 }}>{s.company}</div>
+                    <div style={{ fontSize: 32, color: C.muted, marginTop: 16, lineHeight: 1.3 }}>{s.role}</div>
+                  </div>
+
+                  <div style={{ flex: 1, alignSelf: 'stretch', borderLeft: `1px solid ${C.rule}`, paddingLeft: 56, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 56 }}>
                     {s.metrics.map((m, mi) => {
-                      const p = interpolate(local, [14 + mi * 10, 40 + mi * 10], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: FLUID });
+                      const p = interpolate(local, [10 + mi * 10, 34 + mi * 10], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE });
                       return (
-                        <div key={m.label} style={{ opacity: p, transform: `translateX(${(1 - p) * 60}px)` }}>
-                          <div style={{ fontSize: 84, fontWeight: 700, letterSpacing: -3, lineHeight: 1 }}>{m.value}</div>
-                          <div style={{ fontSize: 30, color: C.muted, marginTop: 12 }}>{m.label}</div>
+                        <div key={m.label} style={{ opacity: p, transform: `translateY(${(1 - p) * 18}px)` }}>
+                          <div style={{ fontFamily: C.serif, fontSize: 68, lineHeight: 1, whiteSpace: 'nowrap', fontVariantNumeric: 'lining-nums' }}>
+                            <Figure text={m.value} />
+                          </div>
+                          <div style={{ fontSize: 30, color: C.muted, marginTop: 14, lineHeight: 1.3 }}>{m.label}</div>
                         </div>
                       );
                     })}
@@ -179,108 +211,96 @@ export const Timeline: React.FC<{ c: Copy }> = ({ c }) => {
           </div>
         </div>
       </AbsoluteFill>
-    </SceneFade>
+    </AbsoluteFill>
   );
 };
 
-/* ── 4. Flowber showcase: laptop-style tilt + phone ─────────────────────── */
+/* ── 4. Flowber showcase: the product, framed like a proof ─────────────── */
 export const Showcase: React.FC<{ c: Copy }> = ({ c }) => {
   const frame = useCurrentFrame();
-  const tilt = useProgress(10, 50);
-  const phone = useProgress(34, 40);
-  const drift = interpolate(frame, [0, DUR.showcase], [0, -30]);
+  const phone = useProgress(40, 34);
+  const drift = interpolate(frame, [0, DUR.showcase], [0, -24]);
   return (
-    <SceneFade duration={DUR.showcase}>
-      <Grid />
-      <AbsoluteFill style={{ fontFamily: C.font, color: C.text, flexDirection: 'row', alignItems: 'center', padding: '0 120px', gap: 80 }}>
-        <div style={{ width: 640, flexShrink: 0 }}>
-          <Rise>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-              <Img src={staticFile('img/logo-mark.webp')} style={{ width: 64, height: 64, borderRadius: 14 }} />
-              <div style={{ fontFamily: C.mono, fontSize: 22, color: C.muted, letterSpacing: 2, textTransform: 'uppercase' }}>{c.showcaseEyebrow}</div>
-            </div>
+    <AbsoluteFill>
+      <Paper />
+      <AbsoluteFill style={{ fontFamily: C.font, color: C.ink }}>
+        <div style={{ position: 'absolute', left: 140, top: 0, bottom: 0, width: 680, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <Engraving name="ink-barberia" width={120} dur={30} />
+          <Rise delay={6} style={{ marginTop: 22 }}>
+            <Eyebrow tone="coral" size={26}>
+              {c.showcaseEyebrow}
+            </Eyebrow>
           </Rise>
-          <Rise delay={8}>
-            <div style={{ fontSize: 76, fontWeight: 700, letterSpacing: -3, lineHeight: 1.05, marginTop: 30 }}>{c.showcaseTitle}</div>
+          <Rise delay={12}>
+            <div style={{ fontFamily: C.serif, fontSize: 64, lineHeight: 1.06, marginTop: 22 }}>{c.showcaseTitle}</div>
           </Rise>
-          <Rise delay={16}>
-            <div style={{ fontSize: 32, color: C.muted, marginTop: 24, lineHeight: 1.35 }}>{c.showcaseBody}</div>
+          <Rise delay={20}>
+            <div style={{ fontSize: 30, color: C.muted, marginTop: 22, lineHeight: 1.4 }}>{c.showcaseBody}</div>
           </Rise>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 40, alignItems: 'flex-start' }}>
-            {c.chips.map((chip, i) => {
-              const pop = usePop(60 + i * 14);
-              return (
-                <div key={chip} style={{ transform: `scale(${pop})`, transformOrigin: 'left center', opacity: Math.min(1, pop * 1.5) }}>
-                  <Chip color={['#533483', '#E94560', '#0F3460', '#C9A800'][i % 4]} size={28}>
-                    {chip}
-                  </Chip>
+          <div style={{ marginTop: 36 }}>
+            {c.chips.map((chip, i) => (
+              <Rise key={chip} delay={60 + i * 12} distance={14}>
+                <div style={{ fontSize: 28, padding: '11px 0', borderTop: `1px solid ${C.rule}`, borderBottom: i === c.chips.length - 1 ? `1px solid ${C.rule}` : 'none', display: 'flex', gap: 18, alignItems: 'baseline' }}>
+                  <span style={{ fontFamily: C.serif, fontWeight: 500, fontSize: 36, color: INK.coral, width: 26 }}>{i + 1}</span>
+                  {chip}
                 </div>
-              );
-            })}
+              </Rise>
+            ))}
           </div>
         </div>
 
-        <div style={{ position: 'relative', flex: 1, perspective: 2000, transform: `translateY(${drift}px)` }}>
-          <div
-            style={{
-              borderRadius: 22,
-              overflow: 'hidden',
-              border: `1px solid ${C.border}`,
-              background: C.surface,
-              boxShadow: '0 50px 140px rgba(0,0,0,0.7)',
-              transform: `rotateX(${(1 - tilt) * 32}deg) scale(${0.86 + tilt * 0.14})`,
-              transformOrigin: 'center bottom',
-              opacity: tilt,
-            }}
-          >
-            <div style={{ display: 'flex', gap: 10, padding: '16px 20px', borderBottom: `1px solid ${C.border}` }}>
-              {['#FF5F57', '#FEBC2E', '#28C840'].map(col => (
-                <span key={col} style={{ width: 14, height: 14, borderRadius: 7, background: col }} />
-              ))}
-              <span style={{ marginLeft: 16, fontFamily: C.mono, fontSize: 18, color: C.muted }}>flowber-barberia.pages.dev</span>
+        <div style={{ position: 'absolute', left: 880, right: 140, top: 0, bottom: 0, display: 'flex', alignItems: 'center' }}>
+          <div style={{ position: 'relative', width: '100%', transform: `translateY(${drift}px)` }}>
+            <Press delay={10} dur={40}>
+              <div style={{ border: `1px solid ${C.ink}`, background: C.paper }}>
+                <div style={{ padding: '12px 18px', borderBottom: `1px solid ${C.ink}`, fontFamily: C.mono, fontSize: 18, color: C.muted }}>flowber-barberia.pages.dev</div>
+                <Img src={staticFile('img/home-desktop.webp')} style={{ display: 'block', width: '100%' }} />
+              </div>
+            </Press>
+            <div
+              style={{
+                position: 'absolute',
+                right: -30,
+                bottom: -80,
+                width: 230,
+                borderRadius: 30,
+                border: `2px solid ${C.ink}`,
+                background: C.paper,
+                overflow: 'hidden',
+                transform: `translateY(${(1 - phone) * 220}px)`,
+                opacity: phone,
+              }}
+            >
+              <Img src={staticFile('img/home-mobile.webp')} style={{ display: 'block', width: '100%' }} />
             </div>
-            <Img src={staticFile('img/home-desktop.webp')} style={{ display: 'block', width: '100%' }} />
-          </div>
-          <div
-            style={{
-              position: 'absolute',
-              right: -30,
-              bottom: -80,
-              width: 250,
-              borderRadius: 40,
-              border: '8px solid #1C2A4D',
-              overflow: 'hidden',
-              boxShadow: '0 40px 100px rgba(0,0,0,0.8)',
-              transform: `translateY(${(1 - phone) * 260}px)`,
-              opacity: phone,
-            }}
-          >
-            <Img src={staticFile('img/home-mobile.webp')} style={{ display: 'block', width: '100%' }} />
           </div>
         </div>
       </AbsoluteFill>
-    </SceneFade>
+    </AbsoluteFill>
   );
 };
 
 /* ── 5. Stack ──────────────────────────────────────────────────────────── */
 export const Stack: React.FC<{ c: Copy }> = ({ c }) => (
-  <SceneFade duration={DUR.stack}>
-    <Grid />
-    <AbsoluteFill style={{ fontFamily: C.font, color: C.text, padding: '120px 160px' }}>
+  <AbsoluteFill>
+    <Paper />
+    <AbsoluteFill style={{ fontFamily: C.font, color: C.ink, padding: '0 160px', justifyContent: 'center' }}>
       <Rise>
-        <div style={{ fontFamily: C.mono, fontSize: 28, color: C.muted, letterSpacing: 3, textTransform: 'uppercase' }}>{c.stackTitle}</div>
+        <Eyebrow tone="blue">{c.stackTitle}</Eyebrow>
       </Rise>
-      <div style={{ display: 'flex', gap: 60, marginTop: 70 }}>
+      <div style={{ marginTop: 40 }}>
+        <Thread width={1600} delay={4} dur={40} />
+      </div>
+      <div style={{ display: 'flex', gap: 64, marginTop: 56 }}>
         {c.stack.map((col, ci) => (
           <div key={col.title} style={{ flex: 1 }}>
             <Rise delay={6 + ci * 8}>
-              <div style={{ fontSize: 46, fontWeight: 700, letterSpacing: -1, paddingBottom: 20, borderBottom: `1px solid ${C.border}` }}>{col.title}</div>
+              <div style={{ fontFamily: C.serif, fontSize: 52, lineHeight: 1.1, paddingBottom: 18, borderBottom: `1px solid ${C.ink}` }}>{col.title}</div>
             </Rise>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 30 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28 }}>
               {col.items.map((it, i) => (
-                <Rise key={it} delay={16 + ci * 8 + i * 6} distance={24}>
-                  <div style={{ fontSize: 36, color: i % 2 ? C.muted : C.text }}>{it}</div>
+                <Rise key={it} delay={16 + ci * 8 + i * 6} distance={14}>
+                  <div style={{ fontSize: 34, color: C.ink }}>{it}</div>
                 </Rise>
               ))}
             </div>
@@ -288,44 +308,31 @@ export const Stack: React.FC<{ c: Copy }> = ({ c }) => (
         ))}
       </div>
     </AbsoluteFill>
-  </SceneFade>
+  </AbsoluteFill>
 );
 
-/* ── 6. Outro ──────────────────────────────────────────────────────────── */
-export const Outro: React.FC<{ c: Copy }> = ({ c }) => {
-  const frame = useCurrentFrame();
-  const pop = usePop(4);
-  return (
-    <AbsoluteFill>
-      <Grid />
-      <AbsoluteFill style={{ fontFamily: C.font, color: C.text, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-        <div style={{ position: 'relative', width: 260, height: 260, transform: `scale(${pop})` }}>
-          <div
-            style={{
-              position: 'absolute',
-              inset: -8,
-              borderRadius: '50%',
-              background: `conic-gradient(from ${frame * 3}deg, #0F3460, #533483, #E94560, #EFCC06, #0F3460)`,
-            }}
-          />
-          <Img
-            src={staticFile('img/khristian-square.jpg')}
-            style={{ position: 'absolute', inset: 0, width: 260, height: 260, borderRadius: '50%', objectFit: 'cover', border: `8px solid ${C.bg}` }}
-          />
+/* ── 6. Outro: the portrait window again, and where to write ────────────── */
+export const Outro: React.FC<{ c: Copy }> = ({ c }) => (
+  <AbsoluteFill>
+    <Paper />
+    <AbsoluteFill style={{ fontFamily: C.font, color: C.ink, justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+      <Portrait width={220} delay={0} />
+      <Rise delay={14}>
+        <div style={{ fontFamily: C.serif, fontSize: 96, lineHeight: 1.05, marginTop: 40 }}>{c.outroTitle}</div>
+      </Rise>
+      <Rise delay={24}>
+        <div style={{ fontSize: 36, color: C.muted, marginTop: 20 }}>{c.outroLine}</div>
+      </Rise>
+      <Rise delay={36}>
+        <div style={{ display: 'flex', gap: 32, marginTop: 48, justifyContent: 'center', alignItems: 'center', fontFamily: C.mono, fontSize: 32 }}>
+          <span>{c.email}</span>
+          <Sep height={34} />
+          <span>{c.site}</span>
         </div>
-        <Rise delay={14}>
-          <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -3, marginTop: 50 }}>{c.outroTitle}</div>
-        </Rise>
-        <Rise delay={24}>
-          <div style={{ fontSize: 36, color: C.muted, marginTop: 20 }}>{c.outroLine}</div>
-        </Rise>
-        <Rise delay={36}>
-          <div style={{ display: 'flex', gap: 24, marginTop: 50, justifyContent: 'center' }}>
-            <Chip size={30}>{c.email}</Chip>
-            <Chip size={30}>{c.site}</Chip>
-          </div>
-        </Rise>
-      </AbsoluteFill>
+      </Rise>
+      <div style={{ marginTop: 50 }}>
+        <Thread width={900} delay={44} dur={44} />
+      </div>
     </AbsoluteFill>
-  );
-};
+  </AbsoluteFill>
+);
