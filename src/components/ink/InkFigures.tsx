@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type { Lang } from '../../types';
-import { INK_TEXT, INK_TONES, figureRuns, inkFigures } from '../../data/ink';
+import { INK_TEXT, INK_TONES, figureRuns, inkFigures, inkNotes } from '../../data/ink';
 import { guillocheRule } from '../../utils/guilloche';
 
 /** A figure in Bodoni, with the glyphs Bodoni draws poorly set in Geist */
@@ -22,6 +22,7 @@ function Figure({ text }: { text: string }) {
 export default function InkFigures({ lang, notes = false, className = '' }: { lang: Lang; notes?: boolean; className?: string }) {
   const en = lang === 'en';
   const figures = inkFigures(lang);
+  const sources = inkNotes(lang).map(n => n.replace(/[:\s]+$/, ''));
   const band = useMemo(() => guillocheRule(1400, 7, INK_TONES.length, 18), []);
 
   return (
@@ -55,6 +56,8 @@ export default function InkFigures({ lang, notes = false, className = '' }: { la
             </p>
             <p className="n-text mt-3 text-sm">{f.label}</p>
             <p className="n-muted mt-0.5 text-xs">{f.note}</p>
+            {/* Shown only under UV light (UvMode): where the figure comes from */}
+            <p className="uv-note mt-2 text-xs leading-relaxed">{sources[f.n - 1]}</p>
           </div>
         ))}
       </div>

@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollProgress from './components/ScrollProgress';
 import InkTransition from './components/InkTransition';
+import UvMode from './components/uv/UvMode';
 // Home ships in the main bundle: the landing route must not wait for a second
 // round-trip before it can paint (mobile LCP). The other pages stay lazy.
 import Home from './pages/Home';
@@ -66,6 +67,7 @@ function App() {
           {/* Above the router: the soundtrack keeps playing across pages */}
           <SoundProvider>
           <MotionConfig reducedMotion="user">
+          <UvMode>
             <ScrollProgress />
             <InkTransition />
             <div className="min-h-screen flex flex-col">
@@ -77,6 +79,7 @@ function App() {
             </div>
             <SoundHint />
             <SoundEffects />
+          </UvMode>
           </MotionConfig>
           </SoundProvider>
         </LanguageProvider>
