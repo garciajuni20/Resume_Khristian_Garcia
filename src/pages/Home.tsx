@@ -10,6 +10,7 @@ import { CareerVideoButton } from '../components/CareerVideo';
 import InkArt from '../components/ink/InkArt';
 import InkPortrait from '../components/ink/InkPortrait';
 import InkFigures from '../components/ink/InkFigures';
+import ScrollStory from '../components/story/ScrollStory';
 import { BrowserFrame } from '../components/notion/visuals';
 import { downloadPDF } from '../utils/downloadPDF';
 import { useLang } from '../context/LanguageContext';
@@ -141,8 +142,9 @@ function CaseRow({ c, t, children }: { c: Case; t: (typeof COPY)['en']; children
 
 /**
  * Home, set like the resume: the banknote header with a one-paragraph pitch and the
- * CV one click away, the three figures, two case studies, what colleagues say and
- * how to reach me. A recruiter gets the whole story in two screens.
+ * CV one click away, the three figures, the story told while scrolling (four
+ * chapters on a sticky stage), two case studies, what colleagues say and how to
+ * reach me.
  */
 export default function Home() {
   const { lang } = useLang();
@@ -208,7 +210,12 @@ export default function Home() {
 
           <InkFigures lang={lang} className="mt-12" />
           <NowStrip lang={lang} className="mt-5" />
+        </Container>
 
+        {/* ── The story, told while scrolling: wider than the reading column ── */}
+        <ScrollStory lang={lang} />
+
+        <Container>
           {/* ── Selected work ── */}
           <section className="mt-24" aria-labelledby="work-title">
             <h2 id="work-title" className="font-display text-4xl">{t.workTitle}</h2>

@@ -24,7 +24,7 @@ brillos de neón, fondos animados ni glassmorphism, que es lo que delata una web
 ## Fase 1: transiciones con identidad
 
 1. **Florecimiento de tinta entre páginas** (hecho en este paso). Una gota de tinta real filmada
-   con Wan 2.2, cortada en 16 cuadros y horneada en una tira de máscara (`scripts/ink-transition.py`).
+   con Wan 2.2; su mancha es una máscara de 26 KB que el navegador hace crecer de forma continua (`scripts/ink-splash.py`).
    El navegador solo mueve la posición de la máscara: sin video ni canvas. No corre en la primera
    carga ni con movimiento reducido.
 2. **Elementos compartidos con View Transitions** (React Router 7 trae `<Link viewTransition>`).

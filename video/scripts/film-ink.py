@@ -72,19 +72,23 @@ def portrait() -> None:
 
 
 def bloom() -> None:
-    """The site's strip says how much paper is left; the film needs how much ink landed."""
-    strip = Image.open(os.path.join(ROOT, "public", "ink", "transition.webp")).getchannel("A")
-    fw, fh = strip.size[0], strip.size[1] // 16
+    """The film's transition: the site's ink splash (public/ink/splash.webp, from
+    scripts/ink-splash.py) grown from its centre over 16 frames, alpha = ink."""
+    splash = Image.open(os.path.join(ROOT, "public", "ink", "splash.webp")).getchannel("A")
     W, H = 960, 540
+    cx, cy = 0.558, 0.452  # splash centre, as in index.css (.ink-sheet)
     out = Image.new("LA", (W, H * 16))
     for k in range(16):
-        paper = strip.crop((0, fh * k, fw, fh * (k + 1))).resize((W, H), Image.BICUBIC).filter(ImageFilter.GaussianBlur(0.8))
-        # The strip is soft at 480 px; at 1080p a steep curve gives the stain the
-        # crisp, slightly ragged edge of wet ink instead of a blur
-        t = np.clip(((255 - np.asarray(paper, np.float32)) / 255 - 0.38) / 0.24, 0, 1)
-        a = t * t * (3 - 2 * t) * 255
-        if k == 0:
-            a[:] = 0
+        t = k / 15
+        s = 3.4 * (t * t * (3 - 2 * t)) ** 0.75  # mask size, fraction of the frame
+        frame = Image.new("L", (W, H), 0)
+        if s > 0:
+            w, h = max(1, int(W * s)), max(1, int(H * s))
+            big = splash.resize((w, h), Image.BICUBIC)
+            frame.paste(big, (int(cx * W - cx * w), int(cy * H - cy * h)))
+        # a steep curve gives the stain the crisp, ragged edge of wet ink at 1080p
+        a = np.clip((np.asarray(frame, np.float32) / 255 - 0.38) / 0.24, 0, 1)
+        a = a * a * (3 - 2 * a) * 255
         if k == 15:
             a[:] = 255
         out.paste(Image.merge("LA", (Image.new("L", (W, H), 0), Image.fromarray(a.astype(np.uint8)))), (0, H * k))

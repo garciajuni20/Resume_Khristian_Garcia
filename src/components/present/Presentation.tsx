@@ -10,8 +10,7 @@ import { buildSlides } from './slides';
  * Between sheets the same filmed ink drop as the page change (InkTransition)
  * blooms through a sheet of paper; with reduced motion the sheet just changes.
  */
-const STRIP = `${import.meta.env.BASE_URL}ink/transition.webp`;
-const FRAMES = 40;
+const STRIP = `${import.meta.env.BASE_URL}ink/splash.webp`;
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 type Props = { data: ProfileData; lang: Lang; onClose: () => void };
@@ -138,7 +137,7 @@ export default function Presentation({ data, lang, onClose }: Props) {
   }, [go, index, total, onClose]);
 
   const slide = slides[index];
-  const inkStyle = { '--ink-strip': `url(${STRIP})`, '--ink-frames': FRAMES } as CSSProperties;
+  const inkStyle = { '--ink-splash': `url(${STRIP})` } as CSSProperties;
 
   return (
     <div
@@ -183,7 +182,7 @@ export default function Presentation({ data, lang, onClose }: Props) {
           </section>
         </div>
         {bloom > 0 && (
-          <div key={bloom} aria-hidden="true" className="present-ink" style={inkStyle} onAnimationEnd={() => setBloom(0)} />
+          <div key={bloom} aria-hidden="true" className="ink-sheet present-ink" style={inkStyle} onAnimationEnd={() => setBloom(0)} />
         )}
       </div>
 

@@ -356,6 +356,43 @@ p, li { text-wrap: pretty; }
   animation-duration: 200ms;
 }
 
+/* ── Home story (components/story/ScrollStory.tsx) ──
+   The chapter on stage is printed in top to bottom; the one leaving fades out,
+   then resets out of sight. Transitions, not keyframes: scrolling back and forth
+   retargets them smoothly instead of restarting. */
+.story-stage .ink-art.story-art {
+  animation: none;
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 400ms ease, clip-path 0s linear 400ms;
+}
+.story-stage .ink-art.story-art.is-on {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transition: opacity 300ms ease, clip-path 1200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.story-year {
+  opacity: 0;
+  transform: translateY(45%);
+  transition: opacity 300ms ease, transform 0s linear 300ms;
+}
+.story-year.is-on {
+  opacity: 1;
+  transform: none;
+  transition: opacity 400ms ease, transform 700ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.story-thread {
+  height: calc(100% - 1.5rem);
+  transform-origin: top;
+  transform: scaleY(var(--story-fill, 0));
+  transition: transform 800ms cubic-bezier(0.23, 1, 0.32, 1), color 400ms ease;
+}
+.story-dot { transition: background-color 400ms ease, border-color 400ms ease, color 400ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .story-stage .ink-art.story-art, .story-stage .ink-art.story-art.is-on,
+  .story-year, .story-year.is-on, .story-thread { transition: none; }
+}
+
 /* ── Verified seal beside each figure (InkFigures.tsx) ── */
 .seal-btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
 .seal-btn:active { transform: scale(0.94); }
@@ -371,53 +408,54 @@ p, li { text-wrap: pretty; }
   .seal:hover .seal-tip { opacity: 1; transform: none; transition-delay: 250ms; }
 }
 
-/* ── Page change: ink blooms through a sheet of paper (InkTransition.tsx) ──
-   The strip holds 40 frames stacked vertically; alpha is the paper still left.
-   Stretched to the viewport on purpose: an ink bloom has no true aspect. */
-.ink-transition {
-  position: fixed;
-  inset: 0;
-  z-index: 45; /* under the navbar (z-50): navigation never disappears */
+/* ── Ink drop through a sheet of paper: the page change (InkTransition.tsx) and
+   the slides of the interview mode (present/Presentation.tsx) ──
+   The sheet is the paper colour with a hole: the splash a Wan 2.2 drop left on
+   paper (public/ink/splash.webp, scripts/ink-splash.py), excluded from a solid
+   layer. Growing the splash's mask-size is interpolated every display frame,
+   so the bloom stays smooth at any duration. The sizes follow one smoothstep
+   curve of covered area (printed by the script): the drop lands slowly, runs,
+   then settles; the last corners of paper fade instead of popping. */
+.ink-sheet {
   pointer-events: none;
   background: var(--n-bg);
-  -webkit-mask-image: var(--ink-strip);
-  mask-image: var(--ink-strip);
+  -webkit-mask-image: var(--ink-splash), linear-gradient(#000 0 0);
+  mask-image: var(--ink-splash), linear-gradient(#000 0 0);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 4000%;
-  mask-size: 100% 4000%;
-  /* parked on the last frame, fully clear: invisible but decoded */
-  -webkit-mask-position: 0 100%;
-  mask-position: 0 100%;
+  /* the splash centre stays put while it grows */
+  -webkit-mask-position: 55.8% 45.2%, 0 0;
+  mask-position: 55.8% 45.2%, 0 0;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  /* parked fully grown, the sheet clear: invisible but its mask decoded */
+  -webkit-mask-size: 600% 600%, 100% 100%;
+  mask-size: 600% 600%, 100% 100%;
 }
-.ink-transition.is-running { animation: ink-bloom 800ms steps(39, jump-none) both; }
 @keyframes ink-bloom {
-  from { -webkit-mask-position: 0 0; mask-position: 0 0; }
-  to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
+  0% { -webkit-mask-size: 0.0% 0.0%, 100% 100%; mask-size: 0.0% 0.0%, 100% 100%; }
+  8% { -webkit-mask-size: 28.5% 28.5%, 100% 100%; mask-size: 28.5% 28.5%, 100% 100%; }
+  17% { -webkit-mask-size: 55.3% 55.3%, 100% 100%; mask-size: 55.3% 55.3%, 100% 100%; }
+  25% { -webkit-mask-size: 80.3% 80.3%, 100% 100%; mask-size: 80.3% 80.3%, 100% 100%; }
+  33% { -webkit-mask-size: 103.5% 103.5%, 100% 100%; mask-size: 103.5% 103.5%, 100% 100%; }
+  42% { -webkit-mask-size: 124.7% 124.7%, 100% 100%; mask-size: 124.7% 124.7%, 100% 100%; }
+  50% { -webkit-mask-size: 144.4% 144.4%, 100% 100%; mask-size: 144.4% 144.4%, 100% 100%; }
+  58% { -webkit-mask-size: 163.6% 163.6%, 100% 100%; mask-size: 163.6% 163.6%, 100% 100%; }
+  67% { -webkit-mask-size: 182.4% 182.4%, 100% 100%; mask-size: 182.4% 182.4%, 100% 100%; }
+  75% { -webkit-mask-size: 202.0% 202.0%, 100% 100%; mask-size: 202.0% 202.0%, 100% 100%; }
+  83% { -webkit-mask-size: 232.4% 232.4%, 100% 100%; mask-size: 232.4% 232.4%, 100% 100%; }
+  92% { -webkit-mask-size: 277.2% 277.2%, 100% 100%; mask-size: 277.2% 277.2%, 100% 100%; }
+  100% { -webkit-mask-size: 340.0% 340.0%, 100% 100%; mask-size: 340.0% 340.0%, 100% 100%; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
 }
+.ink-transition { position: fixed; inset: 0; z-index: 45; /* under the navbar (z-50): navigation never disappears */ }
+.ink-transition.is-running { animation: ink-bloom 1150ms linear both; }
 @media (prefers-reduced-motion: reduce) { .ink-transition { display: none; } }
 
-/* ── Interview mode (/resume?present, components/present) ──
-   Same filmed bloom as the page change, over the sheet area only and a little
-   quicker, so moving through seven sheets on a call never feels slow. */
-.present-ink {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: var(--n-bg);
-  -webkit-mask-image: var(--ink-strip);
-  mask-image: var(--ink-strip);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 4000%;
-  mask-size: 100% 4000%;
-  -webkit-mask-position: 0 0;
-  mask-position: 0 0;
-  animation: present-bloom 650ms steps(39, jump-none) forwards;
-}
-@keyframes present-bloom {
-  to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
-}
+/* ── Interview mode (/resume?present, components/present): the same drop over
+   the sheet area only, a little quicker for moving through seven sheets ── */
+.present-ink { position: absolute; inset: 0; animation: ink-bloom 900ms linear both; }
 /* Inside the overlay the engravings are already printed: no scroll-linked press */
 .present .ink-art { animation: none; clip-path: none; opacity: 1; }
 .present-stage { scrollbar-gutter: stable; }

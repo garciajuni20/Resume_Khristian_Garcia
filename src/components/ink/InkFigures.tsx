@@ -64,25 +64,32 @@ export default function InkFigures({ lang, notes = false, className = '' }: { la
           ))}
         </svg>
       </div>
-      <div className="grid border-b border-n-border sm:grid-cols-3">
+      <div className="grid border-b border-n-border md:grid-cols-3">
         {figures.map((f, i) => (
-          <div key={f.n} className={`py-5 sm:px-6 ${i === 0 ? 'sm:pl-0' : 'border-t border-n-border sm:border-t-0 sm:border-l'}`}>
-            <p className={`font-display whitespace-nowrap text-4xl leading-none tabular-nums sm:text-[1.85rem] lg:text-[2.3rem] ${INK_TEXT[f.tone]}`}>
-              <Figure text={f.value[0]} />
-              {f.value[1] && (
-                <>
-                  <span className="n-muted mx-1.5 align-[0.12em] font-sans text-[0.55em]">
-                    <span aria-hidden="true">→</span>
-                    <span className="sr-only">{en ? ' to ' : ' a '}</span>
-                  </span>
-                  <Figure text={f.value[1]} />
-                </>
-              )}
+          <div key={f.n} className={`py-5 md:px-5 lg:px-6 ${i === 0 ? 'md:pl-0 lg:pl-0' : 'border-t border-n-border md:border-t-0 md:border-l'}`}>
+            <p className={`font-display flex items-start text-4xl leading-none tabular-nums md:text-[1.45rem] ${notes ? 'lg:text-[2.1rem]' : 'lg:text-[2.3rem]'} ${INK_TEXT[f.tone]}`}>
+              {/* The note number leads the figure, like a numbered entry in a ledger */}
               {notes && (
-                <a href={`#nota-${f.n}`} className={`ml-1 align-super font-sans text-sm n-focus ${INK_TEXT[f.tone]}`} aria-label={en ? `Note ${f.n}` : `Nota ${f.n}`}>
+                <a
+                  href={`#nota-${f.n}`}
+                  className={`mr-2.5 mt-0.5 shrink-0 font-sans text-xs font-medium leading-none tabular-nums n-focus ${INK_TEXT[f.tone]}`}
+                  aria-label={en ? `Note ${f.n}` : `Nota ${f.n}`}
+                >
                   {f.n}
                 </a>
               )}
+              <span className="whitespace-nowrap">
+                <Figure text={f.value[0]} />
+                {f.value[1] && (
+                  <>
+                    <span className="n-muted mx-1.5 align-[0.12em] font-sans text-[0.55em]">
+                      <span aria-hidden="true">→</span>
+                      <span className="sr-only">{en ? ' to ' : ' a '}</span>
+                    </span>
+                    <Figure text={f.value[1]} />
+                  </>
+                )}
+              </span>
             </p>
             <p className="n-text mt-3 text-sm">
               {f.label}

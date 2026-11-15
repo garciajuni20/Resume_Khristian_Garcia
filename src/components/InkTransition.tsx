@@ -5,13 +5,13 @@ import { sfx } from '../audio/engine';
 /**
  * Page change as ink on paper: a sheet in the page's paper colour covers the new
  * page, and a drop of ink blooms through it until the page is fully printed.
- * The bloom is a real ink drop filmed by Wan 2.2 on this machine, cut into
- * frames and baked into one mask strip (scripts/ink-transition.py), so the
- * browser only steps a mask position: no video, no canvas, no main-thread work.
+ * The ink is the splash a real drop left on paper, filmed by Wan 2.2 on this
+ * machine (scripts/ink-splash.py): one 26 KB mask the browser grows smoothly,
+ * no video, no canvas, no main-thread work.
  * Skipped with reduced motion, on the first load, and until the strip is cached.
  */
-const SRC = `${import.meta.env.BASE_URL}ink/transition.webp`;
-export const INK_TRANSITION_FRAMES = 40; // keep in step with index.css (.ink-transition)
+export const INK_SPLASH = `${import.meta.env.BASE_URL}ink/splash.webp`;
+const SRC = INK_SPLASH;
 
 export default function InkTransition() {
   const { pathname } = useLocation();
@@ -49,15 +49,15 @@ export default function InkTransition() {
   }, [pathname]);
 
   // Until the strip is cached the sheet stays out of the page. After that it is
-  // always laid out, parked on the last (fully clear) frame, so the browser
-  // keeps the mask decoded and the first frame shows without a delay.
+  // always laid out, parked fully grown (the sheet clear), so the browser
+  // keeps the mask decoded and the bloom starts without a delay.
   if (!loaded) return null;
-  const style = { '--ink-strip': `url(${SRC})`, '--ink-frames': INK_TRANSITION_FRAMES } as CSSProperties;
+  const style = { '--ink-splash': `url(${SRC})` } as CSSProperties;
   return (
     <div
       ref={sheet}
       aria-hidden="true"
-      className="ink-transition"
+      className="ink-sheet ink-transition"
       style={style}
       onAnimationEnd={e => e.currentTarget.classList.remove('is-running')}
     />
