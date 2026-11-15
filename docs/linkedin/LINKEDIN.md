@@ -22,10 +22,12 @@ Everything here comes from `src/data/profile-en.ts` / `profile-es.ts` (the same 
 ## 2. Headline (≤ 220 characters)
 
 **EN (recommended):**
-> Data Engineer · Snowflake, dbt, Databricks, Azure Data Factory · Analytics Engineering for US fintech · Built an AI + RAG platform end to end · Remote from Guatemala · EN/ES
+> Data Engineer · AI Implementation Engineer · Snowflake, dbt, Databricks, Azure Data Factory · US fintech + US wellness brand · Built an AI + RAG platform end to end · Remote from Guatemala · EN/ES
 
 **ES:**
-> Ingeniero de Datos · Snowflake, dbt, Databricks, Azure Data Factory · Analytics Engineering para fintech de EE. UU. · Construí una plataforma con IA y RAG de punta a punta · Remoto desde Guatemala · EN/ES
+> Ingeniero de Datos · Ingeniero de Implementación de IA · Snowflake, dbt, Databricks, Azure Data Factory · Fintech y marca de bienestar de EE. UU. · Construí una plataforma con IA y RAG de punta a punta · Remoto desde Guatemala · EN/ES
+
+Site links for recruiters: append `?lang=en` (or `?lang=es`) to the portfolio URL so it always opens in that language, e.g. `https://garciajuni20.github.io/Resume_Khristian_Garcia/?lang=en#/resume`.
 
 Why: the first ~60 characters show up in search results and comments, so the role and the stack recruiters filter on go first.
 

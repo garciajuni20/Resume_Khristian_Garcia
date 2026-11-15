@@ -40,7 +40,7 @@ export const COPY: Record<Lang, Copy> = {
   es: {
     tag: 'Trayectoria · 2019 → 2026',
     name: 'Khristian Garcia',
-    headline: 'Ingeniero de Datos · Full-Stack & IA · Arquitecto de Soluciones',
+    headline: 'Ingeniero de Datos · Ingeniero de Implementación de IA',
     roles: ['Datos', 'Full-Stack', 'IA y RAG', 'Arquitectura'],
     numbersTitle: 'En pocas palabras',
     numbers: [
@@ -67,14 +67,14 @@ export const COPY: Record<Lang, Copy> = {
       { title: 'Cloud y BI', items: STACK_ITEMS.ops },
     ],
     outroTitle: 'Construyamos algo juntos',
-    outroLine: 'Disponible para empleo y proyectos por servicios · inglés y español',
+    outroLine: 'Abierto a roles de Datos e IA · inglés y español',
     email: 'garciajuni20@gmail.com',
     site: 'garciajuni20.github.io/Resume_Khristian_Garcia',
   },
   en: {
     tag: 'Career · 2019 → 2026',
     name: 'Khristian Garcia',
-    headline: 'Data Engineer · Full-Stack & AI · Solutions Architect',
+    headline: 'Data Engineer · AI Implementation Engineer',
     roles: ['Data', 'Full-Stack', 'AI and RAG', 'Architecture'],
     numbersTitle: 'In short',
     numbers: [
@@ -101,7 +101,7 @@ export const COPY: Record<Lang, Copy> = {
       { title: 'Cloud and BI', items: STACK_ITEMS.ops },
     ],
     outroTitle: "Let's build something together",
-    outroLine: 'Open to full-time roles and freelance projects · English and Spanish',
+    outroLine: 'Open to Data & AI roles · English and Spanish',
     email: 'garciajuni20@gmail.com',
     site: 'garciajuni20.github.io/Resume_Khristian_Garcia',
   },

@@ -124,11 +124,11 @@ export default function Home() {
 
   const t = lang === 'en'
     ? {
-        badge: 'Open to full-time roles and freelance projects',
+        badge: 'Open to Data & AI roles · remote',
         name: 'Khristian Garcia',
         roles: ['Data Engineer', 'AI Implementation Engineer', 'Full-Stack Developer', 'AI & RAG Engineer', 'Solutions Architect'],
         summary:
-          'I turn messy operations into systems people can use and data they can trust. 7+ years across US financial services (debt consolidation and remittances), wellness, service retail, and education: Data Engineer at a US fintech (promoted Nov 2026), part-time AI Implementation Engineer for a US wellness brand, and the sole engineer behind Flowber, a barbershop taken from idea to production with AI and a data warehouse.',
+          'I turn messy operations into systems people use and data they trust. Data Engineer at a US fintech (promoted Nov 2026), part-time AI Implementation Engineer for a US wellness brand, and the sole engineer behind Flowber, a barbershop taken from idea to production with AI and a data warehouse. 7+ years, five industries, English and Spanish.',
         location: 'Guatemala City · Remote',
         education: 'Systems Engineering, USAC · completed 2026',
         bilingual: 'English and Spanish',
@@ -149,11 +149,11 @@ export default function Home() {
         aiNote: 'Background clip generated with local AI · Wan 2.2 on an RTX 3060',
       }
     : {
-        badge: 'Disponible para empleo y proyectos por servicios',
+        badge: 'Abierto a roles de Datos e IA · remoto',
         name: 'Khristian Garcia',
         roles: ['Ingeniero de Datos', 'AI Implementation Engineer', 'Desarrollador Full-Stack', 'Ingeniero de IA y RAG', 'Arquitecto de Soluciones'],
         summary:
-          'Convierto operaciones desordenadas en sistemas que la gente usa y datos en los que se puede confiar. Más de 7 años entre servicios financieros de EE. UU. (consolidación de deudas y remesas), bienestar, retail de servicios y educación: Ingeniero de Datos en una fintech estadounidense (promovido en nov 2026), AI Implementation Engineer de medio tiempo para una marca de bienestar de EE. UU. y único ingeniero detrás de Flowber, una barbería que llevé de la idea a producción con IA y un data warehouse.',
+          'Convierto operaciones desordenadas en sistemas que la gente usa y datos confiables. Ingeniero de Datos en una fintech de EE. UU. (ascendido en nov 2026), AI Implementation Engineer a medio tiempo para una marca de bienestar estadounidense y único ingeniero detrás de Flowber, una barbería llevada de la idea a producción con IA y un data warehouse. Más de 7 años, cinco industrias, inglés y español.',
         location: 'Ciudad de Guatemala · Remoto',
         education: 'Ingeniería en Sistemas, USAC · completada 2026',
         bilingual: 'Inglés y español',
@@ -178,7 +178,7 @@ export default function Home() {
   const homeProjects = profile.projects.filter(p => p.id === 'vale-combustible' || p.id === 'flowber-barberia');
 
   useSEO({
-    title: `${t.name} — ${lang === 'en' ? 'Data Engineer · Full-Stack & AI · Solutions Architect' : 'Ingeniero de Datos · Full-Stack & IA · Arquitecto de Soluciones'}`,
+    title: `${t.name} — ${profile.headline}`,
     description: t.summary,
     lang,
     keywords: ['Data Engineer', 'Full Stack Developer', 'AI Engineer', 'RAG', 'Solutions Architect', 'Snowflake', 'dbt', 'React', 'Fintech', 'Guatemala', 'Freelance'],

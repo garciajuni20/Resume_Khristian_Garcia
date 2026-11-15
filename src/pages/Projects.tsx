@@ -202,7 +202,7 @@ export default function Projects() {
         filterBy: 'Filter by',
         empty: 'No projects in this category yet.',
         ctaTitle: 'Have a project in mind?',
-        ctaBody: 'Open to data engineering roles, AI implementation work and full-stack builds, remote or in Guatemala.',
+        ctaBody: 'Open to remote Data Engineer and AI Implementation roles, and to a few well-scoped projects a year.',
         ctaButton: "Let's talk",
       }
     : {
@@ -224,7 +224,7 @@ export default function Projects() {
         filterBy: 'Filtrar por',
         empty: 'Aún no hay proyectos en esta categoría.',
         ctaTitle: '¿Tienes un proyecto en mente?',
-        ctaBody: 'Disponible para roles de ingeniería de datos, implementación de IA y desarrollo full-stack, remoto o en Guatemala.',
+        ctaBody: 'Abierto a roles remotos de Data Engineer e Implementación de IA, y a unos pocos proyectos bien acotados al año.',
         ctaButton: 'Hablemos',
       };
 

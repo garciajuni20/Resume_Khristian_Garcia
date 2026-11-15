@@ -2,7 +2,7 @@ import Container from '../components/Container';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
 import ContactForm from '../components/ContactForm';
-import { Mail, Phone, MapPin, Clock, Linkedin, Github } from 'lucide-react';
+import { Mail, MapPin, Clock, Linkedin, Github } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import { profileEN } from '../data/profile-en';
@@ -17,7 +17,7 @@ export default function Contact() {
   const t = lang === 'en'
     ? {
         title: 'Contact',
-        subtitle: 'Open to remote Data Engineer, Analytics Engineering, and BI roles, plus freelance projects: pipelines, dashboards, and full-stack apps with AI.',
+        subtitle: 'Open to remote Data Engineer and AI Implementation roles. Also a few well-scoped projects a year: pipelines, dashboards and AI-backed apps.',
         direct: 'You talk to me directly, no agency in between.',
         infoTitle: 'Contact Information',
         responseTime: 'Typically respond within 24 hours',
@@ -27,7 +27,7 @@ export default function Contact() {
       }
     : {
         title: 'Contacto',
-        subtitle: 'Disponible para roles remotos de Data Engineer, Analytics Engineering y BI, y para proyectos por servicios: pipelines, dashboards y apps full-stack con IA.',
+        subtitle: 'Abierto a roles remotos de Data Engineer e Implementación de IA. También unos pocos proyectos bien acotados al año: pipelines, dashboards y apps con IA.',
         direct: 'Hablas directamente conmigo, sin agencias de por medio.',
         infoTitle: 'Información de Contacto',
         responseTime: 'Normalmente respondo en menos de 24 horas',
@@ -38,7 +38,6 @@ export default function Contact() {
 
   const contactInfo = {
     email: profile.email,
-    phone: profile.phone,
     location: profile.location,
     linkedin: profile.links.find(l => l.label === 'LinkedIn')?.href ?? '#',
     github: profile.links.find(l => l.label === 'GitHub')?.href ?? '#',
@@ -53,7 +52,6 @@ export default function Contact() {
 
   const infoItems = [
     { icon: <Mail className="h-4 w-4" />, label: lang === 'en' ? 'Email' : 'Correo', value: contactInfo.email, href: `mailto:${contactInfo.email}` },
-    { icon: <Phone className="h-4 w-4" />, label: lang === 'en' ? 'Phone' : 'Teléfono', value: contactInfo.phone, href: `tel:${contactInfo.phone.replace(/\s/g, '')}` },
     { icon: <MapPin className="h-4 w-4" />, label: lang === 'en' ? 'Location' : 'Ubicación', value: contactInfo.location, href: null },
     { icon: <Clock className="h-4 w-4" />, label: lang === 'en' ? 'Availability' : 'Disponibilidad', value: t.hours, sub: t.timezone, href: null },
   ];

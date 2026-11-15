@@ -2,7 +2,7 @@ import type { ProfileData } from "../types"
 
 export const profileEN = {
   name: "Khristian Manolo Junior Garcia Pineda",
-  headline: "Data Engineer · Full-Stack & AI · Solutions Architect",
+  headline: "Data Engineer · AI Implementation Engineer",
   location: "Guatemala City, Guatemala",
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",

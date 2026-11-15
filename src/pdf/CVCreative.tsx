@@ -303,8 +303,8 @@ export function CVCreative({ data, lang }: Props) {
     education: isEN ? 'Education' : 'Educación',
     languages: isEN ? 'Languages' : 'Idiomas',
     tagline: isEN
-      ? 'Bilingual English / Spanish · Remote from Guatemala · Open to full-time roles and freelance projects'
-      : 'Bilingüe inglés / español · Remoto desde Guatemala · Disponible para empleo y proyectos por servicios',
+      ? 'Bilingual English / Spanish · Remote from Guatemala · Open to Data & AI roles'
+      : 'Bilingüe inglés / español · Remoto desde Guatemala · Abierto a roles de Datos e IA',
     updated: isEN ? `Updated ${CV_UPDATED.en}` : `Actualizado en ${CV_UPDATED.es}`,
     featuredEyebrow: isEN ? 'Featured project · Jan 2024 → today' : 'Proyecto destacado · ene 2024 → hoy',
     featuredTitle: isEN ? 'Flowber: a barbershop from paper to AI and data' : 'Flowber: una barbería del papel a la IA y los datos',

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { X, FileJson, Calendar, Code, Database, Cloud, BarChart3, CheckCircle2, Linkedin, Mail, Phone, MapPin, Languages, Building2, AtSign, ExternalLink } from 'lucide-react';
+import { X, FileJson, Calendar, Code, Database, Cloud, BarChart3, CheckCircle2, Linkedin, Mail, MapPin, Languages, Building2, AtSign, ExternalLink } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
 import Section from '../components/Section';
@@ -27,7 +27,8 @@ import { Toggle } from '../components/notion/primitives';
 
 /** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
 function lead(text: string): string {
-  return text.split(/(?<=\.)\s+/).slice(0, 2).join(' ');
+  // Sentence ends: a period followed by a capital, but not inside "EE. UU." or similar abbreviations
+  return text.split(/(?<=\.)(?<!\b[A-Z]{1,2}\.)\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/).slice(0, 2).join(' ');
 }
 
 const LINK = 'n-text inline-flex items-center gap-1 underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current';
@@ -42,7 +43,7 @@ export default function ResumePage() {
         eyebrow: 'Resume · 2026',
         pageTitle: 'Interactive resume',
         subtitle: 'Data, full-stack and AI across five industries. Filter my experience, watch the film, or take the PDF.',
-        available: 'Open to roles and projects',
+        available: 'Open to Data & AI roles · remote',
         location: 'Location',
         remote: 'remote',
         industries: 'Industries',
@@ -66,7 +67,7 @@ export default function ResumePage() {
         eyebrow: 'CV · 2026',
         pageTitle: 'CV interactivo',
         subtitle: 'Datos, full-stack e IA en cinco industrias. Filtra mi experiencia, mira el video o llévate el PDF.',
-        available: 'Disponible para empleo y proyectos',
+        available: 'Abierto a roles de Datos e IA · remoto',
         location: 'Ubicación',
         remote: 'remoto',
         industries: 'Industrias',
@@ -124,7 +125,9 @@ export default function ResumePage() {
 
   const exportToJson = () => {
     setIsExporting(true);
-    const blob = new Blob([JSON.stringify({ ...data, exportDate: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+    const { phone: _phone, ...publicData } = data; // phone is shared by PDF or in person, not on the web
+    void _phone;
+    const blob = new Blob([JSON.stringify({ ...publicData, exportDate: new Date().toISOString() }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -248,9 +251,6 @@ export default function ResumePage() {
                   <dd className="flex flex-wrap gap-x-4 gap-y-1">
                     <a href={`mailto:${data.email}`} className={LINK}>
                       <Mail className="h-3.5 w-3.5" aria-hidden="true" />{data.email}
-                    </a>
-                    <a href={`tel:${data.phone.replace(/\s/g, '')}`} className={LINK}>
-                      <Phone className="h-3.5 w-3.5" aria-hidden="true" />{data.phone}
                     </a>
                     {data.links.map(link => (
                       <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={LINK}>
