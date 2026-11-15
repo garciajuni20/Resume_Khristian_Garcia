@@ -11,7 +11,7 @@ import { sfx } from '../audio/engine';
  * Skipped with reduced motion, on the first load, and until the strip is cached.
  */
 const SRC = `${import.meta.env.BASE_URL}ink/transition.webp`;
-export const INK_TRANSITION_FRAMES = 16;
+export const INK_TRANSITION_FRAMES = 40; // keep in step with index.css (.ink-transition)
 
 export default function InkTransition() {
   const { pathname } = useLocation();

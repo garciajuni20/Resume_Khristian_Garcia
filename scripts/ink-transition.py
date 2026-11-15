@@ -2,15 +2,14 @@
 Turns a Wan 2.2 clip of an ink drop landing on paper into the page-transition
 mask strip used by src/components/InkTransition.tsx.
 
-  public/ink/transition.webp   16 frames stacked vertically, 480x264 each.
+  public/ink/transition.webp   40 frames stacked vertically, 480x264 each.
                                Alpha = paper still left: 1 on the first frame
                                (the new page is covered), 0 on the last.
 
 A real drop only stains part of the sheet, and a page change needs the whole
-sheet. So the strip is the real clip for the impact and the splash, then that
-same splash keeps blooming: its exact shape grows from its own centre until it
-covers the frame, edges softening as the ink thins. The organic edge stays the
-one the camera filmed.
+sheet. So the strip takes the splash the camera filmed and grows its exact
+shape from its own centre, on one smooth coverage curve, until it covers the
+frame, edges softening as the ink thins. The organic edge stays the filmed one.
 
 Run: python scripts/ink-transition.py D:/AI/portfolio-out/ink-bloom-a.mp4 [ffmpeg]
 Requires: pip install pillow numpy, and ffmpeg
@@ -26,8 +25,7 @@ from PIL import Image, ImageFilter
 SRC = sys.argv[1]
 FFMPEG = sys.argv[2] if len(sys.argv) > 2 else r"D:\AI\Wan2GP\ffmpeg_bins\ffmpeg.exe"
 OUT = os.path.join("public", "ink", "transition.webp")
-FRAMES = 16
-REAL = 5  # frames taken straight from the clip (impact and splash)
+FRAMES = 40  # enough for ~50 fps at 800 ms, so the bloom never steps visibly
 W, H = 480, 264
 
 
@@ -38,7 +36,7 @@ def lum(path: str) -> np.ndarray:
 def grow(mask: np.ndarray, scale: float, cx: float, cy: float, soften: float) -> np.ndarray:
     """The splash scaled around its centre, blurred a little more as it spreads."""
     img = Image.fromarray((mask * 255).astype(np.uint8))
-    w, h = int(W * scale), int(H * scale)
+    w, h = max(1, int(W * scale)), max(1, int(H * scale))
     big = img.resize((w, h), Image.BICUBIC)
     # place so the splash centre stays where it was
     ox, oy = int(cx * scale - cx), int(cy * scale - cy)
@@ -60,33 +58,39 @@ with tempfile.TemporaryDirectory() as tmp:
     first = int(np.argmax(cover > 0.004))
     last = int(np.argmax(cover >= cover.max() * 0.97))
     print(f"ink appears at frame {first}, splash settles at {last}, max coverage {cover.max():.2f}")
-
-    real_ids = np.linspace(first, last, REAL).round().astype(int)
     splash = inks[last]
     ys, xs = np.nonzero(splash > 0.5)
     cx, cy = float(xs.mean()), float(ys.mean())
 
-    frames = [inks[i] for i in real_ids]
-    # Then the splash blooms on an ease-out curve of coverage: for each frame,
-    # search the scale that reaches the target share of ink
-    c0 = float(frames[-1].mean())
-    for k in range(FRAMES - REAL):
-        t = (k + 1) / (FRAMES - REAL)
-        target = c0 + (1 - c0) * (1 - (1 - t) ** 2.2)
-        lo, hi = 1.0, 14.0
-        for _ in range(18):
+    # One smooth coverage curve for the whole strip (smoothstep: the drop lands
+    # slowly, the ink runs, then settles), so no two frames jump or stall. The
+    # filmed impact pops from 4% to 14% of the sheet in a single frame, so the
+    # strip does not replay it: the settled splash, with the edge the camera
+    # filmed, grows from a point at its centre until it covers the sheet.
+    frames = []
+    for k in range(FRAMES):
+        t = k / (FRAMES - 1)
+        target = t * t * (3 - 2 * t)
+        prev = frames[-1] if frames else np.zeros_like(splash)
+        if target <= 0:
+            frames.append(prev)
+            continue
+        soften = 0.6 + 6 * target
+        lo, hi = 0.01, 14.0
+        for _ in range(22):
             mid = (lo + hi) / 2
-            m = np.maximum(frames[-1], grow(splash, mid, cx, cy, 1 + 6 * t))
+            m = np.maximum(prev, grow(splash, mid, cx, cy, soften))
             lo, hi = (mid, hi) if m.mean() < target else (lo, mid)
-        frames.append(np.maximum(frames[-1], grow(splash, hi, cx, cy, 1 + 6 * t)))
+        frames.append(np.maximum(prev, grow(splash, hi, cx, cy, soften)))
 
     strip = Image.new("LA", (W, H * FRAMES))
     for k, ink in enumerate(frames):
         paper = 1 - ink
         if k == 0:
             paper[:] = 1.0
-        if k >= FRAMES - 2:
-            paper[:] = 0.0 if k == FRAMES - 1 else paper * 0.35
+        # the last scraps of paper thin out over a few frames instead of popping
+        if k >= FRAMES - 5:
+            paper = paper * (FRAMES - 1 - k) / 5
         strip.paste(Image.merge("LA", (Image.new("L", (W, H), 0), Image.fromarray((paper * 255).astype(np.uint8)))), (0, H * k))
         print(f"frame {k:2d}: ink {1 - paper.mean():.2f}")
 

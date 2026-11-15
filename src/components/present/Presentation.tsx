@@ -11,7 +11,7 @@ import { buildSlides } from './slides';
  * blooms through a sheet of paper; with reduced motion the sheet just changes.
  */
 const STRIP = `${import.meta.env.BASE_URL}ink/transition.webp`;
-const FRAMES = 16;
+const FRAMES = 40;
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 type Props = { data: ProfileData; lang: Lang; onClose: () => void };

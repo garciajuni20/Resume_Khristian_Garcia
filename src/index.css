@@ -372,7 +372,7 @@ p, li { text-wrap: pretty; }
 }
 
 /* ── Page change: ink blooms through a sheet of paper (InkTransition.tsx) ──
-   The strip holds 16 frames stacked vertically; alpha is the paper still left.
+   The strip holds 40 frames stacked vertically; alpha is the paper still left.
    Stretched to the viewport on purpose: an ink bloom has no true aspect. */
 .ink-transition {
   position: fixed;
@@ -384,13 +384,13 @@ p, li { text-wrap: pretty; }
   mask-image: var(--ink-strip);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 1600%;
-  mask-size: 100% 1600%;
+  -webkit-mask-size: 100% 4000%;
+  mask-size: 100% 4000%;
   /* parked on the last frame, fully clear: invisible but decoded */
   -webkit-mask-position: 0 100%;
   mask-position: 0 100%;
 }
-.ink-transition.is-running { animation: ink-bloom 440ms steps(15, jump-none) both; }
+.ink-transition.is-running { animation: ink-bloom 800ms steps(39, jump-none) both; }
 @keyframes ink-bloom {
   from { -webkit-mask-position: 0 0; mask-position: 0 0; }
   to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
@@ -409,11 +409,11 @@ p, li { text-wrap: pretty; }
   mask-image: var(--ink-strip);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 1600%;
-  mask-size: 100% 1600%;
+  -webkit-mask-size: 100% 4000%;
+  mask-size: 100% 4000%;
   -webkit-mask-position: 0 0;
   mask-position: 0 0;
-  animation: present-bloom 400ms steps(15, jump-none) forwards;
+  animation: present-bloom 650ms steps(39, jump-none) forwards;
 }
 @keyframes present-bloom {
   to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
