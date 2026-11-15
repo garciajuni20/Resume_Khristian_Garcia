@@ -9,6 +9,8 @@ type Props = {
   art?: string | null;
   /** An earlier role at the same employer, right under the later one: a dashed rule ties them */
   continued?: boolean;
+  /** Names the title and company for the shared-element transition into the detail */
+  shared?: boolean;
   lang: Lang;
   onOpen: (item: ExperienceItem) => void;
 };
@@ -18,7 +20,7 @@ type Props = {
  * story on the right (one sentence of situation, then what changed). The whole row opens the detail; the real
  * control is the "details" button, stretched over the row for pointer users.
  */
-export default function InkEntry({ item, art, continued = false, lang, onOpen }: Props) {
+export default function InkEntry({ item, art, continued = false, shared = true, lang, onOpen }: Props) {
   const en = lang === 'en';
   const status = roleStatus(item);
   const label = statusLabel(item, lang);
@@ -42,8 +44,8 @@ export default function InkEntry({ item, art, continued = false, lang, onOpen }:
       </div>
 
       <div className="min-w-0">
-        <h3 className="n-text font-semibold leading-snug">{item.role}</h3>
-        <p className="n-text mt-0.5 text-sm">{item.company}</p>
+        <h3 className="n-text font-semibold leading-snug" style={shared ? { viewTransitionName: `role-title-${item.id}` } : undefined}>{item.role}</h3>
+        <p className="n-text mt-0.5 text-sm" style={shared ? { viewTransitionName: `role-company-${item.id}` } : undefined}>{item.company}</p>
         <p className="n-muted mt-1 text-xs">
           {item.industry ? `${item.industry}. ` : ''}
           {item.location}

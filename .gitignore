@@ -57,3 +57,6 @@ create-resume/
 
 # Local Cloudflare (wrangler pages dev) state
 .wrangler/
+
+# Parallel agent worktrees
+.claude/worktrees/

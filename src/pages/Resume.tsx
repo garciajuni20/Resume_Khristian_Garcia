@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
@@ -120,6 +121,19 @@ export default function ResumePage() {
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [selected, setSelected] = useState<ExperienceItem | null>(null);
+  // Shared element: the role's title and company travel from the ledger into the
+  // detail (View Transitions API). Without support, or with reduced motion, the
+  // detail opens with its usual fade.
+  const [viaVT, setViaVT] = useState(false);
+  const openRole = useCallback((item: ExperienceItem | null) => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!document.startViewTransition || reduce) {
+      setViaVT(false);
+      setSelected(item);
+      return;
+    }
+    document.startViewTransition(() => flushSync(() => { setViaVT(true); setSelected(item); }));
+  }, []);
   const [isExporting, setIsExporting] = useState(false);
 
   function toggleTag(tag: string) {
@@ -207,14 +221,14 @@ export default function ResumePage() {
     const previouslyFocused = document.activeElement as HTMLElement | null;
     modalRef.current?.focus();
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelected(null);
+      if (e.key === 'Escape') openRole(null);
     };
     document.addEventListener('keydown', onKeyDown);
     return () => {
       document.removeEventListener('keydown', onKeyDown);
       previouslyFocused?.focus();
     };
-  }, [selected]);
+  }, [selected, openRole]);
 
   return (
     <PageTransition>
@@ -345,7 +359,7 @@ export default function ResumePage() {
             display
           >
             <div className="mb-6">
-              <CareerTimeline experience={data.experience} lang={lang} onOpen={setSelected} />
+              <CareerTimeline experience={data.experience} lang={lang} onOpen={openRole} />
             </div>
             <FilterChips
               allTags={allTags}
@@ -363,7 +377,7 @@ export default function ResumePage() {
               <AnimatePresence mode="popLayout" initial={false}>
                 {filteredExperience.map(exp => (
                   <motion.div key={exp.id} layout exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                    <InkEntry item={exp} art={ledgerArt.get(exp.id)} continued={positions.get(exp.id)?.continued} lang={lang} onOpen={setSelected} />
+                    <InkEntry item={exp} art={ledgerArt.get(exp.id)} continued={positions.get(exp.id)?.continued} shared={selected?.id !== exp.id} lang={lang} onOpen={openRole} />
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -446,10 +460,10 @@ export default function ResumePage() {
             {selected && (
               <motion.div
                 className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-                initial={{ opacity: 0 }}
+                initial={viaVT ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelected(null)}
+                exit={viaVT ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0 }}
+                onClick={() => openRole(null)}
               >
                 <motion.div
                   ref={modalRef}
@@ -458,21 +472,21 @@ export default function ResumePage() {
                   aria-modal="true"
                   aria-labelledby="experience-modal-title"
                   className="max-h-[82vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-n-border bg-n-bg shadow-xl shadow-black/20 focus:outline-none"
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={viaVT ? false : { opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
+                  exit={viaVT ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: 8 }}
                   transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
                   onClick={e => e.stopPropagation()}
                 >
                   <div className="sticky top-0 z-10 flex items-start justify-between border-b border-n-border bg-n-bg p-5">
                     <div className="min-w-0 flex-1">
-                      <h3 id="experience-modal-title" className="n-text font-semibold leading-snug">{selected.role}</h3>
-                      <p className="n-text mt-0.5 text-sm">{selected.company}</p>
+                      <h3 id="experience-modal-title" className="n-text font-semibold leading-snug" style={{ viewTransitionName: `role-title-${selected.id}` }}>{selected.role}</h3>
+                      <p className="n-text mt-0.5 text-sm" style={{ viewTransitionName: `role-company-${selected.id}` }}>{selected.company}</p>
                       <p className="n-muted mt-1 text-xs">
                         {selected.location}. {getDuration(selected.start, selected.end, lang)}
                       </p>
                     </div>
-                    <button onClick={() => setSelected(null)} data-sfx="none" className="n-hover ml-4 shrink-0 rounded-full p-2 transition-colors n-focus" aria-label={labels.close}>
+                    <button onClick={() => openRole(null)} data-sfx="none" className="n-hover ml-4 shrink-0 rounded-full p-2 transition-colors n-focus" aria-label={labels.close}>
                       <X className="h-5 w-5" />
                     </button>
                   </div>

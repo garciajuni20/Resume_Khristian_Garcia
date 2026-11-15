@@ -27,9 +27,9 @@ export default function InkFigures({ lang, notes = false, className = '' }: { la
   return (
     <div className={className}>
       <div className="h-[7px] overflow-hidden" aria-hidden="true">
-        <svg width={1400} height={7} className="block">
+        <svg width={1400} height={7} className="ink-thread block">
           {band.map((d, i) => (
-            <path key={i} d={d} fill="none" strokeWidth={0.7} style={{ stroke: `var(--ink-${INK_TONES[i]})` }} />
+            <path key={i} d={d} pathLength={1} fill="none" strokeWidth={0.7} style={{ stroke: `var(--ink-${INK_TONES[i]})` }} />
           ))}
         </svg>
       </div>

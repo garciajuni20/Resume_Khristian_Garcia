@@ -309,6 +309,50 @@ p, li { text-wrap: pretty; }
   opacity: 1;
 }
 
+/* ── Scroll-linked printing (CSS scroll-driven animations, compositor-only) ──
+   Browsers without animation-timeline simply show everything printed. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Intaglio press: every engraving is printed once, top to bottom, as it
+       rises into view (the hero has its own orchestrated print) */
+    .ink-art:not(.ink-print) {
+      animation: ink-press linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+    @keyframes ink-press {
+      from { clip-path: inset(0 0 100% 0); opacity: 0.35; }
+      to { clip-path: inset(0 0 0 0); opacity: 1; }
+    }
+
+    /* Security thread: the guilloché under the figures draws itself while the
+       band crosses the viewport, like the metal thread of a banknote */
+    /* SVG paths have no box of their own: the svg names the timeline */
+    .ink-thread { view-timeline: --ink-thread block; }
+    .ink-thread path {
+      stroke-dasharray: 1;
+      animation: ink-thread linear both;
+      animation-timeline: --ink-thread;
+      animation-range: entry 0% cover 45%;
+    }
+    .ink-thread path:nth-child(2n) { animation-range: entry 8% cover 50%; }
+    @keyframes ink-thread {
+      from { stroke-dashoffset: 1; }
+      to { stroke-dashoffset: 0; }
+    }
+  }
+}
+
+/* ── Shared element: a role's title travels from the ledger into its detail ── */
+::view-transition-group(*) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+}
+
 /* ── Page change: ink blooms through a sheet of paper (InkTransition.tsx) ──
    The strip holds 16 frames stacked vertically; alpha is the paper still left.
    Stretched to the viewport on purpose: an ink bloom has no true aspect. */
@@ -326,7 +370,7 @@ p, li { text-wrap: pretty; }
   mask-size: 100% 1600%;
   -webkit-mask-position: 0 0;
   mask-position: 0 0;
-  animation: ink-bloom 720ms steps(15, jump-none) forwards;
+  animation: ink-bloom 620ms steps(15, jump-none) forwards;
 }
 @keyframes ink-bloom {
   to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
