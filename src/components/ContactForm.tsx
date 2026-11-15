@@ -11,6 +11,11 @@ interface FormData {
   message: string;
 }
 
+/* Form fields share one template; only the validity state varies */
+const INPUT = 'n-text w-full rounded-lg border bg-n-bg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2';
+const INPUT_OK = 'border-n-border focus:ring-n-accent';
+const INPUT_ERROR = 'border-red-300 focus:ring-red-500 dark:border-red-700';
+
 export default function ContactForm() {
   const { lang } = useLang();
   const { trackEvent } = useAnalytics();
@@ -150,11 +155,8 @@ export default function ContactForm() {
               placeholder={t.placeholderName}
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? 'name-error' : undefined}
-              className={`n-text w-full rounded-lg border bg-n-bg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
-                errors.name
-                  ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                  : 'border-n-border focus:ring-n-accent'
-              }`}
+              className={`${INPUT} ${
+                errors.name ? INPUT_ERROR : INPUT_OK}`}
               disabled={status === 'loading'}
             />
             {errors.name && (
@@ -174,11 +176,8 @@ export default function ContactForm() {
               placeholder={t.placeholderEmail}
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? 'email-error' : undefined}
-              className={`n-text w-full rounded-lg border bg-n-bg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
-                errors.email
-                  ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                  : 'border-n-border focus:ring-n-accent'
-              }`}
+              className={`${INPUT} ${
+                errors.email ? INPUT_ERROR : INPUT_OK}`}
               disabled={status === 'loading'}
             />
             {errors.email && (
@@ -199,11 +198,8 @@ export default function ContactForm() {
             placeholder={t.placeholderSubject}
             aria-invalid={!!errors.subject}
             aria-describedby={errors.subject ? 'subject-error' : undefined}
-            className={`n-text w-full rounded-lg border bg-n-bg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
-              errors.subject
-                ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                : 'border-n-border focus:ring-n-accent'
-            }`}
+            className={`${INPUT} ${
+              errors.subject ? INPUT_ERROR : INPUT_OK}`}
             disabled={status === 'loading'}
           />
           {errors.subject && (
@@ -223,11 +219,8 @@ export default function ContactForm() {
             rows={4}
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? 'message-error' : undefined}
-            className={`n-text w-full rounded-lg border bg-n-bg px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 resize-none ${
-              errors.message
-                ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                : 'border-n-border focus:ring-n-accent'
-            }`}
+            className={`${INPUT} resize-none ${
+              errors.message ? INPUT_ERROR : INPUT_OK}`}
             disabled={status === 'loading'}
           />
           {errors.message && (
@@ -243,7 +236,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="inline-flex items-center gap-2 rounded-lg bg-n-text px-6 py-3 text-sm font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-n-accent disabled:cursor-not-allowed disabled:opacity-70"
+            className="n-btn-primary gap-2 px-6 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-n-accent disabled:cursor-not-allowed disabled:opacity-70"
           >
             {status === 'loading' ? (
               <>

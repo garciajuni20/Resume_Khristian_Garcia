@@ -5,7 +5,7 @@ import { profileEN } from '../data/profile-en';
 import { Mark } from './Logo';
 import { CV_UPDATED } from '../data/media';
 
-const ICON_LINK = 'n-muted rounded-lg p-1 transition-colors duration-200 hover:text-n-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent';
+const ICON_LINK = 'n-muted rounded-lg p-1 transition-colors duration-200 hover:text-n-text n-focus';
 
 export default function Footer() {
   const { lang } = useLang();
@@ -52,7 +52,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="n-border n-muted n-hover ml-1 rounded-lg border p-2 transition-colors duration-200 hover:text-n-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent"
+              className="n-border n-muted n-hover ml-1 rounded-lg border p-2 transition-colors duration-200 hover:text-n-text n-focus"
               aria-label={lang === 'en' ? 'Back to top' : 'Volver arriba'}
             >
               <ArrowUp className="h-4 w-4" />

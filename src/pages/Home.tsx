@@ -247,7 +247,7 @@ export default function Home() {
                       <Magnetic>
                         <Link
                           to="/resume"
-                          className="group inline-flex items-center gap-2 rounded-lg bg-n-text px-4 py-2 text-base font-semibold text-n-bg transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]"
+                          className="n-btn-primary group gap-2 px-4 py-2 text-base font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                         >
                           {t.ctaPrimary}
                           <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
@@ -382,7 +382,7 @@ export default function Home() {
                       {project.caseStudyPath && (
                         <Link
                           to={project.caseStudyPath}
-                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-n-text px-3 py-2 text-xs font-semibold text-n-bg transition-transform duration-300 active:scale-[0.98]"
+                          className="n-btn-primary flex-1 gap-1.5 px-3 py-2 text-xs font-semibold transition-transform"
                         >
                           {t.caseStudy}
                         </Link>

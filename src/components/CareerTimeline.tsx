@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { ExperienceItem, Lang } from '../types';
 import { shortCompany } from '../utils/company';
 import { FLUID } from '../utils/animations';
+import { industryTone } from '../utils/tone';
 
 /**
  * Career map: one bar per role on a shared month scale, so overlapping roles
@@ -11,7 +12,6 @@ import { FLUID } from '../utils/animations';
 
 /* Bars reuse the Notion tag palette (pastel in light, deep in dark) so the
    label text keeps AA contrast in both themes. */
-const TONES = ['blue', 'purple', 'orange', 'green', 'pink'] as const;
 
 function months(value: string, now: Date): number {
   if (value === 'present' || value === 'actual') return now.getFullYear() * 12 + now.getMonth();
@@ -51,7 +51,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
         </div>
         <ul className="flex flex-wrap gap-1.5" aria-label={lang === 'en' ? 'Industries' : 'Industrias'}>
           {industries.map((ind, i) => (
-            <li key={ind} className={`n-tag n-tag-${TONES[i % TONES.length]} text-xs`}>{ind}</li>
+            <li key={ind} className={`n-tag n-tag-${industryTone(i)} text-xs`}>{ind}</li>
           ))}
         </ul>
       </div>
@@ -87,7 +87,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
             const en = Math.max(months(e.end, now), s + 1);
             const left = pct(s);
             const width = pct(en) - left;
-            const tone = TONES[Math.max(0, industries.indexOf(e.industry ?? '')) % TONES.length];
+            const tone = industryTone(Math.max(0, industries.indexOf(e.industry ?? '')));
             const wide = width > 22;
             const label = `${e.role.replace(/\s*\(.*\)$/, '').split(' — ')[0]} · ${shortCompany(e.company)}`;
             return (
@@ -100,7 +100,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
                   whileInView={{ scaleX: 1, opacity: 1 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.9, delay: i * 0.06, ease: FLUID }}
-                  className={`n-tag-${tone} n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold shadow-sm transition-[filter] duration-300 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent dark:hover:brightness-125`}
+                  className={`n-tag-${tone} n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold shadow-sm transition-[filter] duration-300 hover:brightness-95 n-focus dark:hover:brightness-125`}
                   style={{ left: `${left}%`, width: `${width}%`, minWidth: 10 }}
                 >
                   {wide && (

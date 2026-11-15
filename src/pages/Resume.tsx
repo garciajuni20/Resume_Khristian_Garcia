@@ -22,6 +22,7 @@ import { PHOTO } from '../data/media';
 import NowStrip from '../components/NowStrip';
 import CareerTimeline from '../components/CareerTimeline';
 import PageOutline from '../components/PageOutline';
+import { industryTone } from '../utils/tone';
 import { Toggle } from '../components/notion/primitives';
 
 /** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
@@ -29,7 +30,6 @@ function lead(text: string): string {
   return text.split(/(?<=\.)\s+/).slice(0, 2).join(' ');
 }
 
-const INDUSTRY_TONES = ['blue', 'purple', 'orange', 'green'] as const;
 const LINK = 'n-text inline-flex items-center gap-1 underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current';
 
 export default function ResumePage() {
@@ -239,7 +239,7 @@ export default function ResumePage() {
                   <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><Building2 className="h-4 w-4" aria-hidden="true" />{labels.industries}</dt>
                   <dd className="flex flex-wrap gap-1.5">
                     {industries.map((ind, i) => (
-                      <span key={ind} className={`n-tag n-tag-${INDUSTRY_TONES[i % INDUSTRY_TONES.length]}`}>{ind}</span>
+                      <span key={ind} className={`n-tag n-tag-${industryTone(i)}`}>{ind}</span>
                     ))}
                   </dd>
                 </div>

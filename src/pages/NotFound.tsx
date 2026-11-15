@@ -61,7 +61,7 @@ export default function NotFound() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => navigate('/')}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-n-text px-6 py-3 text-sm font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85"
+                  className="n-btn-primary gap-2 px-6 py-3 text-sm font-semibold"
                 >
                   <Home className="h-4 w-4" />
                   {t.homeButton}

@@ -16,7 +16,7 @@ const navItems = [
 ];
 
 /* Shape rule for the chrome: the bar is a card (2xl), controls are lg. */
-const CONTROL = 'inline-flex items-center justify-center rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent';
+const CONTROL = 'inline-flex items-center justify-center rounded-lg transition-colors duration-200 n-focus';
 const ACTIVE = 'bg-n-text text-n-bg';
 const IDLE = 'n-muted n-hover hover:text-n-text';
 
@@ -73,7 +73,7 @@ export default function Navbar() {
       >
         <div className="px-4 sm:px-5">
           <div className="flex h-14 items-center justify-between gap-6">
-            <NavLink to="/" className="shrink-0 whitespace-nowrap rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent" aria-label={lang === 'en' ? 'Khristian Garcia, home' : 'Khristian Garcia, inicio'}>
+            <NavLink to="/" className="shrink-0 whitespace-nowrap rounded-lg n-focus" aria-label={lang === 'en' ? 'Khristian Garcia, home' : 'Khristian Garcia, inicio'}>
               <Wordmark name="Khristian Garcia" compact />
             </NavLink>
 

@@ -11,14 +11,13 @@ import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
 import type { ProjectCategory, ProjectItem } from '../types';
 import { FLUID } from '../utils/animations';
+import type { Tone } from '../utils/tone';
 
 /**
  * Projects, Notion-style: one database view with category filters, cards as
  * pages with properties. Everything comes from `profile-*.ts`; this file only
  * knows how to show a project, never what the projects are.
  */
-
-type Tone = 'blue' | 'green' | 'purple' | 'orange' | 'pink';
 
 const CATEGORY: Record<ProjectCategory, { tone: Tone; en: string; es: string; icon: typeof Globe }> = {
   web: { tone: 'blue', en: 'Live web app', es: 'App web en vivo', icon: Globe },
@@ -39,7 +38,6 @@ type Labels = {
   caseStudy: string;
   viewLive: string;
   live: string;
-  open: string;
 };
 
 function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 'es'; t: Labels }) {
@@ -78,9 +76,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
             />
           )}
         </div>
-      ) : (
-        <div className={`h-1 w-full bg-gradient-to-r ${project.gradient ?? 'from-neutral-400 to-neutral-500'}`} aria-hidden="true" />
-      )}
+      ) : null}
 
       <div className="flex flex-1 flex-col p-5">
         {/* Properties row: category and status */}
@@ -142,7 +138,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
           {project.caseStudyPath && (
             <Link
               to={project.caseStudyPath}
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-n-text px-3 py-2 text-xs font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
+              className="n-btn-primary flex-1 gap-1.5 px-3 py-2 text-xs font-semibold"
             >
               <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
               {t.caseStudy}
@@ -164,7 +160,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
               href={project.links.live}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${t.open} ${project.title}`}
+              aria-label={`${t.viewLive}: ${project.title}`}
               className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors duration-300 active:scale-[0.98] ${
                 project.caseStudyPath
                   ? 'n-border n-text n-hover border'
@@ -199,7 +195,6 @@ export default function Projects() {
         team: 'Team',
         live: 'Live',
         caseStudy: 'Case study',
-        open: 'Open',
         all: 'All',
         count: (n: number) => `${n} ${n === 1 ? 'project' : 'projects'}`,
         liveCount: (n: number) => `${n} live`,
@@ -222,7 +217,6 @@ export default function Projects() {
         team: 'Equipo',
         live: 'En vivo',
         caseStudy: 'Caso de estudio',
-        open: 'Abrir',
         all: 'Todos',
         count: (n: number) => `${n} ${n === 1 ? 'proyecto' : 'proyectos'}`,
         liveCount: (n: number) => `${n} en vivo`,
@@ -259,7 +253,7 @@ export default function Projects() {
   const filtered = active === 'all' ? projects : projects.filter(p => p.category === active);
   const featured = active === 'all' ? filtered.filter(p => p.featured) : filtered;
   const others = active === 'all' ? filtered.filter(p => !p.featured) : [];
-  const labels: Labels = { role: t.role, duration: t.duration, team: t.team, caseStudy: t.caseStudy, viewLive: t.viewLive, live: t.live, open: t.open };
+  const labels: Labels = { role: t.role, duration: t.duration, team: t.team, caseStudy: t.caseStudy, viewLive: t.viewLive, live: t.live };
 
   return (
     <PageTransition>
@@ -283,7 +277,7 @@ export default function Projects() {
             </motion.div>
 
             {/* ── Category filter (database view tabs) ─────────────── */}
-            <div className="n-border mt-8 flex flex-wrap items-center gap-2 border-b pb-4" role="tablist" aria-label={t.filterBy}>
+            <div className="n-border mt-8 flex flex-wrap items-center gap-2 border-b pb-4" aria-label={t.filterBy}>
               <span className="n-muted mr-1 text-xs">{t.filterBy}</span>
               {filters.map(f => {
                 const isActive = active === f.id;
@@ -291,8 +285,7 @@ export default function Projects() {
                   <button
                     key={f.id}
                     type="button"
-                    role="tab"
-                    aria-selected={isActive}
+                    aria-pressed={isActive}
                     onClick={() => setActive(f.id)}
                     className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-300 active:scale-[0.98] ${
                       isActive
@@ -361,7 +354,7 @@ export default function Projects() {
               </div>
               <Link
                 to="/contact"
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-n-text px-5 py-2.5 text-sm font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
+                className="n-btn-primary shrink-0 gap-2 px-5 py-2.5 text-sm font-semibold"
               >
                 {t.ctaButton}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

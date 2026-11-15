@@ -17,7 +17,7 @@ type Props = {
 };
 
 /* Same chip grammar as the Projects filter: pills, active = inverted ink. */
-const CHIP = 'rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent';
+const CHIP = 'rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-200 active:scale-[0.98] n-focus';
 
 export default function FilterChips({ allTags, activeTags, onToggle, onClear, collapsedCount = 18, labels }: Props) {
   const [expanded, setExpanded] = useState(false);

@@ -30,7 +30,7 @@ export default function ExperienceCard({ item, onOpen, lang }: Props) {
     <motion.button
       type="button"
       onClick={() => onOpen(item)}
-      className="n-border group w-full rounded-2xl border bg-n-bg p-5 text-left transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent"
+      className="n-border group w-full rounded-2xl border bg-n-bg p-5 text-left transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5 n-focus"
       whileHover={{ y: -2 }}
     >
       <div className="flex items-start justify-between gap-4">
