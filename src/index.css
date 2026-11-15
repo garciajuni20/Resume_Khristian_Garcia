@@ -392,6 +392,32 @@ p, li { text-wrap: pretty; }
 }
 @media (prefers-reduced-motion: reduce) { .ink-transition { display: none; } }
 
+/* ── Interview mode (/resume?present, components/present) ──
+   Same filmed bloom as the page change, over the sheet area only and a little
+   quicker, so moving through seven sheets on a call never feels slow. */
+.present-ink {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--n-bg);
+  -webkit-mask-image: var(--ink-strip);
+  mask-image: var(--ink-strip);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 1600%;
+  mask-size: 100% 1600%;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  animation: present-bloom 520ms steps(15, jump-none) forwards;
+}
+@keyframes present-bloom {
+  to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
+}
+/* Inside the overlay the engravings are already printed: no scroll-linked press */
+.present .ink-art { animation: none; clip-path: none; opacity: 1; }
+.present-stage { scrollbar-gutter: stable; }
+@media (prefers-reduced-motion: reduce) { .present-ink { display: none; } }
+
 /* ── Accessibility: honor prefers-reduced-motion ────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
