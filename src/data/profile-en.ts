@@ -33,10 +33,13 @@ export const profileEN = {
   experience: [
     {
       id: "alleviate-de",
-      approach: {
-        context: "Promoted in November 2026 to own the platform I built; the company now runs on it.",
-        how: "Cloud resources on Azure and GCP, ADF orchestration, Snowflake modeling and access design, dbt and Python pipelines, Salesforce integrations, SOPs and GitLab CI.",
-        result: "One governed platform all 5 departments query, versioned in GitLab and documented with SOPs.",
+      story: {
+        lead: "With the promotion, the platform I built as an analyst became mine to run; 5 departments now work on it.",
+        wins: [
+          "I run Snowflake end to end: roles and access, dimensional modeling, data sharing and query tuning.",
+          "I orchestrate in ADF and Databricks the dbt, SQL and Python pipelines that bring Salesforce and other sources in.",
+          "Every change ships through GitLab CI, and every process is written down as an SOP."
+        ],
       },
       industry: "Fintech · Debt consolidation (US)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -56,11 +59,13 @@ export const profileEN = {
     },
     {
       id: "virtrify-ai",
-      approach: {
-        context: "A solo founder running a growth-stage retreat business on spreadsheets, inboxes and ad platforms that do not talk to each other.",
-        how: "Audit the lead-to-sale flow first; then a lean CRM, n8n or Make automations wired to Stripe and calendars, and a plain-language operating manual.",
-        result: "Build phase (starts Nov 23, 2026): core workflows live within three months, documented so the founder runs them without me.",
-        planned: true,
+      story: {
+        lead: "From 23 November 2026: bring order to a wellness retreat brand that runs on spreadsheets and email.",
+        wins: [
+          "First, map every lead from ad to payment and automate what costs the founder the most hours.",
+          "Then, a lightweight CRM wired to Stripe, calendars and ads through n8n or Make.",
+          "Three-month goal: key workflows in production and a playbook the founder can run without me."
+        ],
       },
       industry: "Wellness · Retreats & community (US)",
       company: "Virtrify — placed with a US wellness & retreat brand",
@@ -80,10 +85,13 @@ export const profileEN = {
     },
     {
       id: "flowber-freelance",
-      approach: {
-        context: "A real barbershop with a paper schedule, double bookings and no data about its own business.",
-        how: "Discovery with the owner, then a serverless React + Supabase platform with security in the database, an AI agent with 20 tools and RAG, and a dbt + DuckDB warehouse with ML.",
-        result: "160+ appointments and 90+ customers in production, RAG at 100% hit@1, mobile LCP from 4.8 s to 2.5 s.",
+      story: {
+        lead: "Danover's barbershop ran on a paper schedule with clashing bookings; I built, alone, the system it runs on today.",
+        wins: [
+          "160+ appointments and 90+ customers in production, $0 infrastructure, double bookings blocked by the database.",
+          "An AI agent with 20 tools and RAG on pgvector that answers from each role's own data: 100% hit@1.",
+          "A dbt + DuckDB warehouse with 24 models and 50 tests, with cancellation and demand models in the same DAG."
+        ],
       },
       industry: "Service retail · Barbershop",
       company: "Flowber — Barbershop Digital Transformation (Independent Venture)",
@@ -93,8 +101,8 @@ export const profileEN = {
       location: "Remote (Guatemala)",
       tags: ["Full-Stack", "Architecture", "Digital Transformation", "AI / LLM", "RAG", "pgvector", "ETL", "dbt", "DuckDB", "PostgreSQL", "Supabase", "Cloudflare"],
       bullets: [
-        "Led the digital transformation of Danover's barbershop from idea (January 2024) to production: process discovery with the owner, product, architecture, and operations as the sole engineer. The platform now manages 160+ appointments and 90+ registered customers.",
         "Architected a serverless system with no custom backend (React + TypeScript on Cloudflare Pages, PostgreSQL/Supabase, 13 Deno Edge Functions) where security lives in the database: role-based Row-Level Security (customer/barber/admin) on every table and a GiST EXCLUDE constraint that makes double booking impossible. Infrastructure cost: $0 on free tiers.",
+        "Led the digital transformation of Danover's barbershop from idea (January 2024) to production: process discovery with the owner, product, architecture, and operations as the sole engineer. The platform now manages 160+ appointments and 90+ registered customers.",
         "Built an AI agent on Cloudflare Workers AI (Llama 4 Scout) with multi-turn function calling: 20 role-filtered tools, 5 of which write data (book, cancel, reschedule, confirm, complete) behind explicit confirmation and server-side re-verification; swappable providers (Workers AI, Groq, n8n/Gemini) with a deterministic rule-based fallback.",
         "Implemented RAG with pgvector (HNSW) and multilingual bge-m3 embeddings: SECURITY INVOKER retrieval that honors each role's RLS, incremental ingestion keyed by SHA-256 hash, and a golden evaluation set (hit@k, MRR) that reached 100% hit@1; anti-hallucination filters reject figures with no tool result behind them.",
         "Built the medallion data warehouse (Postgres → bronze Parquet → dbt + DuckDB silver/gold): a star schema with 4 dimensions and 3 facts, 24 models and 50 tests, PII-free (md5 keys), running nightly on GitHub Actions under a read-only role.",
@@ -105,10 +113,13 @@ export const profileEN = {
     },
     {
       id: "alleviate-mid",
-      approach: {
-        context: "First BI hire at a US debt-consolidation fintech: five departments reporting from spreadsheets at 85% data accuracy.",
-        how: "Modeled a Snowflake star schema, validated every source, built dbt and ADF pipelines and 15+ Power BI and Tableau dashboards with the US stakeholders.",
-        result: "Accuracy from 85% to 99.5%, reporting from 2+ days to under 30 minutes, and the promotion to Data Engineer.",
+      story: {
+        lead: "First BI hire on the account: five departments reported from spreadsheets at 85% accuracy.",
+        wins: [
+          "Modeled in Snowflake the single source of truth all 5 departments now query: accuracy rose to 99.5%.",
+          "Swapped manual Excel for 15+ dashboards and 20+ KPIs in Power BI and Tableau: reporting from 2+ days to under 30 min.",
+          "Validation and alerting in dbt and ADF eliminated 90% of recurring errors. Promoted to Data Engineer."
+        ],
       },
       industry: "Fintech · Debt consolidation (US)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -136,7 +147,7 @@ export const profileEN = {
       location: "Guatemala City",
       tags: ["Teaching", "BI", "Systems", "Leadership"],
       bullets: [
-        "Selected to teach Sistemas Organizacionales y Gerenciales 1 (Course 0786) as the required final practicum of the Systems Engineering program.",
+        "Selected to teach Sistemas Organizacionales y Gerenciales 1 (Course 0786) as the final practicum of Systems Engineering; brought real BI projects into the classroom.",
         "Taught Business Analytics fundamentals, Information Systems, ERP/CRM concepts, and Digital Transformation.",
         "Guided students through real-world Business Intelligence projects and data analysis case studies.",
         "Developed lab materials and exercises that translate academic theory into practical data skills.",
@@ -153,7 +164,7 @@ export const profileEN = {
       location: "Guatemala City",
       tags: ["IT Support", "Helpdesk", "Sysadmin", "Windows / Linux", "Networking", "Cloud Migration"],
       bullets: [
-        "Provided enterprise IT and helpdesk support plus systems administration for 100+ internal users, tracking every request through a ticketing system to resolution.",
+        "IT support and systems administration for 100+ internal users; scripts cut ticket volume by 40%.",
         "Administered Windows and Linux workstations and servers, endpoint management, access control, and network security protocols.",
         "Led the migration of on-premise systems to cloud infrastructure, reducing hardware costs.",
         "Automated repetitive support workflows with scripts, cutting helpdesk ticket volume by 40%.",
@@ -162,10 +173,13 @@ export const profileEN = {
     },
     {
       id: "idt-gnoc",
-      approach: {
-        context: "24/7 watch over IDT's remittance infrastructure: 5,000+ concurrent users.",
-        how: "Monitoring with Zabbix, Grafana, New Relic and Splunk; incident triage, escalation and runbooks on Windows and Linux.",
-        result: "Mean time to recovery down 25% and incident response 60% faster with automated alerting.",
+      story: {
+        lead: "Four years on 24/7 watch in IDT's NOC, over remittance infrastructure for 5,000+ concurrent users across regions.",
+        wins: [
+          "Cut mean time to recovery by 25% with proactive monitoring in Zabbix, Grafana, New Relic and Splunk.",
+          "The automated alerts I configured made incident response 60% faster.",
+          "Wrote the team's SOPs for recurring alerts and mentored 3 junior engineers."
+        ],
       },
       industry: "Financial services · International remittances",
       company: "Red Chapina S.A (IDT Guatemala)",

@@ -18,7 +18,6 @@ import { CareerVideoBlock } from '../components/CareerVideo';
 import CareerTimeline from '../components/CareerTimeline';
 import PageOutline from '../components/PageOutline';
 import { Toggle } from '../components/notion/primitives';
-import ApproachFlow from '../components/ApproachFlow';
 import HowIWork from '../components/HowIWork';
 import InkArt from '../components/ink/InkArt';
 import InkPortrait from '../components/ink/InkPortrait';
@@ -509,7 +508,7 @@ export default function ResumePage() {
                   </div>
 
                   <div className="p-5">
-                    {selected.approach && <ApproachFlow approach={selected.approach} lang={lang} className="mb-5" />}
+                    {selected.story && <p className="n-muted mb-5 text-sm leading-relaxed">{selected.story.lead}</p>}
                     {selected.bullets && selected.bullets.length > 0 && (
                       <ul className="space-y-3">
                         {selected.bullets.map((bullet, i) => (

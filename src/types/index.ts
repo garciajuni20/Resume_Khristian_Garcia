@@ -18,16 +18,15 @@ export interface ExperienceItem {
   industry?: string;
   tags?: string[];
   bullets?: string[];
-  /** The story in three beats, for readers who want the "how", not only the "what" */
-  approach?: Approach;
+  /** The role told the way a person would: what the situation was, then what changed */
+  story?: Story;
 }
 
-export interface Approach {
-  context: string;
-  how: string;
-  result: string;
-  /** The result is a target for work in progress, not a measured outcome yet */
-  planned?: boolean;
+export interface Story {
+  /** One plain sentence: the situation or the scope, no label */
+  lead: string;
+  /** Two or three results, verb first, measured where there is a measure */
+  wins: string[];
 }
 
 export interface WorkflowStep {

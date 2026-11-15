@@ -33,10 +33,13 @@ export const profileES = {
   experience: [
     {
       id: "alleviate-de",
-      approach: {
-        context: "Ascendido en noviembre de 2026 para hacerme cargo de la plataforma que construí; hoy la empresa opera sobre ella.",
-        how: "Recursos en Azure y GCP, orquestación en ADF, modelado y diseño de accesos en Snowflake, pipelines en dbt y Python, integraciones con Salesforce, SOPs y CI en GitLab.",
-        result: "Una plataforma gobernada que consultan los 5 departamentos, versionada en GitLab y documentada con SOPs.",
+      story: {
+        lead: "La plataforma que construí como analista pasó a ser mía con el ascenso; hoy trabajan sobre ella 5 departamentos.",
+        wins: [
+          "Administro Snowflake de punta a punta: roles y accesos, modelado dimensional, data sharing y tuning de queries.",
+          "Orquesto en ADF y Databricks los pipelines de dbt, SQL y Python que traen Salesforce y otras fuentes al warehouse.",
+          "Cada cambio pasa por GitLab con CI y cada proceso queda escrito en un SOP."
+        ],
       },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -56,11 +59,13 @@ export const profileES = {
     },
     {
       id: "virtrify-ai",
-      approach: {
-        context: "Una fundadora que lleva un negocio de retiros en crecimiento con hojas de cálculo, correos y plataformas de anuncios que no se hablan entre sí.",
-        how: "Primero auditar el flujo de lead a venta; luego un CRM ligero, automatizaciones en n8n o Make conectadas a Stripe y calendarios, y un manual operativo en lenguaje claro.",
-        result: "Fase de construcción (inicia el 23 nov 2026): flujos clave en producción en tres meses, documentados para que la fundadora los opere sin mí.",
-        planned: true,
+      story: {
+        lead: "Desde el 23 de noviembre de 2026: ordenar una marca de retiros de bienestar que opera con hojas de cálculo y correos.",
+        wins: [
+          "Primero, mapear cada lead del anuncio al pago y automatizar lo que más horas le quita a la fundadora.",
+          "Después, un CRM ligero conectado a Stripe, la agenda y los anuncios con n8n o Make.",
+          "Meta a tres meses: los flujos clave en producción y un manual que la fundadora opere sin mí."
+        ],
       },
       industry: "Bienestar · Retiros y comunidad (EE. UU.)",
       company: "Virtrify — asignado a una marca de bienestar y retiros en EE. UU.",
@@ -80,10 +85,13 @@ export const profileES = {
     },
     {
       id: "flowber-freelance",
-      approach: {
-        context: "Una barbería real con agenda en papel, citas duplicadas y sin datos de su negocio.",
-        how: "Descubrimiento con el dueño; luego una plataforma serverless React + Supabase con la seguridad en la base de datos, un agente de IA con 20 herramientas y RAG, y un warehouse dbt + DuckDB con ML.",
-        result: "160+ citas y 90+ clientes en producción, RAG con 100% hit@1, LCP móvil de 4.8 s a 2.5 s.",
+      story: {
+        lead: "La barbería de Danover usaba agenda en papel y las citas se cruzaban; construí solo el sistema con el que opera hoy.",
+        wins: [
+          "160+ citas y 90+ clientes en producción, $0 de infraestructura y la doble reserva bloqueada en la base de datos.",
+          "Un agente de IA con 20 herramientas y RAG sobre pgvector que responde con los datos de cada rol: 100% hit@1.",
+          "Un warehouse dbt + DuckDB con 24 modelos y 50 tests, con modelos de cancelación y demanda en el mismo DAG."
+        ],
       },
       industry: "Retail de servicios · Barbería",
       company: "Flowber — Transformación Digital de Barbería (Proyecto Independiente)",
@@ -93,8 +101,8 @@ export const profileES = {
       location: "Remoto (Guatemala)",
       tags: ["Full-Stack", "Arquitectura", "Transformación Digital", "IA / LLM", "RAG", "pgvector", "ETL", "dbt", "DuckDB", "PostgreSQL", "Supabase", "Cloudflare"],
       bullets: [
-        "Lideré la transformación digital de la barbería de Danover desde la idea (enero de 2024) hasta producción: levantamiento de procesos con el dueño, producto, arquitectura y operación como único ingeniero. Hoy la plataforma gestiona 160+ citas y 90+ clientes registrados.",
         "Arquitecté un sistema serverless sin servidor propio (React + TypeScript en Cloudflare Pages, PostgreSQL/Supabase y 13 Edge Functions en Deno) donde la seguridad vive en la base de datos: Row-Level Security por rol (cliente/barbero/admin) en todas las tablas y una restricción EXCLUDE con GiST que hace imposible la doble reserva. Costo de infraestructura: $0 en planes gratuitos.",
+        "Lideré la transformación digital de la barbería de Danover desde la idea (enero de 2024) hasta producción: levantamiento de procesos con el dueño, producto, arquitectura y operación como único ingeniero. Hoy la plataforma gestiona 160+ citas y 90+ clientes registrados.",
         "Construí un agente de IA sobre Cloudflare Workers AI (Llama 4 Scout) con function calling multi-turno: 20 herramientas filtradas por rol, 5 de ellas escriben datos (reservar, cancelar, reagendar, confirmar, completar) con confirmación explícita y re-verificación en servidor; proveedores intercambiables (Workers AI, Groq, n8n/Gemini) con respaldo determinista basado en reglas.",
         "Implementé RAG con pgvector (HNSW) y embeddings multilingües bge-m3: búsqueda SECURITY INVOKER que respeta el RLS de cada rol, ingesta incremental por hash SHA-256 y un golden set de evaluación (hit@k, MRR) que llegó a 100% hit@1; filtros anti-alucinación rechazan cifras sin resultado de herramienta.",
         "Construí el data warehouse medallion (Postgres → Parquet bronze → dbt + DuckDB silver/gold): esquema estrella con 4 dimensiones y 3 hechos, 24 modelos y 50 tests, sin PII (llaves md5) y con corrida nocturna en GitHub Actions usando un rol de solo lectura.",
@@ -105,10 +113,13 @@ export const profileES = {
     },
     {
       id: "alleviate-mid",
-      approach: {
-        context: "Primer contratado de BI en una fintech de consolidación de deudas de EE. UU.: cinco departamentos reportando desde hojas de cálculo con 85% de precisión.",
-        how: "Modelé un esquema estrella en Snowflake, validé cada fuente, construí pipelines en dbt y ADF y 15+ dashboards en Power BI y Tableau con los stakeholders de EE. UU.",
-        result: "Precisión del 85% al 99.5%, reportes de 2+ días a menos de 30 minutos y el ascenso a Ingeniero de Datos.",
+      story: {
+        lead: "Primera contratación de BI de la cuenta: cinco departamentos reportaban en hojas de cálculo con 85% de precisión.",
+        wins: [
+          "Modelé en Snowflake la fuente única de verdad que hoy consultan los 5 departamentos: la precisión subió al 99.5%.",
+          "Cambié el Excel manual por 15+ dashboards y 20+ KPIs en Power BI y Tableau: reportes de 2+ días a menos de 30 min.",
+          "Con validaciones y alertas en dbt y ADF eliminé el 90% de los errores recurrentes. Ascendido a Ingeniero de Datos."
+        ],
       },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -136,7 +147,7 @@ export const profileES = {
       location: "Ciudad de Guatemala",
       tags: ["Docencia", "BI", "Sistemas", "Liderazgo"],
       bullets: [
-        "Seleccionado para impartir Sistemas Organizacionales y Gerenciales 1 (Código 0786) como práctica final obligatoria de la carrera de Ingeniería en Sistemas.",
+        "Me seleccionaron para impartir Sistemas Organizacionales y Gerenciales 1 (Código 0786) como práctica final de Ingeniería en Sistemas; llevé al aula proyectos reales de BI.",
         "Impartí fundamentos de Analítica de Negocios, Sistemas de Información, conceptos ERP/CRM y Transformación Digital.",
         "Guié a estudiantes en proyectos reales de Business Intelligence y casos de análisis de datos.",
         "Desarrollé materiales y ejercicios de laboratorio que traducen la teoría académica en habilidades de datos aplicadas.",
@@ -153,7 +164,7 @@ export const profileES = {
       location: "Ciudad de Guatemala",
       tags: ["Soporte TI", "Helpdesk", "Sysadmin", "Windows / Linux", "Redes", "Migración Cloud"],
       bullets: [
-        "Brindé soporte TI empresarial y de helpdesk, además de administración de sistemas, para 100+ usuarios internos, dando seguimiento a cada solicitud en un sistema de tickets hasta su resolución.",
+        "Soporte y administración de sistemas para 100+ usuarios internos; con scripts, los tickets bajaron un 40%.",
         "Administré estaciones de trabajo y servidores Windows y Linux, gestión de endpoints, control de acceso y protocolos de seguridad de red.",
         "Lideré la migración de sistemas on-premise a infraestructura cloud, reduciendo costos de hardware.",
         "Automaticé flujos de soporte repetitivos con scripts, reduciendo el volumen de tickets en 40%.",
@@ -162,10 +173,13 @@ export const profileES = {
     },
     {
       id: "idt-gnoc",
-      approach: {
-        context: "Guardia 24/7 de la infraestructura de remesas de IDT: 5,000+ usuarios concurrentes.",
-        how: "Monitoreo con Zabbix, Grafana, New Relic y Splunk; triage de incidentes, escalamiento y runbooks en Windows y Linux.",
-        result: "Tiempo medio de recuperación 25% menor y respuesta a incidentes 60% más rápida con alertas automatizadas.",
+      story: {
+        lead: "Cuatro años de guardia 24/7 en el NOC de IDT, sobre remesas para 5,000+ usuarios concurrentes en varias regiones.",
+        wins: [
+          "Bajé el tiempo medio de recuperación un 25% con monitoreo proactivo en Zabbix, Grafana, New Relic y Splunk.",
+          "Las alertas automatizadas que configuré hicieron la respuesta a incidentes un 60% más rápida.",
+          "Escribí los SOPs del equipo para las alertas recurrentes y mentoreé a 3 ingenieros junior."
+        ],
       },
       industry: "Servicios financieros · Remesas internacionales",
       company: "Red Chapina S.A (IDT Guatemala)",

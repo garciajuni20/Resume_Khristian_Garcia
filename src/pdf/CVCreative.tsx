@@ -48,7 +48,7 @@ Font.register({
 // Long tokens (URLs, "SECURITY INVOKER") must not be split with hyphens
 Font.registerHyphenationCallback(word => [word]);
 
-/** Bullets per role on page 2; the context/how/result lines carry the story. */
+/** Extra bullets per role on page 2; roles with a story are told by it alone. */
 const BULLET_CAPS: Record<string, number> = {
   'alleviate-de': 0,
   'virtrify-ai': 0,
@@ -164,11 +164,9 @@ const styles = StyleSheet.create({
   role: { fontWeight: 600, fontSize: 9, color: INK },
   company: { fontSize: 8, color: INK, marginTop: 1.5 },
   meta: { fontSize: 7, color: INK_2, marginTop: 1.5, marginBottom: 4 },
-  beat: { flexDirection: 'row', marginBottom: 1.8 },
-  beatLabel: { width: 52, fontSize: 7.4, fontWeight: 500, color: INK_2, marginTop: 0.4 },
-  beatText: { flex: 1, fontSize: 7.9, color: INK, lineHeight: 1.48 },
+  lead: { fontSize: 7.9, color: INK_2, lineHeight: 1.48, marginBottom: 2.5 },
   bullet: { flexDirection: 'row', marginTop: 1.5 },
-  bulletDash: { width: 52, fontSize: 7.4, color: INK_2 },
+  bulletDash: { width: 10, fontSize: 7.9, color: INK_2, lineHeight: 1.48 },
   bulletText: { flex: 1, fontSize: 7.9, color: INK, lineHeight: 1.48 },
 });
 
@@ -211,10 +209,6 @@ export function CVCreative({ data, lang }: Props) {
     languages: isEN ? 'Languages' : 'Idiomas',
     education: isEN ? 'Education' : 'Educación',
     experience: isEN ? 'Experience' : 'Experiencia',
-    context: isEN ? 'Context' : 'Contexto',
-    how: isEN ? 'How' : 'Cómo',
-    result: isEN ? 'Result' : 'Resultado',
-    goal: isEN ? 'Goal' : 'Meta',
     now: isEN ? 'today' : 'hoy',
     open: isEN ? 'Open to remote data and AI roles' : 'Abierto a roles remotos de datos e IA',
     updated: isEN ? `Updated ${CV_UPDATED.en}` : `Actualizado en ${CV_UPDATED.es}`,
@@ -440,16 +434,10 @@ export function CVCreative({ data, lang }: Props) {
                     {exp.location}
                     {now ? <Text style={{ color: GOLD }}>{`. ${isEN ? 'Current' : 'Actual'}`}</Text> : null}
                   </Text>
-                  {exp.approach &&
-                    ([['context', t.context], ['how', t.how], ['result', exp.approach.planned ? t.goal : t.result]] as const).map(([key, label]) => (
-                      <View key={key} style={styles.beat}>
-                        <Text style={key === 'result' ? { ...styles.beatLabel, color: tone(exp.id) } : styles.beatLabel}>{label}</Text>
-                        <Text style={styles.beatText}>{exp.approach?.[key]}</Text>
-                      </View>
-                    ))}
-                  {(exp.bullets ?? []).slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP).map((b, i) => (
+                  {exp.story && <Text style={styles.lead}>{exp.story.lead}</Text>}
+                  {[...(exp.story?.wins ?? []), ...(exp.bullets ?? []).slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP)].map((b, i) => (
                     <View key={i} style={styles.bullet}>
-                      <Text style={styles.bulletDash}>–</Text>
+                      <Text style={{ ...styles.bulletDash, color: tone(exp.id) }}>–</Text>
                       <Text style={styles.bulletText}>{b}</Text>
                     </View>
                   ))}
