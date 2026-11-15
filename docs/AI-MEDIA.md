@@ -48,11 +48,11 @@ bash scripts/encode-ai-media.sh
 
 ## Sound (`src/audio/engine.ts`, `src/context/SoundContext.tsx`, `src/components/SoundEffects.tsx`)
 
-**Music: one melody per page**, generated with ACE-Step 1.5 (`D:\AI\music_jobs2.json`) and encoded by `bash scripts/encode-music.sh <wav> public/audio/<page>.mp3` (seamless crossfade loop, -16 LUFS, 112 kbps MP3). ACE-Step finishes early and leaves a silent tail: trim each WAV to where the music ends first (`silencedetect`, then `atrim`), or the loop has a gap. 48–56 s per loop, 400–780 KB.
+**Music: one melody per page**, generated with ACE-Step 1.5 (`D:\AI\music_jobs2.json`) and encoded by `bash scripts/encode-music.sh <wav> public/audio/<page>.mp3` (seamless crossfade loop, -16 LUFS, 112 kbps MP3). ACE-Step finishes early and leaves a silent tail: trim each WAV to where the music ends first (`silencedetect`, then `atrim`), or the loop has a gap. 48–56 s per loop, 400–780 KB (home: 99 s, 1.2 MB).
 
 | Page | File | Character | Key, tempo |
 |---|---|---|---|
-| Home | `home.mp3` | Warm cinematic electronic: felt piano, synth arpeggio, brushed drums | D minor, 92 |
+| Home | `home.mp3` | Cinematic hybrid score: string ostinato, sub bass, big drums (track C of the first batch, `D:\AI\music_jobs1.json`, trimmed at 103.2 s, 96 kbps since it loops at 99 s) | D minor, 100 |
 | Resume | `resume.mp3` | Neoclassical chamber: felt piano, pizzicato, cello (the engraved banknote) | D minor, 76 |
 | Projects | `projects.mp3` | Playful electronic: plucks, wooden mallets, lofi groove | D minor, 104 |
 | Flowber | `flowber.mp3` | Guatemalan marimba over a lofi hip hop beat (the barbershop) | F major, 90 |
