@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Download, FileText, Loader2, Sparkles, AlignLeft, AlertCircle, X } from 'lucide-react';
+import { Download, FileText, Loader2, PenTool, AlignLeft, AlertCircle, X } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
+import { sfx } from '../audio/engine';
 
 type PDFVariant = 'creative-en' | 'creative-es' | 'ats-en' | 'ats-es' | 'ats-nophoto-en' | 'ats-nophoto-es';
 
@@ -39,8 +40,10 @@ async function downloadPDF(
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    sfx('success');
   } catch (err) {
     console.error('PDF generation error:', err);
+    sfx('error');
     setError(err instanceof Error ? err.message : 'PDF generation failed. Please try again.');
   } finally {
     setLoading(null);
@@ -58,7 +61,7 @@ export default function PDFDownloadButtons() {
         title: 'Download my resume',
         subtitle: 'Generated in your browser from the same data as this page, always current.',
         generating: 'Generating…',
-        creative: { name: 'Creative', desc: 'Two-page designed layout with photo, metrics, industries and the Flowber project. Best for recruiters and clients.' },
+        creative: { name: 'Creative', desc: 'Two pages set like a banknote: portrait, figures with their sources, the route and every role. For recruiters and clients.' },
         ats: { name: 'ATS-friendly', desc: 'Single-column text that applicant tracking systems parse cleanly, with optional photo in the header.' },
         noPhoto: 'Without photo',
         noPhotoHint: 'standard for US, Canada and UK',
@@ -70,7 +73,7 @@ export default function PDFDownloadButtons() {
         title: 'Descarga mi CV',
         subtitle: 'Generadas en tu navegador con los mismos datos de esta página, siempre al día.',
         generating: 'Generando…',
-        creative: { name: 'Creativo', desc: 'Diseño de dos páginas con foto, métricas, industrias y el proyecto Flowber. Ideal para reclutadores y clientes.' },
+        creative: { name: 'Creativo', desc: 'Dos páginas compuestas como un billete: retrato, cifras con su fuente, la ruta y cada rol. Para reclutadores y clientes.' },
         ats: { name: 'Optimizado para ATS', desc: 'Texto en una columna que los sistemas de selección leen sin errores, con foto opcional en el encabezado.' },
         noPhoto: 'Sin foto',
         noPhotoHint: 'lo habitual en EE. UU., Canadá y Reino Unido',
@@ -80,7 +83,7 @@ export default function PDFDownloadButtons() {
       };
 
   const kinds = [
-    { id: 'creative' as const, icon: <Sparkles className="h-4 w-4" aria-hidden="true" />, ...t.creative },
+    { id: 'creative' as const, icon: <PenTool className="h-4 w-4" aria-hidden="true" />, ...t.creative },
     { id: 'ats' as const, icon: <AlignLeft className="h-4 w-4" aria-hidden="true" />, ...t.ats },
   ];
   const base = import.meta.env.BASE_URL;

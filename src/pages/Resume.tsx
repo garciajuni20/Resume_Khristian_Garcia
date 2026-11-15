@@ -1,31 +1,30 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { X, FileJson, Calendar, Code, Database, Cloud, BarChart3, CheckCircle2, Linkedin, Mail, MapPin, Languages, Building2, AtSign, ExternalLink } from 'lucide-react';
+import { X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
 import Section from '../components/Section';
 import FilterChips from '../components/FilterChips';
-import SkillMeter from '../components/SkillMeter';
-import ExperienceCard from '../components/ExperienceCard';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { getDuration } from '../utils/dateFormatter';
-import type { ProfileData } from '../types';
+import type { ExperienceItem, ProfileData } from '../types';
 import SkillsDashboard from '../components/SkillsDashboard';
 import PDFDownloadButtons from '../components/PDFDownloadButtons';
 import PageTransition from '../components/PageTransition';
-import { staggerContainer, cardReveal, FLUID } from '../utils/animations';
 import { CareerVideoBlock } from '../components/CareerVideo';
-import { PHOTO } from '../data/media';
-import NowStrip from '../components/NowStrip';
 import CareerTimeline from '../components/CareerTimeline';
 import PageOutline from '../components/PageOutline';
-import { industryTone } from '../utils/tone';
 import { Toggle } from '../components/notion/primitives';
 import ApproachFlow from '../components/ApproachFlow';
 import HowIWork from '../components/HowIWork';
+import InkArt from '../components/ink/InkArt';
+import InkPortrait from '../components/ink/InkPortrait';
+import InkEntry from '../components/ink/InkEntry';
+import { sfx } from '../audio/engine';
+import { INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkNotes } from '../data/ink';
 
 /** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
 function lead(text: string): string {
@@ -33,61 +32,81 @@ function lead(text: string): string {
   return text.split(/(?<=\.)(?<!\b[A-Z]{1,2}\.)\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/).slice(0, 2).join(' ');
 }
 
-const LINK = 'n-text inline-flex items-center gap-1 underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current';
+/** A figure in Bodoni, with the glyphs Bodoni draws poorly set in Geist */
+function Figure({ text }: { text: string }) {
+  return (
+    <>
+      {figureRuns(text).map((r, i) =>
+        r.sans ? <span key={i} className="font-sans text-[0.7em] font-light">{r.text}</span> : <span key={i}>{r.text}</span>,
+      )}
+    </>
+  );
+}
 
+const LINK = 'n-text underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current n-focus';
+
+/**
+ * The interactive resume, set like the PDF: a banknote. One ink on paper, the
+ * engraved Volcán de Agua over Antigua, the portrait in a guilloché oval, figures
+ * in Bodoni with footnotes that say where each number comes from, and the roles
+ * as a ledger. Shared copy and art live in src/data/ink.ts.
+ */
 export default function ResumePage() {
   const { lang } = useLang();
   const { trackEvent } = useAnalytics();
   const data: ProfileData = lang === 'en' ? profileEN : profileES;
+  const en = lang === 'en';
 
-  const labels = lang === 'en'
+  const labels = en
     ? {
-        eyebrow: 'Resume · 2026',
         pageTitle: 'Interactive resume',
-        subtitle: 'Data, full-stack and AI across five industries. Filter my experience, watch the film, or take the PDF.',
-        available: 'Open to Data & AI roles · remote',
-        location: 'Location',
-        remote: 'remote',
-        industries: 'Industries',
+        available: 'Open to remote data and AI roles',
         filterBy: 'Filter by',
         clear: 'Clear',
-        skills: 'Self-assessed levels by tool',
+        skills: 'Years of hands-on use, by tool',
         education: 'Education',
-        downloadJson: 'Export JSON',
+        downloadJson: 'Export as JSON',
         close: 'Close',
-        tools: 'Tools & Technologies',
+        tools: 'Tools',
         languages: 'Languages',
-        skillsDashboard: 'Skills Dashboard',
+        skillsDashboard: 'Skills',
         skillsIntro: 'Grouped by what I do with them: data engineering, cloud, BI, AI, delivery and full-stack.',
-        skillsSelfNote: 'Self-assessed, with years of hands-on use. The dashboard above is the better summary; this is the detail.',
         experienceIntro: 'Roles overlap on purpose: a promotion, a part-time AI engagement and a product I own run in parallel.',
         fullProfile: 'Read the full profile',
-        downloadCV: 'Download CV',
-        contact: 'Contact',
+        profile: 'Profile',
+        changed: 'What changed because of my work',
+        route: 'Route',
+        today: 'today',
+        notes: 'Sources',
+        note: (n: number) => `Note ${n}`,
+        years: (n: number) => (n === 1 ? '1 year' : `${n} years`),
+        methodologies: 'Ways of working',
+        roles: (n: number, i: number) => `${n} roles, ${i} industries`,
       }
     : {
-        eyebrow: 'CV · 2026',
         pageTitle: 'CV interactivo',
-        subtitle: 'Datos, full-stack e IA en cinco industrias. Filtra mi experiencia, mira el video o llévate el PDF.',
-        available: 'Abierto a roles de Datos e IA · remoto',
-        location: 'Ubicación',
-        remote: 'remoto',
-        industries: 'Industrias',
+        available: 'Abierto a roles remotos de datos e IA',
         filterBy: 'Filtrar por',
         clear: 'Limpiar',
-        skills: 'Niveles autoevaluados por herramienta',
+        skills: 'Años de uso real, por herramienta',
         education: 'Educación',
-        downloadJson: 'Exportar JSON',
+        downloadJson: 'Exportar en JSON',
         close: 'Cerrar',
-        tools: 'Herramientas & Tecnologías',
+        tools: 'Herramientas',
         languages: 'Idiomas',
-        skillsDashboard: 'Panel de Habilidades',
+        skillsDashboard: 'Habilidades',
         skillsIntro: 'Agrupadas por lo que hago con ellas: ingeniería de datos, cloud, BI, IA, entrega y full-stack.',
-        skillsSelfNote: 'Autoevaluación con años de uso real. El panel de arriba es el mejor resumen; esto es el detalle.',
         experienceIntro: 'Los roles se traslapan a propósito: un ascenso, un contrato de IA a medio tiempo y un producto propio corren en paralelo.',
         fullProfile: 'Leer el perfil completo',
-        downloadCV: 'Descargar CV',
-        contact: 'Contacto',
+        profile: 'Perfil',
+        changed: 'Lo que cambió con mi trabajo',
+        route: 'Ruta',
+        today: 'hoy',
+        notes: 'Fuentes',
+        note: (n: number) => `Nota ${n}`,
+        years: (n: number) => (n === 1 ? '1 año' : `${n} años`),
+        methodologies: 'Formas de trabajo',
+        roles: (n: number, i: number) => `${n} roles, ${i} industrias`,
       };
 
   useSEO({
@@ -107,7 +126,7 @@ export default function ResumePage() {
   }, [data.experience]);
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
-  const [selected, setSelected] = useState<(typeof data.experience)[0] | null>(null);
+  const [selected, setSelected] = useState<ExperienceItem | null>(null);
   const [isExporting, setIsExporting] = useState(false);
 
   function toggleTag(tag: string) {
@@ -124,6 +143,18 @@ export default function ResumePage() {
     if (activeTags.length === 0) return data.experience;
     return data.experience.filter(e => (e.tags ?? []).some(t => activeTags.includes(t)));
   }, [data.experience, activeTags]);
+
+  // Each industry's engraving is stamped once, on the first role shown from it
+  const ledgerArt = useMemo(() => {
+    const seen = new Set<string>();
+    const out = new Map<string, string | null>();
+    filteredExperience.forEach(e => {
+      const art = INK_VIGNETTE[e.id];
+      out.set(e.id, art && !seen.has(art) ? art : null);
+      if (art) seen.add(art);
+    });
+    return out;
+  }, [filteredExperience]);
 
   const exportToJson = () => {
     setIsExporting(true);
@@ -142,20 +173,39 @@ export default function ResumePage() {
     setTimeout(() => setIsExporting(false), 1200);
   };
 
-  const languages = data.languages;
   // Distinct industries in chronological order of the roles
-  const industries = Array.from(
-    new Set(
-      [...data.experience]
-        .sort((a, b) => a.start.localeCompare(b.start))
-        .map(e => e.industry)
-        .filter((x): x is string => Boolean(x))
-    )
-  );
+  const chronological = [...data.experience].sort((a, b) => a.start.localeCompare(b.start));
+  const industries = Array.from(new Set(chronological.map(e => e.industry).filter((x): x is string => Boolean(x))));
+  const routeSeen = new Set<string>();
+  const route = chronological.map(e => {
+    const art = INK_VIGNETTE[e.id];
+    const first = art && !routeSeen.has(art) ? art : null;
+    if (art) routeSeen.add(art);
+    return { e, art: first };
+  });
+
+  const figures = inkFigures(lang);
+  const notes = inkNotes(lang);
+  const achievements = inkAchievements(data.keyAchievements);
   const tools = data.tools;
+  const toolGroups: Array<[string, string[]]> = en
+    ? [['Data engineering', tools.dataEngineering], ['BI and analytics', tools.biAnalytics], ['Cloud and delivery', tools.cloudDevOps], ['Product and AI', tools.fullStack]]
+    : [['Ingeniería de datos', tools.dataEngineering], ['BI y analítica', tools.biAnalytics], ['Nube y entrega', tools.cloudDevOps], ['Producto e IA', tools.fullStack]];
+
+  // The engraving prints in with a sound of its own (no-op while sound is off)
+  useEffect(() => {
+    const id = window.setTimeout(() => sfx('print'), 150);
+    return () => window.clearTimeout(id);
+  }, []);
 
   // Modal a11y: close on Escape, move focus into the dialog, restore it on close
   const modalRef = useRef<HTMLDivElement>(null);
+  const isOpen = selected !== null;
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (isOpen !== wasOpen.current) sfx(isOpen ? 'open' : 'close');
+    wasOpen.current = isOpen;
+  }, [isOpen]);
   useEffect(() => {
     if (!selected) return;
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -170,145 +220,154 @@ export default function ResumePage() {
     };
   }, [selected]);
 
-  const toolCategories = [
-    { key: 'dataEngineering', icon: <Database className="h-4 w-4 n-muted" />, label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', items: tools.dataEngineering, chip: 'n-tag n-tag-blue' },
-    { key: 'biAnalytics', icon: <BarChart3 className="h-4 w-4 n-muted" />, label: 'BI & Analytics', items: tools.biAnalytics, chip: 'n-tag n-tag-green' },
-    { key: 'cloudDevOps', icon: <Cloud className="h-4 w-4 n-muted" />, label: 'Cloud & DevOps', items: tools.cloudDevOps, chip: 'n-tag n-tag-purple' },
-    { key: 'fullStack', icon: <Code className="h-4 w-4 n-muted" />, label: lang === 'en' ? 'Full-Stack Dev' : 'Desarrollo Full-Stack', items: tools.fullStack, chip: 'n-tag n-tag-orange' },
-  ];
-
   return (
     <PageTransition>
       <div className="min-h-screen bg-n-bg text-n-text">
         <PageOutline lang={lang} />
         <Container>
-          {/* ── Page header ─────────────────────────────────────── */}
-          <div className="flex flex-col gap-4 pt-10 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono-geist text-xs uppercase tracking-wider text-n-accent-2">{labels.eyebrow}</p>
-              <h1 className="n-text mt-2 text-4xl font-bold tracking-tight">{labels.pageTitle}</h1>
-              <p className="n-muted mt-2 max-w-xl text-base">{labels.subtitle}</p>
+          {/* ── Banknote: the engraving, the portrait window and the name ── */}
+          <header className="relative pt-6 lg:min-h-[21rem] lg:pt-12">
+            <InkArt
+              name="ink-hero"
+              className="ink-print n-text pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[56%]"
+            />
+            <div className="relative mt-2 flex items-center gap-5 sm:-mt-12 sm:gap-7 lg:mt-0">
+              <InkPortrait alt={data.name} width={124} className="n-text sm:hidden" />
+              <InkPortrait alt={data.name} width={148} className="n-text hidden sm:block" />
+              <div className="min-w-0">
+                <h1 className="font-display text-5xl leading-[0.95] sm:text-6xl">
+                  Khristian
+                  <br />
+                  Garcia
+                  <span className="sr-only">, {labels.pageTitle}</span>
+                </h1>
+                <p className="n-muted mt-3 max-w-[22rem] text-base leading-snug">{data.headline}</p>
+              </div>
             </div>
-            <button
-              onClick={exportToJson}
-              disabled={isExporting}
-              className="n-border n-text n-hover inline-flex items-center gap-2 self-start rounded-lg border px-3 py-2 text-sm font-semibold transition-colors duration-300 active:scale-[0.98] disabled:opacity-50 sm:self-auto"
-            >
-              <FileJson className="h-4 w-4" aria-hidden="true" />
-              {labels.downloadJson}
-            </button>
+
+            <div className="relative mt-6 max-w-lg space-y-1 text-sm">
+              <p className="n-muted">
+                {data.location}. {labels.available}
+              </p>
+              <p className="flex flex-wrap gap-x-4 gap-y-1">
+                <a href={`mailto:${data.email}`} className={LINK}>{data.email}</a>
+                {data.links.map(link => (
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={LINK}>
+                    {link.label}
+                  </a>
+                ))}
+                <button type="button" onClick={exportToJson} disabled={isExporting} className={`${LINK} disabled:opacity-50`}>
+                  {labels.downloadJson}
+                </button>
+              </p>
+            </div>
+          </header>
+
+          {/* ── The proof: three figures, each with its source below ── */}
+          <div className="mt-8 grid border-y border-n-border sm:grid-cols-3">
+            {figures.map((f, i) => (
+              <div key={f.n} className={`py-5 sm:px-6 ${i === 0 ? 'sm:pl-0' : 'border-t border-n-border sm:border-t-0 sm:border-l'}`}>
+                <p className="font-display whitespace-nowrap text-4xl leading-none tabular-nums sm:text-[1.85rem] lg:text-[2.3rem]">
+                  <Figure text={f.value[0]} />
+                  {f.value[1] && (
+                    <>
+                      <span className="n-muted mx-1.5 align-[0.12em] font-sans text-[0.55em]">
+                        <span aria-hidden="true">→</span>
+                        <span className="sr-only">{en ? ' to ' : ' a '}</span>
+                      </span>
+                      <Figure text={f.value[1]} />
+                    </>
+                  )}
+                  <a href={`#nota-${f.n}`} className="ml-1 align-super font-sans text-sm text-n-accent-2 n-focus" aria-label={labels.note(f.n)}>
+                    {f.n}
+                  </a>
+                </p>
+                <p className="n-text mt-3 text-sm">{f.label}</p>
+                <p className="n-muted mt-0.5 text-xs">{f.note}</p>
+              </div>
+            ))}
           </div>
 
-          {/* ── Profile: portrait + Notion-style properties ─────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.8, ease: FLUID }}
-            className="n-border mt-8 grid gap-8 rounded-3xl border bg-n-bg p-6 sm:p-8 md:grid-cols-[240px_minmax(0,1fr)]"
-          >
-            <div>
-              <div className="relative mx-auto w-48 md:w-full">
-                <motion.img
-                  src={`${import.meta.env.BASE_URL}${PHOTO.portraitWebp}`}
-                  alt={data.name}
-                  width={800}
-                  height={1200}
-                  whileHover={{ rotate: -1.5, y: -4 }}
-                  transition={{ duration: 0.6, ease: FLUID }}
-                  className="aspect-[2/3] w-full rounded-2xl object-cover shadow-2xl shadow-black/15"
-                />
-                <span className="n-tag n-tag-green absolute -bottom-3 left-1/2 -translate-x-1/2 gap-1.5 whitespace-nowrap px-2 py-0.5 shadow-md">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                  </span>
-                  {labels.available}
-                </span>
+          {/* ── Profile and route ── */}
+          <Section title={labels.profile} display>
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_17rem]">
+              <div className="min-w-0">
+                <p className="n-text max-w-prose text-base leading-relaxed">{lead(data.summaryShort ?? data.summary)}</p>
+                <div className="mt-2 -ml-2">
+                  <Toggle title={labels.fullProfile}>
+                    <p className="max-w-prose text-base leading-relaxed">{data.summary}</p>
+                  </Toggle>
+                </div>
+
+                <h3 className="font-display mt-10 text-2xl">{labels.changed}</h3>
+                <ul className="mt-3">
+                  {achievements.map(a => (
+                    <li key={a} className="n-text border-t border-n-border py-3 text-sm leading-relaxed">{a}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-display text-2xl">{labels.route}</h3>
+                <ol className="mt-4 space-y-4">
+                  {route.map(({ e, art }) => {
+                    const r = INK_ROUTE[e.id];
+                    const now = e.end === 'present';
+                    return (
+                      <li key={e.id} className="grid grid-cols-[3rem_minmax(0,1fr)_2.5rem] items-start gap-x-3">
+                        <span className={`font-display text-lg leading-tight ${now ? 'text-n-accent-2' : ''}`}>{e.start.slice(0, 4)}</span>
+                        <span>
+                          <span className="n-text block text-sm leading-snug">{r ? (en ? r.en : r.es) : e.role}</span>
+                          <span className="n-muted block text-xs">
+                            {r?.at ?? e.company}
+                            {now ? `, ${labels.today}` : ''}
+                          </span>
+                        </span>
+                        {art ? <InkArt name={art} className="n-text h-10 w-10" /> : <span />}
+                      </li>
+                    );
+                  })}
+                </ol>
               </div>
             </div>
 
-            <div className="min-w-0">
-              <h2 className="n-text text-3xl font-bold tracking-tight">{data.name}</h2>
-              <p className="mt-1 text-lg font-medium text-n-accent">{data.headline}</p>
-
-              <dl className="n-border mt-5 space-y-2 border-y py-4 text-sm">
-                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
-                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><MapPin className="h-4 w-4" aria-hidden="true" />{labels.location}</dt>
-                  <dd className="n-text">{data.location} · {labels.remote}</dd>
-                </div>
-                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
-                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><Languages className="h-4 w-4" aria-hidden="true" />{labels.languages}</dt>
-                  <dd className="n-text">{languages.map(l => `${l.language} (${l.level})`).join(' · ')}</dd>
-                </div>
-                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
-                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><Building2 className="h-4 w-4" aria-hidden="true" />{labels.industries}</dt>
-                  <dd className="flex flex-wrap gap-1.5">
-                    {industries.map((ind, i) => (
-                      <span key={ind} className={`n-tag n-tag-${industryTone(i)}`}>{ind}</span>
-                    ))}
-                  </dd>
-                </div>
-                <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
-                  <dt className="n-muted flex w-32 shrink-0 items-center gap-2"><AtSign className="h-4 w-4" aria-hidden="true" />{labels.contact}</dt>
-                  <dd className="flex flex-wrap gap-x-4 gap-y-1">
-                    <a href={`mailto:${data.email}`} className={LINK}>
-                      <Mail className="h-3.5 w-3.5" aria-hidden="true" />{data.email}
+            <ol className="n-muted mt-12 space-y-1 border-t border-n-border pt-4 text-xs leading-relaxed" aria-label={labels.notes}>
+              {notes.map((n, i) => (
+                <li key={i} id={`nota-${i + 1}`} className="scroll-mt-28">
+                  <span className="mr-1.5 text-n-accent-2">{i + 1}</span>
+                  {n}
+                  {i === notes.length - 1 && (
+                    <a href={`${import.meta.env.BASE_URL}#/flowber`} className={LINK}>
+                      {en ? 'Flowber case study' : 'caso de estudio de Flowber'}
                     </a>
-                    {data.links.map(link => (
-                      <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={LINK}>
-                        {link.label === 'LinkedIn' ? <Linkedin className="h-3.5 w-3.5" aria-hidden="true" /> : <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />}
-                        {link.label}
-                      </a>
-                    ))}
-                  </dd>
-                </div>
-              </dl>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </Section>
 
-              <NowStrip lang={lang} className="mt-5" />
-
-              {/* Lead first; the full profile is one toggle away instead of a wall of text */}
-              <p className="n-text mt-5 text-base leading-relaxed">{lead(data.summaryShort ?? data.summary)}</p>
-              <div className="mt-2 -ml-2">
-                <Toggle title={labels.fullProfile}>
-                  <p className="text-base leading-relaxed">{data.summary}</p>
-                </Toggle>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                {data.badges.map(badge => (
-                  <span key={badge} className="n-tag n-tag-gray">{badge}</span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* ── How I work ──────────────────────────────────────── */}
+          {/* ── How I work ── */}
           {data.workflow && <HowIWork workflow={data.workflow} />}
 
-          {/* ── Career film ─────────────────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.8, ease: FLUID }}
-            className="mt-10"
-          >
+          {/* ── Career film ── */}
+          <div className="mt-14">
             <CareerVideoBlock />
-          </motion.div>
+          </div>
 
-          {/* ── PDF Downloads ──────────────────────────────────── */}
+          {/* ── PDF downloads ── */}
           <div className="mt-12">
             <PDFDownloadButtons />
           </div>
 
-          {/* ── Experience ────────────────────────────────────── */}
+          {/* ── Experience, as a ledger ── */}
           <Section
-            title={lang === 'en' ? 'Experience' : 'Experiencia'}
+            title={en ? 'Experience' : 'Experiencia'}
             intro={labels.experienceIntro}
-            aside={`${data.experience.length} ${lang === 'en' ? 'roles' : 'roles'} · ${industries.length} ${lang === 'en' ? 'industries' : 'industrias'}`}
+            aside={labels.roles(data.experience.length, industries.length)}
+            display
           >
             <div className="mb-6">
-              <CareerTimeline experience={data.experience} industries={industries} lang={lang} onOpen={setSelected} />
+              <CareerTimeline experience={data.experience} lang={lang} onOpen={setSelected} />
             </div>
             <FilterChips
               allTags={allTags}
@@ -318,107 +377,71 @@ export default function ResumePage() {
               labels={{
                 filterBy: labels.filterBy,
                 clear: labels.clear,
-                more: n => (lang === 'en' ? `+${n} more` : `+${n} más`),
-                less: lang === 'en' ? 'Show less' : 'Ver menos',
+                more: n => (en ? `+${n} more` : `+${n} más`),
+                less: en ? 'Show less' : 'Ver menos',
               }}
             />
-            <motion.div
-              variants={staggerContainer}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="mt-6 grid grid-cols-1 gap-4"
-            >
-              <AnimatePresence mode="popLayout">
+            <div className="mt-6 border-b border-n-border">
+              <AnimatePresence mode="popLayout" initial={false}>
                 {filteredExperience.map(exp => (
-                  <motion.div
-                    key={exp.id}
-                    variants={cardReveal}
-                    layout
-                    exit={{ opacity: 0, scale: 0.96 }}
-                  >
-                    <ExperienceCard item={exp} onOpen={setSelected} lang={lang} />
+                  <motion.div key={exp.id} layout exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+                    <InkEntry item={exp} art={ledgerArt.get(exp.id)} lang={lang} onOpen={setSelected} />
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </motion.div>
+            </div>
           </Section>
 
-
-          {/* ── Skills Dashboard (the overview); per-tool self-assessment folded below it ── */}
-          <Section title={labels.skillsDashboard} intro={labels.skillsIntro}>
+          {/* ── Skills: the dashboard, with years per tool folded below ── */}
+          <Section title={labels.skillsDashboard} intro={labels.skillsIntro} display>
             <SkillsDashboard />
             <div className="mt-6">
               <Toggle title={labels.skills}>
-                <p className="mb-4 text-sm">{labels.skillsSelfNote}</p>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
                   {data.skills.map(skill => (
-                    <SkillMeter key={skill.name} name={skill.name} level={skill.level} years={skill.years} />
+                    <li key={skill.name} className="flex items-baseline justify-between gap-4 border-b border-n-border py-2 text-sm">
+                      <span className="n-text">{skill.name}</span>
+                      {skill.years != null && <span className="n-muted shrink-0 tabular-nums">{labels.years(skill.years)}</span>}
+                    </li>
                   ))}
-                </div>
+                </ul>
               </Toggle>
             </div>
           </Section>
 
-          {/* ── Tools & Technologies ──────────────────────────── */}
-          <Section title={labels.tools}>
-            <div className="n-border rounded-2xl border bg-n-bg p-6">
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                {toolCategories.map(cat => (
-                  <div key={cat.key}>
-                    <div className="mb-3 flex items-center gap-2">
-                      {cat.icon}
-                      <h3 className="font-semibold text-sm n-text">{cat.label}</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {cat.items.map(tool => (
-                        <span key={tool} className={cat.chip}>
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {tools.methodologies && (
-                <div className="mt-5 pt-5 border-t border-n-border">
-                  <div className="flex flex-wrap gap-1.5 items-center">
-                    <span className="text-xs font-medium n-muted mr-1">
-                      {lang === 'en' ? 'Methodologies:' : 'Metodologías:'}
-                    </span>
-                    {tools.methodologies.map(m => (
-                      <span key={m} className="n-tag n-tag-gray">
-                        {m}
-                      </span>
-                    ))}
-                  </div>
+          {/* ── Tools, as words ── */}
+          <Section title={labels.tools} display>
+            <div className="grid gap-x-8 gap-y-6 border-t border-n-border pt-5 sm:grid-cols-2 lg:grid-cols-4">
+              {toolGroups.map(([head, list]) => (
+                <div key={head}>
+                  <h3 className="font-display text-xl">{head}</h3>
+                  <p className="n-muted mt-2 text-sm leading-relaxed">{list.join(', ')}</p>
                 </div>
-              )}
+              ))}
             </div>
+            {tools.methodologies && (
+              <p className="n-muted mt-6 border-t border-n-border pt-4 text-sm leading-relaxed">
+                <span className="n-text">{labels.methodologies}: </span>
+                {tools.methodologies.join(', ')}
+              </p>
+            )}
           </Section>
 
-          {/* ── Education ─────────────────────────────────────── */}
-          <Section title={labels.education}>
-            <div className="n-border rounded-2xl border bg-n-bg p-6">
+          {/* ── Education and languages ── */}
+          <div className="grid gap-x-12 lg:grid-cols-[minmax(0,1fr)_17rem]">
+            <Section title={labels.education} display>
               {data.education.map((edu, index) => (
-                <div key={index} className={index > 0 ? 'mt-6 pt-6 border-t border-n-border' : ''}>
-                  <div className="font-bold text-lg n-text">{edu.institution}</div>
-                  <div className="mt-1 n-text font-medium">
-                    {edu.degree} — {edu.area}
-                  </div>
-                  <div className="mt-1 flex items-center gap-2 text-sm n-muted">
-                    <Calendar className="h-3.5 w-3.5" />
-                    <span>
-                      {edu.status
-                        ? edu.status
-                        : `${lang === 'en' ? 'Expected:' : 'Fin estimado:'} ${edu.end === 'present' ? (lang === 'en' ? 'In Progress' : 'En Curso') : edu.end}`}
-                    </span>
-                  </div>
+                <div key={index} className={`border-t border-n-border pt-4 ${index > 0 ? 'mt-6' : ''}`}>
+                  <p className="font-display text-xl">{edu.institution}</p>
+                  <p className="n-text mt-1 text-sm">{edu.degree}, {edu.area}</p>
+                  <p className="n-muted mt-1 text-sm">
+                    {edu.status ?? (edu.end === 'present' ? (en ? 'In progress' : 'En curso') : edu.end)}
+                  </p>
                   {edu.highlights && edu.highlights.length > 0 && (
-                    <ul className="mt-4 space-y-2">
+                    <ul className="mt-3 space-y-1.5">
                       {edu.highlights.map((h, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm n-muted">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
+                        <li key={i} className="n-muted grid grid-cols-[1rem_minmax(0,1fr)] text-sm leading-relaxed">
+                          <span aria-hidden="true">–</span>
                           {h}
                         </li>
                       ))}
@@ -426,49 +449,25 @@ export default function ResumePage() {
                   )}
                 </div>
               ))}
-            </div>
-          </Section>
+            </Section>
 
-          {/* ── Languages ─────────────────────────────────────── */}
-          <Section title={labels.languages}>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {languages.map((language, index) => (
-                <motion.div
-                  key={language.language}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="n-border rounded-2xl border bg-n-bg p-5"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="font-semibold n-text">{language.language}</div>
-                    <div className="n-tag n-tag-blue">
-                      {language.level}
-                    </div>
+            <Section title={labels.languages} display>
+              <dl className="border-t border-n-border">
+                {data.languages.map(l => (
+                  <div key={l.language} className="flex items-baseline justify-between gap-4 border-b border-n-border py-3 text-sm">
+                    <dt className="n-text">{l.language}</dt>
+                    <dd className="n-muted text-right">{l.level}</dd>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-n-callout">
-                    <motion.div
-                      className="h-2 rounded-full bg-n-accent"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${language.proficiency}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: index * 0.1 + 0.2 }}
-                    />
-                  </div>
-                  <div className="n-muted mt-2 text-right font-mono-geist text-xs">
-                    {language.proficiency}%
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </Section>
+                ))}
+              </dl>
+            </Section>
+          </div>
 
-          {/* ── Experience Detail Modal ───────────────────────── */}
+          {/* ── Experience detail ── */}
           <AnimatePresence>
             {selected && (
               <motion.div
-                className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm p-4 flex items-center justify-center"
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -480,52 +479,40 @@ export default function ResumePage() {
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby="experience-modal-title"
-                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto n-border rounded-2xl border bg-n-bg shadow-2xl shadow-black/20 focus:outline-none"
-                  initial={{ scale: 0.88, opacity: 0, y: 16 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.92, opacity: 0 }}
-                  transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="max-h-[82vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-n-border bg-n-bg shadow-xl shadow-black/20 focus:outline-none"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.22, ease: [0.25, 0.46, 0.45, 0.94] }}
                   onClick={e => e.stopPropagation()}
                 >
-                  <div className="sticky top-0 z-10 flex items-center justify-between n-border border-b bg-n-bg/95 p-5 backdrop-blur-sm">
-                    <div className="flex-1 min-w-0">
-                      <h3 id="experience-modal-title" className="text-lg font-bold n-text leading-snug">{selected.role}</h3>
-                      <div className="mt-0.5 text-sm font-medium n-muted">
-                        {selected.company} · {selected.location}
-                      </div>
-                      <div className="mt-1 text-xs n-muted">
-                        {getDuration(selected.start, selected.end, lang)}
-                      </div>
+                  <div className="sticky top-0 z-10 flex items-start justify-between border-b border-n-border bg-n-bg p-5">
+                    <div className="min-w-0 flex-1">
+                      <h3 id="experience-modal-title" className="n-text font-semibold leading-snug">{selected.role}</h3>
+                      <p className="n-text mt-0.5 text-sm">{selected.company}</p>
+                      <p className="n-muted mt-1 text-xs">
+                        {selected.location}. {getDuration(selected.start, selected.end, lang)}
+                      </p>
                     </div>
-                    <button
-                      onClick={() => setSelected(null)}
-                      className="ml-4 shrink-0 rounded-full p-2 n-hover transition-colors"
-                      aria-label={labels.close}
-                    >
+                    <button onClick={() => setSelected(null)} data-sfx="none" className="n-hover ml-4 shrink-0 rounded-full p-2 transition-colors n-focus" aria-label={labels.close}>
                       <X className="h-5 w-5" />
                     </button>
                   </div>
 
                   <div className="p-5">
                     {selected.approach && <ApproachFlow approach={selected.approach} lang={lang} className="mb-5" />}
-                    {selected.tags && selected.tags.length > 0 && (
-                      <div className="mb-5 flex flex-wrap gap-1.5">
-                        {selected.tags.map(tag => (
-                          <span key={tag} className="n-tag n-tag-gray">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                     {selected.bullets && selected.bullets.length > 0 && (
                       <ul className="space-y-3">
                         {selected.bullets.map((bullet, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
-                            <span className="text-sm n-text leading-relaxed">{bullet}</span>
+                          <li key={i} className="grid grid-cols-[1rem_minmax(0,1fr)] text-sm leading-relaxed">
+                            <span className="n-muted" aria-hidden="true">–</span>
+                            <span className="n-text">{bullet}</span>
                           </li>
                         ))}
                       </ul>
+                    )}
+                    {selected.tags && selected.tags.length > 0 && (
+                      <p className="n-muted mt-5 border-t border-n-border pt-4 text-xs leading-relaxed">{selected.tags.join(', ')}</p>
                     )}
                   </div>
                 </motion.div>

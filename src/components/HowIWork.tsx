@@ -1,30 +1,27 @@
-import { motion, useReducedMotion } from 'framer-motion';
 import type { WorkflowStep } from '../types';
-import { FLUID } from '../utils/animations';
 
 type Props = { workflow: { title: string; intro: string; steps: WorkflowStep[] } };
 
-/** Four numbered moves that repeat in every role; data comes from profile-*.ts. */
+/**
+ * Four moves that repeat in every role, in order; data comes from profile-*.ts.
+ * Set in ink: Bodoni step numbers (the content really is a sequence), hairline
+ * columns, no boxes. It is a Section in the page outline like its neighbours.
+ */
 export default function HowIWork({ workflow }: Props) {
-  const reduce = useReducedMotion();
   return (
-    <section className="n-border mt-10 rounded-3xl border bg-n-bg p-6 sm:p-8" aria-labelledby="how-i-work">
-      <h2 id="how-i-work" className="n-text text-2xl font-semibold tracking-tight">{workflow.title}</h2>
+    <section id="how-i-work" data-outline={workflow.title} className="mt-14 scroll-mt-24" aria-labelledby="how-i-work-title">
+      <h2 id="how-i-work-title" className="font-display n-text text-3xl">{workflow.title}</h2>
       <p className="n-muted mt-1 max-w-xl text-sm">{workflow.intro}</p>
-      <ol className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ol className="mt-6 grid border-t border-n-border sm:grid-cols-2 lg:grid-cols-4">
         {workflow.steps.map((step, i) => (
-          <motion.li
+          <li
             key={step.title}
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.6, delay: i * 0.08, ease: FLUID }}
-            className="n-callout relative rounded-2xl p-4"
+            className={`py-5 sm:pr-6 ${i > 0 ? 'border-t border-n-border sm:border-t-0' : ''} ${i % 2 === 1 ? 'sm:border-l sm:pl-6' : ''} ${i > 1 ? 'sm:border-t lg:border-t-0' : ''} ${i === 2 ? 'lg:border-l lg:pl-6' : ''}`}
           >
-            <span className="font-mono-geist text-2xl font-semibold text-n-accent" aria-hidden="true">{i + 1}</span>
-            <h3 className="n-text mt-2 text-base font-semibold leading-snug">{step.title}</h3>
+            <span className="font-display text-4xl leading-none" aria-hidden="true">{i + 1}</span>
+            <h3 className="n-text mt-3 text-base font-semibold leading-snug">{step.title}</h3>
             <p className="n-muted mt-1.5 text-sm leading-relaxed">{step.text}</p>
-          </motion.li>
+          </li>
         ))}
       </ol>
     </section>

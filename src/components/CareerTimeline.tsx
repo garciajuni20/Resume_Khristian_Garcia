@@ -2,16 +2,15 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { ExperienceItem, Lang } from '../types';
 import { shortCompany } from '../utils/company';
 import { FLUID } from '../utils/animations';
-import { industryTone } from '../utils/tone';
 
 /**
  * Career map: one bar per role on a shared month scale, so overlapping roles
  * (the promotion, the part-time AI role, the side venture) read at a glance.
- * Colors follow the industry order used by the profile card tags.
+ * Set in ink like the rest of the resume: bars are engraved hatching
+ * (`.ink-hatch`), the roles held today are outlined in coral.
+ * With sound on, each bar rings one note up the scale, oldest first: sweeping
+ * the pointer across the map plays the career as a rising melody.
  */
-
-/* Bars reuse the Notion tag palette (pastel in light, deep in dark) so the
-   label text keeps AA contrast in both themes. */
 
 function months(value: string, now: Date): number {
   if (value === 'present' || value === 'actual') return now.getFullYear() * 12 + now.getMonth();
@@ -21,12 +20,11 @@ function months(value: string, now: Date): number {
 
 type Props = {
   experience: ExperienceItem[];
-  industries: string[];
   lang: Lang;
   onOpen: (item: ExperienceItem) => void;
 };
 
-export default function CareerTimeline({ experience, industries, lang, onOpen }: Props) {
+export default function CareerTimeline({ experience, lang, onOpen }: Props) {
   const reduce = useReducedMotion();
   const now = new Date();
   const nowM = months('present', now);
@@ -43,17 +41,10 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
     : { title: 'Mapa de carrera', sub: 'Todos los roles en una misma escala; las barras que se traslapan son roles simultáneos.', now: 'Hoy', open: 'Abrir detalles de' };
 
   return (
-    <div className="n-border rounded-2xl border bg-n-bg p-5 sm:p-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h3 className="n-text text-lg font-semibold tracking-tight">{t.title}</h3>
-          <p className="n-muted mt-1 text-sm">{t.sub}</p>
-        </div>
-        <ul className="flex flex-wrap gap-1.5" aria-label={lang === 'en' ? 'Industries' : 'Industrias'}>
-          {industries.map((ind, i) => (
-            <li key={ind} className={`n-tag n-tag-${industryTone(i)} text-xs`}>{ind}</li>
-          ))}
-        </ul>
+    <div className="border-t border-n-border pt-5">
+      <div>
+        <h3 className="font-display n-text text-2xl">{t.title}</h3>
+        <p className="n-muted mt-1 text-sm">{t.sub}</p>
       </div>
 
       <div className="relative mt-6 overflow-hidden">
@@ -62,7 +53,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
           {years.map((y, i) => (
             <span
               key={y}
-              className={`n-muted absolute top-0 font-mono-geist text-[11px] ${i === 0 ? '' : i === years.length - 1 ? '-translate-x-full' : '-translate-x-1/2'}`}
+              className={`n-muted absolute top-0 text-[11px] tabular-nums ${i === 0 ? '' : i === years.length - 1 ? '-translate-x-full' : '-translate-x-1/2'}`}
               style={{ left: `${pct(y * 12)}%` }}
             >
               {/* Two digits on phones: the first and last pairs of years collide otherwise */}
@@ -81,7 +72,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
             style={{ left: `${pct(nowM)}%` }}
             aria-hidden="true"
           >
-            <span className="absolute -top-1 right-1 whitespace-nowrap rounded px-1 font-mono-geist text-[10px] font-semibold text-n-highlight">{t.now}</span>
+            <span className="absolute -top-1 right-1 whitespace-nowrap px-1 text-[10px] font-semibold text-n-highlight">{t.now}</span>
           </span>
 
           {rows.map((e, i) => {
@@ -89,7 +80,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
             const en = Math.max(months(e.end, now), s + 1);
             const left = pct(s);
             const width = pct(en) - left;
-            const tone = industryTone(Math.max(0, industries.indexOf(e.industry ?? '')));
+            const current = e.end === 'present';
             const wide = width > 22;
             const label = `${e.role.replace(/\s*\(.*\)$/, '').split(' — ')[0]} · ${shortCompany(e.company)}`;
             return (
@@ -97,12 +88,14 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
                 <motion.button
                   type="button"
                   onClick={() => onOpen(e)}
+                  data-sfx="none"
+                  data-sfx-hover={`note:${i}`}
                   aria-label={wide ? undefined : `${t.open} ${e.role}, ${e.company}`}
                   initial={reduce ? false : { scaleX: 0, opacity: 0 }}
                   whileInView={{ scaleX: 1, opacity: 1 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.9, delay: i * 0.06, ease: FLUID }}
-                  className={`n-tag-${tone} n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold shadow-sm transition-[filter] duration-300 hover:brightness-95 n-focus dark:hover:brightness-125`}
+                  className={`ink-hatch n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-sm border px-2 text-left text-xs font-semibold transition-colors duration-300 hover:bg-n-hover n-focus ${current ? 'border-n-accent-2' : 'border-n-border'}`}
                   style={{ left: `${left}%`, width: `${width}%`, minWidth: 10 }}
                 >
                   {wide && (

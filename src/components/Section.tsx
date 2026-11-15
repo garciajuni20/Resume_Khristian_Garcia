@@ -8,6 +8,8 @@ type Props = {
   intro?: string;
   /** Right-aligned detail, e.g. a count */
   aside?: ReactNode;
+  /** Bodoni heading, for pages set in the ink style (the resume) */
+  display?: boolean;
   children: ReactNode;
 };
 
@@ -16,13 +18,13 @@ type Props = {
  * aside. The `data-outline` attribute is what PageOutline reads to build the
  * "On this page" list, so every Section is automatically navigable.
  */
-export default function Section({ title, intro, aside, children }: Props) {
+export default function Section({ title, intro, aside, display = false, children }: Props) {
   const id = slugify(title);
   return (
     <section id={id} data-outline={title} className="mt-14 scroll-mt-24">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h2 className="group n-text text-2xl font-semibold tracking-tight">
+          <h2 className={`group n-text ${display ? 'font-display text-3xl' : 'text-2xl font-semibold tracking-tight'}`}>
             <a href={`#${id}`} className="relative" onClick={e => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }}>
               <span className="n-muted absolute -left-6 top-0 hidden opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:inline" aria-hidden="true">#</span>
               {title}
@@ -30,7 +32,7 @@ export default function Section({ title, intro, aside, children }: Props) {
           </h2>
           {intro && <p className="n-muted mt-1 text-sm">{intro}</p>}
         </div>
-        {aside && <div className="n-muted hidden shrink-0 font-mono-geist text-xs sm:block">{aside}</div>}
+        {aside && <div className={`n-muted hidden shrink-0 text-xs sm:block ${display ? "" : "font-mono-geist"}`}>{aside}</div>}
       </div>
       <div className="mt-5">{children}</div>
     </section>

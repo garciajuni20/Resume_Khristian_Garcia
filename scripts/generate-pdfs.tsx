@@ -5,7 +5,7 @@
 import React from 'react';
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 
 // esbuild's classic JSX transform in this script references React at runtime
 void React;
@@ -15,9 +15,12 @@ process.env.PDF_ASSET_BASE = path.resolve('public') + path.sep;
 
 const outDir = path.resolve('job-search', 'CVs');
 
-// react-pdf cannot load a Windows path as an image URL; hand it the bytes instead
+// react-pdf cannot load a Windows path as an image URL; hand it the bytes instead.
+// The engravings in public/ink/pdf (scripts/ink-assets.py) are picked up as a folder.
+const inkDir = path.resolve('public', 'ink', 'pdf');
+const inkFiles = existsSync(inkDir) ? readdirSync(inkDir).map(f => `ink/pdf/${f}`) : [];
 (globalThis as { __PDF_IMAGES__?: Record<string, Uint8Array> }).__PDF_IMAGES__ = Object.fromEntries(
-  ['me/khristian-portrait.jpg', 'me/khristian-square.jpg'].map(p => [p, readFileSync(path.resolve('public', p))])
+  ['me/khristian-portrait.jpg', 'me/khristian-square.jpg', ...inkFiles].map(p => [p, readFileSync(path.resolve('public', p))])
 );
 
 async function main() {
