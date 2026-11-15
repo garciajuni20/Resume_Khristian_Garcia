@@ -17,26 +17,26 @@ export const profileES = {
     "Ingeniero de Datos, desarrollador full-stack e ingeniero de IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas en Alleviate y remesas internacionales en IDT), bienestar, retail de servicios y educación universitaria, trabajando en inglés y en español. En Alleviate Financial Solutions construí desde cero la plataforma analítica como primera contratación de BI de la cuenta y fui promovido a Ingeniero de Datos en noviembre de 2026: modelado, perfilamiento de roles y optimización en Snowflake, pipelines ETL/ELT con dbt, orquestación en Azure Data Factory sobre Azure y GCP, Databricks e integraciones de Salesforce hacia Snowflake, elevando la precisión de datos del 85% al 99.5% y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde noviembre de 2026 también trabajo medio tiempo como AI Implementation Engineer a través de Virtrify, construyendo el CRM, las automatizaciones en n8n y el sistema de contenido de una marca de bienestar y retiros en EE. UU. Desde enero de 2024 lidero la transformación digital de Flowber, la barbería de Danover, de la idea a producción como full-stack engineer y arquitecto: React/TypeScript sobre PostgreSQL/Supabase con RLS por rol, un agente de IA con 20 herramientas y RAG sobre pgvector, y un data warehouse con dbt + DuckDB que incluye modelos predictivos. Lidero proyectos de principio a fin con stakeholders de EE. UU., automatizo procesos con Python, SQL y Selenium, y diseño, despliego y escalo APIs REST y aplicaciones dockerizadas. Ingeniería en Sistemas en la USAC completada (pensum cerrado y examen privado aprobado, 2026); maestría a partir de febrero de 2027.",
 
   summaryShort:
-    "Ingeniero de Datos, full-stack e IA con más de 7 años en servicios financieros de EE. UU. (consolidación de deudas y remesas), bienestar, retail de servicios y educación, bilingüe en inglés y español. En Alleviate Financial Solutions construí desde cero la plataforma analítica con Snowflake, dbt, Azure Data Factory y Databricks (precisión de datos del 85% al 99.5%, reportes financieros de más de 2 días a menos de 30 minutos) y fui promovido a Ingeniero de Datos en noviembre de 2026; desde entonces también soy AI Implementation Engineer de medio tiempo vía Virtrify. Desde 2024 llevo Flowber de la idea a producción como arquitecto y único ingeniero: React + Supabase con seguridad por rol en la base de datos, un agente de IA con RAG sobre pgvector y un warehouse dbt + DuckDB con modelos de machine learning.",
+    "Ingeniero de Datos que convierte datos dispersos en decisiones confiables, con más de 7 años entre remesas, fintech de EE. UU., retail de servicios, bienestar y educación, en inglés y español. En Alleviate Financial Solutions construí desde cero la plataforma analítica sobre Snowflake, dbt, Azure Data Factory y Databricks: la precisión de datos pasó del 85% al 99.5%, los reportes financieros de más de 2 días a menos de 30 minutos, y pasé de primera contratación de BI de la cuenta a Ingeniero de Datos en noviembre de 2026. En paralelo construyo sistemas con IA que la gente usa a diario: Flowber, la plataforma de una barbería con un agente de IA y RAG sobre pgvector, y, desde noviembre de 2026, el CRM y las automatizaciones de una marca de bienestar de EE. UU. vía Virtrify.",
 
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "IA · RAG · pgvector", "Bilingüe EN/ES"],
 
   keyAchievements: [
-    "Mejoré la precisión de datos del 85% al 99.5% diseñando la capa analítica en Snowflake detrás del reporting financiero de 5 departamentos.",
-    "Promovido a Ingeniero de Datos en Alleviate Financial Solutions (noviembre de 2026) tras construir la plataforma analítica desde cero como primera contratación de BI de la cuenta.",
-    "Llevé Flowber de la idea a producción (ene 2024 → hoy): 160+ citas y 90+ clientes registrados en la plataforma, un agente de IA con RAG (100% hit@1 en su evaluación) y un warehouse dbt con 50 tests y modelos de ML.",
-    "Reduje el ciclo de reportes financieros de más de 2 días a menos de 30 minutos con pipelines automatizados en SQL/dbt y dashboards en Power BI — 70% menos tiempo de reporting manual.",
-    "Automaticé procesos internos de la empresa con Python, SQL y Selenium — incluyendo automatizaciones que impulsaron la generación de leads de forma medible.",
-    "Eliminé el 90% de errores recurrentes en reportes mediante validación de datos, alertas y Procedimientos Operativos Estándar documentados."
+    "Convertí el reporting de 5 departamentos, que vivía en hojas de cálculo, en una sola fuente de verdad en Snowflake: la precisión de datos pasó del 85% al 99.5%.",
+    "Llegué como la primera contratación de BI de la cuenta de Alleviate Financial Solutions y hoy soy su Ingeniero de Datos (noviembre de 2026), a cargo de la plataforma que construí desde cero.",
+    "Bajé el cierre de reportes financieros de más de 2 días a menos de 30 minutos con pipelines SQL/dbt y dashboards en Power BI: 70% menos trabajo manual en cada ciclo.",
+    "Diseñé, construí y opero en solitario Flowber, la plataforma de una barbería real: 160+ citas y 90+ clientes en producción, un agente de IA con 20 herramientas, RAG con 100% hit@1 y $0 de infraestructura.",
+    "Un mart de salud de datos en el warehouse de Flowber (24 modelos dbt, 50 tests) encontró Q4,245 de ingresos que no llegaban al BI.",
+    "Eliminé el 90% de los errores recurrentes en reportes con validaciones, alertas y Procedimientos Operativos Estándar documentados."
   ],
 
   experience: [
     {
       id: "alleviate-de",
       approach: {
-        context: "Ascendido en nov 2026 a dueño de la plataforma que construí como primer contratado de BI de la cuenta; el negocio corre sobre ella.",
+        context: "Ascendido en noviembre de 2026 para hacerme cargo de la plataforma que construí; hoy la empresa opera sobre ella.",
         how: "Recursos en Azure y GCP, orquestación en ADF, modelado y diseño de accesos en Snowflake, pipelines en dbt y Python, integraciones con Salesforce, SOPs y CI en GitLab.",
-        result: "Una plataforma gobernada que consulta toda la empresa, con procedimientos documentados y control de versiones.",
+        result: "Una plataforma gobernada que consultan los 5 departamentos, versionada en GitLab y documentada con SOPs.",
       },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -81,7 +81,7 @@ export const profileES = {
     {
       id: "flowber-freelance",
       approach: {
-        context: "Una barbería con agenda en papel, dobles citas y sin datos de su propio negocio.",
+        context: "Una barbería real con agenda en papel, citas duplicadas y sin datos de su negocio.",
         how: "Descubrimiento con el dueño; luego una plataforma serverless React + Supabase con la seguridad en la base de datos, un agente de IA con 20 herramientas y RAG, y un warehouse dbt + DuckDB con ML.",
         result: "160+ citas y 90+ clientes en producción, RAG con 100% hit@1, LCP móvil de 4.8 s a 2.5 s.",
       },
@@ -108,7 +108,7 @@ export const profileES = {
       approach: {
         context: "Primer contratado de BI en una fintech de consolidación de deudas de EE. UU.: cinco departamentos reportando desde hojas de cálculo con 85% de precisión.",
         how: "Modelé un esquema estrella en Snowflake, validé cada fuente, construí pipelines en dbt y ADF y 15+ dashboards en Power BI y Tableau con los stakeholders de EE. UU.",
-        result: "Precisión de datos 99.5%, ciclo de reportes de 2+ días a menos de 30 minutos, y el ascenso a Ingeniero de Datos.",
+        result: "Precisión del 85% al 99.5%, reportes de 2+ días a menos de 30 minutos y el ascenso a Ingeniero de Datos.",
       },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -163,7 +163,7 @@ export const profileES = {
     {
       id: "idt-gnoc",
       approach: {
-        context: "NOC 24/7 de infraestructura de remesas internacionales para 5,000+ usuarios concurrentes.",
+        context: "Guardia 24/7 de la infraestructura de remesas de IDT: 5,000+ usuarios concurrentes.",
         how: "Monitoreo con Zabbix, Grafana, New Relic y Splunk; triage de incidentes, escalamiento y runbooks en Windows y Linux.",
         result: "Tiempo medio de recuperación 25% menor y respuesta a incidentes 60% más rápida con alertas automatizadas.",
       },

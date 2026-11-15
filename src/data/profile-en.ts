@@ -17,26 +17,26 @@ export const profileEN = {
     "Data Engineer, full-stack developer, and AI engineer with 7+ years across US financial services (debt consolidation at Alleviate and international remittances at IDT), wellness, service retail, and university education, working in both English and Spanish. At Alleviate Financial Solutions I built the analytics platform from scratch as the account's first BI hire and was promoted to Data Engineer in November 2026: Snowflake modeling, role profiling and optimization, dbt and ETL/ELT pipelines, Azure Data Factory orchestration across Azure and GCP, Databricks, and Salesforce-to-Snowflake integrations, raising data accuracy from 85% to 99.5% and cutting the financial reporting cycle from 2+ days to under 30 minutes. Since November 2026 I also work part-time as AI Implementation Engineer through Virtrify, building the CRM, n8n automation, and content backbone of a US wellness and retreat brand. Since January 2024 I have led the digital transformation of Flowber, Danover's barbershop, from idea to production as full-stack engineer and architect: React/TypeScript on PostgreSQL/Supabase with role-based RLS, an AI agent with 20 tools and RAG on pgvector, and a dbt + DuckDB data warehouse with predictive models. I lead projects end to end with US stakeholders, automate processes with Python, SQL, and Selenium, and design, deploy, and scale REST APIs and dockerized apps. Systems Engineering at USAC completed (pensum closed and private exam passed, 2026); master's degree starting February 2027.",
 
   summaryShort:
-    "Data Engineer, full-stack and AI engineer with 7+ years across US financial services (debt consolidation and remittances), wellness, service retail, and education, bilingual in English and Spanish. At Alleviate Financial Solutions I built the analytics platform from scratch with Snowflake, dbt, Azure Data Factory, and Databricks (data accuracy from 85% to 99.5%, financial reporting from 2+ days to under 30 minutes) and was promoted to Data Engineer in November 2026; since then also a part-time AI Implementation Engineer via Virtrify. Since 2024 I have taken Flowber from idea to production as architect and sole engineer: React + Supabase with role-based security in the database, an AI agent with RAG on pgvector, and a dbt + DuckDB warehouse with machine learning models.",
+    "Data Engineer who turns scattered data into decisions people can trust, with 7+ years across remittances, US fintech, service retail, wellness, and education, in English and Spanish. At Alleviate Financial Solutions I built the analytics platform from scratch on Snowflake, dbt, Azure Data Factory, and Databricks: data accuracy went from 85% to 99.5%, financial reporting from 2+ days to under 30 minutes, and I went from the account's first BI hire to Data Engineer in November 2026. Alongside, I build AI systems people use every day: Flowber, a barbershop platform with an AI agent and RAG on pgvector, and, since November 2026, the CRM and automations of a US wellness brand via Virtrify.",
 
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "AI · RAG · pgvector", "Bilingual EN/ES"],
 
   keyAchievements: [
-    "Improved data accuracy from 85% to 99.5% by architecting the Snowflake analytical layer behind financial reporting for 5 departments.",
-    "Promoted to Data Engineer at Alleviate Financial Solutions (November 2026) after building the analytics platform from zero as the account's first BI hire.",
-    "Took Flowber from idea to production (Jan 2024 → today): 160+ appointments and 90+ registered customers on the platform, an AI agent with RAG (100% hit@1 on its eval set), and a dbt warehouse with 50 tests and ML models.",
-    "Reduced the financial reporting cycle from 2+ days to under 30 minutes with automated SQL/dbt pipelines and Power BI dashboards — 70% less manual reporting time.",
-    "Automated internal company processes with Python, SQL, and Selenium — including automations that measurably boosted lead generation.",
-    "Eliminated 90% of recurring reporting errors through data validation, alerting, and documented Standard Operating Procedures."
+    "Turned 5 departments' spreadsheet reporting into a single source of truth in Snowflake: data accuracy went from 85% to 99.5%.",
+    "Joined as the first BI hire on the Alleviate Financial Solutions account and am now its Data Engineer (November 2026), owning the platform I built from scratch.",
+    "Cut the financial reporting cycle from 2+ days to under 30 minutes with SQL/dbt pipelines and Power BI dashboards: 70% less manual work every cycle.",
+    "Designed, built and run Flowber solo, the platform of a real barbershop: 160+ appointments and 90+ customers in production, an AI agent with 20 tools, RAG at 100% hit@1 and $0 infrastructure.",
+    "A data-health mart in Flowber's warehouse (24 dbt models, 50 tests) found Q4,245 of revenue that never reached BI.",
+    "Eliminated 90% of recurring reporting errors with validation, alerting, and documented Standard Operating Procedures."
   ],
 
   experience: [
     {
       id: "alleviate-de",
       approach: {
-        context: "Promoted in Nov 2026 to own the platform I had built as the account's first BI hire; the business now runs on it.",
+        context: "Promoted in November 2026 to own the platform I built; the company now runs on it.",
         how: "Cloud resources on Azure and GCP, ADF orchestration, Snowflake modeling and access design, dbt and Python pipelines, Salesforce integrations, SOPs and GitLab CI.",
-        result: "One governed platform the whole company queries, with documented procedures and version control.",
+        result: "One governed platform all 5 departments query, versioned in GitLab and documented with SOPs.",
       },
       industry: "Fintech · Debt consolidation (US)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -81,7 +81,7 @@ export const profileEN = {
     {
       id: "flowber-freelance",
       approach: {
-        context: "A barbershop with a paper schedule, double bookings and no data about its own business.",
+        context: "A real barbershop with a paper schedule, double bookings and no data about its own business.",
         how: "Discovery with the owner, then a serverless React + Supabase platform with security in the database, an AI agent with 20 tools and RAG, and a dbt + DuckDB warehouse with ML.",
         result: "160+ appointments and 90+ customers in production, RAG at 100% hit@1, mobile LCP from 4.8 s to 2.5 s.",
       },
@@ -108,7 +108,7 @@ export const profileEN = {
       approach: {
         context: "First BI hire at a US debt-consolidation fintech: five departments reporting from spreadsheets at 85% data accuracy.",
         how: "Modeled a Snowflake star schema, validated every source, built dbt and ADF pipelines and 15+ Power BI and Tableau dashboards with the US stakeholders.",
-        result: "Data accuracy 99.5%, reporting cycle from 2+ days to under 30 minutes, and the promotion to Data Engineer.",
+        result: "Accuracy from 85% to 99.5%, reporting from 2+ days to under 30 minutes, and the promotion to Data Engineer.",
       },
       industry: "Fintech · Debt consolidation (US)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
@@ -163,7 +163,7 @@ export const profileEN = {
     {
       id: "idt-gnoc",
       approach: {
-        context: "24/7 NOC for international remittance infrastructure serving 5,000+ concurrent users.",
+        context: "24/7 watch over IDT's remittance infrastructure: 5,000+ concurrent users.",
         how: "Monitoring with Zabbix, Grafana, New Relic and Splunk; incident triage, escalation and runbooks on Windows and Linux.",
         result: "Mean time to recovery down 25% and incident response 60% faster with automated alerting.",
       },

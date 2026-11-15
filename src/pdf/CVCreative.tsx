@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
 
   // ── Route: the career in order, with the industry vignettes
   stop: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: 5.5 },
-  stopYear: { fontFamily: 'Bodoni', fontSize: 10.5, color: INK, width: 30 },
+  // Pulled up so the year shares its baseline with the first line of the role
+  stopYear: { fontFamily: 'Bodoni', fontSize: 10.5, color: INK, width: 30, marginTop: -4.6 },
   stopText: { flex: 1 },
   stopRole: { fontSize: 7.8, color: INK, lineHeight: 1.3 },
   stopAt: { fontSize: 7, color: INK_2, marginTop: 0.5 },
@@ -153,10 +154,11 @@ const styles = StyleSheet.create({
   pageTitle: { fontFamily: 'Bodoni', fontSize: 18, color: INK, marginTop: 2, marginBottom: 5 },
   entry: { flexDirection: 'row', borderTopWidth: 0.75, borderTopColor: RULE, paddingTop: 6, paddingBottom: 5 },
   entryWhen: { width: 70 },
-  entryYear: { fontFamily: 'Bodoni', fontSize: 15, color: INK, lineHeight: 1 },
+  // Set like a drop cap: the year's baseline sits on the company line, beside the title
+  entryYear: { fontFamily: 'Bodoni', fontSize: 15, color: INK, lineHeight: 1, marginTop: 3.1 },
   entrySpan: { fontSize: 6.8, color: INK_2, marginTop: 3 },
   // Fixed height, so the dates sit at the same depth whether or not a vignette is stamped
-  entryHead: { height: 18, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingRight: 4 },
+  entryHead: { height: 21, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingRight: 4 },
   entryArt: { width: 20, height: 20, marginTop: -2 },
   entryBody: { flex: 1 },
   role: { fontWeight: 600, fontSize: 9, color: INK },
