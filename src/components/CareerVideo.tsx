@@ -25,14 +25,14 @@ function Player({ autoPlay = false }: { autoPlay?: boolean }) {
   const t = LABELS[lang];
 
   return (
-    <div className="n-border relative aspect-video w-full overflow-hidden rounded-xl border bg-black">
+    <div className="n-border relative aspect-video w-full overflow-hidden rounded-xl border bg-[#F5F6F8]">
       {playing ? (
         <video ref={ref} key={src} src={src} poster={poster} controls autoPlay playsInline className="h-full w-full" />
       ) : (
         <button type="button" onClick={() => setPlaying(true)} aria-label={t.play} className="group absolute inset-0">
           <img src={poster} alt="" className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.02]" loading="lazy" />
-          <span className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors duration-500 group-hover:bg-black/10">
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-neutral-900 shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-active:scale-95">
+          <span className="absolute inset-0 flex items-center justify-center transition-colors duration-500 group-hover:bg-black/[0.03]">
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#14213D] text-[#F5F6F8] shadow-sm ring-4 ring-[#F5F6F8]/70 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-active:scale-95">
               <Play className="ml-1 h-7 w-7" fill="currentColor" aria-hidden="true" />
             </span>
           </span>
