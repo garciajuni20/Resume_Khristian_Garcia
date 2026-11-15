@@ -22,25 +22,15 @@ import HowIWork from '../components/HowIWork';
 import InkArt from '../components/ink/InkArt';
 import InkPortrait from '../components/ink/InkPortrait';
 import InkEntry from '../components/ink/InkEntry';
-import { guillocheRule } from '../utils/guilloche';
+import InkFigures from '../components/ink/InkFigures';
 import { sfx } from '../audio/engine';
-import { INK_ROUTE, INK_TEXT, INK_TONE, INK_TONES, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkNotes } from '../data/ink';
+import { roleStatus, startsLabel } from '../utils/roleStatus';
+import { INK_ROUTE, INK_TEXT, INK_TONE, INK_VIGNETTE, inkAchievements, inkFigures, inkNotes } from '../data/ink';
 
 /** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
 function lead(text: string): string {
   // Sentence ends: a period followed by a capital, but not inside "EE. UU." or similar abbreviations
   return text.split(/(?<=\.)(?<!\b[A-Z]{1,2}\.)\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/).slice(0, 2).join(' ');
-}
-
-/** A figure in Bodoni, with the glyphs Bodoni draws poorly set in Geist */
-function Figure({ text }: { text: string }) {
-  return (
-    <>
-      {figureRuns(text).map((r, i) =>
-        r.sans ? <span key={i} className="font-sans text-[0.7em] font-light">{r.text}</span> : <span key={i}>{r.text}</span>,
-      )}
-    </>
-  );
 }
 
 const LINK = 'n-text underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current n-focus';
@@ -185,7 +175,6 @@ export default function ResumePage() {
   });
 
   const figures = inkFigures(lang);
-  const band = useMemo(() => guillocheRule(1400, 7, INK_TONES.length, 18), []);
   const notes = inkNotes(lang);
   const achievements = inkAchievements(data.keyAchievements);
   const tools = data.tools;
@@ -265,36 +254,7 @@ export default function ResumePage() {
           </header>
 
           {/* ── The proof: three figures, each with its source below ── */}
-          <div className="mt-8 h-[7px] overflow-hidden" aria-hidden="true">
-            <svg width={1400} height={7} className="block">
-              {band.map((d, i) => (
-                <path key={i} d={d} fill="none" strokeWidth={0.7} style={{ stroke: `var(--ink-${INK_TONES[i]})` }} />
-              ))}
-            </svg>
-          </div>
-          <div className="grid border-b border-n-border sm:grid-cols-3">
-            {figures.map((f, i) => (
-              <div key={f.n} className={`py-5 sm:px-6 ${i === 0 ? 'sm:pl-0' : 'border-t border-n-border sm:border-t-0 sm:border-l'}`}>
-                <p className={`font-display whitespace-nowrap text-4xl leading-none tabular-nums sm:text-[1.85rem] lg:text-[2.3rem] ${INK_TEXT[f.tone]}`}>
-                  <Figure text={f.value[0]} />
-                  {f.value[1] && (
-                    <>
-                      <span className="n-muted mx-1.5 align-[0.12em] font-sans text-[0.55em]">
-                        <span aria-hidden="true">→</span>
-                        <span className="sr-only">{en ? ' to ' : ' a '}</span>
-                      </span>
-                      <Figure text={f.value[1]} />
-                    </>
-                  )}
-                  <a href={`#nota-${f.n}`} className={`ml-1 align-super font-sans text-sm n-focus ${INK_TEXT[f.tone]}`} aria-label={labels.note(f.n)}>
-                    {f.n}
-                  </a>
-                </p>
-                <p className="n-text mt-3 text-sm">{f.label}</p>
-                <p className="n-muted mt-0.5 text-xs">{f.note}</p>
-              </div>
-            ))}
-          </div>
+          <InkFigures lang={lang} notes className="mt-8" />
 
           {/* ── Profile and route ── */}
           <Section title={labels.profile} display>
@@ -320,7 +280,7 @@ export default function ResumePage() {
                 <ol className="mt-4 space-y-4">
                   {route.map(({ e, art }) => {
                     const r = INK_ROUTE[e.id];
-                    const now = e.end === 'present';
+                    const status = roleStatus(e);
                     return (
                       <li key={e.id} className="grid grid-cols-[3rem_minmax(0,1fr)_2.5rem] items-start gap-x-3">
                         <span className={`font-display text-lg leading-tight ${INK_TEXT[INK_TONE[e.id] ?? 'blue']}`}>{e.start.slice(0, 4)}</span>
@@ -328,7 +288,8 @@ export default function ResumePage() {
                           <span className="n-text block text-sm leading-snug">{r ? (en ? r.en : r.es) : e.role}</span>
                           <span className="n-muted block text-xs">
                             {r?.at ?? e.company}
-                            {now && <span className="text-n-highlight">, {labels.today}</span>}
+                            {status === 'current' && <span className="text-n-highlight">, {labels.today}</span>}
+                            {status === 'upcoming' && e.startsOn && <span>, {startsLabel(e.startsOn, lang).toLowerCase()}</span>}
                           </span>
                         </span>
                         {art ? <InkArt name={art} className={`h-10 w-10 ${INK_TEXT[INK_TONE[e.id] ?? 'blue']}`} /> : <span />}

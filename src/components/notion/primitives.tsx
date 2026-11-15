@@ -91,7 +91,7 @@ export function Toggle({
 export function SectionHeading({ id, children, intro }: { id: string; children: React.ReactNode; intro?: string }) {
   return (
     <div className="mb-4">
-      <h2 id={id} className="group scroll-mt-24 n-text text-2xl font-semibold tracking-tight">
+      <h2 id={id} className="group scroll-mt-24 n-text font-display text-3xl">
         <a href={`#${id}`} onClick={e => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }} className="relative">
           <span className="absolute -left-6 top-0 hidden n-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:inline" aria-hidden="true">#</span>
           {children}

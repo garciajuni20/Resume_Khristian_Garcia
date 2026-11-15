@@ -43,8 +43,8 @@ export default function ContactForm() {
     invalidEmail: 'Please enter a valid email',
     placeholderName: 'Your name',
     placeholderEmail: 'your.email@example.com',
-    placeholderSubject: 'Job opportunity / Collaboration',
-    placeholderMessage: 'Tell me about your project...'
+    placeholderSubject: 'Data Engineer role at …',
+    placeholderMessage: 'The role, the team and the stack'
   } : {
     title: 'Envíame un mensaje',
     name: 'Nombre',
@@ -59,8 +59,8 @@ export default function ContactForm() {
     invalidEmail: 'Por favor ingresa un correo válido',
     placeholderName: 'Tu nombre',
     placeholderEmail: 'tu.correo@ejemplo.com',
-    placeholderSubject: 'Oportunidad laboral / Colaboración',
-    placeholderMessage: 'Cuéntame sobre tu proyecto...'
+    placeholderSubject: 'Rol de Ingeniero de Datos en …',
+    placeholderMessage: 'El rol, el equipo y el stack'
   };
 
   const validateForm = (): boolean => {
@@ -139,7 +139,7 @@ export default function ContactForm() {
       className="w-full"
     >
       <div className="mb-6">
-        <h2 className="text-xl font-semibold n-text">{t.title}</h2>
+        <h2 className="font-display text-3xl n-text">{t.title}</h2>
         <p className="mt-1 text-sm n-muted">
           {lang === 'en' 
             ? 'I\'ll respond within 24 hours' 

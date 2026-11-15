@@ -53,7 +53,7 @@ export default function NotFound() {
                 404
               </motion.div>
 
-              <h1 className="mt-8 text-4xl font-bold">{t.title}</h1>
+              <h1 className="font-display mt-8 text-5xl">{t.title}</h1>
               <p className="mt-4 text-lg n-muted max-w-md mx-auto">
                 {t.message}
               </p>

@@ -1,417 +1,259 @@
-import { useRef } from 'react';
-import { motion, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowRight, Briefcase, ExternalLink, GraduationCap, Languages, MapPin, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Download, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Container from '../components/Container';
+import PageTransition from '../components/PageTransition';
+import Testimonials from '../components/Testimonials';
+import NowStrip from '../components/NowStrip';
+import { CareerVideoButton } from '../components/CareerVideo';
+import InkArt from '../components/ink/InkArt';
+import InkPortrait from '../components/ink/InkPortrait';
+import InkFigures from '../components/ink/InkFigures';
+import { BrowserFrame } from '../components/notion/visuals';
+import { downloadPDF } from '../utils/downloadPDF';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
-import StatsDashboard from '../components/StatsDashboard';
-import Testimonials from '../components/Testimonials';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
-import TypingAnimation from '../components/TypingAnimation';
-import PageTransition from '../components/PageTransition';
-import Magnetic from '../components/Magnetic';
-import TechMarquee from '../components/TechMarquee';
-import SlashCommand from '../components/home/SlashCommand';
-import { CareerVideoButton } from '../components/CareerVideo';
-import { PHOTO } from '../data/media';
-import AmbientVideo from '../components/AmbientVideo';
-import IndustryRail from '../components/home/IndustryRail';
-import FlowberSpotlight from '../components/home/FlowberSpotlight';
-import Services from '../components/home/Services';
-import { CountUp, Reveal } from '../components/notion/primitives';
-import { WordReveal } from '../components/notion/visuals';
+import { INK_TEXT, type InkTone } from '../data/ink';
 import { FLUID } from '../utils/animations';
-import NowStrip from '../components/NowStrip';
 
-/* ─── Hero backdrop: dot grid lit by a spotlight that follows the cursor ── */
-function HeroGrid({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const mx = useMotionValue(-400);
-  const my = useMotionValue(-400);
-  const sx = useSpring(mx, { stiffness: 120, damping: 20 });
-  const sy = useSpring(my, { stiffness: 120, damping: 20 });
-  const mask = useMotionTemplate`radial-gradient(260px circle at ${sx}px ${sy}px, black, transparent 70%)`;
+const LINK = 'n-text underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current n-focus';
 
+type Case = {
+  id: string;
+  year: string;
+  tone: InkTone;
+  art: string;
+  title: string;
+  body: string;
+  numbers: { v: string; l: string }[];
+  to: string;
+  live?: string;
+};
+
+const COPY = {
+  en: {
+    pitch:
+      'I build the data platforms companies run on. At a US fintech I went from first BI hire to Data Engineer on Snowflake, dbt and Azure Data Factory, and on my own I ship AI that works on real data, in production.',
+    meta: 'Guatemala City, remote (UTC−6, overlaps US hours) · English and Spanish',
+    download: 'Download CV (PDF)',
+    experience: 'See the full experience',
+    workTitle: 'Selected work',
+    workIntro: 'Two systems people use every day, each with its numbers and how it was built.',
+    caseLink: 'Read the case study',
+    live: 'Live site',
+    flow: 'How the data moves',
+    closeTitle: 'Open to remote Data Engineer roles',
+    closeBody: 'You talk to me directly. I answer within 24 hours.',
+    contact: 'Contact me',
+    cases: [
+      {
+        id: 'alleviate', year: '2023', tone: 'blue', art: 'ink-fintech', to: '/alleviate',
+        title: 'Alleviate: one source of truth for five departments',
+        body: 'A US debt consolidation fintech reported from spreadsheets at 85% accuracy. As the first BI hire I built its analytics platform on Snowflake, and I run it today as its Data Engineer.',
+        numbers: [{ v: '99.5%', l: 'data accuracy, from 85%' }, { v: '30 min', l: 'reporting, from 2+ days' }, { v: '15+', l: 'dashboards for 5 departments' }],
+      },
+      {
+        id: 'flowber', year: '2024', tone: 'coral', art: 'ink-barberia', to: '/flowber', live: 'https://flowber-barberia.pages.dev/',
+        title: 'Flowber: a barbershop from a paper book to AI and data',
+        body: 'Danover’s barbershop ran on a paper schedule. I built, alone, the platform it runs on: online booking, an AI agent that books with live data, and a warehouse that predicts cancellations.',
+        numbers: [{ v: '160+', l: 'appointments in production' }, { v: '20', l: 'tools in the AI agent' }, { v: '100%', l: 'RAG hit@1 on its test set' }],
+      },
+    ] as Case[],
+    flowSteps: ['Salesforce and operational databases', 'Azure Data Factory', 'Snowflake, star schema', 'dbt and SQL', 'Power BI and Tableau'],
+  },
+  es: {
+    pitch:
+      'Construyo las plataformas de datos sobre las que operan las empresas. En una fintech de EE. UU. pasé de primera contratación de BI a Ingeniero de Datos con Snowflake, dbt y Azure Data Factory, y por mi cuenta llevo a producción IA que trabaja con datos reales.',
+    meta: 'Ciudad de Guatemala, remoto (UTC−6, en horario de EE. UU.) · inglés y español',
+    download: 'Descargar CV (PDF)',
+    experience: 'Ver la experiencia completa',
+    workTitle: 'Trabajo destacado',
+    workIntro: 'Dos sistemas que la gente usa a diario, cada uno con sus cifras y cómo se construyó.',
+    caseLink: 'Leer el caso de estudio',
+    live: 'Sitio en vivo',
+    flow: 'Cómo se mueven los datos',
+    closeTitle: 'Abierto a roles remotos de Ingeniero de Datos',
+    closeBody: 'Hablas directamente conmigo. Respondo en menos de 24 horas.',
+    contact: 'Contactarme',
+    cases: [
+      {
+        id: 'alleviate', year: '2023', tone: 'blue', art: 'ink-fintech', to: '/alleviate',
+        title: 'Alleviate: una sola fuente de verdad para cinco departamentos',
+        body: 'Una fintech de consolidación de deudas de EE. UU. reportaba desde hojas de cálculo con 85% de precisión. Como primera contratación de BI construí su plataforma analítica en Snowflake, y hoy la opero como su Ingeniero de Datos.',
+        numbers: [{ v: '99.5%', l: 'precisión de datos, desde 85%' }, { v: '30 min', l: 'reportes, desde 2+ días' }, { v: '15+', l: 'dashboards para 5 departamentos' }],
+      },
+      {
+        id: 'flowber', year: '2024', tone: 'coral', art: 'ink-barberia', to: '/flowber', live: 'https://flowber-barberia.pages.dev/',
+        title: 'Flowber: una barbería del cuaderno de papel a la IA y los datos',
+        body: 'La barbería de Danover funcionaba con agenda en papel. Construí solo la plataforma con la que opera: reservas en línea, un agente de IA que reserva con datos en vivo y un warehouse que predice cancelaciones.',
+        numbers: [{ v: '160+', l: 'citas en producción' }, { v: '20', l: 'herramientas del agente de IA' }, { v: '100%', l: 'hit@1 de RAG en su set de prueba' }],
+      },
+    ] as Case[],
+    flowSteps: ['Salesforce y bases operativas', 'Azure Data Factory', 'Snowflake, esquema estrella', 'dbt y SQL', 'Power BI y Tableau'],
+  },
+};
+
+function CaseRow({ c, t, children }: { c: Case; t: (typeof COPY)['en']; children?: React.ReactNode }) {
+  const ink = INK_TEXT[c.tone];
   return (
-    <div
-      ref={ref}
-      onMouseMove={e => {
-        const r = e.currentTarget.getBoundingClientRect();
-        mx.set(e.clientX - r.left);
-        my.set(e.clientY - r.top);
-      }}
-      onMouseLeave={() => {
-        mx.set(-400);
-        my.set(-400);
-      }}
-      className="n-border relative overflow-hidden rounded-3xl border bg-n-bg"
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, ease: FLUID }}
+      className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-x-4 border-t border-n-border py-8 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-x-6"
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.35]"
-        style={{ backgroundImage: 'radial-gradient(circle, var(--n-border) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: 'radial-gradient(circle, var(--n-accent) 1.2px, transparent 1.2px)',
-          backgroundSize: '24px 24px',
-          WebkitMaskImage: mask,
-          maskImage: mask,
-        }}
-        aria-hidden="true"
-      />
-      <div className="relative">{children}</div>
-    </div>
-  );
-}
-
-function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="relative shrink-0">
-      <div className="relative overflow-hidden rounded-2xl p-[3px]">
-        <motion.div
-          className="absolute -inset-[60%]"
-          style={{ background: 'conic-gradient(from 0deg, #0F3460, #533483, #E94560, #EFCC06, #0F3460)' }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-        />
-        <div className="relative z-10 overflow-hidden rounded-[13px] bg-n-bg">
-          <img src={src} alt={alt} className="block h-32 w-32 object-cover object-top sm:h-40 sm:w-40" loading="eager" fetchPriority="high" decoding="async" width={160} height={160} />
-        </div>
+      <div>
+        <p className={`font-display text-3xl leading-none sm:text-4xl ${ink}`}>{c.year}</p>
+        <InkArt name={c.art} className={`mt-3 h-11 w-11 sm:h-14 sm:w-14 ${ink}`} />
       </div>
-      <span className="absolute -bottom-1 -right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-emerald-500 ring-2 ring-n-bg">
-        <span className="h-2 w-2 rounded-full bg-white" />
-      </span>
-    </div>
+      <div className="min-w-0">
+        <h3 className="font-display text-2xl leading-tight sm:text-3xl">{c.title}</h3>
+        <p className="n-muted mt-3 max-w-prose text-base leading-relaxed">{c.body}</p>
+        <dl className="mt-5 grid max-w-2xl grid-cols-3 gap-4">
+          {c.numbers.map(n => (
+            <div key={n.l}>
+              <dt className="sr-only">{n.l}</dt>
+              <dd className={`font-display text-2xl leading-none tabular-nums sm:text-3xl ${ink}`}>{n.v}</dd>
+              <dd className="n-muted mt-1.5 text-xs leading-snug">{n.l}</dd>
+            </div>
+          ))}
+        </dl>
+        {children}
+        <p className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          <Link to={c.to} className={`${LINK} group inline-flex items-center gap-1.5 font-medium`}>
+            {t.caseLink}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
+          </Link>
+          {c.live && (
+            <a href={c.live} target="_blank" rel="noopener noreferrer" className={LINK}>
+              {t.live}
+            </a>
+          )}
+        </p>
+      </div>
+    </motion.article>
   );
 }
 
-/* ─── Name that assembles letter by letter ──────────────────────────── */
-function SplitName({ text }: { text: string }) {
-  let index = 0;
-  return (
-    <span className="inline-block">
-      <span className="sr-only">{text}</span>
-      {text.split(' ').map((word, w) => (
-        // Letters of a word stay together so the name never breaks mid-word
-        <span key={w} aria-hidden="true" className="inline-block whitespace-nowrap">
-          {word.split('').map(ch => {
-            const i = index++;
-            return (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: '0.5em', filter: 'blur(8px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={{ duration: 0.8, delay: 0.15 + i * 0.03, ease: FLUID }}
-                className="inline-block bg-gradient-to-r from-black to-[#666666] bg-clip-text text-transparent dark:from-white dark:to-[#9b9b9b]"
-              >
-                {ch}
-              </motion.span>
-            );
-          })}
-          {w < text.split(' ').length - 1 && '\u00A0'}
-        </span>
-      ))}
-    </span>
-  );
-}
-
+/**
+ * Home, set like the resume: the banknote header with a one-paragraph pitch and the
+ * CV one click away, the three figures, two case studies, what colleagues say and
+ * how to reach me. A recruiter gets the whole story in two screens.
+ */
 export default function Home() {
   const { lang } = useLang();
-
-  const t = lang === 'en'
-    ? {
-        badge: 'Open to Data & AI roles · remote',
-        name: 'Khristian Garcia',
-        roles: ['Data Engineer', 'AI Implementation Engineer', 'Full-Stack Developer', 'AI & RAG Engineer', 'Solutions Architect'],
-        summary:
-          'I turn messy operations into systems people use and data they trust. Data Engineer at a US fintech (promoted Nov 2026), part-time AI Implementation Engineer for a US wellness brand, and the sole engineer behind Flowber, a barbershop taken from idea to production with AI and a data warehouse. 7+ years, five industries, English and Spanish.',
-        location: 'Guatemala City · Remote',
-        education: 'Systems Engineering, USAC · completed 2026',
-        bilingual: 'English and Spanish',
-        ctaPrimary: 'View interactive resume',
-        ctaSecondary: 'Hire me for a project',
-        slashTitle: 'Explore my profiles',
-        slashSub: 'A Notion-style command menu. Pick a block or let it play.',
-        liveProjects: 'Live projects',
-        viewAll: 'View all projects',
-        caseStudy: 'Case study',
-        liveDemo: 'Live demo',
-        stats: [
-          { v: 7, s: '+', label: 'years in tech', sub: 'since 2019' },
-          { v: 99.5, d: 1, s: '%', label: 'data accuracy', sub: 'Snowflake at Alleviate' },
-          { v: 160, s: '+', label: 'appointments', sub: 'Flowber in production' },
-        ],
-        tagline: 'I learn the business first, then build the system: clean data, honest AI, and software the team actually uses.',
-        aiNote: 'Background clip generated with local AI · Wan 2.2 on an RTX 3060',
-      }
-    : {
-        badge: 'Abierto a roles de Datos e IA · remoto',
-        name: 'Khristian Garcia',
-        roles: ['Ingeniero de Datos', 'AI Implementation Engineer', 'Desarrollador Full-Stack', 'Ingeniero de IA y RAG', 'Arquitecto de Soluciones'],
-        summary:
-          'Convierto operaciones desordenadas en sistemas que la gente usa y datos confiables. Ingeniero de Datos en una fintech de EE. UU. (ascendido en nov 2026), AI Implementation Engineer a medio tiempo para una marca de bienestar estadounidense y único ingeniero detrás de Flowber, una barbería llevada de la idea a producción con IA y un data warehouse. Más de 7 años, cinco industrias, inglés y español.',
-        location: 'Ciudad de Guatemala · Remoto',
-        education: 'Ingeniería en Sistemas, USAC · completada 2026',
-        bilingual: 'Inglés y español',
-        ctaPrimary: 'Ver CV interactivo',
-        ctaSecondary: 'Contratar por proyecto',
-        slashTitle: 'Explora mis perfiles',
-        slashSub: 'Un menú de comandos al estilo Notion. Elige un bloque o déjalo correr.',
-        liveProjects: 'Proyectos en vivo',
-        viewAll: 'Ver todos los proyectos',
-        caseStudy: 'Caso de estudio',
-        liveDemo: 'Demo en vivo',
-        stats: [
-          { v: 7, s: '+', label: 'años en tecnología', sub: 'desde 2019' },
-          { v: 99.5, d: 1, s: '%', label: 'precisión de datos', sub: 'Snowflake en Alleviate' },
-          { v: 160, s: '+', label: 'citas', sub: 'Flowber en producción' },
-        ],
-        tagline: 'Primero entiendo el negocio, después construyo el sistema: datos limpios, IA honesta y software que el equipo de verdad usa.',
-        aiNote: 'Clip de fondo generado con IA local · Wan 2.2 en una RTX 3060',
-      };
-
   const profile = lang === 'en' ? profileEN : profileES;
-  const homeProjects = profile.projects.filter(p => p.id === 'vale-combustible' || p.id === 'flowber-barberia');
+  const t = COPY[lang];
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useSEO({
-    title: `${t.name} — ${profile.headline}`,
-    description: t.summary,
+    title: profile.seo?.title ?? `Khristian Garcia — ${profile.headline}`,
+    description: profile.seo?.description ?? t.pitch,
     lang,
-    keywords: ['Data Engineer', 'Full Stack Developer', 'AI Engineer', 'RAG', 'Solutions Architect', 'Snowflake', 'dbt', 'React', 'Fintech', 'Guatemala', 'Freelance'],
+    keywords: profile.seo?.keywords,
   });
 
-  const scrollToServices = () => document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' });
+  const download = () =>
+    downloadPDF(lang === 'en' ? 'ats-nophoto-en' : 'ats-nophoto-es', v => setLoading(v !== null), setError);
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-n-bg">
+      <div className="min-h-screen bg-n-bg text-n-text">
         <Container>
-          <div className="space-y-24 pb-24 pt-8">
-            {/* ── Hero ─────────────────────────────────────────────── */}
-            <HeroGrid>
-              <div className="p-6 sm:p-10">
-                {/* Mobile: portrait first, then the copy; from sm the portrait sits on the right */}
-                <div className="flex flex-col-reverse gap-8 sm:flex-row sm:items-start sm:justify-between">
-                  <div className="flex-1">
-                    <motion.p
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, ease: FLUID }}
-                      className="n-tag n-tag-green mb-5 gap-2 py-0.5 text-sm"
-                    >
-                      <span className="relative flex h-2 w-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
-                        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-                      </span>
-                      {t.badge}
-                    </motion.p>
+          {/* ── Banknote header: engraving, portrait window, name and pitch ── */}
+          <header className="relative pt-6 lg:min-h-[25rem] lg:pt-12">
+            <InkArt
+              name="ink-hero"
+              className="ink-print ink-iris pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[52%]"
+            />
+            <div className="relative mt-2 flex items-center gap-5 sm:-mt-12 sm:gap-7 lg:mt-0">
+              <InkPortrait alt={profile.name} width={124} className="n-text sm:hidden" />
+              <InkPortrait alt={profile.name} width={148} className="n-text hidden sm:block" />
+              <div className="min-w-0">
+                <h1 className="font-display text-5xl leading-[0.95] sm:text-6xl">
+                  Khristian
+                  <br />
+                  Garcia
+                </h1>
+                <p className="n-muted mt-3 max-w-[22rem] text-base leading-snug">{profile.headline}</p>
+              </div>
+            </div>
 
-                    <h1 className="text-5xl font-bold tracking-tight sm:text-6xl">
-                      <SplitName text={t.name} />
-                    </h1>
+            <p className="n-text relative mt-7 max-w-xl text-lg leading-relaxed lg:max-w-[44%]">{t.pitch}</p>
+            <p className="n-muted relative mt-3 text-sm">{t.meta}</p>
 
-                    <p className="n-text mt-3 min-h-[1.75rem] text-xl font-semibold">
-                      <TypingAnimation words={t.roles} />
-                    </p>
+            <div className="relative mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+              <button
+                type="button"
+                onClick={download}
+                disabled={loading}
+                data-sfx="none"
+                className="n-btn-primary px-4 py-2.5 text-sm disabled:opacity-60 n-focus"
+              >
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Download className="h-4 w-4" aria-hidden="true" />}
+                {t.download}
+              </button>
+              <Link to="/resume" className={`${LINK} text-sm font-medium`}>
+                {t.experience}
+              </Link>
+              <CareerVideoButton className={`${LINK} inline-flex items-center gap-1.5 text-sm font-medium`} />
+            </div>
+            {error && <p className="relative mt-3 text-sm text-ink-coral" role="alert">{error}</p>}
+          </header>
 
-                    <motion.p
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.5, ease: FLUID }}
-                      className="n-muted mt-4 max-w-[680px] text-base leading-relaxed"
-                    >
-                      {t.summary}
-                    </motion.p>
+          <InkFigures lang={lang} className="mt-12" />
+          <NowStrip lang={lang} className="mt-5" />
 
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.8, delay: 0.6, ease: FLUID }}
-                      className="n-muted mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm"
-                    >
-                      <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" aria-hidden="true" />{t.location}</span>
-                      <span className="flex items-center gap-1.5"><Languages className="h-3.5 w-3.5" aria-hidden="true" />{t.bilingual}</span>
-                      <span className="flex items-center gap-1.5"><GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />{t.education}</span>
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.7, ease: FLUID }}
-                      className="mt-7 flex flex-wrap gap-3"
-                    >
-                      <Magnetic>
-                        <Link
-                          to="/resume"
-                          className="n-btn-primary group gap-2 px-4 py-2 text-base font-semibold transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
-                        >
-                          {t.ctaPrimary}
-                          <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
-                        </Link>
-                      </Magnetic>
-                      <Magnetic>
-                        <button
-                          type="button"
-                          onClick={scrollToServices}
-                          className="n-border n-text n-hover inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-base font-semibold transition-colors duration-300 active:scale-[0.98]"
-                        >
-                          <Briefcase className="h-4 w-4" aria-hidden="true" />
-                          {t.ctaSecondary}
-                        </button>
-                      </Magnetic>
-                      <CareerVideoButton className="n-text inline-flex items-center gap-2 rounded-lg px-2 py-2 text-base font-semibold underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current active:scale-[0.98]" />
-                    </motion.div>
-                  </div>
-
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    transition={{ duration: 0.9, delay: 0.2, ease: FLUID }}
-                    className="shrink-0 self-start"
-                  >
-                    <ProfilePhoto src={`${import.meta.env.BASE_URL}${PHOTO.squareWebp}`} alt="Khristian Garcia" />
-                  </motion.div>
+          {/* ── Selected work ── */}
+          <section className="mt-24" aria-labelledby="work-title">
+            <h2 id="work-title" className="font-display text-4xl">{t.workTitle}</h2>
+            <p className="n-muted mt-2 max-w-prose text-base">{t.workIntro}</p>
+            <div className="mt-8">
+              <CaseRow c={t.cases[0]} t={t}>
+                <div className="mt-6">
+                  <p className="n-muted text-xs">{t.flow}</p>
+                  <ol className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-2 text-xs">
+                    {t.flowSteps.map((step, i) => (
+                      <li key={step} className="flex items-center gap-2">
+                        <span className="rounded-md border border-n-border px-2 py-1 n-text">{step}</span>
+                        {i < t.flowSteps.length - 1 && <span className="n-muted" aria-hidden="true">→</span>}
+                      </li>
+                    ))}
+                  </ol>
                 </div>
-
-                <div className="n-border mt-10 grid grid-cols-3 gap-4 border-t pt-6">
-                  {t.stats.map((s, i) => (
-                    <motion.div
-                      key={s.label}
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.8 + i * 0.08, ease: FLUID }}
-                    >
-                      <p className="n-text text-2xl font-semibold tracking-tight sm:text-3xl">
-                        <CountUp value={s.v} decimals={s.d} suffix={s.s} />
-                      </p>
-                      <p className="n-text mt-0.5 text-sm font-semibold">{s.label}</p>
-                      <p className="n-muted text-xs">{s.sub}</p>
-                    </motion.div>
-                  ))}
+              </CaseRow>
+              <CaseRow c={t.cases[1]} t={t}>
+                <div className="mt-6 max-w-2xl">
+                  <BrowserFrame src={`${import.meta.env.BASE_URL}flowber/home-desktop.webp`} alt={lang === 'en' ? 'Flowber home page in production' : 'Página de inicio de Flowber en producción'} url="flowber-barberia.pages.dev" />
                 </div>
+              </CaseRow>
+            </div>
+          </section>
 
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 1.05, ease: FLUID }}
-                  className="n-border mt-6 border-t pt-5"
-                >
-                  <NowStrip lang={lang} />
-                </motion.div>
-              </div>
-            </HeroGrid>
+          <section className="mt-24">
+            <Testimonials />
+          </section>
 
-            {/* ── Slash command explorer ───────────────────────────── */}
-            <Reveal>
-              <h2 className="n-text text-3xl font-semibold tracking-tight">{t.slashTitle}</h2>
-              <p className="n-muted mb-6 mt-2 text-base">{t.slashSub}</p>
-              <SlashCommand />
-            </Reveal>
-
-            {/* ── Flowber spotlight ────────────────────────────────── */}
-            <FlowberSpotlight />
-          </div>
-        </Container>
-
-        {/* Pinned rail lives outside Container: overflow on an ancestor would break sticky */}
-        <IndustryRail />
-
-        <Container>
-          <div className="space-y-24 pb-24 pt-24">
-            {/* ── Tagline reveal ───────────────────────────────────── */}
-            <section className="relative isolate overflow-hidden rounded-3xl bg-black px-6 py-24 text-center sm:py-32" aria-label="Tagline">
-              <AmbientVideo
-                mp4="ai/hero-data.mp4"
-                webm="ai/hero-data.webm"
-                poster="ai/hero-data.webp"
-                className="absolute inset-0 -z-10 h-full w-full object-cover opacity-70"
-              />
-              <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_70%)]" aria-hidden="true" />
-              <WordReveal text={t.tagline} className="text-white" />
-              <p className="mt-8 font-mono-geist text-xs uppercase tracking-wider text-white/50">{t.aiNote}</p>
-            </section>
-
-            <Services />
-
-            <Reveal>
-              <TechMarquee />
-            </Reveal>
-
-            {/* ── Live projects ────────────────────────────────────── */}
-            <Reveal>
-              <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h2 className="n-text text-2xl font-semibold tracking-tight">{t.liveProjects}</h2>
-                <Link to="/projects" className="n-text group flex items-center gap-1 text-sm font-semibold">
-                  {t.viewAll}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {homeProjects.map((project, idx) => (
-                  <motion.article
-                    key={project.id}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1, duration: 0.8, ease: FLUID }}
-                    whileHover={{ y: -4 }}
-                    className="n-border flex flex-col rounded-2xl border bg-n-bg p-5 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5"
-                  >
-                    <div className="mb-3 flex items-center justify-between gap-2">
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.technologies.slice(0, 3).map(tag => (
-                          <span key={tag} className="n-tag n-tag-gray">{tag}</span>
-                        ))}
-                      </div>
-                      <span className="flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                        Live
-                      </span>
-                    </div>
-                    <h3 className="n-text font-semibold leading-snug">{project.title}</h3>
-                    <p className="n-muted mt-1.5 line-clamp-4 text-sm leading-relaxed">{project.description}</p>
-                    <p className="mt-3 inline-flex items-start gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                      <TrendingUp className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
-                      {project.impact}
-                    </p>
-                    <div className="mt-auto flex gap-2 pt-4">
-                      {project.caseStudyPath && (
-                        <Link
-                          to={project.caseStudyPath}
-                          className="n-btn-primary flex-1 gap-1.5 px-3 py-2 text-xs font-semibold transition-transform"
-                        >
-                          {t.caseStudy}
-                        </Link>
-                      )}
-                      {project.links?.live && (
-                        <a
-                          href={project.links.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="n-border n-text n-hover inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors duration-300"
-                        >
-                          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                          {t.liveDemo}
-                        </a>
-                      )}
-                    </div>
-                  </motion.article>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal>
-              <StatsDashboard />
-            </Reveal>
-
-            <Reveal>
-              <Testimonials />
-            </Reveal>
-          </div>
+          {/* ── How to reach me ── */}
+          <section className="mt-24 border-t border-n-border pb-24 pt-10">
+            <h2 className="font-display text-4xl">{t.closeTitle}</h2>
+            <p className="n-muted mt-2 text-base">{t.closeBody}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+              <Link to="/contact" className="n-btn-primary px-4 py-2.5 n-focus">
+                {t.contact}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <a href={`mailto:${profile.email}`} className={LINK}>{profile.email}</a>
+              {profile.links.filter(l => l.label !== 'Portfolio' && l.label !== 'Portafolio').map(l => (
+                <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className={LINK}>{l.label}</a>
+              ))}
+            </div>
+          </section>
         </Container>
       </div>
     </PageTransition>

@@ -59,6 +59,14 @@ export function SoundHint() {
     return () => window.clearTimeout(id);
   }, [showHint]);
 
+  // Said once: after a few seconds on screen it goes away for good, so it never
+  // follows a visitor from page to page (the toggle in the navbar stays)
+  useEffect(() => {
+    if (!showHint || !visible) return;
+    const id = window.setTimeout(dismissHint, 9000);
+    return () => window.clearTimeout(id);
+  }, [showHint, visible, dismissHint]);
+
   return (
     <AnimatePresence>
       {showHint && visible && (

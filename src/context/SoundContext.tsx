@@ -25,6 +25,7 @@ const PAGES: Record<string, { track: Track; degree: number }> = {
   '/resume': { track: 'resume', degree: 1 },
   '/projects': { track: 'projects', degree: 2 },
   '/flowber': { track: 'flowber', degree: 3 },
+  '/alleviate': { track: 'projects', degree: 2 },
   '/contact': { track: 'contact', degree: 4 },
 };
 const LOST = { track: 'notfound' as Track, degree: -2 };

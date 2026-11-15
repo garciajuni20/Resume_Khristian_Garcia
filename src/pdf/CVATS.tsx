@@ -3,6 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Image, Link } from '@react-pdf/
 import type { ProfileData } from '../types';
 import { CV_UPDATED, PHOTO } from '../data/media';
 import { pdfImage } from './assets';
+import { roleStatus, startsLabel } from '../utils/roleStatus';
 
 /**
  * ATS-first resume: single-column body, standard fonts, no side-by-side text
@@ -198,7 +199,7 @@ export function CVATS({ data, lang, photo = true }: Props) {
           <Fragment key={exp.id}>
             <Text style={styles.roleTitle} minPresenceAhead={70}>{exp.role}</Text>
             <Text style={styles.roleMeta}>
-              {exp.company} | {exp.location} | {range(exp.start, exp.end, isEN)}
+              {exp.company} | {exp.location} | {roleStatus(exp) === 'upcoming' && exp.startsOn ? startsLabel(exp.startsOn, lang) + ' ' + exp.startsOn.slice(0, 4) : range(exp.start, exp.end, isEN)}
             </Text>
             {exp.industry && (
               <Text style={styles.roleIndustry}>

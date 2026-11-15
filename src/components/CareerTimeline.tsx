@@ -3,6 +3,7 @@ import type { ExperienceItem, Lang } from '../types';
 import { shortCompany } from '../utils/company';
 import { FLUID } from '../utils/animations';
 import { INK_TONE } from '../data/ink';
+import { roleStatus } from '../utils/roleStatus';
 
 /**
  * Career map: one bar per role on a shared month scale, so overlapping roles
@@ -82,7 +83,7 @@ export default function CareerTimeline({ experience, lang, onOpen }: Props) {
             const en = Math.max(months(e.end, now), s + 1);
             const left = pct(s);
             const width = pct(en) - left;
-            const current = e.end === 'present';
+            const current = roleStatus(e) === 'current';
             const wide = width > 22;
             const label = `${e.role.replace(/\s*\(.*\)$/, '').split(' — ')[0]} · ${shortCompany(e.company)}`;
             return (

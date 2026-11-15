@@ -36,6 +36,16 @@ export const INK_TONE: Record<string, InkTone> = {
   'virtrify-ai': 'green', // wellness
 };
 
+/** Ink and engraving per project, by the industry it was built for; the rest print in the text ink */
+export const PROJECT_INK: Record<string, { tone: InkTone; art: string }> = {
+  'alleviate-platform': { tone: 'blue', art: 'ink-fintech' },
+  'flowber-barberia': { tone: 'coral', art: 'ink-barberia' },
+  'virtrify-ai-ops': { tone: 'green', art: 'ink-bienestar' },
+  'fortran-peg-parser': { tone: 'violet', art: 'ink-educacion' },
+  'bd2-suficiencia': { tone: 'violet', art: 'ink-educacion' },
+  'compilers-phase1': { tone: 'violet', art: 'ink-educacion' },
+};
+
 /** Print values, for the PDF (light paper). The site reads --ink-* from index.css. */
 export const INK_HEX: Record<InkTone | 'gold', string> = {
   teal: '#0B7A75',

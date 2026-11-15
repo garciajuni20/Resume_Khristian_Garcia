@@ -132,7 +132,7 @@ export default function FlowberCaseStudy() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: FLUID }}
-                className="n-text mt-4 max-w-[680px] text-4xl font-bold leading-tight tracking-tight sm:text-5xl sm:leading-tight"
+                className="font-display n-text mt-4 max-w-[680px] text-4xl leading-[1.05] sm:text-5xl"
               >
                 {c.title}
               </motion.h1>

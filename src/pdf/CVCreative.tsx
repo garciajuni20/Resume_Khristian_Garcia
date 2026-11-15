@@ -15,6 +15,7 @@ import { CV_UPDATED } from '../data/media';
 import { PDF_BASE, pdfImage } from './assets';
 import { guillocheRing, guillocheRule } from '../utils/guilloche';
 import { FLOWBER_CASE_URL, INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkMonth, inkNotes, INK_HEX, INK_TONE, INK_TONES } from '../data/ink';
+import { roleStatus, startsLabel, statusLabel } from '../utils/roleStatus';
 
 /**
  * Designed two-page resume, set like a banknote: one navy ink on a cool paper,
@@ -326,7 +327,7 @@ export function CVCreative({ data, lang }: Props) {
               {route.map(e => {
                 const art = firstArt(e, seenArt);
                 const r = INK_ROUTE[e.id];
-                const now = e.end === 'present';
+                const status = roleStatus(e);
                 return (
                   <View key={e.id} style={styles.stop}>
                     <Text style={{ ...styles.stopYear, color: tone(e.id) }}>{e.start.slice(0, 4)}</Text>
@@ -334,7 +335,8 @@ export function CVCreative({ data, lang }: Props) {
                       <Text style={styles.stopRole}>{r ? (isEN ? r.en : r.es) : e.role}</Text>
                       <Text style={styles.stopAt}>
                         {r?.at ?? e.company}
-                        {now ? <Text style={{ color: GOLD }}>{`, ${t.now}`}</Text> : null}
+                        {status === 'current' ? <Text style={{ color: GOLD }}>{`, ${t.now}`}</Text> : null}
+                        {status === 'upcoming' && e.startsOn ? `, ${startsLabel(e.startsOn, lang).toLowerCase()}` : null}
                       </Text>
                     </View>
                     {art ? <Image src={pdfImage(`ink/pdf/${art}.jpg`)} style={styles.stopArt} /> : <View style={styles.stopArtSlot} />}
@@ -415,7 +417,8 @@ export function CVCreative({ data, lang }: Props) {
           <Text style={styles.pageTitle}>{t.experience}</Text>
           {data.experience.map(exp => {
             const art = firstArt(exp, ledgerSeen);
-            const now = exp.end === 'present';
+            const status = roleStatus(exp);
+            const label = statusLabel(exp, lang);
             return (
               <View key={exp.id} style={styles.entry} wrap={false}>
                 <View style={styles.entryWhen}>
@@ -423,8 +426,8 @@ export function CVCreative({ data, lang }: Props) {
                     <Text style={{ ...styles.entryYear, color: tone(exp.id) }}>{exp.start.slice(0, 4)}</Text>
                     {art && <Image src={pdfImage(`ink/pdf/${art}.jpg`)} style={styles.entryArt} />}
                   </View>
-                  <Text style={styles.entrySpan}>{inkMonth(exp.start, lang)} –</Text>
-                  <Text style={{ ...styles.entrySpan, marginTop: 0.5 }}>{inkMonth(exp.end, lang)}</Text>
+                  <Text style={styles.entrySpan}>{inkMonth(exp.start, lang)}{status === 'upcoming' ? '' : ' –'}</Text>
+                  {status !== 'upcoming' && <Text style={{ ...styles.entrySpan, marginTop: 0.5 }}>{inkMonth(exp.end, lang)}</Text>}
                 </View>
                 <View style={styles.entryBody}>
                   <Text style={styles.role}>{exp.role}</Text>
@@ -432,7 +435,7 @@ export function CVCreative({ data, lang }: Props) {
                   <Text style={styles.meta}>
                     {exp.industry ? `${exp.industry}. ` : ''}
                     {exp.location}
-                    {now ? <Text style={{ color: GOLD }}>{`. ${isEN ? 'Current' : 'Actual'}`}</Text> : null}
+                    {label ? <Text style={status === 'current' ? { color: GOLD } : { color: INK }}>{`. ${label}`}</Text> : null}
                   </Text>
                   {exp.story && <Text style={styles.lead}>{exp.story.lead}</Text>}
                   {[...(exp.story?.wins ?? []), ...(exp.bullets ?? []).slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP)].map((b, i) => (

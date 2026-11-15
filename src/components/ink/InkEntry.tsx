@@ -1,6 +1,7 @@
 import type { ExperienceItem, Lang } from '../../types';
 import { INK_TEXT, INK_TONE, inkMonth } from '../../data/ink';
 import InkArt from './InkArt';
+import { roleStatus, statusLabel } from '../../utils/roleStatus';
 
 type Props = {
   item: ExperienceItem;
@@ -17,7 +18,8 @@ type Props = {
  */
 export default function InkEntry({ item, art, lang, onOpen }: Props) {
   const en = lang === 'en';
-  const now = item.end === 'present';
+  const status = roleStatus(item);
+  const label = statusLabel(item, lang);
   const ink = INK_TEXT[INK_TONE[item.id] ?? 'blue'];
 
   return (
@@ -25,8 +27,14 @@ export default function InkEntry({ item, art, lang, onOpen }: Props) {
       <div>
         <p className={`font-display text-3xl leading-none sm:text-4xl ${ink}`}>{item.start.slice(0, 4)}</p>
         <p className="n-muted mt-2 text-xs leading-relaxed">
-          {inkMonth(item.start, lang)} –<br />
-          {inkMonth(item.end, lang)}
+          {inkMonth(item.start, lang)}
+          {status !== 'upcoming' && (
+            <>
+              {' –'}
+              <br />
+              {inkMonth(item.end, lang)}
+            </>
+          )}
         </p>
         {art && <InkArt name={art} className={`mt-3 h-11 w-11 sm:h-14 sm:w-14 ${ink}`} />}
       </div>
@@ -37,7 +45,7 @@ export default function InkEntry({ item, art, lang, onOpen }: Props) {
         <p className="n-muted mt-1 text-xs">
           {item.industry ? `${item.industry}. ` : ''}
           {item.location}
-          {now && <span className="text-n-highlight">. {en ? 'Current' : 'Actual'}</span>}
+          {label && <span className={status === 'current' ? 'text-n-highlight' : 'n-text'}>. {label}</span>}
         </p>
 
         {item.story ? (

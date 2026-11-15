@@ -16,6 +16,7 @@ import Home from './pages/Home';
 const Resume = lazy(() => import('./pages/Resume'));
 const Projects = lazy(() => import('./pages/Projects'));
 const FlowberCaseStudy = lazy(() => import('./pages/FlowberCaseStudy'));
+const AlleviateCaseStudy = lazy(() => import('./pages/AlleviateCaseStudy'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -42,6 +43,8 @@ function AnimatedRoutes() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/flowber" element={<FlowberCaseStudy />} />
           <Route path="/projects/flowber" element={<Navigate to="/flowber" replace />} />
+          <Route path="/alleviate" element={<AlleviateCaseStudy />} />
+          <Route path="/projects/alleviate" element={<Navigate to="/alleviate" replace />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

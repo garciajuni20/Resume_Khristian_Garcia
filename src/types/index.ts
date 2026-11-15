@@ -14,6 +14,8 @@ export interface ExperienceItem {
   location: string;
   start: string;
   end: string;
+  /** Exact start date (YYYY-MM-DD) of a role signed but not begun; until then it reads "Starts…", not "Current" */
+  startsOn?: string;
   /** Business domain of the employer (e.g. debt consolidation, remittances) */
   industry?: string;
   tags?: string[];
@@ -88,11 +90,10 @@ export interface ProjectItem {
   category: ProjectCategory;
   links?: { github?: string; live?: string };
   featured?: boolean;
-  gradient?: string;
+  /** Year the work started, set in Bodoni in the register; omitted when not on record */
+  year?: string;
   /** Internal route to a dedicated case-study page */
   caseStudyPath?: string;
-  /** Card artwork (paths relative to the base URL); the video loops while visible */
-  cover?: { image: string; video?: string; alt: string };
 }
 
 export interface TestimonialItem {
@@ -102,7 +103,6 @@ export interface TestimonialItem {
   company: string;
   text: string;
   relationship: string;
-  rating: number;
 }
 
 export interface SkillCategoryItem {
@@ -118,20 +118,6 @@ export interface Tools {
   cloudDevOps: string[];
   fullStack: string[];
   methodologies: string[];
-}
-
-export interface Metrics {
-  yearsExperience: number;
-  yearsBI: number;
-  dashboardsDelivered: number;
-  sqlModels: number;
-  kpisTracked: number;
-  liveApps: number;
-  projectsCompleted: number;
-  technologies: number;
-  certifications?: number;
-  clientsServed: number;
-  dataProcessed: string;
 }
 
 export interface ProfileData {
@@ -156,7 +142,6 @@ export interface ProfileData {
   workflow?: { title: string; intro: string; steps: WorkflowStep[] };
   languages: LanguageItem[];
   tools: Tools;
-  metrics: Metrics;
   testimonials: TestimonialItem[];
   skillCategories: SkillCategoryItem[];
   seo?: {
