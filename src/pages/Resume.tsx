@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal, flushSync } from 'react-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/Container';
@@ -37,6 +38,8 @@ function lead(text: string): string {
   return text.split(/(?<=\.)(?<!\b[A-Z]{1,2}\.)\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/).slice(0, 2).join(' ');
 }
 
+const Presentation = lazy(() => import('../components/present/Presentation'));
+
 const LINK = 'n-text underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current n-focus';
 
 /**
@@ -60,6 +63,7 @@ export default function ResumePage() {
         skills: 'Years of hands-on use, by tool',
         education: 'Education',
         downloadJson: 'Export as JSON',
+        present: 'Present',
         close: 'Close',
         tools: 'Tools',
         languages: 'Languages',
@@ -85,6 +89,7 @@ export default function ResumePage() {
         skills: 'Años de uso real, por herramienta',
         education: 'Educación',
         downloadJson: 'Exportar en JSON',
+        present: 'Presentar',
         close: 'Cerrar',
         tools: 'Herramientas',
         languages: 'Idiomas',
@@ -208,6 +213,20 @@ export default function ResumePage() {
     return () => window.clearTimeout(id);
   }, []);
 
+  // Interview mode lives in the URL (/resume?present) so it can be linked and reloaded
+  const location = useLocation();
+  const navigate = useNavigate();
+  const presenting = new URLSearchParams(location.search).has('present');
+  const withPresent = (on: boolean) => {
+    const params = new URLSearchParams(location.search);
+    if (on) params.set('present', '');
+    else params.delete('present');
+    return params.toString().replace(/present=(&|$)/, 'present$1');
+  };
+  const startPresenting = () => navigate({ search: withPresent(true) });
+  const stopSearch = withPresent(false);
+  const stopPresenting = useCallback(() => navigate({ search: stopSearch }, { replace: true }), [navigate, stopSearch]);
+
   // Modal a11y: close on Escape, move focus into the dialog, restore it on close
   const modalRef = useRef<HTMLDivElement>(null);
   const isOpen = selected !== null;
@@ -268,6 +287,9 @@ export default function ResumePage() {
                 ))}
                 <button type="button" onClick={exportToJson} disabled={isExporting} className={`${LINK} disabled:opacity-50`}>
                   {labels.downloadJson}
+                </button>
+                <button type="button" onClick={startPresenting} className={LINK}>
+                  {labels.present}
                 </button>
               </p>
             </div>
@@ -515,6 +537,14 @@ export default function ResumePage() {
           <div className="h-16" />
         </Container>
       </div>
+      {/* Portaled: the page wrapper animates a transform, which would trap a fixed overlay */}
+      {presenting &&
+        createPortal(
+          <Suspense fallback={null}>
+            <Presentation data={data} lang={lang} onClose={stopPresenting} />
+          </Suspense>,
+          document.body,
+        )}
     </PageTransition>
   );
 }
