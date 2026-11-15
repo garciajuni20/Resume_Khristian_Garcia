@@ -4,6 +4,7 @@ import type { ProfileData } from '../types';
 import { CV_UPDATED, PHOTO } from '../data/media';
 import { pdfImage } from './assets';
 import { roleStatus, startsLabel } from '../utils/roleStatus';
+import { orderExperience } from '../utils/experienceOrder';
 
 /**
  * ATS-first resume: single-column body, standard fonts, no side-by-side text
@@ -45,6 +46,8 @@ const BULLET_CAPS: Record<string, number> = {
   'alleviate-mid': 0,
   'flowber-freelance': 1,
   'idt-gnoc': 0,
+  'icon-it': 0,
+  'usac-teaching': 0,
 };
 const DEFAULT_BULLET_CAP = 1;
 
@@ -193,9 +196,10 @@ export function CVATS({ data, lang, photo = true }: Props) {
 
         {/* ── Experience ── */}
         <Text style={styles.sectionTitle} minPresenceAhead={80}>{t.experience}</Text>
-        {/* Roles render flat (no wrapping View) so the page can break between
-            bullets; each title keeps at least its first lines with it */}
-        {data.experience.map(exp => (
+        {/* Reverse-chronological, roles at one employer kept together (a promotion
+            reads as one story). Roles render flat (no wrapping View) so the page
+            can break between bullets; each title keeps its first lines with it */}
+        {orderExperience(data.experience).map(exp => (
           <Fragment key={exp.id}>
             <Text style={styles.roleTitle} minPresenceAhead={70}>{exp.role}</Text>
             <Text style={styles.roleMeta}>

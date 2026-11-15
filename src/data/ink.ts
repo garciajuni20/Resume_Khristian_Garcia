@@ -10,8 +10,8 @@ import type { Lang } from '../types';
 export const INK_VIGNETTE: Record<string, string> = {
   'idt-gnoc': 'ink-remesas',
   'icon-it': 'ink-fintech',
-  'alleviate-mid': 'ink-fintech',
-  'alleviate-de': 'ink-fintech',
+  'alleviate-mid': 'ink-bi',
+  'alleviate-de': 'ink-data',
   'flowber-freelance': 'ink-barberia',
   'usac-teaching': 'ink-educacion',
   'virtrify-ai': 'ink-bienestar',
@@ -38,7 +38,7 @@ export const INK_TONE: Record<string, InkTone> = {
 
 /** Ink and engraving per project, by the industry it was built for; the rest print in the text ink */
 export const PROJECT_INK: Record<string, { tone: InkTone; art: string }> = {
-  'alleviate-platform': { tone: 'blue', art: 'ink-fintech' },
+  'alleviate-platform': { tone: 'blue', art: 'ink-data' },
   'flowber-barberia': { tone: 'coral', art: 'ink-barberia' },
   'virtrify-ai-ops': { tone: 'green', art: 'ink-bienestar' },
   'fortran-peg-parser': { tone: 'violet', art: 'ink-educacion' },
@@ -107,7 +107,7 @@ export function figureRuns(text: string): Array<{ text: string; sans: boolean }>
     .map(t => ({ text: t, sans: t === '+' || t === '→' }));
 }
 
-export const FLOWBER_CASE_URL = 'https://resume-khristian-garcia.pages.dev/#/flowber';
+export const FLOWBER_CASE_URL = 'https://resume-khristian-garcia.pages.dev/flowber';
 
 /** Where each figure comes from. The last one ends with the case-study link. */
 export function inkNotes(lang: Lang): string[] {

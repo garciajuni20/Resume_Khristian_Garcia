@@ -31,6 +31,14 @@ export interface Story {
   wins: string[];
 }
 
+/** One stage of the career told as a story: what I did, what it taught, the proof */
+export interface ArcAct {
+  period: string;
+  title: string;
+  text: string;
+  proof: string;
+}
+
 export interface WorkflowStep {
   title: string;
   text: string;
@@ -134,6 +142,8 @@ export interface ProfileData {
   badges: string[];
   keyAchievements: string[];
   experience: ExperienceItem[];
+  /** The career in three stages, the thread a recruiter should come away with */
+  arc?: { title: string; intro: string; acts: ArcAct[] };
   skills: SkillItem[];
   education: EducationItem[];
   certifications?: CertificationItem[];

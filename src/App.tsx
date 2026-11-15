@@ -1,5 +1,6 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { CLEAN_URLS } from './utils/site';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -9,6 +10,7 @@ import SoundEffects from './components/SoundEffects';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollProgress from './components/ScrollProgress';
+import InkTransition from './components/InkTransition';
 // Home ships in the main bundle: the landing route must not wait for a second
 // round-trip before it can paint (mobile LCP). The other pages stay lazy.
 import Home from './pages/Home';
@@ -19,6 +21,9 @@ const FlowberCaseStudy = lazy(() => import('./pages/FlowberCaseStudy'));
 const AlleviateCaseStudy = lazy(() => import('./pages/AlleviateCaseStudy'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Real paths on Cloudflare Pages, hash routes on the GitHub Pages mirror
+const Router = CLEAN_URLS ? BrowserRouter : HashRouter;
 
 function PageLoader() {
   return (
@@ -62,6 +67,7 @@ function App() {
           <SoundProvider>
           <MotionConfig reducedMotion="user">
             <ScrollProgress />
+            <InkTransition />
             <div className="min-h-screen flex flex-col">
               <Navbar />
               <main className="flex-1">

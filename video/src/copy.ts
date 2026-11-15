@@ -33,14 +33,14 @@ export interface Copy {
 const STACK_ITEMS = {
   data: ['Snowflake', 'dbt', 'Azure Data Factory', 'Databricks', 'DuckDB', 'SQL · Python'],
   build: ['React · TypeScript', 'Supabase · PostgreSQL', 'Workers AI · Llama 4', 'RAG · pgvector', 'Deno Edge Functions'],
-  ops: ['Azure · GCP · AWS', 'Cloudflare', 'Docker', 'GitHub Actions', 'Power BI · Tableau'],
+  ops: ['Azure · GCP · AWS', 'GitLab CI · GitHub Actions', 'API integrations', 'Docker · Cloudflare', 'Power BI · Tableau'],
 };
 
 export const COPY: Record<Lang, Copy> = {
   es: {
     tag: 'Trayectoria · 2019 → 2026',
     name: 'Khristian Garcia',
-    headline: 'Ingeniero de Datos · Ingeniero de Implementación de IA',
+    headline: 'Ingeniero de Datos · Snowflake, dbt, Azure Data Factory',
     roles: ['Datos', 'Full-Stack', 'IA y RAG', 'Arquitectura'],
     numbersTitle: 'En pocas palabras',
     numbers: [
@@ -74,7 +74,7 @@ export const COPY: Record<Lang, Copy> = {
   en: {
     tag: 'Career · 2019 → 2026',
     name: 'Khristian Garcia',
-    headline: 'Data Engineer · AI Implementation Engineer',
+    headline: 'Data Engineer · Snowflake, dbt, Azure Data Factory',
     roles: ['Data', 'Full-Stack', 'AI and RAG', 'Architecture'],
     numbersTitle: 'In short',
     numbers: [

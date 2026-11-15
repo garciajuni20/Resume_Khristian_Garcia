@@ -309,6 +309,30 @@ p, li { text-wrap: pretty; }
   opacity: 1;
 }
 
+/* ── Page change: ink blooms through a sheet of paper (InkTransition.tsx) ──
+   The strip holds 16 frames stacked vertically; alpha is the paper still left.
+   Stretched to the viewport on purpose: an ink bloom has no true aspect. */
+.ink-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 45; /* under the navbar (z-50): navigation never disappears */
+  pointer-events: none;
+  background: var(--n-bg);
+  -webkit-mask-image: var(--ink-strip);
+  mask-image: var(--ink-strip);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 1600%;
+  mask-size: 100% 1600%;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  animation: ink-bloom 720ms steps(15, jump-none) forwards;
+}
+@keyframes ink-bloom {
+  to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .ink-transition { display: none; } }
+
 /* ── Accessibility: honor prefers-reduced-motion ────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,

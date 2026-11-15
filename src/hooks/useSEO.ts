@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { Lang } from '../types';
-
-const SITE_URL = 'https://resume-khristian-garcia.pages.dev/';
+import { OG_IMAGE, pageUrl as urlOf } from '../data/routes';
 
 interface SEOProps {
   title: string;
@@ -18,12 +17,12 @@ export const useSEO = ({
   description,
   lang = 'en',
   keywords = [],
-  image = 'https://resume-khristian-garcia.pages.dev/og-image.jpg',
+  image = OG_IMAGE,
   url,
 }: SEOProps) => {
   const { pathname } = useLocation();
-  // HashRouter: each page lives under /#/<path>, so og:url/canonical must include it
-  const pageUrl = url ?? (pathname === '/' ? SITE_URL : `${SITE_URL}#${pathname}`);
+  // Canonical is always the clean Cloudflare URL, also from the GitHub Pages mirror
+  const pageUrl = url ?? urlOf(pathname);
   const keywordsContent = keywords.join(', ');
 
   useEffect(() => {

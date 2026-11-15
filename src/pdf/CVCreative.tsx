@@ -15,6 +15,7 @@ import { CV_UPDATED } from '../data/media';
 import { PDF_BASE, pdfImage } from './assets';
 import { guillocheRing, guillocheRule } from '../utils/guilloche';
 import { FLOWBER_CASE_URL, INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkMonth, inkNotes, INK_HEX, INK_TONE, INK_TONES } from '../data/ink';
+import { employerPositions, orderExperience } from '../utils/experienceOrder';
 import { roleStatus, startsLabel, statusLabel } from '../utils/roleStatus';
 
 /**
@@ -56,6 +57,8 @@ const BULLET_CAPS: Record<string, number> = {
   'alleviate-mid': 0,
   'flowber-freelance': 0,
   'idt-gnoc': 0,
+  'icon-it': 0,
+  'usac-teaching': 0,
 };
 const DEFAULT_BULLET_CAP = 1;
 
@@ -245,6 +248,10 @@ export function CVCreative({ data, lang }: Props) {
     return art;
   };
   const ledgerSeen = new Set<string>();
+  // Reverse-chronological, roles at one employer together: a later role there
+  // skips the company and meta lines, the promotion reads as one story
+  const ledger = orderExperience(data.experience);
+  const positions = employerPositions(ledger);
 
   const portrait = pdfImage('ink/pdf/portrait-oval.jpg');
   const footer = (
@@ -388,7 +395,7 @@ export function CVCreative({ data, lang }: Props) {
               <Text key={i} style={styles.note}>
                 <Text style={{ ...styles.noteMark, color: INK_HEX[figures[i]?.tone ?? 'blue'] }}>{i + 1}  </Text>
                 {n}
-                {i === 2 && <Link src={FLOWBER_CASE_URL} style={styles.noteLink}>resume-khristian-garcia.pages.dev/#/flowber</Link>}
+                {i === 2 && <Link src={FLOWBER_CASE_URL} style={styles.noteLink}>resume-khristian-garcia.pages.dev/flowber</Link>}
               </Text>
             ))}
           </View>
@@ -415,12 +422,13 @@ export function CVCreative({ data, lang }: Props) {
 
         <View style={styles.content}>
           <Text style={styles.pageTitle}>{t.experience}</Text>
-          {data.experience.map(exp => {
+          {ledger.map(exp => {
             const art = firstArt(exp, ledgerSeen);
+            const continued = positions.get(exp.id)?.continued ?? false;
             const status = roleStatus(exp);
             const label = statusLabel(exp, lang);
             return (
-              <View key={exp.id} style={styles.entry} wrap={false}>
+              <View key={exp.id} style={continued ? { ...styles.entry, borderTopStyle: 'dashed' } : styles.entry} wrap={false}>
                 <View style={styles.entryWhen}>
                   <View style={styles.entryHead}>
                     <Text style={{ ...styles.entryYear, color: tone(exp.id) }}>{exp.start.slice(0, 4)}</Text>
@@ -430,13 +438,15 @@ export function CVCreative({ data, lang }: Props) {
                   {status !== 'upcoming' && <Text style={{ ...styles.entrySpan, marginTop: 0.5 }}>{inkMonth(exp.end, lang)}</Text>}
                 </View>
                 <View style={styles.entryBody}>
-                  <Text style={styles.role}>{exp.role}</Text>
-                  <Text style={styles.company}>{exp.company}</Text>
-                  <Text style={styles.meta}>
-                    {exp.industry ? `${exp.industry}. ` : ''}
-                    {exp.location}
-                    {label ? <Text style={status === 'current' ? { color: GOLD } : { color: INK }}>{`. ${label}`}</Text> : null}
-                  </Text>
+                  <Text style={continued ? { ...styles.role, marginBottom: 4 } : styles.role}>{exp.role}</Text>
+                  {!continued && <Text style={styles.company}>{exp.company}</Text>}
+                  {!continued && (
+                    <Text style={styles.meta}>
+                      {exp.industry ? `${exp.industry}. ` : ''}
+                      {exp.location}
+                      {label ? <Text style={status === 'current' ? { color: GOLD } : { color: INK }}>{`. ${label}`}</Text> : null}
+                    </Text>
+                  )}
                   {exp.story && <Text style={styles.lead}>{exp.story.lead}</Text>}
                   {[...(exp.story?.wins ?? []), ...(exp.bullets ?? []).slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP)].map((b, i) => (
                     <View key={i} style={styles.bullet}>

@@ -79,7 +79,7 @@ Scripts: `scripts/encode-ai-media.sh` (codificación web de los clips de IA), `s
 - **Formato**: Prettier
 - **Hosting**: GitHub Pages
 - **CI/CD**: GitHub Actions
-- **Analytics**: Integración con Google Analytics lista
+- **Analytics**: Cloudflare Web Analytics (sin cookies, se activa en el proyecto de Pages)
 
 ### **Arquitectura**
 - Estructura de componentes por capas
@@ -154,22 +154,19 @@ npm run build
 npm run preview
 ```
 
-## 📦 Despliegue (GitHub Pages)
-Este proyecto está configurado para despliegue automático en GitHub Pages:
+## 📦 Despliegue
 
-## Configuraciones Destacadas
-vite.config.ts usa la base "/" en Cloudflare Pages (que define CF_PAGES=1 en su build) y "/Resume_Khristian_Garcia/" en GitHub Pages
+**Cloudflare Pages (sitio principal): https://resume-khristian-garcia.pages.dev/**
 
-Usa HashRouter para prevenir errores 404 al refrescar
+| Campo | Valor |
+|---|---|
+| Comando de build | `npm run build` |
+| Carpeta de salida | `dist` (fijada también en `wrangler.toml`) |
+| Variable de entorno | `NODE_VERSION` = `22` |
 
-Workflow de GitHub Actions en .github/workflows/deploy.yml
+Cloudflare define `CF_PAGES=1` en su build y esa variable cambia el sitio a su forma de raíz: base `/`, rutas reales (`/resume`) en vez de hash (los links viejos `/#/resume` se reescriben solos), un HTML por ruta con su título y vista previa (`src/data/routes.ts`), sitemap con todas las rutas, y la Pages Function `functions/api/contact.ts` detrás del formulario (validación, honeypot, Turnstile opcional, entrega por Resend o Formspree). La analítica es Cloudflare Web Analytics, activada en el proyecto de Pages. El detalle de variables está en README.md.
 
-## Pasos de Despliegue
-Haz commit y push a la rama main
-
-GitHub Actions ejecuta automáticamente el workflow de despliegue
-
-Cloudflare Pages (comando `npm run build`, salida `dist`) despliega el sitio principal en https://resume-khristian-garcia.pages.dev/. GitHub Actions publica además una copia en GitHub Pages, cuya etiqueta canonical apunta a Cloudflare
+**GitHub Pages (copia):** `.github/workflows/deploy.yml` construye con base `/Resume_Khristian_Garcia/` y rutas hash; sus etiquetas canonical apuntan a Cloudflare.
 
 ## 🎯 Aspectos Técnicos Destacados
 Optimización de Performance

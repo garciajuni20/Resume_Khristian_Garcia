@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useLang } from '../context/LanguageContext';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { sfx } from '../audio/engine';
+import { CLEAN_URLS } from '../utils/site';
+import Turnstile, { TURNSTILE_SITE_KEY } from './Turnstile';
 
 interface FormData {
   name: string;
@@ -28,6 +30,10 @@ export default function ContactForm() {
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  // Bot checks: a field people never see, and Turnstile where a key is set
+  const [honeypot, setHoneypot] = useState('');
+  const [token, setToken] = useState('');
+  const [sent, setSent] = useState(0);
 
   const t = lang === 'en' ? {
     title: 'Send me a message',
@@ -35,10 +41,10 @@ export default function ContactForm() {
     email: 'Email',
     subject: 'Subject',
     message: 'Message',
-    send: 'Send Message',
-    sending: 'Sending...',
-    success: 'Message sent successfully!',
-    error: 'Error sending message. Please try again.',
+    send: 'Send message',
+    sending: 'Sending',
+    success: 'Message sent. I will reply within 24 hours.',
+    error: 'The message did not go through. Try again, or write to me by email.',
     required: 'This field is required',
     invalidEmail: 'Please enter a valid email',
     placeholderName: 'Your name',
@@ -51,10 +57,10 @@ export default function ContactForm() {
     email: 'Correo',
     subject: 'Asunto',
     message: 'Mensaje',
-    send: 'Enviar Mensaje',
-    sending: 'Enviando...',
-    success: '¡Mensaje enviado exitosamente!',
-    error: 'Error al enviar el mensaje. Por favor intenta de nuevo.',
+    send: 'Enviar mensaje',
+    sending: 'Enviando',
+    success: 'Mensaje enviado. Te respondo en menos de 24 horas.',
+    error: 'El mensaje no se envió. Intenta de nuevo o escríbeme por correo.',
     required: 'Este campo es requerido',
     invalidEmail: 'Por favor ingresa un correo válido',
     placeholderName: 'Tu nombre',
@@ -90,19 +96,22 @@ export default function ContactForm() {
     setStatus('loading');
     
     try {
-      const response = await fetch('https://formspree.io/f/meezgvoq', {
+      // Cloudflare: our own Pages Function (functions/api/contact.ts) validates,
+      // checks Turnstile and delivers. The GitHub Pages mirror has no backend.
+      const response = await fetch(CLEAN_URLS ? '/api/contact' : 'https://formspree.io/f/meezgvoq', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          _replyto: formData.email
+          _replyto: formData.email,
+          company: honeypot,
+          turnstile: token,
         }),
       });
+      setSent(n => n + 1);
       
       if (response.ok) {
         setStatus('success');
@@ -110,7 +119,7 @@ export default function ContactForm() {
         setFormData({ name: '', email: '', subject: '', message: '' });
         trackEvent('contact_form_submit', { status: 'success' });
         
-        setTimeout(() => setStatus('idle'), 3000);
+        setTimeout(() => setStatus('idle'), 8000);
       } else {
         throw new Error('Failed to send');
       }
@@ -120,7 +129,7 @@ export default function ContactForm() {
       sfx('error');
       trackEvent('contact_form_submit', { status: 'error' });
       
-      setTimeout(() => setStatus('idle'), 3000);
+      setTimeout(() => setStatus('idle'), 8000);
     }
   };
 
@@ -148,6 +157,11 @@ export default function ContactForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Honeypot: hidden from people and screen readers, bots fill it in */}
+        <div className="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label htmlFor="company">Company</label>
+          <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={e => setHoneypot(e.target.value)} />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium n-text mb-1">
@@ -234,39 +248,32 @@ export default function ContactForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between pt-2">
+        <Turnstile lang={lang} onToken={setToken} resetKey={sent} />
+
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <div className="text-xs n-muted">
             * {lang === 'en' ? 'Required fields' : 'Campos requeridos'}
           </div>
-          
+
           <button
             type="submit"
-            disabled={status === 'loading'}
+            disabled={status === 'loading' || (Boolean(TURNSTILE_SITE_KEY) && CLEAN_URLS && !token)}
             className="n-btn-primary gap-2 px-6 py-3 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-n-accent disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {status === 'loading' ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                {t.sending}
-              </>
-            ) : status === 'success' ? (
-              <>
-                <CheckCircle className="h-4 w-4" />
-                {t.success}
-              </>
-            ) : status === 'error' ? (
-              <>
-                <AlertCircle className="h-4 w-4" />
-                {t.error}
-              </>
-            ) : (
-              <>
-                <Send className="h-4 w-4" />
-                {t.send}
-              </>
-            )}
+            {status === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Send className="h-4 w-4" aria-hidden="true" />}
+            {status === 'loading' ? t.sending : t.send}
           </button>
         </div>
+
+        {/* The outcome is announced to screen readers, not hidden inside the button */}
+        <p role="status" aria-live="polite" className="min-h-5 text-sm">
+          {status === 'success' && (
+            <span className="inline-flex items-center gap-2 n-text"><CheckCircle className="h-4 w-4 text-ink-green" aria-hidden="true" />{t.success}</span>
+          )}
+          {status === 'error' && (
+            <span className="inline-flex items-center gap-2 text-red-700 dark:text-red-400"><AlertCircle className="h-4 w-4" aria-hidden="true" />{t.error}</span>
+          )}
+        </p>
       </form>
     </motion.div>
   );

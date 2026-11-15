@@ -50,7 +50,7 @@ const COPY = {
     contact: 'Contact me',
     cases: [
       {
-        id: 'alleviate', year: '2023', tone: 'blue', art: 'ink-fintech', to: '/alleviate',
+        id: 'alleviate', year: '2023', tone: 'blue', art: 'ink-data', to: '/alleviate',
         title: 'Alleviate: one source of truth for five departments',
         body: 'A US debt consolidation fintech reported from spreadsheets at 85% accuracy. As the first BI hire I built its analytics platform on Snowflake, and I run it today as its Data Engineer.',
         numbers: [{ v: '99.5%', l: 'data accuracy, from 85%' }, { v: '30 min', l: 'reporting, from 2+ days' }, { v: '15+', l: 'dashboards for 5 departments' }],
@@ -80,7 +80,7 @@ const COPY = {
     contact: 'Contactarme',
     cases: [
       {
-        id: 'alleviate', year: '2023', tone: 'blue', art: 'ink-fintech', to: '/alleviate',
+        id: 'alleviate', year: '2023', tone: 'blue', art: 'ink-data', to: '/alleviate',
         title: 'Alleviate: una sola fuente de verdad para cinco departamentos',
         body: 'Una fintech de consolidación de deudas de EE. UU. reportaba desde hojas de cálculo con 85% de precisión. Como primera contratación de BI construí su plataforma analítica en Snowflake, y hoy la opero como su Ingeniero de Datos.',
         numbers: [{ v: '99.5%', l: 'precisión de datos, desde 85%' }, { v: '30 min', l: 'reportes, desde 2+ días' }, { v: '15+', l: 'dashboards para 5 departamentos' }],

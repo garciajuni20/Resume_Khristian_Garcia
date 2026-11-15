@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- The app uses hash-based routing (/#/resume, /#/projects, ...), which search
-       engines do not index as separate URLs. Only the root is listed on purpose. -->
+  <!-- Fallback copy (GitHub Pages mirror, hash routes). The Cloudflare build
+       writes its own sitemap with every clean URL (vite.config.ts). -->
   <url>
     <loc>https://resume-khristian-garcia.pages.dev/</loc>
     <lastmod>2026-07-09</lastmod>

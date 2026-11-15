@@ -14,10 +14,10 @@ export const profileES = {
     { label: "Portafolio", href: "https://resume-khristian-garcia.pages.dev/" }
   ],
   summary:
-    "Ingeniero de Datos con más de 7 años en tecnología: 3 construyendo plataformas de datos en Snowflake, dbt, Azure Data Factory y Databricks, y 4 antes en operaciones 24/7 para la red de remesas internacionales de IDT. En Alleviate Financial Solutions (vía Icon Solutions Group) entré como la primera contratación de BI de la cuenta, construí la plataforma analítica desde cero y me ascendieron a Ingeniero de Datos en noviembre de 2026: modelos dimensionales en Snowflake, diseño de roles y accesos, pipelines de dbt y SQL orquestados en Azure Data Factory, integraciones de Salesforce a Snowflake, validaciones y alertas. La precisión de datos pasó del 85% al 99.5% y el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde enero de 2024 también construyo y opero Flowber, la plataforma de una barbería en producción: React y TypeScript sobre PostgreSQL/Supabase con seguridad por filas, un agente de IA con 20 herramientas y RAG sobre pgvector, y un warehouse dbt + DuckDB con modelos predictivos. Desde el 23 de noviembre de 2026 sumo un contrato de medio tiempo de implementación de IA vía Virtrify. Trabajo directamente con stakeholders de EE. UU. en inglés y español. Ingeniería en Ciencias y Sistemas en la USAC, con todos los requisitos de grado completados en 2026; maestría a partir de febrero de 2027.",
+    "Ingeniero de Datos con más de 7 años en tecnología: 3 construyendo plataformas de datos en Snowflake, dbt, Azure Data Factory y Databricks, y 4 antes en operaciones 24/7 para la red de remesas internacionales de IDT. En Alleviate Financial Solutions (vía Icon Solutions Group) he tenido tres roles en cuatro años: soporte de TI, luego la primera contratación de BI de la cuenta y, desde noviembre de 2026, Ingeniero de Datos. Construí su plataforma analítica desde cero y hoy estoy a cargo de ella: modelos dimensionales y diseño de accesos en Snowflake, pipelines de dbt, SQL y Python orquestados en Azure Data Factory y Databricks, integraciones de Salesforce y APIs, GitLab CI. La precisión de datos pasó del 85% al 99.5% y el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde enero de 2024 también construyo y opero Flowber, la plataforma de una barbería en producción: React y TypeScript sobre PostgreSQL/Supabase con seguridad por filas, un agente de IA con 20 herramientas y RAG sobre pgvector, y un warehouse dbt + DuckDB con modelos predictivos. Desde el 23 de noviembre de 2026 sumo un contrato de medio tiempo de implementación de IA vía Virtrify. Trabajo directamente con stakeholders de EE. UU. en inglés y español. Ingeniería en Ciencias y Sistemas en la USAC, con todos los requisitos de grado completados en 2026; maestría a partir de febrero de 2027.",
 
   summaryShort:
-    "Ingeniero de Datos con 3 años construyendo plataformas de datos en Snowflake, dbt y Azure Data Factory, después de 4 años operando infraestructura 24/7 para la red de remesas internacionales de IDT. En Alleviate Financial Solutions pasé de primera contratación de BI de la cuenta a Ingeniero de Datos: una sola fuente de verdad para 5 departamentos, precisión de datos del 85% al 99.5% y reportes de más de 2 días a menos de 30 minutos. Por mi cuenta construí Flowber, la plataforma de una barbería en producción con un agente de IA, RAG sobre pgvector y un warehouse en dbt.",
+    "Ingeniero de Datos a cargo de la plataforma Snowflake con la que trabajan 5 departamentos de una fintech estadounidense. Entré a Alleviate Financial Solutions en soporte de TI, fui la primera contratación de BI de la cuenta y construí su plataforma de datos desde cero: precisión del 85% al 99.5%, reportes de más de 2 días a menos de 30 minutos, y después el ascenso a Ingeniero de Datos. Antes, 4 años en operaciones 24/7 para la red de remesas internacionales de IDT. Por mi cuenta construí y opero Flowber, una plataforma en producción con un agente de IA, RAG sobre pgvector y un warehouse en dbt.",
 
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "IA · RAG · pgvector", "Bilingüe EN/ES"],
 
@@ -34,11 +34,11 @@ export const profileES = {
     {
       id: "alleviate-de",
       story: {
-        lead: "La plataforma que construí como analista pasó a ser mía con el ascenso; hoy trabajan sobre ella 5 departamentos.",
+        lead: "Ascendido a cargo de la plataforma que construí como analista: la fuente única de 5 departamentos.",
         wins: [
-          "Administro Snowflake de punta a punta: roles y accesos, modelado dimensional, data sharing y tuning de queries.",
-          "Orquesto en ADF y Databricks los pipelines de dbt, SQL y Python que traen Salesforce y otras fuentes al warehouse.",
-          "Cada cambio pasa por GitLab con CI y cada proceso queda escrito en un SOP."
+          "Administro Snowflake de punta a punta: roles y accesos, modelado dimensional, data sharing y tuning.",
+          "Construyo pipelines de dbt, SQL y Python orquestados en Azure Data Factory y Databricks, en Azure y GCP.",
+          "Integro Salesforce y otras fuentes vía APIs; cada cambio pasa por GitLab CI y queda escrito en un SOP."
         ],
       },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
@@ -82,6 +82,29 @@ export const profileES = {
         "Construir las automatizaciones en n8n, Make o Zapier integrando el CRM con las plataformas de anuncios, el procesador de pagos (Stripe) y las herramientas de agenda; escribir scripts a medida solo donde las herramientas no-code llegan a un límite real.",
         "Centralizar los activos de podcast, YouTube y redes sociales en un solo sistema organizado con un calendario de contenido ligero, conectado al CRM para el seguimiento de leads.",
         "Probar cada flujo contra escenarios reales de leads y reservas, documentar todo en lenguaje claro y entregar a la fundadora un manual operativo para que el sistema funcione sin el contratista; reportes asíncronos de avance contra KPIs (flujos clave en producción, horas administrativas reducidas, confiabilidad tras la entrega)."
+      ]
+    },
+    {
+      id: "usac-teaching",
+      story: {
+        lead: "Me seleccionaron para impartir la práctica final de Ingeniería en Sistemas mientras era analista de BI.",
+        wins: [
+          "Enseñé BI, sistemas de información, ERP/CRM y transformación digital con proyectos reales de BI."
+        ],
+      },
+      industry: "Educación superior",
+      company: "Universidad de San Carlos de Guatemala",
+      role: "Instructor Académico — Sistemas Organizacionales (Práctica Final)",
+      start: "2025-08",
+      end: "2026-08",
+      location: "Ciudad de Guatemala",
+      tags: ["Docencia", "BI", "Sistemas", "Liderazgo"],
+      bullets: [
+        "Me seleccionaron para impartir Sistemas Organizacionales y Gerenciales 1 (Código 0786) como práctica final de Ingeniería en Sistemas; llevé al aula proyectos reales de BI.",
+        "Impartí fundamentos de Analítica de Negocios, Sistemas de Información, conceptos ERP/CRM y Transformación Digital.",
+        "Guié a estudiantes en proyectos reales de Business Intelligence y casos de análisis de datos.",
+        "Desarrollé materiales y ejercicios de laboratorio que traducen la teoría académica en habilidades de datos aplicadas.",
+        "Serví de puente entre el currículo universitario y la industria — llevando experiencia de campo de Alleviate al aula."
       ]
     },
     {
@@ -139,24 +162,13 @@ export const profileES = {
       ]
     },
     {
-      id: "usac-teaching",
-      industry: "Educación superior",
-      company: "Universidad de San Carlos de Guatemala",
-      role: "Instructor Académico — Sistemas Organizacionales (Práctica Final)",
-      start: "2025-08",
-      end: "2026-08",
-      location: "Ciudad de Guatemala",
-      tags: ["Docencia", "BI", "Sistemas", "Liderazgo"],
-      bullets: [
-        "Me seleccionaron para impartir Sistemas Organizacionales y Gerenciales 1 (Código 0786) como práctica final de Ingeniería en Sistemas; llevé al aula proyectos reales de BI.",
-        "Impartí fundamentos de Analítica de Negocios, Sistemas de Información, conceptos ERP/CRM y Transformación Digital.",
-        "Guié a estudiantes en proyectos reales de Business Intelligence y casos de análisis de datos.",
-        "Desarrollé materiales y ejercicios de laboratorio que traducen la teoría académica en habilidades de datos aplicadas.",
-        "Serví de puente entre el currículo universitario y la industria — llevando experiencia de campo de Alleviate al aula."
-      ]
-    },
-    {
       id: "icon-it",
+      story: {
+        lead: "Entré en soporte de TI; los huecos de reportes que encontraba se volvieron el caso de negocio para BI.",
+        wins: [
+          "Soporte a 100+ usuarios en Windows y Linux; con mis scripts, los tickets bajaron un 40%."
+        ],
+      },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Alleviate Financial Solutions (vía Icon Solutions Group)",
       role: "Ingeniero de Soporte TI / Administrador de Sistemas",
@@ -200,6 +212,16 @@ export const profileES = {
       ]
     }
   ],
+
+  arc: {
+    title: "Cómo llegué a los datos",
+    intro: "Tres etapas, un mismo hilo: sistemas de los que depende la gente, primero mantenidos, luego medidos, hoy construidos.",
+    acts: [
+      { period: "2019 – 2023", title: "Mantenerlo en pie", text: "Cuatro años en el NOC 24/7 de IDT, sobre la infraestructura de las remesas internacionales. Aprendí a leer los sistemas por sus señales y a dejar por escrito cómo se arreglan.", proof: "Tiempo de recuperación −25%, respuesta a incidentes 60% más rápida" },
+      { period: "2023 – 2026", title: "Medirlo", text: "En Alleviate empecé en soporte de TI. Los mismos huecos en los reportes llegaban a mi escritorio; se volvieron el caso para un rol de BI y fui su primera contratación.", proof: "Precisión de datos del 85% al 99.5% en 5 departamentos" },
+      { period: "2026 –", title: "Construirlo", text: "Ascendido a Ingeniero de Datos, hoy estoy a cargo de la plataforma que construí. En paralelo, Flowber me enseñó a operar un producto completo solo, de la base de datos al agente de IA.", proof: "Snowflake, dbt, Azure Data Factory, Databricks; Flowber en producción desde 2024" }
+    ]
+  },
 
   skills: [
     { name: "SQL", level: 95, years: 7 },

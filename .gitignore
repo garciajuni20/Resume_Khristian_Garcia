@@ -54,3 +54,6 @@ job-search/
 
 # Private documents of other people (CV sources, HR letters) and their generated PDFs
 create-resume/
+
+# Local Cloudflare (wrangler pages dev) state
+.wrangler/

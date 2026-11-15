@@ -66,7 +66,7 @@ export default function AlleviateCaseStudy() {
                 <h1 className="font-display mt-2 max-w-3xl text-4xl leading-[1.05] sm:text-5xl">{c.title}</h1>
                 <p className="n-muted mt-5 max-w-2xl text-lg leading-relaxed">{c.lead}</p>
               </div>
-              <InkArt name="ink-fintech" className="text-ink-blue hidden h-40 w-40 justify-self-end lg:block" />
+              <InkArt name="ink-data" className="text-ink-blue hidden h-40 w-40 justify-self-end lg:block" />
             </header>
 
             <dl className="mt-8 grid gap-x-8 gap-y-3 border-y border-n-border py-5 text-sm sm:grid-cols-2">

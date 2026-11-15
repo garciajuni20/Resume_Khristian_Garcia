@@ -42,7 +42,7 @@ export default function PageOutline({ lang }: { lang: Lang }) {
   return (
     <nav aria-label={lang === 'en' ? 'On this page' : 'En esta página'} className="hidden xl:block">
       <div className="fixed right-[max(1rem,calc((100vw-72rem)/2-11rem))] top-28 w-40">
-        <p className="n-muted mb-2 font-mono-geist text-[10px] uppercase tracking-wider">{lang === 'en' ? 'On this page' : 'En esta página'}</p>
+        <p className="n-muted mb-2 text-xs">{lang === 'en' ? 'On this page' : 'En esta página'}</p>
         <ol className="n-border space-y-0.5 border-l">
           {entries.map(e => {
             const isActive = e.id === active;

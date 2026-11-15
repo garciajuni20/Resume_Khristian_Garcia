@@ -14,10 +14,10 @@ export const profileEN = {
     { label: "Portfolio", href: "https://resume-khristian-garcia.pages.dev/" }
   ],
   summary:
-    "Data Engineer with 7+ years in technology: 3 building data platforms on Snowflake, dbt, Azure Data Factory and Databricks, and 4 before that on 24/7 operations for IDT's international remittance network. At Alleviate Financial Solutions (via Icon Solutions Group) I joined as the account's first BI hire, built the analytics platform from scratch and was promoted to Data Engineer in November 2026: dimensional models in Snowflake, role and access design, dbt and SQL pipelines orchestrated in Azure Data Factory, Salesforce-to-Snowflake integrations, validation and alerting. Data accuracy went from 85% to 99.5% and the financial reporting cycle from 2+ days to under 30 minutes. Since January 2024 I have also built and run Flowber, a barbershop platform in production: React and TypeScript on PostgreSQL/Supabase with row-level security, an AI agent with 20 tools and RAG on pgvector, and a dbt + DuckDB warehouse with predictive models. From November 23, 2026 I add a part-time AI implementation contract through Virtrify. I work directly with US stakeholders in English and Spanish. Computer Science & Systems Engineering at USAC, all degree requirements completed in 2026; master's degree starting February 2027.",
+    "Data Engineer with 7+ years in technology: 3 building data platforms on Snowflake, dbt, Azure Data Factory and Databricks, and 4 before that on 24/7 operations for IDT's international remittance network. At Alleviate Financial Solutions (via Icon Solutions Group) I have held three roles in four years: IT support, then the account's first BI hire, then Data Engineer from November 2026. I built its analytics platform from scratch and now own it: dimensional models and access design in Snowflake, dbt, SQL and Python pipelines orchestrated in Azure Data Factory and Databricks, Salesforce and API integrations, GitLab CI. Data accuracy went from 85% to 99.5% and the financial reporting cycle from 2+ days to under 30 minutes. Since January 2024 I have also built and run Flowber, a barbershop platform in production: React and TypeScript on PostgreSQL/Supabase with row-level security, an AI agent with 20 tools and RAG on pgvector, and a dbt + DuckDB warehouse with predictive models. From November 23, 2026 I add a part-time AI implementation contract through Virtrify. I work directly with US stakeholders in English and Spanish. Computer Science & Systems Engineering at USAC, all degree requirements completed in 2026; master's degree starting February 2027.",
 
   summaryShort:
-    "Data Engineer with 3 years building data platforms on Snowflake, dbt and Azure Data Factory, after 4 years running 24/7 infrastructure for IDT's international remittance network. At Alleviate Financial Solutions I went from the account's first BI hire to Data Engineer: one source of truth for 5 departments, data accuracy from 85% to 99.5%, and reporting from 2+ days to under 30 minutes. On my own I built Flowber, a barbershop platform in production with an AI agent, RAG on pgvector and a dbt warehouse.",
+    "Data Engineer who owns the Snowflake platform 5 departments of a US fintech run on. I joined Alleviate Financial Solutions in IT support, became the account's first BI hire and built its data platform from scratch: accuracy from 85% to 99.5%, reporting from 2+ days to under 30 minutes, then the promotion to Data Engineer. Before that, 4 years on 24/7 operations for IDT's international remittance network. On my own I built and run Flowber, a platform in production with an AI agent, RAG on pgvector and a dbt warehouse.",
 
   badges: ["Snowflake", "dbt · Databricks", "Azure Data Factory · GCP", "Python · SQL", "AI · RAG · pgvector", "Bilingual EN/ES"],
 
@@ -34,11 +34,11 @@ export const profileEN = {
     {
       id: "alleviate-de",
       story: {
-        lead: "With the promotion, the platform I built as an analyst became mine to run; 5 departments now work on it.",
+        lead: "Promoted to own the platform I built as an analyst: the Snowflake source of truth 5 departments run on.",
         wins: [
-          "I run Snowflake end to end: roles and access, dimensional modeling, data sharing and query tuning.",
-          "I orchestrate in ADF and Databricks the dbt, SQL and Python pipelines that bring Salesforce and other sources in.",
-          "Every change ships through GitLab CI, and every process is written down as an SOP."
+          "I run Snowflake end to end: roles and access, dimensional models, data sharing and query tuning.",
+          "I build dbt, SQL and Python pipelines orchestrated in Azure Data Factory and Databricks, on Azure and GCP.",
+          "I integrate Salesforce and outside sources through APIs; every change ships through GitLab CI and an SOP."
         ],
       },
       industry: "Fintech · Debt consolidation (US)",
@@ -82,6 +82,29 @@ export const profileEN = {
         "Build the automations on n8n, Make, or Zapier, integrating the CRM with ad platforms, a payment processor (Stripe), and scheduling tools; write light custom scripts only where no-code tools hit a real limit.",
         "Centralize podcast, YouTube, and social media assets into one organized system with a lightweight content calendar, connected to the CRM for lead tracking.",
         "Test each workflow against real lead and booking scenarios, document everything in plain language, and hand the founder an operating manual so the system runs without the contractor; async progress reports against KPIs (core workflows live, admin hours reduced, reliability after handoff)."
+      ]
+    },
+    {
+      id: "usac-teaching",
+      story: {
+        lead: "Selected to teach the final practicum of Systems Engineering while working as a BI analyst.",
+        wins: [
+          "Taught BI, information systems, ERP/CRM and digital transformation through real BI projects."
+        ],
+      },
+      industry: "Higher education",
+      company: "Universidad de San Carlos de Guatemala",
+      role: "Academic Instructor — Organizational Systems (Final Practicum)",
+      start: "2025-08",
+      end: "2026-08",
+      location: "Guatemala City",
+      tags: ["Teaching", "BI", "Systems", "Leadership"],
+      bullets: [
+        "Selected to teach Sistemas Organizacionales y Gerenciales 1 (Course 0786) as the final practicum of Systems Engineering; brought real BI projects into the classroom.",
+        "Taught Business Analytics fundamentals, Information Systems, ERP/CRM concepts, and Digital Transformation.",
+        "Guided students through real-world Business Intelligence projects and data analysis case studies.",
+        "Developed lab materials and exercises that translate academic theory into practical data skills.",
+        "Acted as a bridge between university curriculum and industry — bringing field experience from Alleviate into the classroom."
       ]
     },
     {
@@ -139,24 +162,13 @@ export const profileEN = {
       ]
     },
     {
-      id: "usac-teaching",
-      industry: "Higher education",
-      company: "Universidad de San Carlos de Guatemala",
-      role: "Academic Instructor — Organizational Systems (Final Practicum)",
-      start: "2025-08",
-      end: "2026-08",
-      location: "Guatemala City",
-      tags: ["Teaching", "BI", "Systems", "Leadership"],
-      bullets: [
-        "Selected to teach Sistemas Organizacionales y Gerenciales 1 (Course 0786) as the final practicum of Systems Engineering; brought real BI projects into the classroom.",
-        "Taught Business Analytics fundamentals, Information Systems, ERP/CRM concepts, and Digital Transformation.",
-        "Guided students through real-world Business Intelligence projects and data analysis case studies.",
-        "Developed lab materials and exercises that translate academic theory into practical data skills.",
-        "Acted as a bridge between university curriculum and industry — bringing field experience from Alleviate into the classroom."
-      ]
-    },
-    {
       id: "icon-it",
+      story: {
+        lead: "Hired into IT support; the reporting gaps I kept finding became the business case for a BI role.",
+        wins: [
+          "Supported 100+ users on Windows and Linux; my scripts cut helpdesk tickets by 40%."
+        ],
+      },
       industry: "Fintech · Debt consolidation (US)",
       company: "Alleviate Financial Solutions (via Icon Solutions Group)",
       role: "IT Support Engineer / Systems Administrator",
@@ -200,6 +212,16 @@ export const profileEN = {
       ]
     }
   ],
+
+  arc: {
+    title: "How I got to data",
+    intro: "Three stages, one thread: systems people depend on, first kept running, then measured, now built.",
+    acts: [
+      { period: "2019 – 2023", title: "Keep it running", text: "Four years on IDT's 24/7 NOC, over the infrastructure behind international remittances. I learned to read systems through their signals and to write down what fixes them.", proof: "Recovery time down 25%, incident response 60% faster" },
+      { period: "2023 – 2026", title: "Measure it", text: "At Alleviate I started in IT support. The same reporting gaps kept reaching my desk, so they became the case for a BI role, and I was its first hire.", proof: "Data accuracy from 85% to 99.5% across 5 departments" },
+      { period: "2026 –", title: "Build it", text: "Promoted to Data Engineer, I now own the platform I built. In parallel, Flowber taught me to run a whole product alone, from the database to the AI agent.", proof: "Snowflake, dbt, Azure Data Factory, Databricks; Flowber live since 2024" }
+    ]
+  },
 
   skills: [
     { name: "SQL", level: 95, years: 7 },

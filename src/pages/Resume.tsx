@@ -23,6 +23,9 @@ import InkArt from '../components/ink/InkArt';
 import InkPortrait from '../components/ink/InkPortrait';
 import InkEntry from '../components/ink/InkEntry';
 import InkFigures from '../components/ink/InkFigures';
+import CareerArc from '../components/ink/CareerArc';
+import { routeHref } from '../utils/site';
+import { employerPositions, orderExperience } from '../utils/experienceOrder';
 import { sfx } from '../audio/engine';
 import { roleStatus, startsLabel } from '../utils/roleStatus';
 import { INK_ROUTE, INK_TEXT, INK_TONE, INK_VIGNETTE, inkAchievements, inkFigures, inkNotes } from '../data/ink';
@@ -61,7 +64,7 @@ export default function ResumePage() {
         languages: 'Languages',
         skillsDashboard: 'Skills',
         skillsIntro: 'Grouped by what I do with them: data engineering, cloud, BI, AI, delivery and full-stack.',
-        experienceIntro: 'Roles overlap on purpose: a promotion, a part-time AI engagement and a product I own run in parallel.',
+        experienceIntro: 'Most recent first. Some roles overlap on purpose: a promotion, a part-time AI engagement and a product I own run in parallel.',
         fullProfile: 'Read the full profile',
         profile: 'Profile',
         changed: 'What changed because of my work',
@@ -86,7 +89,7 @@ export default function ResumePage() {
         languages: 'Idiomas',
         skillsDashboard: 'Habilidades',
         skillsIntro: 'Agrupadas por lo que hago con ellas: ingeniería de datos, cloud, BI, IA, entrega y full-stack.',
-        experienceIntro: 'Los roles se traslapan a propósito: un ascenso, un contrato de IA a medio tiempo y un producto propio corren en paralelo.',
+        experienceIntro: 'Del más reciente al más antiguo. Algunos roles se traslapan a propósito: un ascenso, un contrato de IA a medio tiempo y un producto propio corren en paralelo.',
         fullProfile: 'Leer el perfil completo',
         profile: 'Perfil',
         changed: 'Lo que cambió con mi trabajo',
@@ -129,10 +132,13 @@ export default function ResumePage() {
     trackEvent('filter_clear');
   }
 
+  // Reverse-chronological, the same order as both PDFs
   const filteredExperience = useMemo(() => {
-    if (activeTags.length === 0) return data.experience;
-    return data.experience.filter(e => (e.tags ?? []).some(t => activeTags.includes(t)));
+    const ordered = orderExperience(data.experience);
+    if (activeTags.length === 0) return ordered;
+    return ordered.filter(e => (e.tags ?? []).some(t => activeTags.includes(t)));
   }, [data.experience, activeTags]);
+  const positions = useMemo(() => employerPositions(filteredExperience), [filteredExperience]);
 
   // Each industry's engraving is stamped once, on the first role shown from it
   const ledgerArt = useMemo(() => {
@@ -306,7 +312,7 @@ export default function ResumePage() {
                   <span className={`mr-1.5 ${INK_TEXT[figures[i]?.tone ?? 'blue']}`}>{i + 1}</span>
                   {n}
                   {i === notes.length - 1 && (
-                    <a href={`${import.meta.env.BASE_URL}#/flowber`} className={LINK}>
+                    <a href={routeHref('/flowber')} className={LINK}>
                       {en ? 'Flowber case study' : 'caso de estudio de Flowber'}
                     </a>
                   )}
@@ -314,6 +320,9 @@ export default function ResumePage() {
               ))}
             </ol>
           </Section>
+
+          {/* ── The thread: three stages before the ledger ── */}
+          {data.arc && <CareerArc arc={data.arc} lang={lang} />}
 
           {/* ── How I work ── */}
           {data.workflow && <HowIWork workflow={data.workflow} />}
@@ -354,7 +363,7 @@ export default function ResumePage() {
               <AnimatePresence mode="popLayout" initial={false}>
                 {filteredExperience.map(exp => (
                   <motion.div key={exp.id} layout exit={{ opacity: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                    <InkEntry item={exp} art={ledgerArt.get(exp.id)} lang={lang} onOpen={setSelected} />
+                    <InkEntry item={exp} art={ledgerArt.get(exp.id)} continued={positions.get(exp.id)?.continued} lang={lang} onOpen={setSelected} />
                   </motion.div>
                 ))}
               </AnimatePresence>

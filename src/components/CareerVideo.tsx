@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Clapperboard, Play, X } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 import { FLUID } from '../utils/animations';
 
@@ -12,8 +12,8 @@ function sources(lang: 'en' | 'es') {
 }
 
 const LABELS = {
-  es: { title: 'Mi trayectoria en 57 segundos', sub: 'De remesas y fintech a IA y datos: hecho con código en Remotion.', play: 'Ver video', close: 'Cerrar video' },
-  en: { title: 'My career in 57 seconds', sub: 'From remittances and fintech to AI and data: made with code in Remotion.', play: 'Watch video', close: 'Close video' },
+  es: { title: 'Mi trayectoria en 57 segundos', sub: 'De las remesas y la fintech a los datos y la IA. Animado con código en Remotion, sin plantillas.', play: 'Ver video', close: 'Cerrar video' },
+  en: { title: 'My career in 57 seconds', sub: 'From remittances and fintech to data and AI. Animated with code in Remotion, no templates.', play: 'Watch video', close: 'Close video' },
 };
 
 /** Poster with a play button; the video only loads once the visitor asks for it. */
@@ -42,17 +42,15 @@ function Player({ autoPlay = false }: { autoPlay?: boolean }) {
   );
 }
 
+/** The film set beside its caption, small: it is an extra, the ledger is the resume */
 export function CareerVideoBlock() {
   const { lang } = useLang();
   const t = LABELS[lang];
   return (
-    <div>
-      <div className="mb-3 flex items-start gap-2">
-        <Clapperboard className="n-muted mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-        <div>
-          <p className="n-text text-sm font-semibold">{t.title}</p>
-          <p className="n-muted text-xs">{t.sub}</p>
-        </div>
+    <div className="grid items-center gap-6 border-y border-n-border py-6 sm:grid-cols-[minmax(0,1fr)_22rem]">
+      <div>
+        <p className="font-display n-text text-2xl leading-tight">{t.title}</p>
+        <p className="n-muted mt-2 max-w-sm text-sm leading-relaxed">{t.sub}</p>
       </div>
       <Player />
     </div>

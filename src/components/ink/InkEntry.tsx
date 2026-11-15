@@ -7,6 +7,8 @@ type Props = {
   item: ExperienceItem;
   /** Engraving to stamp beside the year: only on the first role of each industry */
   art?: string | null;
+  /** An earlier role at the same employer, right under the later one: a dashed rule ties them */
+  continued?: boolean;
   lang: Lang;
   onOpen: (item: ExperienceItem) => void;
 };
@@ -16,14 +18,14 @@ type Props = {
  * story on the right (one sentence of situation, then what changed). The whole row opens the detail; the real
  * control is the "details" button, stretched over the row for pointer users.
  */
-export default function InkEntry({ item, art, lang, onOpen }: Props) {
+export default function InkEntry({ item, art, continued = false, lang, onOpen }: Props) {
   const en = lang === 'en';
   const status = roleStatus(item);
   const label = statusLabel(item, lang);
   const ink = INK_TEXT[INK_TONE[item.id] ?? 'blue'];
 
   return (
-    <article className="group relative grid grid-cols-[4.75rem_minmax(0,1fr)] gap-x-4 border-t border-n-border py-6 transition-colors duration-300 hover:bg-n-hover sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-x-6 sm:px-2">
+    <article className={`group relative grid grid-cols-[4.75rem_minmax(0,1fr)] gap-x-4 border-t border-n-border py-6 ${continued ? 'border-dashed' : ''} transition-colors duration-300 hover:bg-n-hover sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-x-6 sm:px-2`}>
       <div>
         <p className={`font-display text-3xl leading-none sm:text-4xl ${ink}`}>{item.start.slice(0, 4)}</p>
         <p className="n-muted mt-2 text-xs leading-relaxed">

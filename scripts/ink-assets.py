@@ -45,6 +45,8 @@ SET = {
     "ink-hero": (1400, True, HERO_INKS),
     "ink-remesas": (400, False, TONE["teal"]),
     "ink-fintech": (400, False, TONE["blue"]),
+    "ink-bi": (400, False, TONE["blue"]),
+    "ink-data": (400, False, TONE["blue"]),
     "ink-barberia": (400, False, TONE["coral"]),
     "ink-bienestar": (400, False, TONE["green"]),
     "ink-educacion": (400, False, TONE["violet"]),

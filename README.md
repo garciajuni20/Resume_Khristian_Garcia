@@ -79,7 +79,7 @@ Scripts: `scripts/encode-ai-media.sh` (web encodes of the AI clips), `scripts/li
 - **Formatting**: Prettier
 - **Hosting**: GitHub Pages
 - **CI/CD**: GitHub Actions
-- **Analytics**: Google Analytics integration ready
+- **Analytics**: Cloudflare Web Analytics (cookieless, enabled in the Pages project)
 
 ### **Architecture**
 - Layered component structure
@@ -162,22 +162,26 @@ npm run build
 npm run preview
 ```
 
-### 📦 Deployment (GitHub Pages)
-This project is configured for automatic deployment to GitHub Pages:
+### 📦 Deployment
 
-### Configuration Highlights
-vite.config.ts sets the base to "/" on Cloudflare Pages (it sets CF_PAGES=1 in its build) and to "/Resume_Khristian_Garcia/" on GitHub Pages
+**Cloudflare Pages (main site): https://resume-khristian-garcia.pages.dev/**
 
-Uses HashRouter to prevent 404 errors on refresh
+| Setting | Value |
+|---|---|
+| Build command | `npm run build` |
+| Build output directory | `dist` (also pinned in `wrangler.toml`) |
+| Environment variable | `NODE_VERSION` = `22` |
 
-GitHub Actions workflow in .github/workflows/deploy.yml
+Cloudflare sets `CF_PAGES=1` during its build, and that one flag switches the site to its root-host form:
 
-### Deployment Steps
-Commit and push to the main branch
+- `base` is `/` (`vite.config.ts`), and the router uses real paths (`/resume`) instead of hash routes (`src/utils/site.ts`). Old links such as `/#/resume?lang=en` are rewritten to `/resume?lang=en` before the app starts.
+- The build writes one HTML document per route (`resume.html`, `alleviate.html`…) with its own title, description, canonical and Open Graph tags from `src/data/routes.ts`, plus a sitemap listing every route. LinkedIn and search engines read them without running JavaScript.
+- `functions/api/contact.ts` is a Pages Function behind the contact form: validation, a honeypot, same-origin check, optional Turnstile, and delivery through Resend or Formspree. Variables (Settings → Variables and Secrets):
+  - `TURNSTILE_SECRET` (secret) + `VITE_TURNSTILE_SITE_KEY` (build variable): turn on Turnstile.
+  - `RESEND_API_KEY` (secret) + `CONTACT_TO`: deliver through Resend; otherwise `FORMSPREE_ID` (defaults to the current form).
+- Analytics: Cloudflare Web Analytics, enabled in the Pages project (Metrics → Web Analytics). No code or cookies.
 
-GitHub Actions automatically runs the deployment workflow
-
-Cloudflare Pages (build command `npm run build`, output `dist`) deploys the main site to https://resume-khristian-garcia.pages.dev/. GitHub Actions also publishes a mirror on GitHub Pages; its canonical tag points to Cloudflare
+**GitHub Pages (mirror):** `.github/workflows/deploy.yml` builds with base `/Resume_Khristian_Garcia/` and hash routes. Its canonical tags point to Cloudflare, so search engines index one address. The contact form there posts straight to Formspree.
 
 ### 🎯 Technical Highlights
 Performance Optimization
@@ -215,13 +219,6 @@ Custom hooks for reusable logic
 Consistent code formatting
 
 Comprehensive component documentation
-
-### 📈 Enabling Google Analytics (GA4)
-Analytics hooks (`useAnalytics`, event tracking on downloads/filters/theme/language) are already wired but dormant. To activate:
-
-1. Create a GA4 property at [analytics.google.com](https://analytics.google.com) and copy your Measurement ID (`G-XXXXXXXXXX`).
-2. In `index.html`, uncomment the Google Analytics snippet and replace `G-XXXXXXXXXX` with your real ID.
-3. Deploy — all existing `trackEvent` calls start reporting automatically.
 
 ### 🔧 Customization
 To customize this portfolio with your information:

@@ -31,11 +31,12 @@ function xOf(el: Element): number {
   return Math.min(1, Math.max(0, (r.left + r.width / 2) / window.innerWidth));
 }
 
-/** In-app route links (HashRouter): the page's arrival chime plays instead */
+/** In-app route links (/resume or #/resume): the page's arrival chime plays instead */
 function isRouteLink(el: Element): boolean {
   if (!(el instanceof HTMLAnchorElement)) return false;
   const href = el.getAttribute('href') ?? '';
-  return href.startsWith('#/') && !el.target;
+  if (el.target || el.hasAttribute('download')) return false;
+  return href.startsWith('#/') || (href.startsWith('/') && !href.startsWith('//') && !/\.[a-z0-9]{2,5}$/i.test(href));
 }
 
 export default function SoundEffects() {
