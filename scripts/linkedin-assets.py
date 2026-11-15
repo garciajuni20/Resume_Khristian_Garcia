@@ -67,7 +67,7 @@ def banner() -> None:
         px = pill(d, (px, 228), t, font("Geist-Medium.ttf", 20))
     d.text((x, 300), "Built Flowber end-to-end: booking platform, AI agent with RAG, dbt warehouse with ML.",
            font=font("Geist-Regular.ttf", 21), fill=MUTED)
-    d.text((x, 336), "garciajuni20.github.io/Resume_Khristian_Garcia", font=font("GeistMono-Medium.ttf", 18), fill=(110, 110, 120))
+    d.text((x, 336), "resume-khristian-garcia.pages.dev", font=font("GeistMono-Medium.ttf", 18), fill=(110, 110, 120))
     canvas.save(OUT / "linkedin-banner.jpg", quality=92)
 
 
@@ -93,7 +93,7 @@ def featured_flowber() -> None:
     px = 64
     for t in ["160+ appointments", "100% hit@1 RAG", "24 dbt models · 50 tests", "$0 infra"]:
         px = pill(d, (px, 430), t, font("Geist-Medium.ttf", 21))
-    d.text((64, 540), "garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber", font=font("GeistMono-Medium.ttf", 19), fill=(120, 120, 130))
+    d.text((64, 540), "resume-khristian-garcia.pages.dev/#/flowber", font=font("GeistMono-Medium.ttf", 19), fill=(120, 120, 130))
     canvas.save(OUT / "featured-flowber.jpg", quality=90)
 
 

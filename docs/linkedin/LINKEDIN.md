@@ -27,7 +27,7 @@ Everything here comes from `src/data/profile-en.ts` / `profile-es.ts` (the same 
 **ES:**
 > Ingeniero de Datos · Ingeniero de Implementación de IA · Snowflake, dbt, Databricks, Azure Data Factory · Fintech y marca de bienestar de EE. UU. · Construí una plataforma con IA y RAG de punta a punta · Remoto desde Guatemala · EN/ES
 
-Site links for recruiters: append `?lang=en` (or `?lang=es`) to the portfolio URL so it always opens in that language, e.g. `https://garciajuni20.github.io/Resume_Khristian_Garcia/?lang=en#/resume`.
+Site links for recruiters: append `?lang=en` (or `?lang=es`) to the portfolio URL so it always opens in that language, e.g. `https://resume-khristian-garcia.pages.dev/?lang=en#/resume`.
 
 Why: the first ~60 characters show up in search results and comments, so the role and the stack recruiters filter on go first.
 
@@ -55,7 +55,7 @@ Why: the first ~60 characters show up in search results and comments, so the rol
 > Systems Engineering at USAC completed in 2026 (pensum closed, private exam passed); master's degree starting February 2027. I also taught Organizational Systems (BI, ERP/CRM) there as my final practicum.
 >
 > Open to remote Data Engineer / Analytics Engineer roles. English and Spanish.
-> Portfolio and case study: garciajuni20.github.io/Resume_Khristian_Garcia
+> Portfolio and case study: resume-khristian-garcia.pages.dev
 
 **ES:**
 
@@ -79,7 +79,7 @@ Why: the first ~60 characters show up in search results and comments, so the rol
 > Ingeniería en Ciencias y Sistemas en la USAC completada en 2026 (pensum cerrado y examen privado aprobado); maestría a partir de febrero de 2027. Además fui instructor de Sistemas Organizacionales (BI, ERP/CRM) como práctica final.
 >
 > Disponible para roles remotos de Data Engineer / Analytics Engineer. Inglés y español.
-> Portafolio y caso de estudio: garciajuni20.github.io/Resume_Khristian_Garcia
+> Portafolio y caso de estudio: resume-khristian-garcia.pages.dev
 
 ## 4. Experience
 
@@ -137,7 +137,7 @@ Flowber (independent venture) · Self-employed · Jan 2024 – Present · Guatem
 > • Medallion warehouse: Postgres → Parquet → dbt + DuckDB, star schema, 24 models, 50 tests, nightly on GitHub Actions; cancellation-risk and demand-forecast models.
 > • 160+ appointments and 90+ registered customers. Mobile LCP from 4.8 s to 2.5 s.
 >
-> Case study: garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber
+> Case study: resume-khristian-garcia.pages.dev/#/flowber
 
 ### Academic Instructor, Organizational Systems (Final Practicum)
 Universidad de San Carlos de Guatemala · Aug 2025 – Aug 2026

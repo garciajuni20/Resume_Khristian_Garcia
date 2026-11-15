@@ -48,8 +48,8 @@ SQL (expert) · Snowflake · Power BI · DAX · Tableau · Data Modeling · Star
 - Spanish: native · English: professional/fluent · Italian: basic
 
 ## Links
-- Portfolio: https://garciajuni20.github.io/Resume_Khristian_Garcia/
-- Flowber case study: https://garciajuni20.github.io/Resume_Khristian_Garcia/#/projects/flowber
+- Portfolio: https://resume-khristian-garcia.pages.dev/
+- Flowber case study: https://resume-khristian-garcia.pages.dev/#/projects/flowber
 - LinkedIn: https://www.linkedin.com/in/khristian-garcia--/
 - GitHub: https://github.com/garciajuni20
 - Email: garciajuni20@gmail.com · Phone: +502 5633 8735

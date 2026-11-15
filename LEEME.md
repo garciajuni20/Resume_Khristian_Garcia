@@ -9,7 +9,7 @@
 
 Portafolio profesional bilingüe que muestra experiencia en **Análisis de Datos / Inteligencia de Negocios** y **Desarrollo Full-Stack** con patrones de arquitectura modernos.
 
-🔗 **Sitio en vivo:** [https://garciajuni20.github.io/Resume_Khristian_Garcia/](https://garciajuni20.github.io/Resume_Khristian_Garcia/)
+🔗 **Sitio en vivo:** [https://resume-khristian-garcia.pages.dev/](https://resume-khristian-garcia.pages.dev/)
 
 ![Vista previa del Portafolio](https://raw.githubusercontent.com/garciajuni20/Resume_Khristian_Garcia/main/khristian-garcia.png)
 
@@ -158,7 +158,7 @@ npm run preview
 Este proyecto está configurado para despliegue automático en GitHub Pages:
 
 ## Configuraciones Destacadas
-vite.config.ts incluye: base: "/Resume_Khristian_Garcia/"
+vite.config.ts usa la base "/" en Cloudflare Pages (que define CF_PAGES=1 en su build) y "/Resume_Khristian_Garcia/" en GitHub Pages
 
 Usa HashRouter para prevenir errores 404 al refrescar
 
@@ -169,7 +169,7 @@ Haz commit y push a la rama main
 
 GitHub Actions ejecuta automáticamente el workflow de despliegue
 
-El sitio se despliega en: https://[usuario].github.io/Resume_Khristian_Garcia/
+Cloudflare Pages (comando `npm run build`, salida `dist`) despliega el sitio principal en https://resume-khristian-garcia.pages.dev/. GitHub Actions publica además una copia en GitHub Pages, cuya etiqueta canonical apunta a Cloudflare
 
 ## 🎯 Aspectos Técnicos Destacados
 Optimización de Performance

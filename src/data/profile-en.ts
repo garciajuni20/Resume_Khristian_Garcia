@@ -7,11 +7,11 @@ export const profileEN = {
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",
   photoUrl:
-    "https://garciajuni20.github.io/Resume_Khristian_Garcia/me/khristian-portrait.jpg",
+    "https://resume-khristian-garcia.pages.dev/me/khristian-portrait.jpg",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/khristian-garcia--/" },
     { label: "GitHub", href: "https://github.com/garciajuni20" },
-    { label: "Portfolio", href: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" }
+    { label: "Portfolio", href: "https://resume-khristian-garcia.pages.dev/" }
   ],
   summary:
     "Data Engineer with 7+ years in technology: 3 building data platforms on Snowflake, dbt, Azure Data Factory and Databricks, and 4 before that on 24/7 operations for IDT's international remittance network. At Alleviate Financial Solutions (via Icon Solutions Group) I joined as the account's first BI hire, built the analytics platform from scratch and was promoted to Data Engineer in November 2026: dimensional models in Snowflake, role and access design, dbt and SQL pipelines orchestrated in Azure Data Factory, Salesforce-to-Snowflake integrations, validation and alerting. Data accuracy went from 85% to 99.5% and the financial reporting cycle from 2+ days to under 30 minutes. Since January 2024 I have also built and run Flowber, a barbershop platform in production: React and TypeScript on PostgreSQL/Supabase with row-level security, an AI agent with 20 tools and RAG on pgvector, and a dbt + DuckDB warehouse with predictive models. From November 23, 2026 I add a part-time AI implementation contract through Virtrify. I work directly with US stakeholders in English and Spanish. Computer Science & Systems Engineering at USAC, all degree requirements completed in 2026; master's degree starting February 2027.",
@@ -326,7 +326,7 @@ export const profileEN = {
       duration: "3 weeks",
       teamSize: "Solo project",
       category: "web",
-      links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" },
+      links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://resume-khristian-garcia.pages.dev/" },
       featured: false
     },
     {

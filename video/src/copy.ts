@@ -69,7 +69,7 @@ export const COPY: Record<Lang, Copy> = {
     outroTitle: 'Construyamos algo juntos',
     outroLine: 'Abierto a roles de Datos e IA · inglés y español',
     email: 'garciajuni20@gmail.com',
-    site: 'garciajuni20.github.io/Resume_Khristian_Garcia',
+    site: 'resume-khristian-garcia.pages.dev',
   },
   en: {
     tag: 'Career · 2019 → 2026',
@@ -103,6 +103,6 @@ export const COPY: Record<Lang, Copy> = {
     outroTitle: "Let's build something together",
     outroLine: 'Open to Data & AI roles · English and Spanish',
     email: 'garciajuni20@gmail.com',
-    site: 'garciajuni20.github.io/Resume_Khristian_Garcia',
+    site: 'resume-khristian-garcia.pages.dev',
   },
 };

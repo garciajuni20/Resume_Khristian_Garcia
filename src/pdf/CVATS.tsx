@@ -241,7 +241,7 @@ export function CVATS({ data, lang, photo = true }: Props) {
 
         {/* Plain fixed text: a `render` callback inside an absolute footer is dropped by react-pdf 4.5 */}
         <Text style={styles.footer} fixed>
-          {data.name}  |  {isEN ? 'Updated' : 'Actualizado'}: {CV_UPDATED[lang]}  |  garciajuni20.github.io/Resume_Khristian_Garcia
+          {data.name}  |  {isEN ? 'Updated' : 'Actualizado'}: {CV_UPDATED[lang]}  |  resume-khristian-garcia.pages.dev
         </Text>
       </Page>
     </Document>

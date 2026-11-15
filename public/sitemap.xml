@@ -3,7 +3,7 @@
   <!-- The app uses hash-based routing (/#/resume, /#/projects, ...), which search
        engines do not index as separate URLs. Only the root is listed on purpose. -->
   <url>
-    <loc>https://garciajuni20.github.io/Resume_Khristian_Garcia/</loc>
+    <loc>https://resume-khristian-garcia.pages.dev/</loc>
     <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>

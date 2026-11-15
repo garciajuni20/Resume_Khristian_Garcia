@@ -7,11 +7,11 @@ export const profileES = {
   email: "garciajuni20@gmail.com",
   phone: "+502 5633 8735",
   photoUrl:
-    "https://garciajuni20.github.io/Resume_Khristian_Garcia/me/khristian-portrait.jpg",
+    "https://resume-khristian-garcia.pages.dev/me/khristian-portrait.jpg",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/khristian-garcia--/" },
     { label: "GitHub", href: "https://github.com/garciajuni20" },
-    { label: "Portafolio", href: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" }
+    { label: "Portafolio", href: "https://resume-khristian-garcia.pages.dev/" }
   ],
   summary:
     "Ingeniero de Datos con más de 7 años en tecnología: 3 construyendo plataformas de datos en Snowflake, dbt, Azure Data Factory y Databricks, y 4 antes en operaciones 24/7 para la red de remesas internacionales de IDT. En Alleviate Financial Solutions (vía Icon Solutions Group) entré como la primera contratación de BI de la cuenta, construí la plataforma analítica desde cero y me ascendieron a Ingeniero de Datos en noviembre de 2026: modelos dimensionales en Snowflake, diseño de roles y accesos, pipelines de dbt y SQL orquestados en Azure Data Factory, integraciones de Salesforce a Snowflake, validaciones y alertas. La precisión de datos pasó del 85% al 99.5% y el ciclo de reportes financieros de más de 2 días a menos de 30 minutos. Desde enero de 2024 también construyo y opero Flowber, la plataforma de una barbería en producción: React y TypeScript sobre PostgreSQL/Supabase con seguridad por filas, un agente de IA con 20 herramientas y RAG sobre pgvector, y un warehouse dbt + DuckDB con modelos predictivos. Desde el 23 de noviembre de 2026 sumo un contrato de medio tiempo de implementación de IA vía Virtrify. Trabajo directamente con stakeholders de EE. UU. en inglés y español. Ingeniería en Ciencias y Sistemas en la USAC, con todos los requisitos de grado completados en 2026; maestría a partir de febrero de 2027.",
@@ -326,7 +326,7 @@ export const profileES = {
       duration: "3 semanas",
       teamSize: "Proyecto individual",
       category: "web",
-      links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://garciajuni20.github.io/Resume_Khristian_Garcia/" },
+      links: { github: "https://github.com/garciajuni20/Resume_Khristian_Garcia", live: "https://resume-khristian-garcia.pages.dev/" },
       featured: false
     },
     {

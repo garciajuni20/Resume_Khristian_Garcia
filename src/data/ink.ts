@@ -107,7 +107,7 @@ export function figureRuns(text: string): Array<{ text: string; sans: boolean }>
     .map(t => ({ text: t, sans: t === '+' || t === '→' }));
 }
 
-export const FLOWBER_CASE_URL = 'https://garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber';
+export const FLOWBER_CASE_URL = 'https://resume-khristian-garcia.pages.dev/#/flowber';
 
 /** Where each figure comes from. The last one ends with the case-study link. */
 export function inkNotes(lang: Lang): string[] {

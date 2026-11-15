@@ -250,7 +250,7 @@ export function CVCreative({ data, lang }: Props) {
   const footer = (
     <View style={styles.footer} fixed>
       <Text>{t.updated}</Text>
-      <Text>garciajuni20.github.io/Resume_Khristian_Garcia</Text>
+      <Text>resume-khristian-garcia.pages.dev</Text>
       <Text render={({ pageNumber, totalPages }) => t.page(pageNumber, totalPages)} />
     </View>
   );
@@ -388,7 +388,7 @@ export function CVCreative({ data, lang }: Props) {
               <Text key={i} style={styles.note}>
                 <Text style={{ ...styles.noteMark, color: INK_HEX[figures[i]?.tone ?? 'blue'] }}>{i + 1}  </Text>
                 {n}
-                {i === 2 && <Link src={FLOWBER_CASE_URL} style={styles.noteLink}>garciajuni20.github.io/Resume_Khristian_Garcia/#/flowber</Link>}
+                {i === 2 && <Link src={FLOWBER_CASE_URL} style={styles.noteLink}>resume-khristian-garcia.pages.dev/#/flowber</Link>}
               </Text>
             ))}
           </View>

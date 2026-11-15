@@ -9,7 +9,7 @@ export const PHOTO = {
   squareJpg: 'me/khristian-square.jpg',
 } as const;
 
-export const PORTFOLIO_URL = 'https://garciajuni20.github.io/Resume_Khristian_Garcia/';
+export const PORTFOLIO_URL = 'https://resume-khristian-garcia.pages.dev/';
 
 /** Printed in the PDF footers; bump it when the profile data changes */
 export const CV_UPDATED = { en: 'November 2026', es: 'noviembre de 2026' } as const;

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { Lang } from '../types';
 
-const SITE_URL = 'https://garciajuni20.github.io/Resume_Khristian_Garcia/';
+const SITE_URL = 'https://resume-khristian-garcia.pages.dev/';
 
 interface SEOProps {
   title: string;
@@ -18,7 +18,7 @@ export const useSEO = ({
   description,
   lang = 'en',
   keywords = [],
-  image = 'https://garciajuni20.github.io/Resume_Khristian_Garcia/og-image.jpg',
+  image = 'https://resume-khristian-garcia.pages.dev/og-image.jpg',
   url,
 }: SEOProps) => {
   const { pathname } = useLocation();
