@@ -17,6 +17,7 @@
   --color-n-code: var(--n-code);
   --color-n-accent: var(--n-accent);
   --color-n-accent-soft: var(--n-accent-soft);
+  --color-n-accent-2: var(--n-accent-2);
   --color-n-highlight: var(--n-highlight);
   --color-n-deep: var(--n-deep);
   --color-n-violet: var(--n-violet);
@@ -27,35 +28,37 @@
   --ease-brand: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
 
-  /* Midnight Garden palette: #1A1A2E #16213E #0F3460 #533483 #E94560 #EFCC06.
-     Light theme: night-blue ink on a faintly violet paper; coral is THE accent
-     (darkened for text so it stays AA on white); yellow only for "now". */
-  --n-bg: #FBFAFF;
-  --n-text: #1A1A2E;
-  --n-muted: #5C5F7E;
-  --n-faint: rgba(26, 26, 46, 0.45);
-  --n-border: rgba(26, 26, 46, 0.12);
-  --n-hover: rgba(26, 26, 46, 0.06);
-  --n-callout: #F1F0F9;
-  --n-code: #F4F3FA;
-  --n-accent: #D1324F;
-  --n-accent-soft: #FBE4E9;
+  /* Midnight Garden palette on a blue base: #16213E / #0F3460 carry the surfaces and
+     the accent, coral (#E94560) is the signature (mark, eyebrows, impact), yellow only
+     for "now". Every text/ground pair below clears WCAG AA. */
+  --n-bg: #F6F8FD;
+  --n-text: #15213B;
+  --n-muted: #51607F;
+  --n-faint: rgba(21, 33, 59, 0.45);
+  --n-border: rgba(15, 52, 96, 0.14);
+  --n-hover: rgba(15, 52, 96, 0.06);
+  --n-callout: #E9EEF8;
+  --n-code: #EEF2FA;
+  --n-accent: #0F3460;
+  --n-accent-soft: #DCE6F6;
+  --n-accent-2: #C42B47;
   --n-highlight: #7A6600;
   --n-deep: #0F3460;
   --n-violet: #533483;
 }
 
 .dark {
-  --n-bg: #1A1A2E;
-  --n-text: #F2F2F7;
-  --n-muted: #A6A9C4;
-  --n-faint: rgba(242, 242, 247, 0.4);
-  --n-border: rgba(242, 242, 247, 0.11);
-  --n-hover: rgba(242, 242, 247, 0.06);
-  --n-callout: #16213E;
-  --n-code: #141C33;
-  --n-accent: #EF5A73; /* brand coral #E94560 lifted one step so text on the night blue clears AA */
-  --n-accent-soft: rgba(233, 69, 96, 0.16);
+  --n-bg: #16213E;
+  --n-text: #F2F5FA;
+  --n-muted: #A9B4CC;
+  --n-faint: rgba(242, 245, 250, 0.4);
+  --n-border: rgba(242, 245, 250, 0.12);
+  --n-hover: rgba(242, 245, 250, 0.06);
+  --n-callout: #1C2A4D;
+  --n-code: #132040;
+  --n-accent: #7FB0F2;
+  --n-accent-soft: rgba(127, 176, 242, 0.16);
+  --n-accent-2: #F26A82;
   --n-highlight: #EFCC06;
   --n-deep: #0F3460;
   --n-violet: #533483;
@@ -112,7 +115,7 @@
     font-size: 0.75rem;
     line-height: 1.25rem;
     white-space: nowrap;
-    color: #1A1A2E;
+    color: #15213B;
   }
   .dark .n-tag { color: rgba(255, 255, 255, 0.86); }
   .n-tag-gray { background: #e3e2e0; }

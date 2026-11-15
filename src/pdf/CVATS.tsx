@@ -39,11 +39,11 @@ function range(start: string, end: string, isEN: boolean): string {
 
 /** Bullets per role, most-relevant-first in the data. Keeps the resume to 2 pages. */
 const BULLET_CAPS: Record<string, number> = {
-  'alleviate-de': 4,
-  'virtrify-ai': 2,
-  'alleviate-mid': 2,
-  'flowber-freelance': 3,
-  'idt-gnoc': 2,
+  'alleviate-de': 2,
+  'virtrify-ai': 0,
+  'alleviate-mid': 0,
+  'flowber-freelance': 1,
+  'idt-gnoc': 0,
 };
 const DEFAULT_BULLET_CAP = 1;
 
@@ -98,6 +98,8 @@ const styles = StyleSheet.create({
   roleIndustry: { fontSize: 8.5, color: '#333333', marginTop: 1, marginBottom: 3 },
 
   bullet: { flexDirection: 'row', marginBottom: 2.5 },
+  approach: { fontSize: 8.8, lineHeight: 1.45, marginBottom: 2.5 },
+  approachLabel: { fontFamily: 'Helvetica-Bold' },
   bulletChar: { fontSize: 8.8, width: 10, flexShrink: 0 },
   bulletText: { fontSize: 8.8, flex: 1, lineHeight: 1.45 },
 
@@ -124,6 +126,9 @@ export function CVATS({ data, lang, photo = true }: Props) {
     achievements: isEN ? 'Selected Achievements' : 'Logros Destacados',
     competencies: isEN ? 'Core Competencies' : 'Competencias Principales',
     experience: isEN ? 'Professional Experience' : 'Experiencia Profesional',
+    context: isEN ? 'Context' : 'Contexto',
+    how: isEN ? 'How' : 'Cómo',
+    result: isEN ? 'Result' : 'Resultado',
     education: isEN ? 'Education' : 'Educación',
     languages: isEN ? 'Languages' : 'Idiomas',
     dataEng: isEN ? 'Data Engineering' : 'Ingeniería de Datos',
@@ -203,6 +208,14 @@ export function CVATS({ data, lang, photo = true }: Props) {
               <Text style={styles.roleIndustry}>
                 {isEN ? 'Industry' : 'Industria'}: {exp.industry}
               </Text>
+            )}
+            {/* Plain labelled lines: parsers read them as text, people read them as the story */}
+            {exp.approach && (
+              <>
+                <Text style={styles.approach}><Text style={styles.approachLabel}>{t.context}: </Text>{ansi(exp.approach.context)}</Text>
+                <Text style={styles.approach}><Text style={styles.approachLabel}>{t.how}: </Text>{ansi(exp.approach.how)}</Text>
+                <Text style={styles.approach}><Text style={styles.approachLabel}>{t.result}: </Text>{ansi(exp.approach.result)}</Text>
+              </>
             )}
             {(exp.bullets ?? [])
               .slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP)

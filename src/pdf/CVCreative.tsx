@@ -56,11 +56,11 @@ const year = (value: string, isEN: boolean) =>
 
 /** Bullets per role on page 2; data is ordered most-relevant-first. */
 const BULLET_CAPS: Record<string, number> = {
-  'alleviate-de': 3,
-  'virtrify-ai': 1,
-  'alleviate-mid': 2,
-  'flowber-freelance': 3,
-  'idt-gnoc': 1,
+  'alleviate-de': 0, // its first bullet repeats the approach context
+  'virtrify-ai': 0,
+  'alleviate-mid': 0,
+  'flowber-freelance': 1,
+  'idt-gnoc': 0,
 };
 const DEFAULT_BULLET_CAP = 1;
 
@@ -78,14 +78,17 @@ const COMPANY_SHORT: Record<string, string> = {
 const SKILLS_SHOWN = 10;
 const ACHIEVEMENTS_SHOWN = 4;
 
-const INK = '#1A1A2E';
-const TEXT = '#1A1A2E';
+const INK = '#16213E';
+const TEXT = '#15213B';
 const MUTED = '#787774';
 const BORDER = '#E9E9E7';
 const SURFACE = '#F7F6F3';
-const ACCENT = '#D1324F';
-const ACCENT_SOFT = '#FBE4E9';
-const ACCENT_ON_DARK = '#F48CA0';
+const ACCENT = '#0F3460';
+const ACCENT_SOFT = '#DCE6F6';
+const ACCENT_ON_DARK = '#9CC2F5';
+const CORAL = '#E94560';
+/** Coral for small text: the brand coral is 3.8:1 on white, this one clears AA */
+const CORAL_TEXT = '#C42B47';
 const INDUSTRY_DOTS = ['#0F3460', '#533483', '#E94560', '#C9A800', '#448361'];
 
 const styles = StyleSheet.create({
@@ -166,7 +169,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   metricBoxLast: { marginRight: 0 },
-  metricValue: { fontWeight: 700, fontSize: 15, color: INK },
+  metricValue: { fontWeight: 700, fontSize: 15, color: CORAL },
   metricLabel: { fontSize: 7, fontWeight: 500, color: TEXT, marginTop: 2 },
   metricNote: { fontSize: 6.4, color: MUTED, marginTop: 1 },
 
@@ -177,6 +180,9 @@ const styles = StyleSheet.create({
 
   // ── Bullets
   bulletRow: { flexDirection: 'row', marginBottom: 3.2 },
+  approachRow: { flexDirection: 'row', marginBottom: 1.6 },
+  approachLabel: { width: 44, fontSize: 7.2, fontWeight: 600, color: CORAL_TEXT, textTransform: 'uppercase', letterSpacing: 0.4, marginTop: 0.6 },
+  approachText: { fontSize: 8.1, color: TEXT, lineHeight: 1.5, flex: 1 },
   bulletDot: {
     width: 3,
     height: 3,
@@ -233,7 +239,7 @@ const styles = StyleSheet.create({
   skillYears: { fontSize: 6.8, color: MUTED, width: 34, textAlign: 'right', flexShrink: 0 },
 
   // ── Experience
-  expBlock: { marginBottom: 7 },
+  expBlock: { marginBottom: 5 },
   expHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   expTitle: { fontWeight: 700, fontSize: 9.2, color: INK, flex: 1, marginRight: 10 },
   expDates: { fontSize: 7.4, color: MUTED, fontWeight: 500, marginTop: 1 },
@@ -300,6 +306,9 @@ export function CVCreative({ data, lang }: Props) {
     industries: isEN ? 'Industries' : 'Industrias',
     skills: isEN ? 'Core skills' : 'Habilidades principales',
     experience: isEN ? 'Professional experience' : 'Experiencia profesional',
+    context: isEN ? 'Context' : 'Contexto',
+    how: isEN ? 'How' : 'Cómo',
+    result: isEN ? 'Result' : 'Resultado',
     education: isEN ? 'Education' : 'Educación',
     languages: isEN ? 'Languages' : 'Idiomas',
     tagline: isEN
@@ -496,7 +505,7 @@ export function CVCreative({ data, lang }: Props) {
                   {exp.location}
                 </Text>
                 {/* Tags only on the two current roles; on older ones they cost a line each */}
-                {idx < 2 && exp.tags && exp.tags.length > 0 && (
+                {idx < 1 && exp.tags && exp.tags.length > 0 && (
                   <View style={styles.tagRow}>
                     {exp.tags.slice(0, 7).map(tag => (
                       <Text key={tag} style={styles.tag}>
@@ -504,6 +513,17 @@ export function CVCreative({ data, lang }: Props) {
                       </Text>
                     ))}
                   </View>
+                )}
+                {/* Context → how → result: the method, before the supporting bullets */}
+                {exp.approach && (
+                  <>
+                    {([['context', t.context], ['how', t.how], ['result', t.result]] as const).map(([key, label]) => (
+                      <View key={key} style={styles.approachRow}>
+                        <Text style={styles.approachLabel}>{label}</Text>
+                        <Text style={styles.approachText}>{exp.approach?.[key]}</Text>
+                      </View>
+                    ))}
+                  </>
                 )}
                 {(exp.bullets ?? [])
                   .slice(0, BULLET_CAPS[exp.id] ?? DEFAULT_BULLET_CAP)

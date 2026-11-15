@@ -33,6 +33,11 @@ export const profileEN = {
   experience: [
     {
       id: "alleviate-de",
+      approach: {
+        context: "Promoted in Nov 2026 to own the platform I had built as the account's first BI hire; the business now runs on it.",
+        how: "Cloud resources on Azure and GCP, ADF orchestration, Snowflake modeling and access design, dbt and Python pipelines, Salesforce integrations, SOPs and GitLab CI.",
+        result: "One governed platform the whole company queries, with documented procedures and version control.",
+      },
       industry: "Fintech · Debt consolidation (US)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
       role: "Data Engineer",
@@ -52,6 +57,11 @@ export const profileEN = {
     },
     {
       id: "virtrify-ai",
+      approach: {
+        context: "A solo founder running a growth-stage retreat business on spreadsheets, inboxes and ad platforms that do not talk to each other.",
+        how: "Audit the lead-to-sale flow first; then a lean CRM, n8n or Make automations wired to Stripe and calendars, and a plain-language operating manual.",
+        result: "Build phase: core workflows live within three months, documented so the founder runs them without me.",
+      },
       industry: "Wellness · Retreats & community (US)",
       company: "Virtrify — placed with a US wellness & retreat brand",
       role: "AI Implementation Engineer (Part-time, Remote)",
@@ -70,6 +80,11 @@ export const profileEN = {
     },
     {
       id: "flowber-freelance",
+      approach: {
+        context: "A barbershop with a paper schedule, double bookings and no data; the owner is a friend who wanted to grow.",
+        how: "Discovery with the owner, then a serverless React + Supabase platform with security in the database, an AI agent with 20 tools and RAG, and a dbt + DuckDB warehouse with ML.",
+        result: "160+ appointments and 90+ customers in production, RAG at 100% hit@1, mobile LCP from 4.8 s to 2.5 s.",
+      },
       industry: "Service retail · Barbershop",
       company: "Flowber — Barbershop Digital Transformation (Independent Venture)",
       role: "Full-Stack Engineer · Solutions Architect · Data & AI Engineer",
@@ -90,6 +105,11 @@ export const profileEN = {
     },
     {
       id: "alleviate-mid",
+      approach: {
+        context: "First BI hire at a US debt-consolidation fintech: five departments reporting from spreadsheets at 85% data accuracy.",
+        how: "Modeled a Snowflake star schema, validated every source, built dbt and ADF pipelines and 15+ Power BI and Tableau dashboards with the US stakeholders.",
+        result: "Data accuracy 99.5%, reporting cycle from 2+ days to under 30 minutes, and the promotion to Data Engineer.",
+      },
       industry: "Fintech · Debt consolidation (US)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
       role: "Business Intelligence Analyst / Data Analyst (Data & Analytics Engineering)",
@@ -142,6 +162,11 @@ export const profileEN = {
     },
     {
       id: "idt-gnoc",
+      approach: {
+        context: "24/7 NOC for international remittance infrastructure serving 5,000+ concurrent users.",
+        how: "Monitoring with Zabbix, Grafana, New Relic and Splunk; incident triage, escalation and runbooks on Windows and Linux.",
+        result: "Mean time to recovery 25% lower.",
+      },
       industry: "Financial services · International remittances",
       company: "Red Chapina S.A (IDT Guatemala)",
       role: "NOC Analyst / Support Engineer — GNOC (Global Network Operations Center)",
@@ -209,6 +234,17 @@ export const profileEN = {
     }
   ],
 
+
+  workflow: {
+    title: "How I work",
+    intro: "The same four moves in every industry, from a fintech to a barbershop.",
+    steps: [
+      { title: "Learn the business first", text: "I sit with the people who do the work (owner, agents, analysts) and map the real flow before touching a tool." },
+      { title: "Model the data and the rules", text: "Star schemas in Snowflake, security in the database (RLS), a contract for every integration, tests on the transformations." },
+      { title: "Automate and ship small", text: "ADF and dbt pipelines, n8n workflows, AI agents that confirm before they write; each step live before the next one starts." },
+      { title: "Document and hand over", text: "SOPs, plain-language manuals and dashboards people actually open, so the system runs without me." },
+    ],
+  },
 
   projects: [
     {

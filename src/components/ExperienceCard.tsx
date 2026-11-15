@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { MapPin, ChevronRight, Building2 } from 'lucide-react';
 import { getDuration } from '../utils/dateFormatter';
+import ApproachFlow from './ApproachFlow';
+import type { Approach } from '../types';
 
 type Lang = 'en' | 'es';
 
@@ -14,6 +16,7 @@ type Item = {
   industry?: string;
   tags?: string[];
   bullets?: string[];
+  approach?: Approach;
 };
 
 type Props = {
@@ -76,7 +79,9 @@ export default function ExperienceCard({ item, onOpen, lang }: Props) {
         </div>
       ) : null}
 
-      {item.bullets?.length ? (
+      {item.approach ? (
+        <ApproachFlow approach={item.approach} lang={lang} compact className="mt-4" />
+      ) : item.bullets?.length ? (
         <p className="n-muted mt-3 line-clamp-2 text-sm leading-relaxed">
           {item.bullets[0]}
         </p>

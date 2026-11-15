@@ -33,6 +33,11 @@ export const profileES = {
   experience: [
     {
       id: "alleviate-de",
+      approach: {
+        context: "Ascendido en nov 2026 a dueño de la plataforma que construí como primer contratado de BI de la cuenta; el negocio corre sobre ella.",
+        how: "Recursos en Azure y GCP, orquestación en ADF, modelado y diseño de accesos en Snowflake, pipelines en dbt y Python, integraciones con Salesforce, SOPs y CI en GitLab.",
+        result: "Una plataforma gobernada que consulta toda la empresa, con procedimientos documentados y control de versiones.",
+      },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
       role: "Ingeniero de Datos",
@@ -52,6 +57,11 @@ export const profileES = {
     },
     {
       id: "virtrify-ai",
+      approach: {
+        context: "Una fundadora que lleva un negocio de retiros en crecimiento con hojas de cálculo, correos y plataformas de anuncios que no se hablan entre sí.",
+        how: "Primero auditar el flujo de lead a venta; luego un CRM ligero, automatizaciones en n8n o Make conectadas a Stripe y calendarios, y un manual operativo en lenguaje claro.",
+        result: "Fase de construcción: flujos clave en producción en tres meses, documentados para que la fundadora los opere sin mí.",
+      },
       industry: "Bienestar · Retiros y comunidad (EE. UU.)",
       company: "Virtrify — asignado a una marca de bienestar y retiros en EE. UU.",
       role: "AI Implementation Engineer (medio tiempo, remoto)",
@@ -70,6 +80,11 @@ export const profileES = {
     },
     {
       id: "flowber-freelance",
+      approach: {
+        context: "Una barbería con agenda en papel, dobles citas y sin datos; el dueño es un amigo que quería crecer.",
+        how: "Descubrimiento con el dueño; luego una plataforma serverless React + Supabase con la seguridad en la base de datos, un agente de IA con 20 herramientas y RAG, y un warehouse dbt + DuckDB con ML.",
+        result: "160+ citas y 90+ clientes en producción, RAG con 100% hit@1, LCP móvil de 4.8 s a 2.5 s.",
+      },
       industry: "Retail de servicios · Barbería",
       company: "Flowber — Transformación Digital de Barbería (Proyecto Independiente)",
       role: "Full-Stack Engineer · Arquitecto de Soluciones · Data & AI Engineer",
@@ -90,6 +105,11 @@ export const profileES = {
     },
     {
       id: "alleviate-mid",
+      approach: {
+        context: "Primer contratado de BI en una fintech de consolidación de deudas de EE. UU.: cinco departamentos reportando desde hojas de cálculo con 85% de precisión.",
+        how: "Modelé un esquema estrella en Snowflake, validé cada fuente, construí pipelines en dbt y ADF y 15+ dashboards en Power BI y Tableau con los stakeholders de EE. UU.",
+        result: "Precisión de datos 99.5%, ciclo de reportes de 2+ días a menos de 30 minutos, y el ascenso a Ingeniero de Datos.",
+      },
       industry: "Fintech · Consolidación de deudas (EE. UU.)",
       company: "Icon Solutions Group S.A / Alleviate Financial Solutions",
       role: "Analista de Inteligencia de Negocios / Analista de Datos (Ingeniería de Datos y Analítica)",
@@ -142,6 +162,11 @@ export const profileES = {
     },
     {
       id: "idt-gnoc",
+      approach: {
+        context: "NOC 24/7 de infraestructura de remesas internacionales para 5,000+ usuarios concurrentes.",
+        how: "Monitoreo con Zabbix, Grafana, New Relic y Splunk; triage de incidentes, escalamiento y runbooks en Windows y Linux.",
+        result: "Tiempo medio de recuperación 25% menor.",
+      },
       industry: "Servicios financieros · Remesas internacionales",
       company: "Red Chapina S.A (IDT Guatemala)",
       role: "Analista NOC / Ingeniero de Soporte — GNOC (Global Network Operations Center)",
@@ -209,6 +234,17 @@ export const profileES = {
     }
   ],
 
+
+  workflow: {
+    title: "Cómo trabajo",
+    intro: "Los mismos cuatro movimientos en cada industria, de una fintech a una barbería.",
+    steps: [
+      { title: "Primero entender el negocio", text: "Me siento con quienes hacen el trabajo (dueño, agentes, analistas) y mapeo el flujo real antes de tocar una herramienta." },
+      { title: "Modelar los datos y las reglas", text: "Esquemas estrella en Snowflake, seguridad en la base de datos (RLS), un contrato por cada integración, pruebas sobre las transformaciones." },
+      { title: "Automatizar y entregar en pequeño", text: "Pipelines en ADF y dbt, flujos en n8n, agentes de IA que confirman antes de escribir; cada paso en producción antes de empezar el siguiente." },
+      { title: "Documentar y entregar el control", text: "SOPs, manuales en lenguaje claro y dashboards que la gente sí abre, para que el sistema funcione sin mí." },
+    ],
+  },
 
   projects: [
     {

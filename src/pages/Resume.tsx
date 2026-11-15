@@ -24,6 +24,8 @@ import CareerTimeline from '../components/CareerTimeline';
 import PageOutline from '../components/PageOutline';
 import { industryTone } from '../utils/tone';
 import { Toggle } from '../components/notion/primitives';
+import ApproachFlow from '../components/ApproachFlow';
+import HowIWork from '../components/HowIWork';
 
 /** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
 function lead(text: string): string {
@@ -183,7 +185,7 @@ export default function ResumePage() {
           {/* ── Page header ─────────────────────────────────────── */}
           <div className="flex flex-col gap-4 pt-10 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="font-mono-geist n-muted text-xs uppercase tracking-wider">{labels.eyebrow}</p>
+              <p className="font-mono-geist text-xs uppercase tracking-wider text-n-accent-2">{labels.eyebrow}</p>
               <h1 className="n-text mt-2 text-4xl font-bold tracking-tight">{labels.pageTitle}</h1>
               <p className="n-muted mt-2 max-w-xl text-base">{labels.subtitle}</p>
             </div>
@@ -279,6 +281,9 @@ export default function ResumePage() {
               </div>
             </div>
           </motion.div>
+
+          {/* ── How I work ──────────────────────────────────────── */}
+          {data.workflow && <HowIWork workflow={data.workflow} />}
 
           {/* ── Career film ─────────────────────────────────────── */}
           <motion.div
@@ -502,6 +507,7 @@ export default function ResumePage() {
                   </div>
 
                   <div className="p-5">
+                    {selected.approach && <ApproachFlow approach={selected.approach} lang={lang} className="mb-5" />}
                     {selected.tags && selected.tags.length > 0 && (
                       <div className="mb-5 flex flex-wrap gap-1.5">
                         {selected.tags.map(tag => (

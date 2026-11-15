@@ -18,6 +18,19 @@ export interface ExperienceItem {
   industry?: string;
   tags?: string[];
   bullets?: string[];
+  /** The story in three beats, for readers who want the "how", not only the "what" */
+  approach?: Approach;
+}
+
+export interface Approach {
+  context: string;
+  how: string;
+  result: string;
+}
+
+export interface WorkflowStep {
+  title: string;
+  text: string;
 }
 
 export interface SkillItem {
@@ -138,6 +151,8 @@ export interface ProfileData {
   education: EducationItem[];
   certifications?: CertificationItem[];
   projects: ProjectItem[];
+  /** "How I work": the method behind every role, shown on the resume */
+  workflow?: { title: string; intro: string; steps: WorkflowStep[] };
   languages: LanguageItem[];
   tools: Tools;
   metrics: Metrics;

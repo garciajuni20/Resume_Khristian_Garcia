@@ -248,7 +248,7 @@ export const Showcase: React.FC<{ c: Copy }> = ({ c }) => {
               bottom: -80,
               width: 250,
               borderRadius: 40,
-              border: '8px solid #16213E',
+              border: '8px solid #1C2A4D',
               overflow: 'hidden',
               boxShadow: '0 40px 100px rgba(0,0,0,0.8)',
               transform: `translateY(${(1 - phone) * 260}px)`,

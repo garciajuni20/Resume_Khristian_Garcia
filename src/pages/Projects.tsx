@@ -103,7 +103,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
 
         {project.impact && (
           <div className="n-callout mb-4 flex items-start gap-2.5 rounded-md px-3 py-2.5">
-            <Zap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-n-accent" aria-hidden="true" />
+            <Zap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-n-accent-2" aria-hidden="true" />
             <p className="n-text text-xs font-medium leading-relaxed">{project.impact}</p>
           </div>
         )}
@@ -266,7 +266,7 @@ export default function Projects() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: FLUID }}
             >
-              <p className="font-mono-geist n-muted text-xs uppercase tracking-wider">{t.eyebrow}</p>
+              <p className="font-mono-geist text-xs uppercase tracking-wider text-n-accent-2">{t.eyebrow}</p>
               <h1 className="n-text mt-2 text-4xl font-bold tracking-tight">{t.title}</h1>
               <p className="n-muted mt-2 max-w-2xl text-base">{t.subtitle}</p>
               <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={lang === 'en' ? 'Summary' : 'Resumen'}>
