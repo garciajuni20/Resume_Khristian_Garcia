@@ -158,8 +158,11 @@
   to { clip-path: inset(0 0 0 0); opacity: 1; }
 }
 .ink-print {
-  animation: ink-print 1.6s var(--ease-fluid) 0.15s both;
+  animation: ink-print 1.1s var(--ease-fluid) 0.1s both;
 }
+/* Only on the first page of a visit: after that the ink bloom is the page
+   change, and printing the hero again would make every page arrive twice */
+html[data-navigated] .ink-print { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   .ink-print { animation: none; }
 }
@@ -383,11 +386,13 @@ p, li { text-wrap: pretty; }
   mask-repeat: no-repeat;
   -webkit-mask-size: 100% 1600%;
   mask-size: 100% 1600%;
-  -webkit-mask-position: 0 0;
-  mask-position: 0 0;
-  animation: ink-bloom 620ms steps(15, jump-none) forwards;
+  /* parked on the last frame, fully clear: invisible but decoded */
+  -webkit-mask-position: 0 100%;
+  mask-position: 0 100%;
 }
+.ink-transition.is-running { animation: ink-bloom 440ms steps(15, jump-none) both; }
 @keyframes ink-bloom {
+  from { -webkit-mask-position: 0 0; mask-position: 0 0; }
   to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .ink-transition { display: none; } }
@@ -408,7 +413,7 @@ p, li { text-wrap: pretty; }
   mask-size: 100% 1600%;
   -webkit-mask-position: 0 0;
   mask-position: 0 0;
-  animation: present-bloom 520ms steps(15, jump-none) forwards;
+  animation: present-bloom 400ms steps(15, jump-none) forwards;
 }
 @keyframes present-bloom {
   to { -webkit-mask-position: 0 100%; mask-position: 0 100%; }

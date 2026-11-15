@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useLayoutEffect } from 'react';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { CLEAN_URLS } from './utils/site';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
@@ -16,12 +16,39 @@ import UvMode from './components/uv/UvMode';
 // round-trip before it can paint (mobile LCP). The other pages stay lazy.
 import Home from './pages/Home';
 
-const Resume = lazy(() => import('./pages/Resume'));
-const Projects = lazy(() => import('./pages/Projects'));
-const FlowberCaseStudy = lazy(() => import('./pages/FlowberCaseStudy'));
-const AlleviateCaseStudy = lazy(() => import('./pages/AlleviateCaseStudy'));
-const Contact = lazy(() => import('./pages/Contact'));
+const pages = {
+  resume: () => import('./pages/Resume'),
+  projects: () => import('./pages/Projects'),
+  flowber: () => import('./pages/FlowberCaseStudy'),
+  alleviate: () => import('./pages/AlleviateCaseStudy'),
+  contact: () => import('./pages/Contact'),
+};
+const Resume = lazy(pages.resume);
+const Projects = lazy(pages.projects);
+const FlowberCaseStudy = lazy(pages.flowber);
+const AlleviateCaseStudy = lazy(pages.alleviate);
+const Contact = lazy(pages.contact);
 const NotFound = lazy(() => import('./pages/NotFound'));
+
+/**
+ * Once the first page has settled, fetch the other pages in the background, so
+ * a click changes page at once instead of waiting for a download (~300 ms on
+ * a real connection). Skipped when the visitor asked to save data.
+ */
+function usePrefetchPages() {
+  useEffect(() => {
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (nav.connection?.saveData) return;
+    const load = () => Object.values(pages).forEach(p => { p().catch(() => undefined); });
+    // Safari has no requestIdleCallback
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(load, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = setTimeout(load, 2500);
+    return () => clearTimeout(id);
+  }, []);
+}
 
 // Real paths on Cloudflare Pages, hash routes on the GitHub Pages mirror
 const Router = CLEAN_URLS ? BrowserRouter : HashRouter;
@@ -36,8 +63,10 @@ function PageLoader() {
 
 function AnimatedRoutes() {
   const location = useLocation();
-  // New page starts at the top (the router keeps scroll position by default)
-  useEffect(() => {
+  usePrefetchPages();
+  // New page starts at the top (the router keeps scroll position by default),
+  // before the first paint so the old scroll position never shows
+  useLayoutEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [location.pathname]);
   return (
