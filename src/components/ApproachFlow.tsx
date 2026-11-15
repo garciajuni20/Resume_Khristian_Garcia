@@ -2,8 +2,8 @@ import { ArrowRight } from 'lucide-react';
 import type { Approach, Lang } from '../types';
 
 const LABELS = {
-  en: { context: 'Context', how: 'How', result: 'Result' },
-  es: { context: 'Contexto', how: 'Cómo', result: 'Resultado' },
+  en: { context: 'Context', how: 'How', result: 'Result', goal: 'Goal' },
+  es: { context: 'Contexto', how: 'Cómo', result: 'Resultado', goal: 'Meta' },
 } as const;
 
 /**
@@ -12,10 +12,10 @@ const LABELS = {
  */
 export default function ApproachFlow({ approach, lang, compact = false, className = '' }: { approach: Approach; lang: Lang; compact?: boolean; className?: string }) {
   const t = LABELS[lang];
-  const beats: { key: keyof Approach; label: string }[] = [
+  const beats: { key: 'context' | 'how' | 'result'; label: string }[] = [
     { key: 'context', label: t.context },
     { key: 'how', label: t.how },
-    { key: 'result', label: t.result },
+    { key: 'result', label: approach.planned ? t.goal : t.result },
   ];
   return (
     <ol className={`grid gap-3 sm:grid-cols-3 ${compact ? '' : 'n-callout rounded-2xl p-4 sm:p-5'} ${className}`} aria-label={lang === 'en' ? 'Context, how and result' : 'Contexto, cómo y resultado'}>

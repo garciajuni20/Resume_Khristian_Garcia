@@ -56,7 +56,7 @@ const year = (value: string, isEN: boolean) =>
 
 /** Bullets per role on page 2; data is ordered most-relevant-first. */
 const BULLET_CAPS: Record<string, number> = {
-  'alleviate-de': 0, // its first bullet repeats the approach context
+  'alleviate-de': 1,
   'virtrify-ai': 0,
   'alleviate-mid': 0,
   'flowber-freelance': 1,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   // ── Bullets
   bulletRow: { flexDirection: 'row', marginBottom: 3.2 },
   approachRow: { flexDirection: 'row', marginBottom: 1.6 },
-  approachLabel: { width: 44, fontSize: 7.2, fontWeight: 600, color: CORAL_TEXT, textTransform: 'uppercase', letterSpacing: 0.4, marginTop: 0.6 },
+  approachLabel: { width: 56, fontSize: 7.2, fontWeight: 600, color: CORAL_TEXT, textTransform: 'uppercase', letterSpacing: 0.4, marginTop: 0.6 },
   approachText: { fontSize: 8.1, color: TEXT, lineHeight: 1.5, flex: 1 },
   bulletDot: {
     width: 3,
@@ -309,6 +309,7 @@ export function CVCreative({ data, lang }: Props) {
     context: isEN ? 'Context' : 'Contexto',
     how: isEN ? 'How' : 'Cómo',
     result: isEN ? 'Result' : 'Resultado',
+    goal: isEN ? 'Goal' : 'Meta',
     education: isEN ? 'Education' : 'Educación',
     languages: isEN ? 'Languages' : 'Idiomas',
     tagline: isEN
@@ -517,7 +518,7 @@ export function CVCreative({ data, lang }: Props) {
                 {/* Context → how → result: the method, before the supporting bullets */}
                 {exp.approach && (
                   <>
-                    {([['context', t.context], ['how', t.how], ['result', t.result]] as const).map(([key, label]) => (
+                    {([['context', t.context], ['how', t.how], ['result', exp.approach.planned ? t.goal : t.result]] as const).map(([key, label]) => (
                       <View key={key} style={styles.approachRow}>
                         <Text style={styles.approachLabel}>{label}</Text>
                         <Text style={styles.approachText}>{exp.approach?.[key]}</Text>

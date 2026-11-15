@@ -26,6 +26,8 @@ export interface Approach {
   context: string;
   how: string;
   result: string;
+  /** The result is a target for work in progress, not a measured outcome yet */
+  planned?: boolean;
 }
 
 export interface WorkflowStep {

@@ -46,7 +46,6 @@ export const profileES = {
       location: "Remoto (Guatemala / EE. UU.)",
       tags: ["Ingeniería de Datos", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Azure", "GCP", "Python", "SQL", "Salesforce", "APIs REST", "Docker", "GitLab", "Modelado de Datos"],
       bullets: [
-        "Promovido a Ingeniero de Datos en noviembre de 2026 tras tres años construyendo desde cero la plataforma analítica de la cuenta como su primera contratación de BI; hoy soy responsable de la plataforma de datos de punta a punta, desde los recursos en la nube hasta los modelos que consulta el negocio.",
         "Configuro y administro recursos en Azure y Google Cloud: creación y orquestación de pipelines en Azure Data Factory, aplicaciones dockerizadas y escalamiento de recursos según la demanda de carga.",
         "Responsable de la plataforma Snowflake: perfilamiento de roles y diseño de accesos, optimización de bases de datos, stored procedures y queries, data sharing nativo y modelado dimensional de bases de datos.",
         "Implemento y administro Databricks, y construyo los flujos de datos y pipelines ETL/ELT (dbt, SQL, Python) que mueven la información entre los sistemas fuente, las bases de datos locales y en la nube y el warehouse.",
@@ -60,7 +59,8 @@ export const profileES = {
       approach: {
         context: "Una fundadora que lleva un negocio de retiros en crecimiento con hojas de cálculo, correos y plataformas de anuncios que no se hablan entre sí.",
         how: "Primero auditar el flujo de lead a venta; luego un CRM ligero, automatizaciones en n8n o Make conectadas a Stripe y calendarios, y un manual operativo en lenguaje claro.",
-        result: "Fase de construcción: flujos clave en producción en tres meses, documentados para que la fundadora los opere sin mí.",
+        result: "Fase de construcción (inicia el 23 nov 2026): flujos clave en producción en tres meses, documentados para que la fundadora los opere sin mí.",
+        planned: true,
       },
       industry: "Bienestar · Retiros y comunidad (EE. UU.)",
       company: "Virtrify — asignado a una marca de bienestar y retiros en EE. UU.",
@@ -81,7 +81,7 @@ export const profileES = {
     {
       id: "flowber-freelance",
       approach: {
-        context: "Una barbería con agenda en papel, dobles citas y sin datos; el dueño es un amigo que quería crecer.",
+        context: "Una barbería con agenda en papel, dobles citas y sin datos de su propio negocio.",
         how: "Descubrimiento con el dueño; luego una plataforma serverless React + Supabase con la seguridad en la base de datos, un agente de IA con 20 herramientas y RAG, y un warehouse dbt + DuckDB con ML.",
         result: "160+ citas y 90+ clientes en producción, RAG con 100% hit@1, LCP móvil de 4.8 s a 2.5 s.",
       },
@@ -118,10 +118,10 @@ export const profileES = {
       location: "Remoto (Guatemala / EE. UU.)",
       tags: ["Ingeniería de Datos", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Python", "SQL", "Salesforce", "Power BI", "Tableau", "Modelado de Datos", "BI"],
       bullets: [
-        "Lideré proyectos de datos de principio a fin — identificando las fuentes de datos adecuadas, asegurando que se importaran y unieran correctamente, y comunicándome directamente con stakeholders de finanzas, operaciones y estrategia en EE. UU. para planificar y entregar cada iniciativa.",
         "Diseñé la capa analítica en Snowflake y PostgreSQL: modelos dimensionales, 8+ modelos core, vistas y stored procedures consultados por los 5 departamentos del negocio — la fuente única de verdad de la empresa, que elevó la precisión de datos del 85% al 99.5%.",
         "Entregué 15+ dashboards interactivos en Power BI y Tableau y definí 20+ KPIs con stakeholders de EE. UU., reemplazando procesos manuales en Excel y reduciendo el ciclo de reportes financieros de más de 2 días a menos de 30 minutos.",
         "Senté las bases del rol de Ingeniero de Datos: pipelines ELT con dbt y SQL sobre Snowflake, orquestación en Azure Data Factory, Databricks e integraciones de Salesforce hacia Snowflake, además de flujos de validación y alertas que eliminaron el 90% de errores recurrentes en reportes.",
+        "Lideré proyectos de datos de principio a fin — identificando las fuentes de datos adecuadas, asegurando que se importaran y unieran correctamente, y comunicándome directamente con stakeholders de finanzas, operaciones y estrategia en EE. UU. para planificar y entregar cada iniciativa.",
         "Diseñé nuevos procesos a partir de los hallazgos del análisis, elaboré Procedimientos Operativos Estándar y documentación de datos, y asesoré a equipos internos en análisis de datos y análisis predictivo.",
         "Primera contratación de BI en Guatemala para la cuenta de Alleviate Financial Solutions — construí la función desde cero hasta convertirla en el stack analítico completo de la empresa; backlog y work items gestionados en Azure DevOps. Promovido a Ingeniero de Datos en noviembre de 2026."
       ]
@@ -165,7 +165,7 @@ export const profileES = {
       approach: {
         context: "NOC 24/7 de infraestructura de remesas internacionales para 5,000+ usuarios concurrentes.",
         how: "Monitoreo con Zabbix, Grafana, New Relic y Splunk; triage de incidentes, escalamiento y runbooks en Windows y Linux.",
-        result: "Tiempo medio de recuperación 25% menor.",
+        result: "Tiempo medio de recuperación 25% menor y respuesta a incidentes 60% más rápida con alertas automatizadas.",
       },
       industry: "Servicios financieros · Remesas internacionales",
       company: "Red Chapina S.A (IDT Guatemala)",

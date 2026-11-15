@@ -41,7 +41,7 @@ function range(start: string, end: string, isEN: boolean): string {
 const BULLET_CAPS: Record<string, number> = {
   'alleviate-de': 2,
   'virtrify-ai': 0,
-  'alleviate-mid': 0,
+  'alleviate-mid': 2,
   'flowber-freelance': 1,
   'idt-gnoc': 0,
 };
@@ -129,6 +129,7 @@ export function CVATS({ data, lang, photo = true }: Props) {
     context: isEN ? 'Context' : 'Contexto',
     how: isEN ? 'How' : 'Cómo',
     result: isEN ? 'Result' : 'Resultado',
+    goal: isEN ? 'Goal' : 'Meta',
     education: isEN ? 'Education' : 'Educación',
     languages: isEN ? 'Languages' : 'Idiomas',
     dataEng: isEN ? 'Data Engineering' : 'Ingeniería de Datos',
@@ -214,7 +215,7 @@ export function CVATS({ data, lang, photo = true }: Props) {
               <>
                 <Text style={styles.approach}><Text style={styles.approachLabel}>{t.context}: </Text>{ansi(exp.approach.context)}</Text>
                 <Text style={styles.approach}><Text style={styles.approachLabel}>{t.how}: </Text>{ansi(exp.approach.how)}</Text>
-                <Text style={styles.approach}><Text style={styles.approachLabel}>{t.result}: </Text>{ansi(exp.approach.result)}</Text>
+                <Text style={styles.approach}><Text style={styles.approachLabel}>{exp.approach.planned ? t.goal : t.result}: </Text>{ansi(exp.approach.result)}</Text>
               </>
             )}
             {(exp.bullets ?? [])

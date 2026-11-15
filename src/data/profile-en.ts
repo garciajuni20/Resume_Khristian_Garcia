@@ -46,7 +46,6 @@ export const profileEN = {
       location: "Remote (Guatemala / US)",
       tags: ["Data Engineering", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Azure", "GCP", "Python", "SQL", "Salesforce", "REST APIs", "Docker", "GitLab", "Data Modeling"],
       bullets: [
-        "Promoted to Data Engineer in November 2026 after three years building the account's analytics platform from zero as its first BI hire; now own the data platform end to end, from cloud resources to the models the business queries.",
         "Set up and manage Azure and Google Cloud resources: pipeline creation and orchestration in Azure Data Factory, dockerized applications, and resource scaling matched to workload demand.",
         "Own the Snowflake platform: role profiling and access design, database, stored-procedure and query optimization, native data sharing, and dimensional database modeling.",
         "Implement and manage Databricks, and build the data flows and ETL/ELT pipelines (dbt, SQL, Python) that move data between source systems, local and cloud databases, and the warehouse.",
@@ -60,7 +59,8 @@ export const profileEN = {
       approach: {
         context: "A solo founder running a growth-stage retreat business on spreadsheets, inboxes and ad platforms that do not talk to each other.",
         how: "Audit the lead-to-sale flow first; then a lean CRM, n8n or Make automations wired to Stripe and calendars, and a plain-language operating manual.",
-        result: "Build phase: core workflows live within three months, documented so the founder runs them without me.",
+        result: "Build phase (starts Nov 23, 2026): core workflows live within three months, documented so the founder runs them without me.",
+        planned: true,
       },
       industry: "Wellness · Retreats & community (US)",
       company: "Virtrify — placed with a US wellness & retreat brand",
@@ -81,7 +81,7 @@ export const profileEN = {
     {
       id: "flowber-freelance",
       approach: {
-        context: "A barbershop with a paper schedule, double bookings and no data; the owner is a friend who wanted to grow.",
+        context: "A barbershop with a paper schedule, double bookings and no data about its own business.",
         how: "Discovery with the owner, then a serverless React + Supabase platform with security in the database, an AI agent with 20 tools and RAG, and a dbt + DuckDB warehouse with ML.",
         result: "160+ appointments and 90+ customers in production, RAG at 100% hit@1, mobile LCP from 4.8 s to 2.5 s.",
       },
@@ -118,10 +118,10 @@ export const profileEN = {
       location: "Remote (Guatemala / US)",
       tags: ["Data Engineering", "Snowflake", "dbt", "Databricks", "Azure Data Factory", "Python", "SQL", "Salesforce", "Power BI", "Tableau", "Data Modeling", "BI"],
       bullets: [
-        "Led data projects from inception to completion — identifying the proper source systems, ensuring they were imported and joined accurately, and communicating directly with US-based finance, operations, and strategy stakeholders to plan and deliver each initiative.",
         "Architected the analytical layer in Snowflake and PostgreSQL: dimensional data models, 8+ core models, views, and stored procedures queried across all 5 business departments — the company's single source of truth, which raised data accuracy from 85% to 99.5%.",
         "Delivered 15+ interactive Power BI and Tableau dashboards and defined 20+ KPIs with US stakeholders, replacing manual Excel processes and cutting the financial reporting cycle from 2+ days to under 30 minutes.",
         "Laid the groundwork for the Data Engineer role: dbt and SQL ELT pipelines on Snowflake, Azure Data Factory orchestration, Databricks, and Salesforce-to-Snowflake integrations, plus validation and alerting workflows that eliminated 90% of recurring reporting errors.",
+        "Led data projects from inception to completion — identifying the proper source systems, ensuring they were imported and joined accurately, and communicating directly with US-based finance, operations, and strategy stakeholders to plan and deliver each initiative.",
         "Designed new processes from analysis findings, authored Standard Operating Procedures and data documentation, and consulted internal teams on data and predictive analysis.",
         "First BI hire in Guatemala for the Alleviate Financial Solutions account — built the function from zero into the company's full analytical stack; backlog and work items tracked in Azure DevOps. Promoted to Data Engineer in November 2026."
       ]
@@ -165,7 +165,7 @@ export const profileEN = {
       approach: {
         context: "24/7 NOC for international remittance infrastructure serving 5,000+ concurrent users.",
         how: "Monitoring with Zabbix, Grafana, New Relic and Splunk; incident triage, escalation and runbooks on Windows and Linux.",
-        result: "Mean time to recovery 25% lower.",
+        result: "Mean time to recovery down 25% and incident response 60% faster with automated alerting.",
       },
       industry: "Financial services · International remittances",
       company: "Red Chapina S.A (IDT Guatemala)",
