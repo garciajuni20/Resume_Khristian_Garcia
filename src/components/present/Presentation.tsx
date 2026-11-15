@@ -37,7 +37,7 @@ export default function Presentation({ data, lang, onClose }: Props) {
       setIndex(next);
       if (stripReady.current && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         setBloom(n => n + 1);
-        sfx('print'); // no-op while sound is off
+        sfx('ink'); // no-op while sound is off
       }
       dialogRef.current?.querySelector('[data-present-scroll]')?.scrollTo({ top: 0 });
     },
