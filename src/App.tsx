@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useLayoutEffect } from 'react';
+import { Suspense, lazy, useEffect, useLayoutEffect, type ComponentType } from 'react';
 import { BrowserRouter, HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { CLEAN_URLS } from './utils/site';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
@@ -16,18 +16,24 @@ import UvMode from './components/uv/UvMode';
 // round-trip before it can paint (mobile LCP). The other pages stay lazy.
 import Home from './pages/Home';
 
-const pages = {
-  resume: () => import('./pages/Resume'),
-  projects: () => import('./pages/Projects'),
-  flowber: () => import('./pages/FlowberCaseStudy'),
-  alleviate: () => import('./pages/AlleviateCaseStudy'),
-  contact: () => import('./pages/Contact'),
-};
-const Resume = lazy(pages.resume);
-const Projects = lazy(pages.projects);
-const FlowberCaseStudy = lazy(pages.flowber);
-const AlleviateCaseStudy = lazy(pages.alleviate);
-const Contact = lazy(pages.contact);
+/**
+ * A lazy page that can be fetched ahead of time. Once fetched it renders the
+ * component directly: React.lazy alone would still suspend for a tick on the
+ * first render, and the router keeps the old page on screen meanwhile.
+ */
+function lazyPage(load: () => Promise<{ default: ComponentType }>) {
+  let Loaded: ComponentType | null = null;
+  const get = () => load().then(m => { Loaded = m.default; return m; });
+  const Lazy = lazy(get);
+  const Page = () => (Loaded ? <Loaded /> : <Lazy />);
+  return Object.assign(Page, { preload: () => { if (!Loaded) get().catch(() => undefined); } });
+}
+
+const Resume = lazyPage(() => import('./pages/Resume'));
+const Projects = lazyPage(() => import('./pages/Projects'));
+const FlowberCaseStudy = lazyPage(() => import('./pages/FlowberCaseStudy'));
+const AlleviateCaseStudy = lazyPage(() => import('./pages/AlleviateCaseStudy'));
+const Contact = lazyPage(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 /**
@@ -39,7 +45,7 @@ function usePrefetchPages() {
   useEffect(() => {
     const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
     if (nav.connection?.saveData) return;
-    const load = () => Object.values(pages).forEach(p => { p().catch(() => undefined); });
+    const load = () => [Resume, Projects, FlowberCaseStudy, AlleviateCaseStudy, Contact].forEach(p => p.preload());
     // Safari has no requestIdleCallback
     if ('requestIdleCallback' in window) {
       const id = window.requestIdleCallback(load, { timeout: 4000 });
