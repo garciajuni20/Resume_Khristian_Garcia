@@ -4,11 +4,13 @@ import Container from './Container';
 import { profileEN } from '../data/profile-en';
 import { Mark } from './Logo';
 import { CV_UPDATED } from '../data/media';
+import { useUv } from './uv/uvContext';
 
 const ICON_LINK = 'n-muted rounded-lg p-1 transition-colors duration-200 hover:text-n-text n-focus';
 
 export default function Footer() {
   const { lang } = useLang();
+  const uv = useUv();
   const currentYear = new Date().getFullYear();
   const github = profileEN.links.find(l => l.label === 'GitHub')?.href ?? '#';
   const linkedin = profileEN.links.find(l => l.label === 'LinkedIn')?.href ?? '#';
@@ -37,6 +39,17 @@ export default function Footer() {
               {lang === 'en' ? 'media generated locally with' : 'medios generados localmente con'}{' '}
               <span className="n-text font-medium">Wan 2.2 · Flux 2 Klein</span>
             </p>
+            {/* Like a banknote under ultraviolet light: reveals fibers and source notes. Shortcut U */}
+            <button
+              type="button"
+              onClick={uv.toggle}
+              aria-pressed={uv.on}
+              aria-keyshortcuts="u"
+              title={lang === 'en' ? 'Shortcut: U' : 'Atajo: U'}
+              className="n-muted mt-2 text-xs underline decoration-n-border underline-offset-4 transition-colors duration-200 hover:text-n-text hover:decoration-current n-focus"
+            >
+              {lang === 'en' ? 'UV light' : 'Luz UV'}
+            </button>
           </div>
 
           <div className="flex items-center gap-3">
