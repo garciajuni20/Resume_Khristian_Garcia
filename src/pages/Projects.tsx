@@ -1,43 +1,61 @@
-import { useState, useRef } from 'react';
+import { useMemo, useState } from 'react';
 import Container from '../components/Container';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { ExternalLink, Database, Cloud, Server, Zap, Layers, Globe, GraduationCap, Github, ArrowRight, BookOpen } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { ExternalLink, Database, Cloud, Zap, Layers, Globe, GraduationCap, Github, ArrowRight, BookOpen, Workflow } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import AmbientVideo from '../components/AmbientVideo';
 import { Link } from 'react-router-dom';
 import { profileEN } from '../data/profile-en';
 import { profileES } from '../data/profile-es';
-import type { ProjectItem } from '../types';
+import type { ProjectCategory, ProjectItem } from '../types';
+import { FLUID } from '../utils/animations';
 
-const categoryColorMap: Record<string, string> = {
-  web: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-  data: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
-  cloud: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300',
-  academic: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300',
-  architecture: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300',
+/**
+ * Projects, Notion-style: one database view with category filters, cards as
+ * pages with properties. Everything comes from `profile-*.ts`; this file only
+ * knows how to show a project, never what the projects are.
+ */
+
+type Tone = 'blue' | 'green' | 'purple' | 'orange' | 'pink';
+
+const CATEGORY: Record<ProjectCategory, { tone: Tone; en: string; es: string; icon: typeof Globe }> = {
+  web: { tone: 'blue', en: 'Live web app', es: 'App web en vivo', icon: Globe },
+  data: { tone: 'green', en: 'Data & BI', es: 'Datos y BI', icon: Database },
+  architecture: { tone: 'pink', en: 'Architecture & AI', es: 'Arquitectura e IA', icon: Workflow },
+  cloud: { tone: 'purple', en: 'Cloud & DevOps', es: 'Cloud y DevOps', icon: Cloud },
+  academic: { tone: 'orange', en: 'Academic', es: 'Académico', icon: GraduationCap },
 };
 
-function ProjectCard({ project, t }: { project: ProjectItem; t: Record<string, string> }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-  const getCatIcon = (cat: string) => {
-    if (cat === 'web') return <Globe className="h-3.5 w-3.5" />;
-    if (cat === 'data') return <Database className="h-3.5 w-3.5" />;
-    if (cat === 'cloud') return <Cloud className="h-3.5 w-3.5" />;
-    if (cat === 'academic') return <GraduationCap className="h-3.5 w-3.5" />;
-    return <Server className="h-3.5 w-3.5" />;
-  };
+const FILTER_ORDER: ProjectCategory[] = ['architecture', 'data', 'web', 'cloud', 'academic'];
+
+const TECH_SHOWN = 5;
+
+type Labels = {
+  role: string;
+  duration: string;
+  team: string;
+  caseStudy: string;
+  viewLive: string;
+  live: string;
+  open: string;
+};
+
+function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 'es'; t: Labels }) {
+  const reduce = useReducedMotion();
+  const cat = CATEGORY[project.category];
+  const CatIcon = cat.icon;
+  const hidden = project.technologies.length - TECH_SHOWN;
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-      whileHover={{ y: -5 }}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm hover:shadow-xl transition-all duration-300 dark:border-neutral-800 dark:bg-neutral-900"
+    <motion.article
+      initial={reduce ? false : { opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.6, ease: FLUID }}
+      whileHover={reduce ? undefined : { y: -4 }}
+      className="n-border group relative flex flex-col overflow-hidden rounded-2xl border bg-[var(--n-bg)] transition-shadow duration-500 hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-black/40"
     >
       {project.cover ? (
         <div className="relative aspect-[1200/630] overflow-hidden bg-black">
@@ -59,157 +77,232 @@ function ProjectCard({ project, t }: { project: ProjectItem; t: Record<string, s
               className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
             />
           )}
-          <div className={`absolute inset-x-0 bottom-0 h-1.5 bg-gradient-to-r ${project.gradient}`} />
         </div>
       ) : (
-        <div className={`h-1.5 w-full bg-gradient-to-r ${project.gradient}`} />
+        <div className={`h-1 w-full bg-gradient-to-r ${project.gradient ?? 'from-neutral-400 to-neutral-500'}`} aria-hidden="true" />
       )}
 
-      <div className="flex flex-col flex-1 p-5">
-        {/* Header row */}
-        <div className="mb-3 flex items-center justify-between">
-          <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${categoryColorMap[project.category]}`}>
-            {getCatIcon(project.category)}
-            {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
+      <div className="flex flex-1 flex-col p-5">
+        {/* Properties row: category and status */}
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <span className={`n-tag n-tag-${cat.tone} gap-1.5`}>
+            <CatIcon className="h-3 w-3" aria-hidden="true" />
+            {lang === 'en' ? cat.en : cat.es}
           </span>
           {project.links?.live && (
-            <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Live
+            <span className="n-tag n-tag-green gap-1.5">
+              <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              </span>
+              {t.live}
             </span>
           )}
         </div>
 
-        <h3 className="mb-2 font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug">
+        <h3 className="n-text mb-2 text-base font-semibold leading-snug tracking-tight transition-colors duration-300 group-hover:text-[var(--n-accent)]">
           {project.title}
         </h3>
-        <p className="mb-3 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed flex-1">
-          {project.description}
-        </p>
+        <p className="n-muted mb-4 flex-1 text-sm leading-relaxed">{project.description}</p>
 
         {project.impact && (
-          <div className="mb-4 flex items-start gap-2 rounded-xl bg-emerald-50 px-3 py-2.5 dark:bg-emerald-900/15">
-            <Zap className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 mt-0.5 shrink-0" />
-            <p className="text-xs text-emerald-700 dark:text-emerald-300 leading-relaxed font-medium">
-              {project.impact}
-            </p>
+          <div className="n-callout mb-4 flex items-start gap-2.5 rounded-md px-3 py-2.5">
+            <Zap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--n-accent)]" aria-hidden="true" />
+            <p className="n-text text-xs font-medium leading-relaxed">{project.impact}</p>
           </div>
         )}
 
-        <div className="mb-4 grid grid-cols-2 gap-3 text-xs">
+        <dl className="n-border mb-4 grid grid-cols-2 gap-x-4 gap-y-2 border-y py-3 text-xs sm:grid-cols-3">
           <div>
-            <span className="text-neutral-400">{t.role}</span>
-            <div className="font-medium text-neutral-800 dark:text-neutral-200 mt-0.5 leading-snug">
-              {project.role}
-            </div>
+            <dt className="n-muted font-mono-geist text-[10px] uppercase tracking-wider">{t.role}</dt>
+            <dd className="n-text mt-0.5 font-medium leading-snug">{project.role}</dd>
           </div>
           <div>
-            <span className="text-neutral-400">{t.duration}</span>
-            <div className="font-medium text-neutral-800 dark:text-neutral-200 mt-0.5">{project.duration}</div>
+            <dt className="n-muted font-mono-geist text-[10px] uppercase tracking-wider">{t.duration}</dt>
+            <dd className="n-text mt-0.5 font-medium">{project.duration}</dd>
           </div>
-        </div>
+          <div className="col-span-2 sm:col-span-1">
+            <dt className="n-muted font-mono-geist text-[10px] uppercase tracking-wider">{t.team}</dt>
+            <dd className="n-text mt-0.5 font-medium leading-snug">{project.teamSize}</dd>
+          </div>
+        </dl>
 
-        <div className="mb-4 flex flex-wrap gap-1.5">
-          {project.technologies.slice(0, 5).map(tech => (
-            <span key={tech} className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
-              {tech}
-            </span>
+        <ul className="mb-4 flex flex-wrap gap-1.5" aria-label="Stack">
+          {project.technologies.slice(0, TECH_SHOWN).map(tech => (
+            <li key={tech} className="n-tag n-tag-gray">{tech}</li>
           ))}
-          {project.technologies.length > 5 && (
-            <span className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-400 dark:bg-neutral-800">
-              +{project.technologies.length - 5}
-            </span>
+          {hidden > 0 && (
+            <li className="n-tag n-tag-gray n-muted" title={project.technologies.slice(TECH_SHOWN).join(', ')}>
+              +{hidden}
+            </li>
           )}
-        </div>
+        </ul>
 
         <div className="mt-auto flex gap-2">
           {project.caseStudyPath && (
             <Link
               to={project.caseStudyPath}
-              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-violet-600 px-3 py-2 text-xs font-semibold text-white hover:bg-violet-700 transition-colors shadow-sm shadow-violet-500/25"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[var(--n-text)] px-3 py-2 text-xs font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
             >
               <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
               {t.caseStudy}
             </Link>
           )}
           {project.links?.github && (
-            <a href={project.links.github} target="_blank" rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-semibold text-neutral-800 hover:bg-neutral-50 hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700 transition-all">
-              <Github className="h-3.5 w-3.5" />
+            <a
+              href={project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="n-border n-text n-hover inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors duration-300 active:scale-[0.98]"
+            >
+              <Github className="h-3.5 w-3.5" aria-hidden="true" />
               GitHub
             </a>
           )}
           {project.links?.live && (
-            <a href={project.links.live} target="_blank" rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/25">
-              <ExternalLink className="h-3.5 w-3.5" />
+            <a
+              href={project.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${t.open} ${project.title}`}
+              className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors duration-300 active:scale-[0.98] ${
+                project.caseStudyPath
+                  ? 'n-border n-text n-hover border'
+                  : 'bg-[var(--n-text)] text-[var(--n-bg)] hover:opacity-85'
+              }`}
+            >
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               {t.viewLive}
             </a>
           )}
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
 
 export default function Projects() {
   const { lang } = useLang();
   const projects = (lang === 'en' ? profileEN : profileES).projects;
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [active, setActive] = useState<'all' | ProjectCategory>('all');
 
   const t = lang === 'en'
-    ? { title: 'Projects', subtitle: 'Live deployments, real work, and academic projects — all with working code.', viewGithub: 'GitHub', viewLive: 'Live Demo', featured: 'Featured Projects', allProjects: 'More Projects', impact: 'Impact', role: 'Role', duration: 'Duration', team: 'Team', liveApp: 'Live', academic: 'USAC', caseStudy: 'Case Study' }
-    : { title: 'Proyectos', subtitle: 'Despliegues en vivo, trabajo real y proyectos académicos — todos con código funcional.', viewGithub: 'GitHub', viewLive: 'Demo en Vivo', featured: 'Proyectos Destacados', allProjects: 'Más Proyectos', impact: 'Impacto', role: 'Rol', duration: 'Duración', team: 'Equipo', liveApp: 'En Vivo', academic: 'USAC', caseStudy: 'Caso de Estudio' };
+    ? {
+        eyebrow: 'Projects · 2026',
+        title: 'Projects',
+        subtitle: 'Live deployments, production data work and academic builds, all with working code. Filter by category or open a case study.',
+        viewLive: 'Live demo',
+        featured: 'Featured',
+        others: 'More projects',
+        role: 'Role',
+        duration: 'Duration',
+        team: 'Team',
+        live: 'Live',
+        caseStudy: 'Case study',
+        open: 'Open',
+        all: 'All',
+        count: (n: number) => `${n} ${n === 1 ? 'project' : 'projects'}`,
+        liveCount: (n: number) => `${n} live`,
+        aiCount: (n: number) => `${n} with AI in production`,
+        filterBy: 'Filter by',
+        empty: 'No projects in this category yet.',
+        ctaTitle: 'Have a project in mind?',
+        ctaBody: 'Open to data engineering roles, AI implementation work and full-stack builds, remote or in Guatemala.',
+        ctaButton: "Let's talk",
+      }
+    : {
+        eyebrow: 'Proyectos · 2026',
+        title: 'Proyectos',
+        subtitle: 'Despliegues en vivo, trabajo de datos en producción y proyectos académicos, todos con código funcional. Filtra por categoría o abre un caso de estudio.',
+        viewLive: 'Demo en vivo',
+        featured: 'Destacados',
+        others: 'Más proyectos',
+        role: 'Rol',
+        duration: 'Duración',
+        team: 'Equipo',
+        live: 'En vivo',
+        caseStudy: 'Caso de estudio',
+        open: 'Abrir',
+        all: 'Todos',
+        count: (n: number) => `${n} ${n === 1 ? 'proyecto' : 'proyectos'}`,
+        liveCount: (n: number) => `${n} en vivo`,
+        aiCount: (n: number) => `${n} con IA en producción`,
+        filterBy: 'Filtrar por',
+        empty: 'Aún no hay proyectos en esta categoría.',
+        ctaTitle: '¿Tienes un proyecto en mente?',
+        ctaBody: 'Disponible para roles de ingeniería de datos, implementación de IA y desarrollo full-stack, remoto o en Guatemala.',
+        ctaButton: 'Hablemos',
+      };
 
-  useSEO({ title: t.title, description: t.subtitle, lang, keywords: ['projects', 'portfolio', 'data engineering', 'Snowflake', 'React', 'TypeScript', 'Cloudflare', 'Guatemala'] });
+  useSEO({
+    title: t.title,
+    description: t.subtitle,
+    lang,
+    keywords: ['projects', 'portfolio', 'data engineering', 'AI implementation', 'n8n', 'Snowflake', 'React', 'TypeScript', 'Cloudflare', 'Guatemala'],
+  });
 
-  const categories = [
-    { id: 'all', labelEn: 'All', labelEs: 'Todos', icon: <Layers className="h-4 w-4" />, count: projects.length },
-    { id: 'web', labelEn: 'Live Web Apps', labelEs: 'Apps Web', icon: <Globe className="h-4 w-4" />, count: projects.filter(p => p.category === 'web').length },
-    { id: 'data', labelEn: 'Data & BI', labelEs: 'Datos & BI', icon: <Database className="h-4 w-4" />, count: projects.filter(p => p.category === 'data').length },
-    { id: 'academic', labelEn: 'Academic', labelEs: 'Académico', icon: <GraduationCap className="h-4 w-4" />, count: projects.filter(p => p.category === 'academic').length },
-    { id: 'cloud', labelEn: 'Cloud & DevOps', labelEs: 'Cloud', icon: <Cloud className="h-4 w-4" />, count: projects.filter(p => p.category === 'cloud').length },
+  const stats = useMemo(() => {
+    const live = projects.filter(p => p.links?.live).length;
+    const ai = projects.filter(p => /\b(AI|IA|RAG|LLM|Llama)\b/.test(`${p.title} ${p.technologies.join(' ')}`)).length;
+    return { total: projects.length, live, ai };
+  }, [projects]);
+
+  const filters: { id: 'all' | ProjectCategory; label: string; count: number }[] = [
+    { id: 'all', label: t.all, count: projects.length },
+    ...FILTER_ORDER.map(id => ({
+      id,
+      label: lang === 'en' ? CATEGORY[id].en : CATEGORY[id].es,
+      count: projects.filter(p => p.category === id).length,
+    })).filter(f => f.count > 0),
   ];
 
-  const filtered = activeCategory === 'all' ? projects : projects.filter(p => p.category === activeCategory);
-  const featured = activeCategory === 'all' ? filtered.filter(p => p.featured) : filtered;
-  const others = activeCategory === 'all' ? filtered.filter(p => !p.featured) : [];
+  const filtered = active === 'all' ? projects : projects.filter(p => p.category === active);
+  const featured = active === 'all' ? filtered.filter(p => p.featured) : filtered;
+  const others = active === 'all' ? filtered.filter(p => !p.featured) : [];
+  const labels: Labels = { role: t.role, duration: t.duration, team: t.team, caseStudy: t.caseStudy, viewLive: t.viewLive, live: t.live, open: t.open };
 
   return (
     <PageTransition>
       <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
         <Container>
-          <motion.div
-            className="py-10"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-4xl font-extrabold tracking-tight">{t.title}</h1>
-              <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl">{t.subtitle}</p>
-            </div>
+          <div className="py-10">
+            {/* ── Page header ─────────────────────────────────────── */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: FLUID }}
+            >
+              <p className="font-mono-geist n-muted text-xs uppercase tracking-wider">{t.eyebrow}</p>
+              <h1 className="n-text mt-2 text-4xl font-bold tracking-tight">{t.title}</h1>
+              <p className="n-muted mt-2 max-w-2xl text-base">{t.subtitle}</p>
+              <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={lang === 'en' ? 'Summary' : 'Resumen'}>
+                <li className="n-tag n-tag-gray font-mono-geist">{t.count(stats.total)}</li>
+                <li className="n-tag n-tag-green font-mono-geist">{t.liveCount(stats.live)}</li>
+                <li className="n-tag n-tag-pink font-mono-geist">{t.aiCount(stats.ai)}</li>
+              </ul>
+            </motion.div>
 
-            {/* Category Filter */}
-            <div className="mb-8 flex flex-wrap gap-2">
-              {categories.map(cat => {
-                const isActive = activeCategory === cat.id;
+            {/* ── Category filter (database view tabs) ─────────────── */}
+            <div className="n-border mt-8 flex flex-wrap items-center gap-2 border-b pb-4" role="tablist" aria-label={t.filterBy}>
+              <span className="n-muted mr-1 text-xs">{t.filterBy}</span>
+              {filters.map(f => {
+                const isActive = active === f.id;
                 return (
                   <button
-                    key={cat.id}
-                    onClick={() => setActiveCategory(cat.id)}
-                    className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                    key={f.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setActive(f.id)}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-300 active:scale-[0.98] ${
                       isActive
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                        : 'border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50 hover:border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700'
+                        ? 'border-[var(--n-text)] bg-[var(--n-text)] text-[var(--n-bg)]'
+                        : 'n-border n-text n-hover'
                     }`}
                   >
-                    {cat.icon}
-                    {lang === 'en' ? cat.labelEn : cat.labelEs}
-                    <span className={`ml-0.5 rounded-full px-2 py-0.5 text-xs font-semibold ${isActive ? 'bg-black/25 text-white' : 'bg-neutral-100 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-300'}`}>
-                      {cat.count}
-                    </span>
+                    {f.id === 'all' && <Layers className="h-3 w-3" aria-hidden="true" />}
+                    {f.label}
+                    <span className={`font-mono-geist tabular-nums ${isActive ? 'opacity-70' : 'n-muted'}`}>{f.count}</span>
                   </button>
                 );
               })}
@@ -217,72 +310,64 @@ export default function Projects() {
 
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeCategory}
+                key={active}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.25, ease: FLUID }}
+                className="mt-8"
               >
-                {/* Featured */}
                 {featured.length > 0 && (
-                  <div className="mb-12">
-                    {activeCategory === 'all' && (
-                      <div className="mb-6 flex items-center justify-between">
-                        <h2 className="text-2xl font-bold">{t.featured}</h2>
-                        <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                          {featured.length} {lang === 'en' ? 'projects' : 'proyectos'}
-                        </span>
-                      </div>
-                    )}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <section className="mb-12" aria-labelledby="projects-featured">
+                    <div className="mb-5 flex items-baseline justify-between">
+                      <h2 id="projects-featured" className="n-text text-2xl font-semibold tracking-tight">
+                        {active === 'all' ? t.featured : filters.find(f => f.id === active)?.label}
+                      </h2>
+                      <span className="n-muted font-mono-geist text-xs">{t.count(featured.length)}</span>
+                    </div>
+                    <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2 lg:grid-cols-3">
                       {featured.map(project => (
-                        <ProjectCard key={project.id} project={project} t={t as Record<string, string>} />
+                        <ProjectCard key={project.id} project={project} lang={lang} t={labels} />
                       ))}
                     </div>
-                  </div>
+                  </section>
                 )}
 
-                {/* Others */}
                 {others.length > 0 && (
-                  <div className="mb-12">
-                    <div className="mb-6 flex items-center justify-between">
-                      <h2 className="text-2xl font-bold">{t.allProjects}</h2>
-                      <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                        {others.length} {lang === 'en' ? 'projects' : 'proyectos'}
-                      </span>
+                  <section className="mb-12" aria-labelledby="projects-others">
+                    <div className="mb-5 flex items-baseline justify-between">
+                      <h2 id="projects-others" className="n-text text-2xl font-semibold tracking-tight">{t.others}</h2>
+                      <span className="n-muted font-mono-geist text-xs">{t.count(others.length)}</span>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="grid grid-cols-1 items-start gap-5 md:grid-cols-2">
                       {others.map(project => (
-                        <ProjectCard key={project.id} project={project} t={t as Record<string, string>} />
+                        <ProjectCard key={project.id} project={project} lang={lang} t={labels} />
                       ))}
                     </div>
-                  </div>
+                  </section>
+                )}
+
+                {featured.length === 0 && others.length === 0 && (
+                  <p className="n-muted py-12 text-center text-sm">{t.empty}</p>
                 )}
               </motion.div>
             </AnimatePresence>
 
-            {/* CTA */}
-            <div className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-r from-blue-600 to-violet-600 p-8 text-center dark:border-neutral-800 shadow-xl shadow-blue-500/20">
-              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-              <div className="relative z-10">
-                <h3 className="mb-2 text-xl font-bold text-white">
-                  {lang === 'en' ? 'Have a project in mind?' : '¿Tienes un proyecto en mente?'}
-                </h3>
-                <p className="mb-6 text-blue-100 max-w-xl mx-auto text-sm">
-                  {lang === 'en'
-                    ? 'Open to freelance projects, consulting, and full-time roles in data engineering, BI, and full-stack development.'
-                    : 'Disponible para proyectos freelance, consultoría y roles de tiempo completo en ingeniería de datos, BI y desarrollo full-stack.'}
-                </p>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-blue-700 hover:bg-blue-50 transition-colors shadow-lg"
-                >
-                  {lang === 'en' ? "Let's Talk" : 'Hablemos'}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+            {/* ── CTA (callout block) ─────────────────────────────── */}
+            <div className="n-callout flex flex-col items-start gap-4 rounded-2xl px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+              <div>
+                <h3 className="n-text text-lg font-semibold tracking-tight">{t.ctaTitle}</h3>
+                <p className="n-muted mt-1 max-w-xl text-sm">{t.ctaBody}</p>
               </div>
+              <Link
+                to="/contact"
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[var(--n-text)] px-5 py-2.5 text-sm font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
+              >
+                {t.ctaButton}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
             </div>
-          </motion.div>
+          </div>
         </Container>
       </div>
     </PageTransition>

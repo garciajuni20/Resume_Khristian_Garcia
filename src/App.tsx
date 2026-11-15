@@ -6,8 +6,10 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollProgress from './components/ScrollProgress';
+// Home ships in the main bundle: the landing route must not wait for a second
+// round-trip before it can paint (mobile LCP). The other pages stay lazy.
+import Home from './pages/Home';
 
-const Home = lazy(() => import('./pages/Home'));
 const Resume = lazy(() => import('./pages/Resume'));
 const Projects = lazy(() => import('./pages/Projects'));
 const FlowberCaseStudy = lazy(() => import('./pages/FlowberCaseStudy'));

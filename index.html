@@ -37,6 +37,8 @@
   
   <!-- Self-hosted Geist (variable) — no render-blocking font requests -->
   <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/Geist-Variable.woff2" crossorigin>
+  <!-- Hero portrait: start the download while the JS bundle is still loading -->
+  <link rel="preload" as="image" type="image/webp" href="%BASE_URL%me/khristian-square.webp" fetchpriority="high">
   <style>
     @font-face {
       font-family: 'Geist';
