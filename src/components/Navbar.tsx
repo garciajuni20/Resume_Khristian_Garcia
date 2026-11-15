@@ -5,6 +5,7 @@ import { Moon, Sun, X, Globe, Menu } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Wordmark } from './Logo';
+import SoundToggle from './SoundToggle';
 import { FLUID } from '../utils/animations';
 
 const navItems = [
@@ -28,6 +29,7 @@ function LangToggle({ lang, setLang, size = 'md' }: { lang: 'en' | 'es'; setLang
           key={l}
           type="button"
           onClick={() => setLang(l)}
+          data-sfx="none"
           aria-pressed={lang === l}
           className={`${size === 'sm' ? 'px-2.5 py-1' : 'px-3 py-1.5'} text-xs font-semibold transition-colors duration-200 ${lang === l ? ACTIVE : IDLE}`}
         >
@@ -72,7 +74,7 @@ export default function Navbar() {
         }`}
       >
         <div className="px-4 sm:px-5">
-          <div className="flex h-14 items-center justify-between gap-6">
+          <div className="flex h-14 items-center justify-between gap-3 lg:gap-6">
             <NavLink to="/" className="shrink-0 whitespace-nowrap rounded-lg n-focus" aria-label={lang === 'en' ? 'Khristian Garcia, home' : 'Khristian Garcia, inicio'}>
               <Wordmark name="Khristian Garcia" compact />
             </NavLink>
@@ -83,7 +85,7 @@ export default function Navbar() {
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  className={({ isActive }) => `${CONTROL} whitespace-nowrap px-3 py-2 text-sm font-semibold lg:px-4 ${isActive ? ACTIVE : IDLE}`}
+                  className={({ isActive }) => `${CONTROL} whitespace-nowrap px-2.5 py-2 text-sm font-semibold lg:px-4 ${isActive ? ACTIVE : IDLE}`}
                 >
                   {lang === 'en' ? item.labelEn : item.labelEs}
                 </NavLink>
@@ -91,24 +93,30 @@ export default function Navbar() {
 
               <div className="mx-1 h-5 w-px shrink-0 bg-n-border lg:mx-2" aria-hidden="true" />
 
-              <button type="button" onClick={toggleTheme} className={`${CONTROL} ${IDLE} p-2`} aria-label={themeLabel}>
+              <SoundToggle className="h-[34px] w-[34px]" />
+
+              <button type="button" onClick={toggleTheme} data-sfx="none" className={`${CONTROL} ${IDLE} p-2`} aria-label={themeLabel}>
                 {theme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
               </button>
 
               <LangToggle lang={lang} setLang={setLang} />
             </nav>
 
-            {/* Mobile button */}
+            {/* Mobile: music stays one tap away, outside the menu */}
+            <div className="flex items-center gap-1 md:hidden">
+            <SoundToggle className="h-9 w-9" />
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`${CONTROL} ${IDLE} p-2 md:hidden`}
+              data-sfx={isMobileMenuOpen ? 'close' : 'open'}
+              className={`${CONTROL} ${IDLE} p-2`}
               aria-label={isMobileMenuOpen ? (lang === 'en' ? 'Close menu' : 'Cerrar menú') : (lang === 'en' ? 'Open menu' : 'Abrir menú')}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
             >
               {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
+            </div>
           </div>
         </div>
       </header>
@@ -144,7 +152,7 @@ export default function Navbar() {
                 </div>
                 <div className="flex items-center gap-2">
                   <LangToggle lang={lang} setLang={setLang} size="sm" />
-                  <button type="button" onClick={toggleTheme} className={`${CONTROL} n-border n-muted border p-1.5`} aria-label={themeLabel}>
+                  <button type="button" onClick={toggleTheme} data-sfx="none" className={`${CONTROL} n-border n-muted border p-1.5`} aria-label={themeLabel}>
                     {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                   </button>
                 </div>

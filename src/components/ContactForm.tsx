@@ -3,6 +3,7 @@ import { Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLang } from '../context/LanguageContext';
 import { useAnalytics } from '../hooks/useAnalytics';
+import { sfx } from '../audio/engine';
 
 interface FormData {
   name: string;
@@ -81,7 +82,10 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      sfx('error');
+      return;
+    }
     
     setStatus('loading');
     
@@ -102,6 +106,7 @@ export default function ContactForm() {
       
       if (response.ok) {
         setStatus('success');
+        sfx('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
         trackEvent('contact_form_submit', { status: 'success' });
         
@@ -112,6 +117,7 @@ export default function ContactForm() {
     } catch (error) {
       console.error('Error sending form:', error);
       setStatus('error');
+      sfx('error');
       trackEvent('contact_form_submit', { status: 'error' });
       
       setTimeout(() => setStatus('idle'), 3000);

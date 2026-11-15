@@ -8,6 +8,7 @@ Every clip and illustration on the site is either real footage or was generated 
 |---|---|---|
 | Generate stills and clips | **Wan 2.2 TI2V 5B** through [Wan2GP](https://github.com/deepbeepmeep/Wan2GP) on an RTX 3060 12 GB (`--profile 5`, SDPA attention) | `D:\AI\portfolio_gen.py` + `D:\AI\portfolio_jobs.json` → `D:\AI\portfolio-out\` |
 | Generate stills (text-to-image) and edit photos | **Flux 2 Klein 4B** (int8, 4 steps, ~2 min per image) through the same Wan2GP install | `D:\AI\cv_headshot.py` + a jobs JSON → `D:\AI\cv-out\` |
+| Generate the soundtrack (instrumental) | **ACE-Step 1.5 Turbo + 1.7B LM** through the same Wan2GP install (the RunComfy CLI has no Windows build, and local is free) | `D:\AI\music_gen.py` + a jobs JSON (`D:\AI\music_jobs*.json`) → `D:\AI\music-out\` |
 | Trim, loop, compress | ffmpeg (bundled with Wan2GP) | `scripts/encode-ai-media.sh` (brand stills were resized to display size with Pillow) |
 | Career film (54 s, EN/ES) | Remotion (video as React code) | `video/` |
 | Flowber brand film (50 s) | Remotion in the Flowber repo, real shop footage + local AI clips | `Flowber/flowber-barberia/remotion` |
@@ -44,3 +45,44 @@ bash scripts/encode-ai-media.sh
 - `prefers-reduced-motion` keeps the poster frame and never downloads the video.
 - Decorative loops are `aria-hidden`; clips that carry meaning get an `aria-label`.
 - Large films (brand film, career film) load only after the visitor presses play.
+
+## Sound (`src/audio/engine.ts`, `src/context/SoundContext.tsx`, `src/components/SoundEffects.tsx`)
+
+**Music: one melody per page**, generated with ACE-Step 1.5 (`D:\AI\music_jobs2.json`) and encoded by `bash scripts/encode-music.sh <wav> public/audio/<page>.mp3` (seamless crossfade loop, -16 LUFS, 112 kbps MP3). ACE-Step finishes early and leaves a silent tail: trim each WAV to where the music ends first (`silencedetect`, then `atrim`), or the loop has a gap. 48–56 s per loop, 400–780 KB.
+
+| Page | File | Character | Key, tempo |
+|---|---|---|---|
+| Home | `home.mp3` | Warm cinematic electronic: felt piano, synth arpeggio, brushed drums | D minor, 92 |
+| Resume | `resume.mp3` | Neoclassical chamber: felt piano, pizzicato, cello (the engraved banknote) | D minor, 76 |
+| Projects | `projects.mp3` | Playful electronic: plucks, wooden mallets, lofi groove | D minor, 104 |
+| Flowber | `flowber.mp3` | Guatemalan marimba over a lofi hip hop beat (the barbershop) | F major, 90 |
+| Contact | `contact.mp3` | Fingerpicked guitar, rhodes, string swells: an open door | F major, 84 |
+| 404 | `notfound.mp3` | Music-box waltz, lost but curious | D minor, 108, 3/4 |
+
+All tracks share one pitch set (D minor = relative of F major), so the crossfade on navigation sounds like a new movement, not a new song. Returning to a page continues its track where it was.
+
+**Effects: synthesized, nothing to download.** Every pitch comes from the D F G A C pentatonic, so effects always harmonize with the music.
+
+| Moment | Sound |
+|---|---|
+| Hover a control (mouse only) | Faint glass tick, throttled |
+| Click any control | Marimba note pitched by its horizontal position: a row of buttons plays up the scale |
+| Arrive on a page | Bell arpeggio rooted on that page's own degree |
+| Dark / light mode | Dusk (descending, filter closing) / dawn (ascending, brightening) |
+| EN / ES | Two mallet notes, up for Spanish, down for English |
+| Sound on / off | A rolled D minor 9 bloom / two notes falling |
+| Career map (resume) | Each bar rings one note up the scale, oldest role first: sweep it to hear the career climb |
+| Resume header | The engraving printing in: paper pressed, then a low bell |
+| Open / close a role's detail, mobile menu | Rising whoosh and bell / falling whoosh |
+| Filter chip on / off | Two notes up / down |
+| Typing in the contact form, driving the "/" menu | Soft key clicks |
+| Message sent, PDF ready | F major resolving upward |
+| Validation or network error | Two muted notes a semitone apart |
+
+Rules:
+
+- **Off by default.** Browsers block audible autoplay, and a recruiter at work should never be surprised. A first-visit invitation (bottom-left, after 3.5 s) offers it once; any choice hides it for good. One toggle covers music and effects.
+- No audio file is requested before sound is turned on, and then only the current page's track.
+- Music is routed through Web Audio gain nodes (volume on `HTMLAudioElement` is read-only on iOS), fades on every change, steps aside while any audible video plays (the career film) and pauses while the tab is hidden. The choice is remembered in `localStorage` and resumes on the first gesture of the next visit.
+- Components opt in with attributes, not imports: `data-sfx="none"` silences a control that has its own sound, `data-sfx="open"` or `data-sfx="note:3"` picks one, `data-sfx-hover` sets the hover sound.
+- In `npm run dev`, every effect can be auditioned from the console: `sfx('success')`, `sfx('note', { degree: 7 })`.

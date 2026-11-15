@@ -36,6 +36,7 @@ export default function FilterChips({ allTags, activeTags, onToggle, onClear, co
           <button
             key={tag}
             onClick={() => onToggle(tag)}
+            data-sfx={active ? 'chipOff' : 'chipOn'}
             type="button"
             aria-pressed={active}
             className={`${CHIP} ${active ? 'border-n-text bg-n-text text-n-bg' : 'n-border n-text n-hover'}`}
@@ -57,7 +58,7 @@ export default function FilterChips({ allTags, activeTags, onToggle, onClear, co
       )}
 
       {activeTags.length > 0 ? (
-        <button onClick={onClear} type="button" className={`${CHIP} n-border n-muted n-hover`}>
+        <button onClick={onClear} type="button" data-sfx="chipOff" className={`${CHIP} n-border n-muted n-hover`}>
           {labels?.clear ?? 'Clear'}
         </button>
       ) : null}

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Blocks, Bot, Briefcase, Code2, CornerDownLeft, Database, Workflow } from 'lucide-react';
 import { useLang } from '../../context/LanguageContext';
 import { FLUID } from '../../utils/animations';
+import { sfx } from '../../audio/engine';
 
 type Option = {
   id: string;
@@ -48,6 +49,9 @@ export default function SlashCommand() {
   const [active, setActive] = useState(0);
   const [auto, setAuto] = useState(true);
   const current = options[active];
+  // Typing clicks only once the visitor drives the menu, never during the self-demo
+  const autoRef = useRef(auto);
+  useEffect(() => { autoRef.current = auto; }, [auto]);
 
   // Type "/" then the command name, like someone using Notion
   useEffect(() => {
@@ -58,6 +62,7 @@ export default function SlashCommand() {
     const t = window.setInterval(() => {
       i += 1;
       setTyped(target.slice(0, i));
+      if (!autoRef.current && !reduce) sfx('key');
       if (i >= target.length) window.clearInterval(t);
     }, reduce ? 0 : 45);
     return () => window.clearInterval(t);

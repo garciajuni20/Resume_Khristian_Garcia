@@ -3,6 +3,9 @@ import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'reac
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { SoundProvider } from './context/SoundContext';
+import { SoundHint } from './components/SoundToggle';
+import SoundEffects from './components/SoundEffects';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollProgress from './components/ScrollProgress';
@@ -52,6 +55,8 @@ function App() {
     <Router>
       <ThemeProvider>
         <LanguageProvider>
+          {/* Above the router: the soundtrack keeps playing across pages */}
+          <SoundProvider>
           <MotionConfig reducedMotion="user">
             <ScrollProgress />
             <div className="min-h-screen flex flex-col">
@@ -61,7 +66,10 @@ function App() {
               </main>
               <Footer />
             </div>
+            <SoundHint />
+            <SoundEffects />
           </MotionConfig>
+          </SoundProvider>
         </LanguageProvider>
       </ThemeProvider>
     </Router>
