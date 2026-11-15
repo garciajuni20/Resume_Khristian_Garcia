@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import type { Lang } from '../../types';
 import { INK_TEXT, INK_TONES, figureRuns, inkFigures, inkNotes } from '../../data/ink';
-import { guillocheRule } from '../../utils/guilloche';
+import { guillocheRing, guillocheRule } from '../../utils/guilloche';
 
 /** A figure in Bodoni, with the glyphs Bodoni draws poorly set in Geist */
 function Figure({ text }: { text: string }) {
@@ -11,6 +11,36 @@ function Figure({ text }: { text: string }) {
         r.sans ? <span key={i} className="font-sans text-[0.7em] font-light">{r.text}</span> : <span key={i}>{r.text}</span>,
       )}
     </>
+  );
+}
+
+/**
+ * "Verified" seal: a small guilloché stamp beside a figure's label. Hover or
+ * keyboard focus (a tap on touch) shows where the number comes from; screen
+ * readers get it as the control's description. On /resume it also jumps to the
+ * numbered note.
+ */
+function Seal({ source, href, label, tone }: { source: string; href?: string; label: string; tone: string }) {
+  const tip = useId();
+  const ring = useMemo(() => guillocheRing({ cx: 10, cy: 10, rx: 7.2, ry: 7.2, width: 2.4, strands: 3, lobes: 16, steps: 160 }), []);
+  const mark = (
+    <svg viewBox="0 0 20 20" className="h-[18px] w-[18px]" aria-hidden="true">
+      {ring.strands.map((d, i) => <path key={i} d={d} fill="none" stroke="currentColor" strokeWidth={0.45} />)}
+      <path d="M6.6 10.3l2.2 2.2 4.6-4.9" fill="none" stroke="currentColor" strokeWidth={1.1} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  const cls = `seal-btn inline-flex rounded-full n-focus ${tone}`;
+  return (
+    <span className="seal relative ml-1.5 inline-flex align-[-0.25em]">
+      {href ? (
+        <a href={href} className={cls} aria-describedby={tip} aria-label={label}>{mark}</a>
+      ) : (
+        <button type="button" className={cls} aria-describedby={tip} aria-label={label} data-sfx="none">{mark}</button>
+      )}
+      <span role="tooltip" id={tip} className="seal-tip n-text pointer-events-none absolute top-full -left-2 z-20 mt-2 w-64 max-w-[calc(100vw-3rem)] rounded-md border border-n-border bg-n-bg px-3 py-2 text-xs leading-relaxed shadow-sm">
+        {source}
+      </span>
+    </span>
   );
 }
 
@@ -54,7 +84,15 @@ export default function InkFigures({ lang, notes = false, className = '' }: { la
                 </a>
               )}
             </p>
-            <p className="n-text mt-3 text-sm">{f.label}</p>
+            <p className="n-text mt-3 text-sm">
+              {f.label}
+              <Seal
+                source={sources[f.n - 1]}
+                href={notes ? `#nota-${f.n}` : undefined}
+                label={en ? `Source of this figure` : `Fuente de esta cifra`}
+                tone={INK_TEXT[f.tone]}
+              />
+            </p>
             <p className="n-muted mt-0.5 text-xs">{f.note}</p>
             {/* Shown only under UV light (UvMode): where the figure comes from */}
             <p className="uv-note mt-2 text-xs leading-relaxed">{sources[f.n - 1]}</p>

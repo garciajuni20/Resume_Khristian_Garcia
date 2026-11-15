@@ -29,6 +29,7 @@ export type Sfx =
   | 'success' | 'error'
   | 'chipOn' | 'chipOff'
   | 'print'
+  | 'ink'
   | 'note';
 
 export interface SfxOptions {
@@ -458,6 +459,13 @@ export function sfx(name: Sfx, opts: SfxOptions = {}): void {
       noise(c, { at: 0.1, dur: 1.2, gain: 0.03 * g, from: 7000, to: 3000, type: 'highpass', q: 0.5, wet: 0.5 });
       voice(c, { freq: degreeHz(-5), at: 0.05, dur: 2.6, gain: 0.1 * g, partials: BELL, wet: 0.7, tone: 3000 });
       voice(c, { freq: degreeHz(2), at: 1.2, dur: 2, gain: 0.06 * g, partials: BELL, wet: 0.8 });
+      return;
+    case 'ink':
+      // A drop landing on wet paper and soaking outward: a soft tap, then a
+      // muffled bloom closing down, on the root so it sits under the page chime
+      noise(c, { dur: 0.05, gain: 0.05 * g, from: 1800, q: 1.2 });
+      noise(c, { at: 0.03, dur: 0.6, gain: 0.035 * g, from: 2400, to: 380, q: 0.7, wet: 0.35 });
+      voice(c, { freq: degreeHz(-5), at: 0.02, dur: 0.9, gain: 0.06 * g, partials: MALLET, wet: 0.45, tone: 1400 });
       return;
     case 'note':
       voice(c, { freq: degreeHz(opts.degree ?? 0), dur: 0.7, gain: 0.11 * g, partials: MALLET, wet: 0.35, tone: 6000, pan });

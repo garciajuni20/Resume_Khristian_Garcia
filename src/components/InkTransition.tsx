@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useLocation } from 'react-router-dom';
+import { sfx } from '../audio/engine';
 
 /**
  * Page change as ink on paper: a sheet in the page's paper colour covers the new
@@ -32,7 +33,10 @@ export default function InkTransition() {
     if (pathname === previous.current) return;
     previous.current = pathname;
     if (!ready.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const frame = requestAnimationFrame(() => setRun(n => n + 1));
+    const frame = requestAnimationFrame(() => {
+      setRun(n => n + 1);
+      sfx('ink'); // no-op while sound is off
+    });
     return () => cancelAnimationFrame(frame);
   }, [pathname]);
 

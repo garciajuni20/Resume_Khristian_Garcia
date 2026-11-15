@@ -109,6 +109,7 @@ export default function ContactForm() {
           _replyto: formData.email,
           company: honeypot,
           turnstile: token,
+          lang,
         }),
       });
       setSent(n => n + 1);

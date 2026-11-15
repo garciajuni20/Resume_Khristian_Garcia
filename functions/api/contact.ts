@@ -6,6 +6,12 @@
  *   TURNSTILE_SECRET        Turnstile secret key; when set, a valid token is required
  *   RESEND_API_KEY + CONTACT_TO   send through Resend to CONTACT_TO
  *   FORMSPREE_ID            otherwise forward to this Formspree form (default below)
+ *   AUTO_REPLY_FROM         a sender on a domain verified in Resend, e.g.
+ *                           "Khristian Garcia <hello@yourdomain>"; with Resend and
+ *                           Turnstile also set, the sender gets a short fixed
+ *                           confirmation with links to the resume and case studies.
+ *                           Off without Turnstile, so the form is never a way to
+ *                           mail strangers. The text never echoes what was typed.
  * The browser never sees the delivery provider or its keys.
  */
 
@@ -14,6 +20,7 @@ interface Env {
   RESEND_API_KEY?: string;
   CONTACT_TO?: string;
   FORMSPREE_ID?: string;
+  AUTO_REPLY_FROM?: string;
 }
 
 type Ctx = { request: Request; env: Env };
@@ -23,6 +30,46 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const json = (status: number, body: Record<string, unknown>) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
+
+const SITE = 'https://resume-khristian-garcia.pages.dev';
+
+/** The confirmation the sender gets; fixed text, nothing from the form */
+function autoReply(lang: 'en' | 'es') {
+  if (lang === 'es') {
+    return {
+      subject: 'Recibí tu mensaje',
+      text: [
+        'Hola,',
+        '',
+        'Recibí tu mensaje desde mi portafolio y te respondo personalmente en menos de 24 horas.',
+        '',
+        'Mientras tanto:',
+        `CV interactivo y en PDF: ${SITE}/resume`,
+        `Caso Alleviate (Snowflake, dbt, Azure Data Factory): ${SITE}/alleviate`,
+        `Caso Flowber (agente de IA, RAG, dbt + DuckDB): ${SITE}/flowber`,
+        '',
+        'Khristian Garcia',
+        'Ingeniero de Datos',
+      ].join('\n'),
+    };
+  }
+  return {
+    subject: 'I got your message',
+    text: [
+      'Hi,',
+      '',
+      'Your message from my portfolio reached me, and I will answer it myself within 24 hours.',
+      '',
+      'In the meantime:',
+      `Resume, interactive and in PDF: ${SITE}/resume`,
+      `Alleviate case study (Snowflake, dbt, Azure Data Factory): ${SITE}/alleviate`,
+      `Flowber case study (AI agent, RAG, dbt + DuckDB): ${SITE}/flowber`,
+      '',
+      'Khristian Garcia',
+      'Data Engineer',
+    ].join('\n'),
+  };
+}
 
 async function verifyTurnstile(secret: string, token: string, ip: string | null): Promise<boolean> {
   const form = new FormData();
@@ -86,7 +133,19 @@ export async function onRequestPost({ request, env }: Ctx): Promise<Response> {
     });
   }
 
-  return res.ok ? json(200, { ok: true }) : json(502, { error: 'delivery' });
+  if (!res.ok) return json(502, { error: 'delivery' });
+
+  // Best effort: the message is already delivered, a failed confirmation is not an error
+  if (env.AUTO_REPLY_FROM && env.RESEND_API_KEY && env.TURNSTILE_SECRET) {
+    const reply = autoReply(field('lang') === 'es' ? 'es' : 'en');
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ from: env.AUTO_REPLY_FROM, to: [msg.email], subject: reply.subject, text: reply.text }),
+    }).catch(() => undefined);
+  }
+
+  return json(200, { ok: true });
 }
 
 export async function onRequest(): Promise<Response> {

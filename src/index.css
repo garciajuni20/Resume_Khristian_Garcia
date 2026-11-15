@@ -353,6 +353,21 @@ p, li { text-wrap: pretty; }
   animation-duration: 200ms;
 }
 
+/* ── Verified seal beside each figure (InkFigures.tsx) ── */
+.seal-btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+.seal-btn:active { transform: scale(0.94); }
+.seal-tip {
+  opacity: 0;
+  transform: translateY(-3px) scale(0.97);
+  transform-origin: 12px 0;
+  transition: opacity 140ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.seal:focus-within .seal-tip { opacity: 1; transform: none; }
+@media (hover: hover) and (pointer: fine) {
+  /* a short delay so the tip does not flash while the pointer passes by */
+  .seal:hover .seal-tip { opacity: 1; transform: none; transition-delay: 250ms; }
+}
+
 /* ── Page change: ink blooms through a sheet of paper (InkTransition.tsx) ──
    The strip holds 16 frames stacked vertically; alpha is the paper still left.
    Stretched to the viewport on purpose: an ink bloom has no true aspect. */

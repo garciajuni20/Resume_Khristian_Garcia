@@ -164,7 +164,7 @@ npm run preview
 | Carpeta de salida | `dist` (fijada también en `wrangler.toml`) |
 | Variable de entorno | `NODE_VERSION` = `22` |
 
-Cloudflare define `CF_PAGES=1` en su build y esa variable cambia el sitio a su forma de raíz: base `/`, rutas reales (`/resume`) en vez de hash (los links viejos `/#/resume` se reescriben solos), un HTML por ruta con su título y vista previa (`src/data/routes.ts`), sitemap con todas las rutas, y la Pages Function `functions/api/contact.ts` detrás del formulario (validación, honeypot, Turnstile opcional, entrega por Resend o Formspree). La analítica es Cloudflare Web Analytics, activada en el proyecto de Pages. El detalle de variables está en README.md.
+Cloudflare define `CF_PAGES=1` en su build y esa variable cambia el sitio a su forma de raíz: base `/`, rutas reales (`/resume`) en vez de hash (los links viejos `/#/resume` se reescriben solos), un HTML por ruta con su título y vista previa (`src/data/routes.ts`), sitemap con todas las rutas, y la Pages Function `functions/api/contact.ts` detrás del formulario (validación, honeypot, Turnstile opcional, entrega por Resend o Formspree y, con un remitente verificado, una confirmación automática al que escribe). La analítica es Cloudflare Web Analytics, activada en el proyecto de Pages. El detalle de variables está en README.md.
 
 **GitHub Pages (copia):** `.github/workflows/deploy.yml` construye con base `/Resume_Khristian_Garcia/` y rutas hash; sus etiquetas canonical apuntan a Cloudflare.
 

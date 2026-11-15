@@ -179,6 +179,7 @@ Cloudflare sets `CF_PAGES=1` during its build, and that one flag switches the si
 - `functions/api/contact.ts` is a Pages Function behind the contact form: validation, a honeypot, same-origin check, optional Turnstile, and delivery through Resend or Formspree. Variables (Settings → Variables and Secrets):
   - `TURNSTILE_SECRET` (secret) + `VITE_TURNSTILE_SITE_KEY` (build variable): turn on Turnstile.
   - `RESEND_API_KEY` (secret) + `CONTACT_TO`: deliver through Resend; otherwise `FORMSPREE_ID` (defaults to the current form).
+  - `AUTO_REPLY_FROM` (a sender on a domain verified in Resend): with Resend and Turnstile set, the sender gets a short fixed confirmation (EN/ES) with links to the resume and both case studies. It never echoes what was typed, and stays off without Turnstile so the form cannot be used to mail strangers.
 - Analytics: Cloudflare Web Analytics, enabled in the Pages project (Metrics → Web Analytics). No code or cookies.
 
 **GitHub Pages (mirror):** `.github/workflows/deploy.yml` builds with base `/Resume_Khristian_Garcia/` and hash routes. Its canonical tags point to Cloudflare, so search engines index one address. The contact form there posts straight to Formspree.
