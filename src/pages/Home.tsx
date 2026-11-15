@@ -194,7 +194,8 @@ export default function Home() {
             {/* ── Hero ─────────────────────────────────────────────── */}
             <HeroGrid>
               <div className="p-6 sm:p-10">
-                <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+                {/* Mobile: portrait first, then the copy; from sm the portrait sits on the right */}
+                <div className="flex flex-col-reverse gap-8 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex-1">
                     <motion.p
                       initial={{ opacity: 0, y: 8 }}

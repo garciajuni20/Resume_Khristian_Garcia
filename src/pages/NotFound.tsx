@@ -45,7 +45,7 @@ export default function NotFound() {
               transition={{ duration: 0.5 }}
             >
               <motion.div
-                className="text-9xl font-black text-blue-200 dark:text-blue-900/30 select-none"
+                className="n-text select-none font-mono-geist text-9xl font-black opacity-10"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -54,14 +54,14 @@ export default function NotFound() {
               </motion.div>
 
               <h1 className="mt-8 text-4xl font-bold">{t.title}</h1>
-              <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-300 max-w-md mx-auto">
+              <p className="mt-4 text-lg n-muted max-w-md mx-auto">
                 {t.message}
               </p>
 
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => navigate('/')}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--n-text)] px-6 py-3 text-sm font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85"
                 >
                   <Home className="h-4 w-4" />
                   {t.homeButton}
@@ -69,21 +69,21 @@ export default function NotFound() {
 
                 <button
                   onClick={() => navigate(-1)}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-6 py-3 text-sm font-semibold text-neutral-900 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                  className="n-border n-text n-hover inline-flex items-center justify-center gap-2 rounded-lg border px-6 py-3 text-sm font-semibold transition-colors duration-200"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   {t.backButton}
                 </button>
               </div>
 
-              <div className="mt-16 text-sm text-neutral-500 dark:text-neutral-400">
+              <div className="mt-16 text-sm n-muted">
                 <p>{t.looking}</p>
                 <div className="mt-2 flex flex-wrap justify-center gap-3">
                   {links.map(link => (
                     <Link
                       key={link.to}
                       to={link.to}
-                      className="text-blue-600 hover:underline dark:text-blue-400"
+                      className="n-text underline decoration-[var(--n-border)] underline-offset-4 hover:decoration-current"
                     >
                       {link.label}
                     </Link>

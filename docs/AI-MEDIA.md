@@ -29,6 +29,7 @@ bash scripts/encode-ai-media.sh
 | `public/ai/hero-data.{webm,mp4,webp}` (≈0.9 MB) | Wan 2.2 text-to-video, slowed 2× and boomeranged | Home, tagline band (`AmbientVideo`) |
 | `public/ai/flowber-cover.{webm,mp4}` (≈0.1 MB) | Wan 2.2 image-to-video from `ind-retail`, trimmed to 2 s (a stray figure walks in at 2.2 s) and boomeranged | Flowber case-study cover, Flowber card on /projects |
 | `public/ai/flowber-cover.webp`, `ind-*.webp` | Wan 2.2 stills (`ind-wellness` is Flux 2 Klein, resized to 960×528 with Pillow) | Case-study cover poster, industry rail |
+| `public/ai/cover-*.webp` (8) | Flux 2 Klein 4B, 1280×704 → 960×528, one art direction: charcoal, glass objects, teal + amber light, no text (`D:\AI\cv_jobs4.json`) | Project cards without a real screenshot |
 | `public/flowber/flowber-film.{mp4,webp}` (4.2 MB, click to play) | Flowber brand film | Case study → Brand and business |
 | `public/flowber/cortes/*.{mp4,webp}` | Real footage from the shop | Case study → Brand and business |
 | `public/flowber/brand/logo-v1, logo-v2, mascot` | Flowber logos and campaign illustration | Case study → identity evolution |

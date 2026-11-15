@@ -29,9 +29,9 @@ export default function SkillsDashboard() {
 
   const getLevelColor = (level: SkillCategoryItem['level']) => {
     switch (level) {
-      case 'advanced': return 'bg-green-500 dark:bg-green-600';
-      case 'intermediate': return 'bg-blue-500 dark:bg-blue-600';
-      case 'beginner': return 'bg-yellow-500 dark:bg-yellow-600';
+      case 'advanced': return 'n-tag-green';
+      case 'intermediate': return 'n-tag-blue';
+      case 'beginner': return 'n-tag-yellow';
     }
   };
 
@@ -83,7 +83,7 @@ export default function SkillsDashboard() {
                   {category.title}
                 </h4>
               </div>
-              <span className={`px-2 py-1 rounded-full text-xs font-semibold text-white ${getLevelColor(category.level)}`}>
+              <span className={`n-tag ${getLevelColor(category.level)} font-semibold`}>
                 {getLevelText(category.level)}
               </span>
             </div>

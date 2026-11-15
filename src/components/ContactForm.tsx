@@ -128,8 +128,8 @@ export default function ContactForm() {
       className="w-full"
     >
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-neutral-900 dark:text-white">{t.title}</h2>
-        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+        <h2 className="text-xl font-semibold n-text">{t.title}</h2>
+        <p className="mt-1 text-sm n-muted">
           {lang === 'en' 
             ? 'I\'ll respond within 24 hours' 
             : 'Responderé en menos de 24 horas'}
@@ -139,7 +139,7 @@ export default function ContactForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium n-text mb-1">
               {t.name} *
             </label>
             <input
@@ -150,10 +150,10 @@ export default function ContactForm() {
               placeholder={t.placeholderName}
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? 'name-error' : undefined}
-              className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
+              className={`n-text w-full rounded-lg border bg-[var(--n-bg)] px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.name
                   ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                  : 'border-neutral-300 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900'
+                  : 'border-[var(--n-border)] focus:ring-[var(--n-accent)]'
               }`}
               disabled={status === 'loading'}
             />
@@ -163,7 +163,7 @@ export default function ContactForm() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium n-text mb-1">
               {t.email} *
             </label>
             <input
@@ -174,10 +174,10 @@ export default function ContactForm() {
               placeholder={t.placeholderEmail}
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? 'email-error' : undefined}
-              className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
+              className={`n-text w-full rounded-lg border bg-[var(--n-bg)] px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
                 errors.email
                   ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                  : 'border-neutral-300 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900'
+                  : 'border-[var(--n-border)] focus:ring-[var(--n-accent)]'
               }`}
               disabled={status === 'loading'}
             />
@@ -188,7 +188,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label htmlFor="subject" className="block text-sm font-medium n-text mb-1">
             {t.subject} *
           </label>
           <input
@@ -199,10 +199,10 @@ export default function ContactForm() {
             placeholder={t.placeholderSubject}
             aria-invalid={!!errors.subject}
             aria-describedby={errors.subject ? 'subject-error' : undefined}
-            className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
+            className={`n-text w-full rounded-lg border bg-[var(--n-bg)] px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 ${
               errors.subject
                 ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                : 'border-neutral-300 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900'
+                : 'border-[var(--n-border)] focus:ring-[var(--n-accent)]'
             }`}
             disabled={status === 'loading'}
           />
@@ -212,7 +212,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label htmlFor="message" className="block text-sm font-medium n-text mb-1">
             {t.message} *
           </label>
           <textarea
@@ -223,10 +223,10 @@ export default function ContactForm() {
             rows={4}
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? 'message-error' : undefined}
-            className={`w-full rounded-xl border px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 resize-none ${
+            className={`n-text w-full rounded-lg border bg-[var(--n-bg)] px-4 py-3 text-sm transition-colors focus:outline-none focus:ring-2 resize-none ${
               errors.message
                 ? 'border-red-300 focus:ring-red-500 dark:border-red-700'
-                : 'border-neutral-300 focus:ring-blue-500 dark:border-neutral-700 dark:bg-neutral-900'
+                : 'border-[var(--n-border)] focus:ring-[var(--n-accent)]'
             }`}
             disabled={status === 'loading'}
           />
@@ -236,14 +236,14 @@ export default function ContactForm() {
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <div className="text-xs text-neutral-500 dark:text-neutral-400">
+          <div className="text-xs n-muted">
             * {lang === 'en' ? 'Required fields' : 'Campos requeridos'}
           </div>
           
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--n-text)] px-6 py-3 text-sm font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-[var(--n-accent)] disabled:cursor-not-allowed disabled:opacity-70"
           >
             {status === 'loading' ? (
               <>

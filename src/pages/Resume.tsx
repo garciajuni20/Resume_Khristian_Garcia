@@ -151,10 +151,10 @@ export default function ResumePage() {
   }, [selected]);
 
   const toolCategories = [
-    { key: 'dataEngineering', icon: <Database className="h-4 w-4 text-blue-600 dark:text-blue-400" />, label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', items: tools.dataEngineering, chip: 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' },
-    { key: 'biAnalytics', icon: <BarChart3 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />, label: 'BI & Analytics', items: tools.biAnalytics, chip: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' },
-    { key: 'cloudDevOps', icon: <Cloud className="h-4 w-4 text-violet-600 dark:text-violet-400" />, label: 'Cloud & DevOps', items: tools.cloudDevOps, chip: 'bg-violet-50 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300' },
-    { key: 'fullStack', icon: <Code className="h-4 w-4 text-orange-600 dark:text-orange-400" />, label: lang === 'en' ? 'Full-Stack Dev' : 'Desarrollo Full-Stack', items: tools.fullStack, chip: 'bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300' },
+    { key: 'dataEngineering', icon: <Database className="h-4 w-4 n-muted" />, label: lang === 'en' ? 'Data Engineering' : 'Ingeniería de Datos', items: tools.dataEngineering, chip: 'n-tag n-tag-blue' },
+    { key: 'biAnalytics', icon: <BarChart3 className="h-4 w-4 n-muted" />, label: 'BI & Analytics', items: tools.biAnalytics, chip: 'n-tag n-tag-green' },
+    { key: 'cloudDevOps', icon: <Cloud className="h-4 w-4 n-muted" />, label: 'Cloud & DevOps', items: tools.cloudDevOps, chip: 'n-tag n-tag-purple' },
+    { key: 'fullStack', icon: <Code className="h-4 w-4 n-muted" />, label: lang === 'en' ? 'Full-Stack Dev' : 'Desarrollo Full-Stack', items: tools.fullStack, chip: 'n-tag n-tag-orange' },
   ];
 
   return (
@@ -339,17 +339,17 @@ export default function ResumePage() {
 
           {/* ── Tools & Technologies ──────────────────────────── */}
           <Section title={labels.tools}>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+            <div className="n-border rounded-2xl border bg-[var(--n-bg)] p-6">
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {toolCategories.map(cat => (
                   <div key={cat.key}>
                     <div className="mb-3 flex items-center gap-2">
                       {cat.icon}
-                      <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">{cat.label}</h3>
+                      <h3 className="font-semibold text-sm n-text">{cat.label}</h3>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {cat.items.map(tool => (
-                        <span key={tool} className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${cat.chip}`}>
+                        <span key={tool} className={cat.chip}>
                           {tool}
                         </span>
                       ))}
@@ -358,13 +358,13 @@ export default function ResumePage() {
                 ))}
               </div>
               {tools.methodologies && (
-                <div className="mt-5 pt-5 border-t border-neutral-100 dark:border-neutral-800">
+                <div className="mt-5 pt-5 border-t border-[var(--n-border)]">
                   <div className="flex flex-wrap gap-1.5 items-center">
-                    <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mr-1">
+                    <span className="text-xs font-medium n-muted mr-1">
                       {lang === 'en' ? 'Methodologies:' : 'Metodologías:'}
                     </span>
                     {tools.methodologies.map(m => (
-                      <span key={m} className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
+                      <span key={m} className="n-tag n-tag-gray">
                         {m}
                       </span>
                     ))}
@@ -376,14 +376,14 @@ export default function ResumePage() {
 
           {/* ── Education ─────────────────────────────────────── */}
           <Section title={labels.education}>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+            <div className="n-border rounded-2xl border bg-[var(--n-bg)] p-6">
               {data.education.map((edu, index) => (
-                <div key={index} className={index > 0 ? 'mt-6 pt-6 border-t border-neutral-100 dark:border-neutral-800' : ''}>
-                  <div className="font-bold text-lg text-neutral-900 dark:text-white">{edu.institution}</div>
-                  <div className="mt-1 text-neutral-700 dark:text-neutral-200 font-medium">
+                <div key={index} className={index > 0 ? 'mt-6 pt-6 border-t border-[var(--n-border)]' : ''}>
+                  <div className="font-bold text-lg n-text">{edu.institution}</div>
+                  <div className="mt-1 n-text font-medium">
                     {edu.degree} — {edu.area}
                   </div>
-                  <div className="mt-1 flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+                  <div className="mt-1 flex items-center gap-2 text-sm n-muted">
                     <Calendar className="h-3.5 w-3.5" />
                     <span>
                       {edu.status
@@ -394,7 +394,7 @@ export default function ResumePage() {
                   {edu.highlights && edu.highlights.length > 0 && (
                     <ul className="mt-4 space-y-2">
                       {edu.highlights.map((h, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                        <li key={i} className="flex items-start gap-2 text-sm n-muted">
                           <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
                           {h}
                         </li>
@@ -416,24 +416,24 @@ export default function ResumePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+                  className="n-border rounded-2xl border bg-[var(--n-bg)] p-5"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <div className="font-semibold text-neutral-900 dark:text-white">{language.language}</div>
-                    <div className="text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                    <div className="font-semibold n-text">{language.language}</div>
+                    <div className="n-tag n-tag-blue">
                       {language.level}
                     </div>
                   </div>
-                  <div className="h-2 w-full rounded-full bg-neutral-100 overflow-hidden dark:bg-neutral-800">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--n-callout)]">
                     <motion.div
-                      className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
+                      className="h-2 rounded-full bg-[var(--n-accent)]"
                       initial={{ width: 0 }}
                       whileInView={{ width: `${language.proficiency}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: index * 0.1 + 0.2 }}
                     />
                   </div>
-                  <div className="mt-2 text-right text-xs font-semibold text-blue-600 dark:text-blue-400">
+                  <div className="n-muted mt-2 text-right font-mono-geist text-xs">
                     {language.proficiency}%
                   </div>
                 </motion.div>
@@ -457,26 +457,26 @@ export default function ResumePage() {
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby="experience-modal-title"
-                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto rounded-2xl bg-white border border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 shadow-2xl focus:outline-none"
+                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto n-border rounded-2xl border bg-[var(--n-bg)] shadow-2xl shadow-black/20 focus:outline-none"
                   initial={{ scale: 0.88, opacity: 0, y: 16 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.92, opacity: 0 }}
                   transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
                   onClick={e => e.stopPropagation()}
                 >
-                  <div className="sticky top-0 z-10 flex items-center justify-between border-b border-neutral-200 bg-white/95 backdrop-blur-sm p-5 dark:border-neutral-800 dark:bg-neutral-900/95">
+                  <div className="sticky top-0 z-10 flex items-center justify-between n-border border-b bg-[var(--n-bg)]/95 p-5 backdrop-blur-sm">
                     <div className="flex-1 min-w-0">
-                      <h3 id="experience-modal-title" className="text-lg font-bold text-neutral-900 dark:text-white leading-snug">{selected.role}</h3>
-                      <div className="mt-0.5 text-sm font-medium text-neutral-600 dark:text-neutral-300">
+                      <h3 id="experience-modal-title" className="text-lg font-bold n-text leading-snug">{selected.role}</h3>
+                      <div className="mt-0.5 text-sm font-medium n-muted">
                         {selected.company} · {selected.location}
                       </div>
-                      <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                      <div className="mt-1 text-xs n-muted">
                         {getDuration(selected.start, selected.end, lang)}
                       </div>
                     </div>
                     <button
                       onClick={() => setSelected(null)}
-                      className="ml-4 shrink-0 rounded-full p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                      className="ml-4 shrink-0 rounded-full p-2 n-hover transition-colors"
                       aria-label={labels.close}
                     >
                       <X className="h-5 w-5" />
@@ -487,7 +487,7 @@ export default function ResumePage() {
                     {selected.tags && selected.tags.length > 0 && (
                       <div className="mb-5 flex flex-wrap gap-1.5">
                         {selected.tags.map(tag => (
-                          <span key={tag} className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                          <span key={tag} className="n-tag n-tag-gray">
                             {tag}
                           </span>
                         ))}
@@ -498,7 +498,7 @@ export default function ResumePage() {
                         {selected.bullets.map((bullet, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
-                            <span className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">{bullet}</span>
+                            <span className="text-sm n-text leading-relaxed">{bullet}</span>
                           </li>
                         ))}
                       </ul>

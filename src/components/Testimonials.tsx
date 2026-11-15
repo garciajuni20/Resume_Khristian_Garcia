@@ -25,8 +25,8 @@ export default function Testimonials() {
   return (
     <div className="w-full">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">{t.title}</h2>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-400">{t.subtitle}</p>
+        <h2 className="n-text text-2xl font-semibold tracking-tight">{t.title}</h2>
+        <p className="mt-2 n-muted">{t.subtitle}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -36,10 +36,10 @@ export default function Testimonials() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.15 }}
-            className="relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-7 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+            className="relative overflow-hidden n-border rounded-2xl border bg-[var(--n-bg)] p-7"
           >
             {/* Large quote mark */}
-            <Quote aria-hidden="true" className="absolute right-6 top-6 h-12 w-12 text-blue-100 dark:text-blue-900/30" />
+            <Quote aria-hidden="true" className="n-muted absolute right-6 top-6 h-12 w-12 opacity-20" />
 
             {/* Stars */}
             <div className="mb-4 flex gap-1" aria-hidden="true">
@@ -49,24 +49,24 @@ export default function Testimonials() {
             </div>
 
             {/* Quote */}
-            <p className="mb-6 text-neutral-700 dark:text-neutral-300 leading-relaxed italic">
+            <p className="mb-6 n-text leading-relaxed">
               "{testimonial.text}"
             </p>
 
             {/* Person */}
-            <div className="border-t border-neutral-100 pt-5 dark:border-neutral-800">
+            <div className="n-border border-t pt-5">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shrink-0">
+                <div className="n-callout n-text flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-lg font-bold">
                   {testimonial.name.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-semibold text-neutral-900 dark:text-white">
+                  <div className="font-semibold n-text">
                     {testimonial.name}
                   </div>
-                  <div className="text-sm text-neutral-600 dark:text-neutral-400">
+                  <div className="text-sm n-muted">
                     {testimonial.role}
                   </div>
-                  <div className="mt-1 flex items-center gap-1 text-xs text-neutral-600 dark:text-neutral-400">
+                  <div className="mt-1 flex items-center gap-1 text-xs n-muted">
                     <Building className="h-3 w-3" aria-hidden="true" />
                     {testimonial.relationship}
                   </div>
@@ -78,17 +78,17 @@ export default function Testimonials() {
       </div>
 
       {/* LinkedIn CTA */}
-      <div className="mt-6 rounded-xl border border-neutral-200 bg-neutral-50 p-5 dark:border-neutral-800 dark:bg-neutral-900/50">
+      <div className="n-callout mt-6 rounded-2xl p-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200">{t.note}</p>
-            <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">{t.references}</p>
+            <p className="text-sm font-medium n-text">{t.note}</p>
+            <p className="mt-1 text-xs n-muted">{t.references}</p>
           </div>
           <a
             href={linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-4 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50 dark:border-blue-800 dark:bg-neutral-800 dark:text-blue-300 dark:hover:bg-neutral-700 transition-colors"
+            className="n-border n-text n-hover inline-flex shrink-0 items-center gap-2 rounded-lg border bg-[var(--n-bg)] px-4 py-2.5 text-sm font-semibold transition-colors duration-200"
           >
             <Linkedin className="h-4 w-4" aria-hidden="true" />
             LinkedIn

@@ -9,14 +9,9 @@ import { FLUID } from '../utils/animations';
  * Colors follow the industry order used by the profile card tags.
  */
 
+/* Bars reuse the Notion tag palette (pastel in light, deep in dark) so the
+   label text keeps AA contrast in both themes. */
 const TONES = ['blue', 'purple', 'orange', 'green', 'pink'] as const;
-const BAR: Record<(typeof TONES)[number], string> = {
-  blue: '#2383E2',
-  purple: '#9065B0',
-  orange: '#D9730D',
-  green: '#448361',
-  pink: '#C14C8A',
-};
 
 function months(value: string, now: Date): number {
   if (value === 'present' || value === 'actual') return now.getFullYear() * 12 + now.getMonth();
@@ -100,15 +95,20 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
                 <motion.button
                   type="button"
                   onClick={() => onOpen(e)}
-                  aria-label={`${t.open} ${e.role}, ${e.company}`}
+                  aria-label={wide ? undefined : `${t.open} ${e.role}, ${e.company}`}
                   initial={reduce ? false : { scaleX: 0, opacity: 0 }}
                   whileInView={{ scaleX: 1, opacity: 1 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.9, delay: i * 0.06, ease: FLUID }}
-                  className="absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold text-white shadow-sm transition-[filter] duration-300 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]"
-                  style={{ left: `${left}%`, width: `${width}%`, backgroundColor: BAR[tone], minWidth: 10 }}
+                  className={`n-tag-${tone} n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold shadow-sm transition-[filter] duration-300 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)] dark:hover:brightness-125`}
+                  style={{ left: `${left}%`, width: `${width}%`, minWidth: 10 }}
                 >
-                  {wide && <span className="truncate">{label}</span>}
+                  {wide && (
+                    <span className="truncate">
+                      <span className="sr-only">{t.open} </span>
+                      {label}
+                    </span>
+                  )}
                 </motion.button>
                 {!wide && (
                   <span

@@ -35,15 +35,15 @@ export default function Certifications() {
   };
 
   const getTypeIcon = (type: CertificationItem['type']) => {
-    if (type === 'academic') return <GraduationCap className="h-5 w-5 text-white" aria-hidden="true" />;
-    if (type === 'training') return <Briefcase className="h-5 w-5 text-white" aria-hidden="true" />;
-    return <Award className="h-5 w-5 text-white" aria-hidden="true" />;
+    if (type === 'academic') return <GraduationCap className="h-5 w-5" aria-hidden="true" />;
+    if (type === 'training') return <Briefcase className="h-5 w-5" aria-hidden="true" />;
+    return <Award className="h-5 w-5" aria-hidden="true" />;
   };
 
   const getTypeColor = (type: CertificationItem['type']) => {
-    if (type === 'academic') return 'from-purple-500 to-purple-600';
-    if (type === 'training') return 'from-orange-500 to-orange-600';
-    return 'from-blue-500 to-blue-600';
+    if (type === 'academic') return 'n-tag-purple';
+    if (type === 'training') return 'n-tag-orange';
+    return 'n-tag-blue';
   };
 
   const renderGroup = (
@@ -54,8 +54,8 @@ export default function Certifications() {
   ) => (
     <div className="mb-10">
       <div className="mb-4">
-        <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">{title}</h4>
-        <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">{description}</p>
+        <h4 className="text-lg font-semibold n-text">{title}</h4>
+        <p className="mt-1 text-sm n-muted">{description}</p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {items.map((cert, index) => (
@@ -64,19 +64,19 @@ export default function Certifications() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.08 }}
-            className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
+            className="n-border rounded-2xl border bg-[var(--n-bg)] p-5"
           >
             <div className="flex items-start gap-4">
-              <div className={`shrink-0 rounded-xl bg-gradient-to-br ${getTypeColor(cert.type)} p-2.5`}>
+              <div className={`n-tag ${getTypeColor(cert.type)} shrink-0 rounded-lg p-2.5`}>
                 {getTypeIcon(cert.type)}
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h5 className="font-semibold text-neutral-900 dark:text-white leading-snug">
+                  <h5 className="font-semibold n-text leading-snug">
                     {cert.title}
                   </h5>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${badgeClass}`}>
+                  <span className={`n-tag ${badgeClass} shrink-0`}>
                     {cert.type === 'professional' ? (lang === 'en' ? 'Certified' : 'Certificado') :
                      cert.type === 'training' ? (lang === 'en' ? 'Workshop' : 'Taller') :
                      (lang === 'en' ? 'Academic' : 'Académico')}
@@ -84,8 +84,8 @@ export default function Certifications() {
                 </div>
 
                 <div className="mt-1.5 flex items-center gap-3 text-sm">
-                  <span className="font-medium text-neutral-700 dark:text-neutral-300">{cert.issuer}</span>
-                  <div className="flex items-center gap-1 text-neutral-400 dark:text-neutral-500">
+                  <span className="font-medium n-text">{cert.issuer}</span>
+                  <div className="flex items-center gap-1 n-muted">
                     <Calendar className="h-3 w-3" aria-hidden="true" />
                     <span className="text-xs">{cert.date}</span>
                   </div>
@@ -95,7 +95,7 @@ export default function Certifications() {
                   {cert.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
+                      className="n-tag n-tag-gray"
                     >
                       {skill}
                     </span>
@@ -107,7 +107,7 @@ export default function Certifications() {
                     href={cert.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                    className="n-text mt-3 inline-flex items-center gap-1.5 text-xs font-semibold underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current"
                   >
                     <ExternalLink className="h-3 w-3" aria-hidden="true" />
                     {cert.type === 'professional' ? t.viewCredential : t.viewProject}
@@ -127,28 +127,28 @@ export default function Certifications() {
         professional,
         t.professional,
         t.profDesc,
-        'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+        'n-tag-blue'
       )}
 
       {renderGroup(
         training,
         t.training,
         t.trainDesc,
-        'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'
+        'n-tag-orange'
       )}
 
       {renderGroup(
         academic,
         t.academic,
         t.acadDesc,
-        'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300'
+        'n-tag-purple'
       )}
 
-      <div className="rounded-xl border border-neutral-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-5 dark:border-neutral-800 dark:from-blue-900/10 dark:to-indigo-900/10">
-        <p className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+      <div className="n-callout rounded-2xl p-5">
+        <p className="text-sm font-medium n-text">
           {lang === 'en' ? 'Continuous Learning' : 'Aprendizaje Continuo'}
         </p>
-        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+        <p className="mt-1 text-sm n-muted">
           {lang === 'en'
             ? 'Systems Engineering at USAC completed in 2026 (pensum closed, private exam passed) while working full-time in data; now a Data Engineer. Next: a master\'s degree starting February 2027.'
             : 'Ingeniería en Sistemas en la USAC completada en 2026 (pensum cerrado, examen privado aprobado) mientras trabajaba a tiempo completo en datos; hoy Ingeniero de Datos. Siguiente paso: maestría a partir de febrero de 2027.'}

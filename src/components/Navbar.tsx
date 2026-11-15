@@ -4,6 +4,8 @@ import { useTheme } from '../context/ThemeContext';
 import { Moon, Sun, X, Globe, Menu } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Wordmark } from './Logo';
+import { FLUID } from '../utils/animations';
 
 const navItems = [
   { path: '/', labelEn: 'Home', labelEs: 'Inicio' },
@@ -12,6 +14,29 @@ const navItems = [
   { path: '/flowber', labelEn: 'Flowber', labelEs: 'Flowber' },
   { path: '/contact', labelEn: 'Contact', labelEs: 'Contacto' },
 ];
+
+/* Shape rule for the chrome: the bar is a card (2xl), controls are lg. */
+const CONTROL = 'inline-flex items-center justify-center rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]';
+const ACTIVE = 'bg-[var(--n-text)] text-[var(--n-bg)]';
+const IDLE = 'n-muted n-hover hover:text-[var(--n-text)]';
+
+function LangToggle({ lang, setLang, size = 'md' }: { lang: 'en' | 'es'; setLang: (l: 'en' | 'es') => void; size?: 'sm' | 'md' }) {
+  return (
+    <div className="n-border flex overflow-hidden rounded-lg border" role="group" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
+      {(['en', 'es'] as const).map(l => (
+        <button
+          key={l}
+          type="button"
+          onClick={() => setLang(l)}
+          aria-pressed={lang === l}
+          className={`${size === 'sm' ? 'px-2.5 py-1' : 'px-3 py-1.5'} text-xs font-semibold transition-colors duration-200 ${lang === l ? ACTIVE : IDLE}`}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Navbar() {
   const { lang, setLang } = useLang();
@@ -33,78 +58,54 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navClass = (isActive: boolean) => {
-    const base =
-      'inline-flex items-center justify-center whitespace-nowrap px-3 lg:px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500';
-    if (isActive) return `${base} bg-neutral-900 text-white dark:bg-white dark:text-neutral-900`;
-    return `${base} text-neutral-700 hover:bg-neutral-100 hover:text-blue-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-blue-400`;
-  };
+  const themeLabel = theme === 'dark'
+    ? (lang === 'en' ? 'Switch to light mode' : 'Cambiar a modo claro')
+    : (lang === 'en' ? 'Switch to dark mode' : 'Cambiar a modo oscuro');
 
   return (
     <>
       <header
-        className={`sticky top-2 z-50 mx-4 sm:mx-6 lg:mx-auto lg:max-w-6xl transition-all duration-300 ${
+        className={`sticky top-2 z-50 mx-4 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 sm:mx-6 lg:mx-auto lg:max-w-6xl ${
           scrolled
-            ? 'rounded-2xl border border-neutral-200/80 bg-white/90 backdrop-blur-xl shadow-lg shadow-neutral-900/5 dark:border-neutral-800/80 dark:bg-neutral-950/90'
-            : 'rounded-2xl border border-transparent bg-white/60 backdrop-blur-md dark:bg-neutral-950/60'
+            ? 'n-border bg-[var(--n-bg)]/90 shadow-lg shadow-black/5 backdrop-blur-xl dark:shadow-black/30'
+            : 'border-transparent bg-[var(--n-bg)]/60 backdrop-blur-md'
         }`}
       >
         <div className="px-4 sm:px-5">
           <div className="flex h-14 items-center justify-between gap-6">
-            {/* Logo */}
-            <NavLink
-              to="/"
-              className="flex shrink-0 items-center gap-2 whitespace-nowrap text-lg font-bold tracking-tight text-neutral-900 dark:text-white"
-            >
-              <span className="bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-transparent font-extrabold">
-                KG
-              </span>
-              <span className="hidden sm:inline text-neutral-900 dark:text-white font-semibold">Khristian Garcia</span>
-              <span className="ml-1 hidden lg:inline text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50">
-                {lang === 'en' ? 'Portfolio' : 'Portafolio'}
-              </span>
+            <NavLink to="/" className="shrink-0 whitespace-nowrap rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]" aria-label="Khristian Garcia, home">
+              <Wordmark name="Khristian Garcia" compact />
             </NavLink>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-1">
+            {/* Desktop navigation */}
+            <nav className="hidden items-center gap-1 md:flex" aria-label={lang === 'en' ? 'Main' : 'Principal'}>
               {navItems.map(item => (
-                <NavLink key={item.path} to={item.path} className={({ isActive }) => navClass(isActive)}>
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) => `${CONTROL} whitespace-nowrap px-3 py-2 text-sm font-semibold lg:px-4 ${isActive ? ACTIVE : IDLE}`}
+                >
                   {lang === 'en' ? item.labelEn : item.labelEs}
                 </NavLink>
               ))}
 
-              <div className="mx-1 h-5 w-px shrink-0 bg-neutral-200 lg:mx-2 dark:bg-neutral-700" />
+              <div className="mx-1 h-5 w-px shrink-0 bg-[var(--n-border)] lg:mx-2" aria-hidden="true" />
 
-              <button
-                onClick={toggleTheme}
-                className="inline-flex items-center justify-center rounded-xl p-2 text-neutral-700 hover:bg-neutral-100 hover:text-blue-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-blue-400 transition-colors"
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
+              <button type="button" onClick={toggleTheme} className={`${CONTROL} ${IDLE} p-2`} aria-label={themeLabel}>
                 {theme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
               </button>
 
-              <div className="flex items-center rounded-xl border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 overflow-hidden">
-                {(['en', 'es'] as const).map(l => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    className={`px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
-                      lang === l
-                        ? 'bg-blue-600 text-white'
-                        : 'text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-800'
-                    }`}
-                  >
-                    {l.toUpperCase()}
-                  </button>
-                ))}
-              </div>
+              <LangToggle lang={lang} setLang={setLang} />
             </nav>
 
             {/* Mobile button */}
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden inline-flex items-center justify-center rounded-xl p-2 text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800 transition-colors"
-              aria-label="Toggle menu"
+              className={`${CONTROL} ${IDLE} p-2 md:hidden`}
+              aria-label={isMobileMenuOpen ? (lang === 'en' ? 'Close menu' : 'Cerrar menú') : (lang === 'en' ? 'Open menu' : 'Abrir menú')}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -112,63 +113,43 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden fixed inset-x-4 top-20 z-40 rounded-2xl border border-neutral-200 bg-white/95 backdrop-blur-xl shadow-xl dark:border-neutral-800 dark:bg-neutral-950/95"
+            id="mobile-menu"
+            className="n-border fixed inset-x-4 top-20 z-40 rounded-2xl border bg-[var(--n-bg)]/95 shadow-xl shadow-black/10 backdrop-blur-xl dark:shadow-black/40 md:hidden"
             initial={{ opacity: 0, y: -8, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
-            transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.22, ease: FLUID }}
           >
-            <div className="p-4">
+            <nav className="p-3" aria-label={lang === 'en' ? 'Main' : 'Principal'}>
               <div className="flex flex-col gap-1">
                 {navItems.map(item => (
                   <NavLink
                     key={item.path}
                     to={item.path}
-                    className={({ isActive }) =>
-                      `rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
-                        isActive
-                          ? 'bg-blue-600 text-white'
-                          : 'text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-800'
-                      }`
-                    }
+                    className={({ isActive }) => `rounded-lg px-4 py-3 text-sm font-semibold transition-colors duration-200 ${isActive ? ACTIVE : 'n-text n-hover'}`}
                   >
                     {lang === 'en' ? item.labelEn : item.labelEs}
                   </NavLink>
                 ))}
               </div>
 
-              <div className="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
-                  <Globe className="h-4 w-4" />
+              <div className="n-border mt-3 flex items-center justify-between gap-4 border-t px-1 pt-3">
+                <div className="n-muted flex items-center gap-2 text-sm">
+                  <Globe className="h-4 w-4" aria-hidden="true" />
                   {lang === 'en' ? 'Language' : 'Idioma'}
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="flex rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
-                    {(['en', 'es'] as const).map(l => (
-                      <button
-                        key={l}
-                        onClick={() => setLang(l)}
-                        className={`px-3 py-1.5 text-xs font-semibold transition-colors ${
-                          lang === l ? 'bg-blue-600 text-white' : 'text-neutral-600 dark:text-neutral-400'
-                        }`}
-                      >
-                        {l.toUpperCase()}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    onClick={toggleTheme}
-                    className="rounded-xl border border-neutral-200 dark:border-neutral-700 p-1.5 text-neutral-600 dark:text-neutral-400"
-                  >
+                  <LangToggle lang={lang} setLang={setLang} size="sm" />
+                  <button type="button" onClick={toggleTheme} className={`${CONTROL} n-border n-muted border p-1.5`} aria-label={themeLabel}>
                     {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
-            </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
