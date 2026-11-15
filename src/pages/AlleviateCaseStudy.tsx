@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Container from '../components/Container';
 import PageTransition from '../components/PageTransition';
 import InkArt from '../components/ink/InkArt';
+import PipelineFlow from '../components/ink/PipelineFlow';
 import { downloadPDF } from '../utils/downloadPDF';
 import { useLang } from '../context/LanguageContext';
 import { useSEO } from '../hooks/useSEO';
@@ -110,30 +111,11 @@ export default function AlleviateCaseStudy() {
             <Reveal className="mt-20">
               <h2 className="font-display text-3xl">{c.archTitle}</h2>
               <p className="n-muted mt-2 max-w-prose text-base">{c.archIntro}</p>
-              <ol className="mt-8 grid gap-3 lg:grid-cols-5 lg:gap-0">
-                {c.stages.map((s, i) => (
-                  <li key={s.name} className="relative lg:pr-6">
-                    <div className="h-full rounded-lg border border-n-border p-4">
-                      <p className="font-display text-ink-blue text-xl">{s.name}</p>
-                      <ul className="mt-3 space-y-1.5 text-sm">
-                        {s.items.map(item => (
-                          <li key={item} className={item === s.items[0] ? 'n-text font-medium' : 'n-muted'}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    {i < c.stages.length - 1 && (
-                      <>
-                        <span className="n-muted absolute right-1 top-1/2 hidden -translate-y-1/2 lg:block" aria-hidden="true">→</span>
-                        <span className="n-muted block py-1 text-center lg:hidden" aria-hidden="true">↓</span>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-3 rounded-lg border border-dashed border-n-border px-4 py-3 text-sm">
+              <PipelineFlow stages={c.stages} label={c.archTitle} />
+              <p className="mt-8 border-t border-dashed border-n-border pt-3 text-sm">
                 <span className="n-muted">{c.governanceLabel}: </span>
-                <span className="n-text">{c.governance.join(' · ')}</span>
-              </div>
+                <span className="n-text">{c.governance.join(', ')}</span>
+              </p>
             </Reveal>
 
             {/* ── Decisions ── */}

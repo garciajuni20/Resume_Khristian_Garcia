@@ -17,7 +17,8 @@ export interface AlleviateCopy {
   before: string;
   archTitle: string;
   archIntro: string;
-  stages: { name: string; items: string[] }[];
+  /** Each stage: its tools, and one proof taken from the figures above */
+  stages: { name: string; items: string[]; proof: string }[];
   governanceLabel: string;
   governance: string[];
   decisionsTitle: string;
@@ -54,11 +55,11 @@ const EN: AlleviateCopy = {
   archTitle: 'How the data moves',
   archIntro: 'From the CRM and the operational databases to the dashboards each department opens, with governance across every step.',
   stages: [
-    { name: 'Sources', items: ['Salesforce (CRM)', 'Local and cloud databases', 'External sources and APIs'] },
-    { name: 'Ingestion', items: ['Azure Data Factory', 'Python', 'Databricks'] },
-    { name: 'Warehouse', items: ['Snowflake', 'Dimensional models, star schema', 'Views and stored procedures', 'Native data sharing'] },
-    { name: 'Transformation', items: ['dbt and SQL (ELT)', 'Validation and alerting'] },
-    { name: 'Consumption', items: ['Power BI and Tableau', '15+ dashboards', '5 departments'] },
+    { name: 'Sources', items: ['Salesforce (CRM)', 'Local and cloud databases', 'External sources and APIs'], proof: 'Replaces the spreadsheets 5 departments reported from' },
+    { name: 'Ingestion', items: ['Azure Data Factory', 'Python', 'Databricks'], proof: 'Validation and alerting in the pipelines: 90% fewer recurring errors' },
+    { name: 'Warehouse', items: ['Snowflake', 'Dimensional models, star schema', 'Views and stored procedures', 'Native data sharing'], proof: 'One model for every department: accuracy from 85% to 99.5%' },
+    { name: 'Transformation', items: ['dbt and SQL (ELT)', 'Validation and alerting'], proof: 'Financial reporting from 2+ days to under 30 minutes' },
+    { name: 'Consumption', items: ['Power BI and Tableau', '15+ dashboards', '5 departments'], proof: '15+ dashboards and 20+ KPIs defined with US stakeholders' },
   ],
   governanceLabel: 'Across every step',
   governance: ['Role profiling and access design', 'GitLab version control and CI', 'Standard Operating Procedures', 'Azure DevOps backlog'],
@@ -105,11 +106,11 @@ const ES: AlleviateCopy = {
   archTitle: 'Cómo se mueven los datos',
   archIntro: 'Del CRM y las bases operativas a los dashboards que abre cada departamento, con gobierno en cada paso.',
   stages: [
-    { name: 'Fuentes', items: ['Salesforce (CRM)', 'Bases de datos locales y en la nube', 'Fuentes externas y APIs'] },
-    { name: 'Ingesta', items: ['Azure Data Factory', 'Python', 'Databricks'] },
-    { name: 'Warehouse', items: ['Snowflake', 'Modelos dimensionales, esquema estrella', 'Vistas y stored procedures', 'Data sharing nativo'] },
-    { name: 'Transformación', items: ['dbt y SQL (ELT)', 'Validaciones y alertas'] },
-    { name: 'Consumo', items: ['Power BI y Tableau', '15+ dashboards', '5 departamentos'] },
+    { name: 'Fuentes', items: ['Salesforce (CRM)', 'Bases de datos locales y en la nube', 'Fuentes externas y APIs'], proof: 'Reemplaza las hojas de cálculo desde las que reportaban 5 departamentos' },
+    { name: 'Ingesta', items: ['Azure Data Factory', 'Python', 'Databricks'], proof: 'Validaciones y alertas en los pipelines: 90% menos errores recurrentes' },
+    { name: 'Warehouse', items: ['Snowflake', 'Modelos dimensionales, esquema estrella', 'Vistas y stored procedures', 'Data sharing nativo'], proof: 'Un solo modelo para todos los departamentos: precisión del 85% al 99.5%' },
+    { name: 'Transformación', items: ['dbt y SQL (ELT)', 'Validaciones y alertas'], proof: 'Reportes financieros de más de 2 días a menos de 30 minutos' },
+    { name: 'Consumo', items: ['Power BI y Tableau', '15+ dashboards', '5 departamentos'], proof: '15+ dashboards y 20+ KPIs definidos con stakeholders de EE. UU.' },
   ],
   governanceLabel: 'En todos los pasos',
   governance: ['Perfilamiento de roles y diseño de accesos', 'Control de versiones y CI en GitLab', 'Procedimientos Operativos Estándar', 'Backlog en Azure DevOps'],

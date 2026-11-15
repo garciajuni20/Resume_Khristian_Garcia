@@ -369,3 +369,129 @@ p, li { text-wrap: pretty; }
 }
 .sound-bar { animation: sound-bar 1.1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .sound-bar { animation: none; transform: scaleY(0.6); } }
+
+/* ── Alleviate pipeline (src/components/ink/PipelineFlow.tsx) ──────────
+   An engraved pipe (two hairlines) between valves. Vertical on phones, horizontal
+   from lg. Once [data-run] is set, segment i fills and carries its drop from
+   i * --pipe-seg, and valve i fills as the drop arrives. Transform/opacity only. */
+.pipe { --pipe-seg: 560ms; --pipe-ease: cubic-bezier(0.23, 1, 0.32, 1); }
+
+.pipe-node {
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  border: 1.5px solid currentColor;
+  background: var(--n-bg);
+  z-index: 1;
+}
+.pipe-node::after {
+  content: '';
+  position: absolute;
+  inset: 2.5px;
+  border-radius: 9999px;
+  background: currentColor;
+  transform: scale(0);
+  transition: transform 200ms var(--pipe-ease);
+}
+
+.pipe-seg {
+  position: absolute;
+  pointer-events: none;
+  /* phones: from this valve straight down to the next one */
+  left: 4px;
+  top: calc(0.35rem + 14px);
+  bottom: -0.35rem;
+  width: 6px;
+  border-left: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  overflow: hidden;
+}
+.pipe-fill {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0.22;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.pipe-carrier {
+  position: absolute;
+  inset: 0;
+  transform: translateY(-100%);
+}
+.pipe-drop {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  height: 9px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: currentColor;
+  opacity: 0;
+}
+
+@media (min-width: 64rem) {
+  .pipe-node { top: 0; }
+  .pipe-seg {
+    /* desktop: from this valve right to the next column's valve */
+    left: 14px;
+    right: 0;
+    top: 4px;
+    bottom: auto;
+    width: auto;
+    height: 6px;
+    border: 0;
+    border-top: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+  }
+  .pipe-fill { transform: scaleX(0); transform-origin: left; }
+  .pipe-carrier { transform: translateX(-100%); }
+  .pipe-drop { left: auto; right: 0; top: 0; bottom: auto; width: 9px; height: 4px; border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%; }
+}
+
+.pipe[data-run] .pipe-node::after {
+  animation: pipe-valve 240ms var(--pipe-ease) both;
+  animation-delay: calc(var(--i) * var(--pipe-seg));
+}
+.pipe[data-run] .pipe-fill {
+  animation: pipe-fill-y var(--pipe-seg) var(--pipe-ease) both;
+  animation-delay: calc(var(--i) * var(--pipe-seg));
+}
+.pipe[data-run] .pipe-carrier {
+  animation: pipe-carry-y var(--pipe-seg) var(--pipe-ease) both;
+  animation-delay: calc(var(--i) * var(--pipe-seg));
+}
+.pipe[data-run] .pipe-drop {
+  animation: pipe-drop var(--pipe-seg) linear both;
+  animation-delay: calc(var(--i) * var(--pipe-seg));
+}
+@media (min-width: 64rem) {
+  .pipe[data-run] .pipe-fill { animation-name: pipe-fill-x; }
+  .pipe[data-run] .pipe-carrier { animation-name: pipe-carry-x; }
+}
+
+@keyframes pipe-valve { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes pipe-fill-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes pipe-fill-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pipe-carry-y { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes pipe-carry-x { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes pipe-drop { 0% { opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Hover or keyboard focus inks the stage: its valve and its proof */
+.pipe-stage:hover .pipe-node::after,
+.pipe-stage:focus-visible .pipe-node::after { transform: scale(1); }
+.pipe-stage:hover .pipe-proof,
+.pipe-stage:focus-visible .pipe-proof { color: var(--n-text); border-top-color: currentColor; }
+/* Keyboard focus: a ring around the valve plus the underlined name, so the
+   indicator never crosses into the next column */
+.pipe-stage:focus-visible .pipe-node { box-shadow: 0 0 0 3px var(--n-bg), 0 0 0 5px currentColor; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pipe .pipe-node::after { transform: scale(1); animation: none !important; }
+  .pipe .pipe-fill { transform: none; animation: none !important; }
+  .pipe .pipe-carrier,
+  .pipe .pipe-drop { display: none; }
+}
