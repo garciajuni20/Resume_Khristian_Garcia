@@ -83,7 +83,7 @@ export default function StatsDashboard() {
   ];
 
   return (
-    <div className="n-border w-full rounded-2xl border bg-[var(--n-bg)] p-6">
+    <div className="n-border w-full rounded-2xl border bg-n-bg p-6">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h3 className="n-text text-xl font-semibold tracking-tight">{t.title}</h3>

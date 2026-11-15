@@ -43,7 +43,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
     : { title: 'Mapa de carrera', sub: 'Todos los roles en una misma escala; las barras que se traslapan son roles simultáneos.', now: 'Hoy', open: 'Abrir detalles de' };
 
   return (
-    <div className="n-border rounded-2xl border bg-[var(--n-bg)] p-5 sm:p-6">
+    <div className="n-border rounded-2xl border bg-n-bg p-5 sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h3 className="n-text text-lg font-semibold tracking-tight">{t.title}</h3>
@@ -69,17 +69,17 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
             </span>
           ))}
         </div>
-        <div className="relative space-y-2 border-t border-[var(--n-border)] pt-3">
+        <div className="relative space-y-2 border-t border-n-border pt-3">
           {years.map(y => (
-            <span key={y} className="pointer-events-none absolute bottom-0 top-0 w-px bg-[var(--n-border)]" style={{ left: `${pct(y * 12)}%` }} aria-hidden="true" />
+            <span key={y} className="pointer-events-none absolute bottom-0 top-0 w-px bg-n-border" style={{ left: `${pct(y * 12)}%` }} aria-hidden="true" />
           ))}
           {/* Today */}
           <span
-            className="pointer-events-none absolute bottom-0 top-0 z-10 w-px border-l border-dashed border-[var(--n-accent)]"
+            className="pointer-events-none absolute bottom-0 top-0 z-10 w-px border-l border-dashed border-n-accent"
             style={{ left: `${pct(nowM)}%` }}
             aria-hidden="true"
           >
-            <span className="absolute -top-1 right-1 whitespace-nowrap rounded px-1 font-mono-geist text-[10px] font-semibold text-[var(--n-accent)]">{t.now}</span>
+            <span className="absolute -top-1 right-1 whitespace-nowrap rounded px-1 font-mono-geist text-[10px] font-semibold text-n-accent">{t.now}</span>
           </span>
 
           {rows.map((e, i) => {
@@ -100,7 +100,7 @@ export default function CareerTimeline({ experience, industries, lang, onOpen }:
                   whileInView={{ scaleX: 1, opacity: 1 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.9, delay: i * 0.06, ease: FLUID }}
-                  className={`n-tag-${tone} n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold shadow-sm transition-[filter] duration-300 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)] dark:hover:brightness-125`}
+                  className={`n-tag-${tone} n-text absolute top-0 flex h-8 origin-left items-center overflow-hidden rounded-md px-2 text-left text-xs font-semibold shadow-sm transition-[filter] duration-300 hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent dark:hover:brightness-125`}
                   style={{ left: `${left}%`, width: `${width}%`, minWidth: 10 }}
                 >
                   {wide && (

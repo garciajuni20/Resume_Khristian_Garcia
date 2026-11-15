@@ -46,7 +46,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
   const reduce = useReducedMotion();
   const cat = CATEGORY[project.category];
   const CatIcon = cat.icon;
-  const hidden = project.technologies.length - TECH_SHOWN;
+  const hiddenCount = project.technologies.length - TECH_SHOWN;
 
   return (
     <motion.article
@@ -55,7 +55,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.6, ease: FLUID }}
       whileHover={reduce ? undefined : { y: -4 }}
-      className="n-border group relative flex flex-col overflow-hidden rounded-2xl border bg-[var(--n-bg)] transition-shadow duration-500 hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-black/40"
+      className="n-border group relative flex flex-col overflow-hidden rounded-2xl border bg-n-bg transition-shadow duration-500 hover:shadow-xl hover:shadow-black/10 dark:hover:shadow-black/40"
     >
       {project.cover ? (
         <div className="relative aspect-[1200/630] overflow-hidden bg-black">
@@ -100,14 +100,14 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
           )}
         </div>
 
-        <h3 className="n-text mb-2 text-base font-semibold leading-snug tracking-tight transition-colors duration-300 group-hover:text-[var(--n-accent)]">
+        <h3 className="n-text mb-2 text-base font-semibold leading-snug tracking-tight transition-colors duration-300 group-hover:text-n-accent">
           {project.title}
         </h3>
         <p className="n-muted mb-4 flex-1 text-sm leading-relaxed">{project.description}</p>
 
         {project.impact && (
           <div className="n-callout mb-4 flex items-start gap-2.5 rounded-md px-3 py-2.5">
-            <Zap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--n-accent)]" aria-hidden="true" />
+            <Zap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-n-accent" aria-hidden="true" />
             <p className="n-text text-xs font-medium leading-relaxed">{project.impact}</p>
           </div>
         )}
@@ -127,13 +127,13 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
           </div>
         </dl>
 
-        <ul className="mb-4 flex flex-wrap gap-1.5" aria-label="Stack">
+        <ul className="mb-4 flex flex-wrap gap-1.5" aria-label={lang === 'en' ? 'Stack' : 'Tecnologías'}>
           {project.technologies.slice(0, TECH_SHOWN).map(tech => (
             <li key={tech} className="n-tag n-tag-gray">{tech}</li>
           ))}
-          {hidden > 0 && (
+          {hiddenCount > 0 && (
             <li className="n-tag n-tag-gray n-muted" title={project.technologies.slice(TECH_SHOWN).join(', ')}>
-              +{hidden}
+              +{hiddenCount}
             </li>
           )}
         </ul>
@@ -142,7 +142,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
           {project.caseStudyPath && (
             <Link
               to={project.caseStudyPath}
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[var(--n-text)] px-3 py-2 text-xs font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-n-text px-3 py-2 text-xs font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
             >
               <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
               {t.caseStudy}
@@ -168,7 +168,7 @@ function ProjectCard({ project, lang, t }: { project: ProjectItem; lang: 'en' | 
               className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-colors duration-300 active:scale-[0.98] ${
                 project.caseStudyPath
                   ? 'n-border n-text n-hover border'
-                  : 'bg-[var(--n-text)] text-[var(--n-bg)] hover:opacity-85'
+                  : 'bg-n-text text-n-bg hover:opacity-85'
               }`}
             >
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -263,7 +263,7 @@ export default function Projects() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
+      <div className="min-h-screen bg-n-bg text-neutral-900 dark:text-neutral-50">
         <Container>
           <div className="py-10">
             {/* ── Page header ─────────────────────────────────────── */}
@@ -296,7 +296,7 @@ export default function Projects() {
                     onClick={() => setActive(f.id)}
                     className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-300 active:scale-[0.98] ${
                       isActive
-                        ? 'border-[var(--n-text)] bg-[var(--n-text)] text-[var(--n-bg)]'
+                        ? 'border-n-text bg-n-text text-n-bg'
                         : 'n-border n-text n-hover'
                     }`}
                   >
@@ -361,7 +361,7 @@ export default function Projects() {
               </div>
               <Link
                 to="/contact"
-                className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[var(--n-text)] px-5 py-2.5 text-sm font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
+                className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-n-text px-5 py-2.5 text-sm font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85 active:scale-[0.98]"
               >
                 {t.ctaButton}
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

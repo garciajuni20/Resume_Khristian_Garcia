@@ -72,7 +72,7 @@ export default function SkillsDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="n-border rounded-2xl border bg-[var(--n-bg)] p-6"
+            className="n-border rounded-2xl border bg-n-bg p-6"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -98,8 +98,8 @@ export default function SkillsDashboard() {
                         key={i}
                         className={`h-1.5 w-6 rounded-full ${
                           i <= (category.level === 'advanced' ? 3 : category.level === 'intermediate' ? 2 : 1)
-                            ? 'bg-[var(--n-accent)]'
-                            : 'bg-[var(--n-border)]'
+                            ? 'bg-n-accent'
+                            : 'bg-n-border'
                         }`}
                       />
                     ))}

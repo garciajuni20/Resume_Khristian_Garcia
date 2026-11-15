@@ -97,7 +97,7 @@ export default function PDFDownloadButtons() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         {kinds.map(kind => (
-          <div key={kind.id} className="n-border group flex flex-col overflow-hidden rounded-2xl border bg-[var(--n-bg)]">
+          <div key={kind.id} className="n-border group flex flex-col overflow-hidden rounded-2xl border bg-n-bg">
             <div className="n-callout relative h-56 overflow-hidden px-8 pt-6">
               <img
                 src={`${base}cv-previews/${kind.id}-${lang}.webp`}
@@ -120,7 +120,7 @@ export default function PDFDownloadButtons() {
                     type="checkbox"
                     checked={atsNoPhoto}
                     onChange={e => setAtsNoPhoto(e.target.checked)}
-                    className="h-4 w-4 cursor-pointer rounded accent-[var(--n-text)]"
+                    className="h-4 w-4 cursor-pointer rounded accent-n-text"
                   />
                   <span className="whitespace-nowrap font-medium">{t.noPhoto}</span>
                   <span className="n-muted">({t.noPhotoHint})</span>
@@ -137,7 +137,7 @@ export default function PDFDownloadButtons() {
                       onClick={() => downloadPDF(variant, setLoading, setError)}
                       disabled={loading !== null}
                       className={`inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-transform duration-300 active:scale-[0.98] disabled:opacity-60 ${
-                        l === lang ? 'bg-[var(--n-text)] text-[var(--n-bg)]' : 'n-border n-text n-hover border'
+                        l === lang ? 'bg-n-text text-n-bg' : 'n-border n-text n-hover border'
                       }`}
                     >
                       {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : <Download className="h-4 w-4" aria-hidden="true" />}

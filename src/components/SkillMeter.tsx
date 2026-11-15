@@ -26,7 +26,7 @@ export default function SkillMeter({ name, level, years }: Props) {
   return (
     <div
       ref={ref}
-      className="n-border rounded-2xl border bg-[var(--n-bg)] p-4"
+      className="n-border rounded-2xl border bg-n-bg p-4"
     >
       <div className="flex items-center justify-between gap-3 mb-3">
         <div className="font-medium n-text text-sm">{name}</div>
@@ -36,9 +36,9 @@ export default function SkillMeter({ name, level, years }: Props) {
         </div>
       </div>
 
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--n-callout)]">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-n-callout">
         <motion.div
-          className="h-2 rounded-full bg-[var(--n-accent)]"
+          className="h-2 rounded-full bg-n-accent"
           initial={{ width: 0 }}
           animate={{ width: inView ? `${safe}%` : 0 }}
           transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}

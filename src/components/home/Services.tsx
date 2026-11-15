@@ -55,7 +55,7 @@ export default function Services() {
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.9, delay: (i % 2) * 0.12, ease: FLUID }}
             whileHover={{ y: -6 }}
-            className={`n-border group flex flex-col rounded-2xl border bg-[var(--n-bg)] p-6 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5 ${i === t.services.length - 1 && t.services.length % 2 === 1 ? 'sm:col-span-2' : ''}`}
+            className={`n-border group flex flex-col rounded-2xl border bg-n-bg p-6 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5 ${i === t.services.length - 1 && t.services.length % 2 === 1 ? 'sm:col-span-2' : ''}`}
           >
             <span className="n-callout n-text flex h-10 w-10 items-center justify-center rounded-lg transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-8deg] group-hover:scale-110" aria-hidden="true">
               {s.icon}
@@ -89,7 +89,7 @@ export default function Services() {
         <p className="n-text flex-1 text-base">{t.bilingual}</p>
         <Link
           to="/contact"
-          className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--n-text)] px-4 py-2 text-base font-semibold text-[var(--n-bg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+          className="group inline-flex items-center justify-center gap-2 rounded-lg bg-n-text px-4 py-2 text-base font-semibold text-n-bg transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
         >
           {t.cta}
           <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />

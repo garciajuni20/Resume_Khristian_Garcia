@@ -60,7 +60,7 @@ export default function Contact() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-[var(--n-bg)]">
+      <div className="min-h-screen bg-n-bg">
         <Container>
           <div className="py-10">
             {/* Header: a face before a form */}
@@ -84,10 +84,10 @@ export default function Contact() {
                     alt={profile.name}
                     width={112}
                     height={112}
-                    className="relative z-10 block h-28 w-28 rounded-full border-4 border-[var(--n-bg)] object-cover object-top"
+                    className="relative z-10 block h-28 w-28 rounded-full border-4 border-n-bg object-cover object-top"
                   />
                 </div>
-                <span className="absolute bottom-1 right-1 z-20 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-[var(--n-bg)]" aria-hidden="true" />
+                <span className="absolute bottom-1 right-1 z-20 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-n-bg" aria-hidden="true" />
               </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 12 }}
@@ -119,7 +119,7 @@ export default function Contact() {
                 transition={{ duration: 0.8, delay: 0.15, ease: FLUID }}
                 className="lg:order-2"
               >
-                <div className="n-border rounded-2xl border bg-[var(--n-bg)] p-6 shadow-xl shadow-black/5">
+                <div className="n-border rounded-2xl border bg-n-bg p-6 shadow-xl shadow-black/5">
                   <ContactForm />
                 </div>
               </motion.div>
@@ -143,13 +143,13 @@ export default function Contact() {
                         transition={{ duration: 0.6, delay: 0.3 + i * 0.07, ease: FLUID }}
                         className="flex items-start gap-4"
                       >
-                        <div className="n-border n-text rounded-lg border bg-[var(--n-bg)] p-2.5" aria-hidden="true">
+                        <div className="n-border n-text rounded-lg border bg-n-bg p-2.5" aria-hidden="true">
                           {item.icon}
                         </div>
                         <div>
                           <div className="n-muted text-xs font-medium uppercase tracking-wide">{item.label}</div>
                           {item.href ? (
-                            <a href={item.href} className="n-text mt-0.5 text-base font-semibold underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current">
+                            <a href={item.href} className="n-text mt-0.5 text-base font-semibold underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current">
                               {item.value}
                             </a>
                           ) : (
@@ -166,12 +166,12 @@ export default function Contact() {
                     <div className="n-muted mb-3 text-xs font-medium uppercase tracking-wide">{t.connect}</div>
                     <div className="flex gap-3">
                       <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer"
-                        className="n-border n-text inline-flex flex-1 items-center justify-center gap-2 rounded-lg border bg-[var(--n-bg)] px-4 py-3 text-sm font-semibold transition-colors duration-300 hover:border-[#0a66c2] hover:bg-[#0a66c2] hover:text-white active:scale-[0.98]">
+                        className="n-border n-text inline-flex flex-1 items-center justify-center gap-2 rounded-lg border bg-n-bg px-4 py-3 text-sm font-semibold transition-colors duration-300 hover:border-[#0a66c2] hover:bg-[#0a66c2] hover:text-white active:scale-[0.98]">
                         <Linkedin className="h-4 w-4" aria-hidden="true" />
                         LinkedIn
                       </a>
                       <a href={contactInfo.github} target="_blank" rel="noopener noreferrer"
-                        className="n-border n-text inline-flex flex-1 items-center justify-center gap-2 rounded-lg border bg-[var(--n-bg)] px-4 py-3 text-sm font-semibold transition-colors duration-300 hover:bg-[var(--n-text)] hover:text-[var(--n-bg)] active:scale-[0.98]">
+                        className="n-border n-text inline-flex flex-1 items-center justify-center gap-2 rounded-lg border bg-n-bg px-4 py-3 text-sm font-semibold transition-colors duration-300 hover:bg-n-text hover:text-n-bg active:scale-[0.98]">
                         <Github className="h-4 w-4" aria-hidden="true" />
                         GitHub
                       </a>
@@ -179,7 +179,7 @@ export default function Contact() {
                   </div>
 
                   {/* Response time note */}
-                  <div className="mt-4 flex items-start gap-3 rounded-lg bg-[var(--n-bg)] p-4">
+                  <div className="mt-4 flex items-start gap-3 rounded-lg bg-n-bg p-4">
                     <div className="mt-1.5 h-2 w-2 shrink-0 animate-pulse rounded-full bg-emerald-500" />
                     <p className="n-text text-sm">{t.responseTime}</p>
                   </div>

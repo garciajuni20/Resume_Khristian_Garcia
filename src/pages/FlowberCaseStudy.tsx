@@ -101,7 +101,7 @@ export default function FlowberCaseStudy() {
 
   return (
     <PageTransition>
-      <article className="min-h-screen bg-[var(--n-bg)] pb-24">
+      <article className="min-h-screen bg-n-bg pb-24">
         <Cover note={lang === 'en' ? 'AI-generated clip · Wan 2.2, run locally' : 'Clip generado con IA · Wan 2.2 local'} />
 
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -114,7 +114,7 @@ export default function FlowberCaseStudy() {
                 initial={{ opacity: 0, y: 16, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.8, ease: FLUID }}
-                className="relative -mt-10 h-20 w-20 rounded-xl shadow-lg ring-4 ring-[var(--n-bg)]"
+                className="relative -mt-10 h-20 w-20 rounded-xl shadow-lg ring-4 ring-n-bg"
                 width={80}
                 height={80}
               />
@@ -167,7 +167,7 @@ export default function FlowberCaseStudy() {
                   </div>
                 </PropertyRow>
                 <PropertyRow icon={<Link2 className="h-4 w-4" />} label={c.propertyLabels.links}>
-                  <a href={FLOWBER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current">
+                  <a href={FLOWBER_LIVE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current">
                     flowber-barberia.pages.dev
                     <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                   </a>
@@ -245,7 +245,7 @@ export default function FlowberCaseStudy() {
                         <ul className="mt-3 space-y-1.5">
                           {h.points.map(p => (
                             <li key={p} className="n-muted flex gap-2 text-sm leading-relaxed">
-                              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--n-muted)]" aria-hidden="true" />
+                              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-n-muted" aria-hidden="true" />
                               {p}
                             </li>
                           ))}
@@ -266,7 +266,7 @@ export default function FlowberCaseStudy() {
                       role="tab"
                       aria-selected={view === v}
                       onClick={() => setView(v)}
-                      className={`-mb-px flex items-center gap-1.5 border-b-2 px-2 py-2 text-sm transition-colors duration-300 ${view === v ? 'n-text border-current font-semibold' : 'n-muted border-transparent hover:text-[var(--n-text)]'}`}
+                      className={`-mb-px flex items-center gap-1.5 border-b-2 px-2 py-2 text-sm transition-colors duration-300 ${view === v ? 'n-text border-current font-semibold' : 'n-muted border-transparent hover:text-n-text'}`}
                     >
                       {v === 'timeline' ? <ListTree className="h-4 w-4" aria-hidden="true" /> : <Table2 className="h-4 w-4" aria-hidden="true" />}
                       {c.views[v]}
@@ -281,7 +281,7 @@ export default function FlowberCaseStudy() {
                       whileInView={{ scaleY: 1 }}
                       viewport={{ once: true, margin: '-80px' }}
                       transition={{ duration: 1.6, ease: FLUID }}
-                      className="absolute bottom-2 left-[7px] top-2 w-px origin-top bg-[var(--n-border)]"
+                      className="absolute bottom-2 left-[7px] top-2 w-px origin-top bg-n-border"
                       aria-hidden="true"
                     />
                     {c.timeline.map((e, i) => (
@@ -291,7 +291,7 @@ export default function FlowberCaseStudy() {
                           whileInView={{ scale: 1 }}
                           viewport={{ once: true, margin: '-64px' }}
                           transition={{ duration: 0.6, delay: i * 0.05, ease: FLUID }}
-                          className={`absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-2 ${e.status === 'live' ? 'border-emerald-500 bg-emerald-500' : 'border-[var(--n-muted)] bg-[var(--n-bg)]'}`}
+                          className={`absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-2 ${e.status === 'live' ? 'border-emerald-500 bg-emerald-500' : 'border-n-muted bg-n-bg'}`}
                           aria-hidden="true"
                         >
                           {e.status === 'live' && <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500 opacity-50" />}

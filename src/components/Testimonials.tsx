@@ -36,7 +36,7 @@ export default function Testimonials() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.15 }}
-            className="relative overflow-hidden n-border rounded-2xl border bg-[var(--n-bg)] p-7"
+            className="relative overflow-hidden n-border rounded-2xl border bg-n-bg p-7"
           >
             {/* Large quote mark */}
             <Quote aria-hidden="true" className="n-muted absolute right-6 top-6 h-12 w-12 opacity-20" />
@@ -88,7 +88,7 @@ export default function Testimonials() {
             href={linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="n-border n-text n-hover inline-flex shrink-0 items-center gap-2 rounded-lg border bg-[var(--n-bg)] px-4 py-2.5 text-sm font-semibold transition-colors duration-200"
+            className="n-border n-text n-hover inline-flex shrink-0 items-center gap-2 rounded-lg border bg-n-bg px-4 py-2.5 text-sm font-semibold transition-colors duration-200"
           >
             <Linkedin className="h-4 w-4" aria-hidden="true" />
             LinkedIn

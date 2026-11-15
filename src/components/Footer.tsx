@@ -5,7 +5,7 @@ import { profileEN } from '../data/profile-en';
 import { Mark } from './Logo';
 import { CV_UPDATED } from '../data/media';
 
-const ICON_LINK = 'n-muted rounded-lg p-1 transition-colors duration-200 hover:text-[var(--n-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]';
+const ICON_LINK = 'n-muted rounded-lg p-1 transition-colors duration-200 hover:text-n-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent';
 
 export default function Footer() {
   const { lang } = useLang();
@@ -16,7 +16,7 @@ export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="n-border border-t bg-[var(--n-bg)] py-8">
+    <footer className="n-border border-t bg-n-bg py-8">
       <Container>
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="text-center md:text-left">
@@ -35,7 +35,7 @@ export default function Footer() {
               <span className="n-text font-medium">Tailwind v4</span> · <span className="n-text font-medium">Framer Motion</span>
               {' · '}
               {lang === 'en' ? 'media generated locally with' : 'medios generados localmente con'}{' '}
-              <span className="n-text font-medium">Wan2GP</span>
+              <span className="n-text font-medium">Wan 2.2 · Flux 2 Klein</span>
             </p>
           </div>
 
@@ -52,7 +52,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={scrollToTop}
-              className="n-border n-muted n-hover ml-1 rounded-lg border p-2 transition-colors duration-200 hover:text-[var(--n-text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]"
+              className="n-border n-muted n-hover ml-1 rounded-lg border p-2 transition-colors duration-200 hover:text-n-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent"
               aria-label={lang === 'en' ? 'Back to top' : 'Volver arriba'}
             >
               <ArrowUp className="h-4 w-4" />

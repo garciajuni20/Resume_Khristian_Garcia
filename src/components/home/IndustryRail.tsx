@@ -35,7 +35,7 @@ const STOPS: Record<'es' | 'en', Stop[]> = {
 
 function StopCard({ stop }: { stop: Stop }) {
   return (
-    <div className="n-border group flex h-full flex-col overflow-hidden rounded-2xl border bg-[var(--n-bg)]">
+    <div className="n-border group flex h-full flex-col overflow-hidden rounded-2xl border bg-n-bg">
       <div className="relative h-32 shrink-0 overflow-hidden bg-neutral-900">
         {stop.image ? (
           <img
@@ -55,7 +55,7 @@ function StopCard({ stop }: { stop: Stop }) {
       </div>
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-center gap-3">
-          <span className={`n-tag ${stop.tone} -mt-11 h-10 w-10 justify-center rounded-lg shadow-md ring-4 ring-[var(--n-bg)]`} aria-hidden="true">{stop.icon}</span>
+          <span className={`n-tag ${stop.tone} -mt-11 h-10 w-10 justify-center rounded-lg shadow-md ring-4 ring-n-bg`} aria-hidden="true">{stop.icon}</span>
           <span className="n-muted font-mono-geist -mt-1 text-sm">{stop.year}</span>
         </div>
         <p className="n-muted mt-4 text-xs font-semibold uppercase tracking-wider">{stop.industry}</p>
@@ -115,7 +115,7 @@ export default function IndustryRail() {
           <p className="n-muted mt-1 font-mono-geist text-xs">{aiNote}</p>
           <div className="relative mt-10 pr-8">
             <div className="n-border absolute left-0 right-0 top-0 h-px border-t" aria-hidden="true" />
-            <motion.div style={{ scaleX: line }} className="absolute left-0 right-0 top-0 h-px origin-left bg-[var(--n-accent)]" aria-hidden="true" />
+            <motion.div style={{ scaleX: line }} className="absolute left-0 right-0 top-0 h-px origin-left bg-n-accent" aria-hidden="true" />
             <motion.div style={{ x }} className="flex w-max gap-6 pt-8">
               {stops.map(s => (
                 <div key={s.company + s.year} className="h-[440px] w-[420px] shrink-0">

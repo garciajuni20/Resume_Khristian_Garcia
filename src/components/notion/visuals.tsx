@@ -24,7 +24,7 @@ export function Pipeline({ nodes, label }: { nodes: PipelineNode[]; label: strin
             </motion.div>
             {i < nodes.length - 1 && (
               <div className="relative mx-auto h-8 w-px lg:mx-0 lg:h-px lg:w-8 lg:shrink-0" aria-hidden="true">
-                <div className="absolute inset-0 bg-[var(--n-border)]" />
+                <div className="absolute inset-0 bg-n-border" />
                 <span
                   className="pipe-packet is-vertical left-[-2.5px] lg:hidden"
                   style={{ animationDelay: `${i * 0.35}s` }}
@@ -45,7 +45,7 @@ export function Pipeline({ nodes, label }: { nodes: PipelineNode[]; label: strin
 /* ─── Device frames ─────────────────────────────────────────────────── */
 export function BrowserFrame({ src, alt, url }: { src: string; alt: string; url: string }) {
   return (
-    <div className="n-border overflow-hidden rounded-xl border bg-[var(--n-bg)] shadow-2xl shadow-black/10">
+    <div className="n-border overflow-hidden rounded-xl border bg-n-bg shadow-2xl shadow-black/10">
       <div className="n-border flex items-center gap-2 border-b px-3 py-2">
         <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
@@ -138,7 +138,7 @@ export function ChatDemo({ turns, title, note }: { turns: ChatTurn[]; title: str
             ) : (
               <span
                 className={`inline-flex max-w-[85%] items-start gap-2 rounded-2xl px-3 py-2 text-sm leading-relaxed ${
-                  t.from === 'user' ? 'bg-[var(--n-accent)] text-white' : 'n-callout n-text'
+                  t.from === 'user' ? 'bg-n-accent text-white' : 'n-callout n-text'
                 }`}
               >
                 {t.from === 'user' && <User className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden="true" />}
@@ -152,7 +152,7 @@ export function ChatDemo({ turns, title, note }: { turns: ChatTurn[]; title: str
             {[0, 1, 2].map(d => (
               <motion.span
                 key={d}
-                className="h-1.5 w-1.5 rounded-full bg-[var(--n-muted)]"
+                className="h-1.5 w-1.5 rounded-full bg-n-muted"
                 animate={{ opacity: [0.2, 1, 0.2] }}
                 transition={{ duration: 1, repeat: Infinity, delay: d * 0.15 }}
               />

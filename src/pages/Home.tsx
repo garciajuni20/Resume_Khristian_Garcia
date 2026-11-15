@@ -46,7 +46,7 @@ function HeroGrid({ children }: { children: React.ReactNode }) {
         mx.set(-400);
         my.set(-400);
       }}
-      className="n-border relative overflow-hidden rounded-3xl border bg-[var(--n-bg)]"
+      className="n-border relative overflow-hidden rounded-3xl border bg-n-bg"
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
@@ -78,11 +78,11 @@ function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
           animate={{ rotate: 360 }}
           transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
         />
-        <div className="relative z-10 overflow-hidden rounded-[13px] bg-[var(--n-bg)]">
+        <div className="relative z-10 overflow-hidden rounded-[13px] bg-n-bg">
           <img src={src} alt={alt} className="block h-32 w-32 object-cover object-top sm:h-40 sm:w-40" loading="eager" fetchPriority="high" decoding="async" width={160} height={160} />
         </div>
       </div>
-      <span className="absolute -bottom-1 -right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-emerald-500 ring-2 ring-[var(--n-bg)]">
+      <span className="absolute -bottom-1 -right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-emerald-500 ring-2 ring-n-bg">
         <span className="h-2 w-2 rounded-full bg-white" />
       </span>
     </div>
@@ -188,7 +188,7 @@ export default function Home() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-[var(--n-bg)]">
+      <div className="min-h-screen bg-n-bg">
         <Container>
           <div className="space-y-24 pb-24 pt-8">
             {/* ── Hero ─────────────────────────────────────────────── */}
@@ -247,7 +247,7 @@ export default function Home() {
                       <Magnetic>
                         <Link
                           to="/resume"
-                          className="group inline-flex items-center gap-2 rounded-lg bg-[var(--n-text)] px-4 py-2 text-base font-semibold text-[var(--n-bg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]"
+                          className="group inline-flex items-center gap-2 rounded-lg bg-n-text px-4 py-2 text-base font-semibold text-n-bg transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]"
                         >
                           {t.ctaPrimary}
                           <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />
@@ -263,7 +263,7 @@ export default function Home() {
                           {t.ctaSecondary}
                         </button>
                       </Magnetic>
-                      <CareerVideoButton className="n-text inline-flex items-center gap-2 rounded-lg px-2 py-2 text-base font-semibold underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current active:scale-[0.98]" />
+                      <CareerVideoButton className="n-text inline-flex items-center gap-2 rounded-lg px-2 py-2 text-base font-semibold underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current active:scale-[0.98]" />
                     </motion.div>
                   </div>
 
@@ -359,7 +359,7 @@ export default function Home() {
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1, duration: 0.8, ease: FLUID }}
                     whileHover={{ y: -4 }}
-                    className="n-border flex flex-col rounded-2xl border bg-[var(--n-bg)] p-5 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5"
+                    className="n-border flex flex-col rounded-2xl border bg-n-bg p-5 transition-shadow duration-500 hover:shadow-xl hover:shadow-black/5"
                   >
                     <div className="mb-3 flex items-center justify-between gap-2">
                       <div className="flex flex-wrap gap-1.5">
@@ -382,7 +382,7 @@ export default function Home() {
                       {project.caseStudyPath && (
                         <Link
                           to={project.caseStudyPath}
-                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-[var(--n-text)] px-3 py-2 text-xs font-semibold text-[var(--n-bg)] transition-transform duration-300 active:scale-[0.98]"
+                          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-n-text px-3 py-2 text-xs font-semibold text-n-bg transition-transform duration-300 active:scale-[0.98]"
                         >
                           {t.caseStudy}
                         </Link>

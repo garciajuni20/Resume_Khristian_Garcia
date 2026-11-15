@@ -66,7 +66,7 @@ export default function FlowberSpotlight() {
           <div className="mt-4 flex flex-wrap gap-1.5">
             {t.tags.map(([label, color]) => <Tag key={label} label={label} color={color} />)}
           </div>
-          <dl className="n-border mt-6 grid grid-cols-3 divide-x divide-[var(--n-border)] rounded-lg border">
+          <dl className="n-border mt-6 grid grid-cols-3 divide-x divide-n-border rounded-lg border">
             {t.stats.map(s => (
               <div key={s.l} className="px-3 py-3">
                 <dt className="n-muted text-xs">{s.l}</dt>
@@ -78,7 +78,7 @@ export default function FlowberSpotlight() {
           </dl>
           <Link
             to="/flowber"
-            className="group mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--n-text)] px-4 py-2 text-base font-semibold text-[var(--n-bg)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
+            className="group mt-6 inline-flex items-center gap-2 rounded-lg bg-n-text px-4 py-2 text-base font-semibold text-n-bg transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 active:scale-[0.98]"
           >
             {t.cta}
             <ArrowRight className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1" aria-hidden="true" />

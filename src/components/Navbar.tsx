@@ -16,9 +16,9 @@ const navItems = [
 ];
 
 /* Shape rule for the chrome: the bar is a card (2xl), controls are lg. */
-const CONTROL = 'inline-flex items-center justify-center rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]';
-const ACTIVE = 'bg-[var(--n-text)] text-[var(--n-bg)]';
-const IDLE = 'n-muted n-hover hover:text-[var(--n-text)]';
+const CONTROL = 'inline-flex items-center justify-center rounded-lg transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent';
+const ACTIVE = 'bg-n-text text-n-bg';
+const IDLE = 'n-muted n-hover hover:text-n-text';
 
 function LangToggle({ lang, setLang, size = 'md' }: { lang: 'en' | 'es'; setLang: (l: 'en' | 'es') => void; size?: 'sm' | 'md' }) {
   return (
@@ -67,13 +67,13 @@ export default function Navbar() {
       <header
         className={`sticky top-2 z-50 mx-4 rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 sm:mx-6 lg:mx-auto lg:max-w-6xl ${
           scrolled
-            ? 'n-border bg-[var(--n-bg)]/90 shadow-lg shadow-black/5 backdrop-blur-xl dark:shadow-black/30'
-            : 'border-transparent bg-[var(--n-bg)]/60 backdrop-blur-md'
+            ? 'n-border bg-n-bg/90 shadow-lg shadow-black/5 backdrop-blur-xl dark:shadow-black/30'
+            : 'border-transparent bg-n-bg/60 backdrop-blur-md'
         }`}
       >
         <div className="px-4 sm:px-5">
           <div className="flex h-14 items-center justify-between gap-6">
-            <NavLink to="/" className="shrink-0 whitespace-nowrap rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--n-accent)]" aria-label="Khristian Garcia, home">
+            <NavLink to="/" className="shrink-0 whitespace-nowrap rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-n-accent" aria-label={lang === 'en' ? 'Khristian Garcia, home' : 'Khristian Garcia, inicio'}>
               <Wordmark name="Khristian Garcia" compact />
             </NavLink>
 
@@ -89,7 +89,7 @@ export default function Navbar() {
                 </NavLink>
               ))}
 
-              <div className="mx-1 h-5 w-px shrink-0 bg-[var(--n-border)] lg:mx-2" aria-hidden="true" />
+              <div className="mx-1 h-5 w-px shrink-0 bg-n-border lg:mx-2" aria-hidden="true" />
 
               <button type="button" onClick={toggleTheme} className={`${CONTROL} ${IDLE} p-2`} aria-label={themeLabel}>
                 {theme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
@@ -118,7 +118,7 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <motion.div
             id="mobile-menu"
-            className="n-border fixed inset-x-4 top-20 z-40 rounded-2xl border bg-[var(--n-bg)]/95 shadow-xl shadow-black/10 backdrop-blur-xl dark:shadow-black/40 md:hidden"
+            className="n-border fixed inset-x-4 top-20 z-40 rounded-2xl border bg-n-bg/95 shadow-xl shadow-black/10 backdrop-blur-xl dark:shadow-black/40 md:hidden"
             initial={{ opacity: 0, y: -8, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}

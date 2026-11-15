@@ -19,7 +19,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 function PageLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="h-1 w-40 overflow-hidden rounded-full bg-[var(--n-border)]"><div className="h-full w-1/3 animate-pulse rounded-full bg-[var(--n-accent)]" /></div>
+      <div className="h-1 w-40 overflow-hidden rounded-full bg-n-border"><div className="h-full w-1/3 animate-pulse rounded-full bg-n-accent" /></div>
     </div>
   );
 }

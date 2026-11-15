@@ -13,7 +13,6 @@ import { useSEO } from '../hooks/useSEO';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { getDuration } from '../utils/dateFormatter';
 import type { ProfileData } from '../types';
-import Certifications from '../components/Certifications';
 import SkillsDashboard from '../components/SkillsDashboard';
 import PDFDownloadButtons from '../components/PDFDownloadButtons';
 import PageTransition from '../components/PageTransition';
@@ -22,9 +21,16 @@ import { CareerVideoBlock } from '../components/CareerVideo';
 import { PHOTO } from '../data/media';
 import NowStrip from '../components/NowStrip';
 import CareerTimeline from '../components/CareerTimeline';
+import PageOutline from '../components/PageOutline';
+import { Toggle } from '../components/notion/primitives';
+
+/** First two sentences of a paragraph: the lead a recruiter reads before deciding to expand */
+function lead(text: string): string {
+  return text.split(/(?<=\.)\s+/).slice(0, 2).join(' ');
+}
 
 const INDUSTRY_TONES = ['blue', 'purple', 'orange', 'green'] as const;
-const LINK = 'n-text inline-flex items-center gap-1 underline decoration-[var(--n-border)] underline-offset-4 transition-colors duration-300 hover:decoration-current';
+const LINK = 'n-text inline-flex items-center gap-1 underline decoration-n-border underline-offset-4 transition-colors duration-300 hover:decoration-current';
 
 export default function ResumePage() {
   const { lang } = useLang();
@@ -42,14 +48,17 @@ export default function ResumePage() {
         industries: 'Industries',
         filterBy: 'Filter by',
         clear: 'Clear',
-        skills: 'Skills Overview',
+        skills: 'Self-assessed levels by tool',
         education: 'Education',
         downloadJson: 'Export JSON',
         close: 'Close',
-        certifications: 'Certifications & Achievements',
         tools: 'Tools & Technologies',
         languages: 'Languages',
         skillsDashboard: 'Skills Dashboard',
+        skillsIntro: 'Grouped by what I do with them: data engineering, cloud, BI, AI, delivery and full-stack.',
+        skillsSelfNote: 'Self-assessed, with years of hands-on use. The dashboard above is the better summary; this is the detail.',
+        experienceIntro: 'Roles overlap on purpose: a promotion, a part-time AI engagement and a product I own run in parallel.',
+        fullProfile: 'Read the full profile',
         downloadCV: 'Download CV',
         contact: 'Contact',
       }
@@ -63,14 +72,17 @@ export default function ResumePage() {
         industries: 'Industrias',
         filterBy: 'Filtrar por',
         clear: 'Limpiar',
-        skills: 'Resumen de Habilidades',
+        skills: 'Niveles autoevaluados por herramienta',
         education: 'Educación',
         downloadJson: 'Exportar JSON',
         close: 'Cerrar',
-        certifications: 'Certificaciones & Logros',
         tools: 'Herramientas & Tecnologías',
         languages: 'Idiomas',
         skillsDashboard: 'Panel de Habilidades',
+        skillsIntro: 'Agrupadas por lo que hago con ellas: ingeniería de datos, cloud, BI, IA, entrega y full-stack.',
+        skillsSelfNote: 'Autoevaluación con años de uso real. El panel de arriba es el mejor resumen; esto es el detalle.',
+        experienceIntro: 'Los roles se traslapan a propósito: un ascenso, un contrato de IA a medio tiempo y un producto propio corren en paralelo.',
+        fullProfile: 'Leer el perfil completo',
         downloadCV: 'Descargar CV',
         contact: 'Contacto',
       };
@@ -82,10 +94,13 @@ export default function ResumePage() {
     keywords: [...data.badges, ...(data.seo?.keywords ?? []), 'CV', 'Resume', 'Portfolio'],
   });
 
+  // Tags ordered by how many roles carry them, so the first row is the useful one
   const allTags = useMemo(() => {
-    const set = new Set<string>();
-    data.experience.forEach(e => (e.tags ?? []).forEach(t => set.add(t)));
-    return Array.from(set).sort((a, b) => a.localeCompare(b));
+    const count = new Map<string, number>();
+    data.experience.forEach(e => (e.tags ?? []).forEach(t => count.set(t, (count.get(t) ?? 0) + 1)));
+    return Array.from(count.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([tag]) => tag);
   }, [data.experience]);
 
   const [activeTags, setActiveTags] = useState<string[]>([]);
@@ -159,7 +174,8 @@ export default function ResumePage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
+      <div className="min-h-screen bg-n-bg text-n-text">
+        <PageOutline lang={lang} />
         <Container>
           {/* ── Page header ─────────────────────────────────────── */}
           <div className="flex flex-col gap-4 pt-10 sm:flex-row sm:items-end sm:justify-between">
@@ -183,7 +199,7 @@ export default function ResumePage() {
             initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.8, ease: FLUID }}
-            className="n-border mt-8 grid gap-8 rounded-3xl border bg-[var(--n-bg)] p-6 sm:p-8 md:grid-cols-[240px_minmax(0,1fr)]"
+            className="n-border mt-8 grid gap-8 rounded-3xl border bg-n-bg p-6 sm:p-8 md:grid-cols-[240px_minmax(0,1fr)]"
           >
             <div>
               <div className="relative mx-auto w-48 md:w-full">
@@ -208,7 +224,7 @@ export default function ResumePage() {
 
             <div className="min-w-0">
               <h2 className="n-text text-3xl font-bold tracking-tight">{data.name}</h2>
-              <p className="mt-1 text-lg font-medium text-[var(--n-accent)]">{data.headline}</p>
+              <p className="mt-1 text-lg font-medium text-n-accent">{data.headline}</p>
 
               <dl className="n-border mt-5 space-y-2 border-y py-4 text-sm">
                 <div className="flex flex-col gap-1 sm:flex-row sm:gap-3">
@@ -248,9 +264,15 @@ export default function ResumePage() {
 
               <NowStrip lang={lang} className="mt-5" />
 
-              <p className="n-text mt-5 text-base leading-relaxed">{data.summary}</p>
+              {/* Lead first; the full profile is one toggle away instead of a wall of text */}
+              <p className="n-text mt-5 text-base leading-relaxed">{lead(data.summaryShort ?? data.summary)}</p>
+              <div className="mt-2 -ml-2">
+                <Toggle title={labels.fullProfile}>
+                  <p className="text-base leading-relaxed">{data.summary}</p>
+                </Toggle>
+              </div>
 
-              <div className="mt-5 flex flex-wrap gap-1.5">
+              <div className="mt-4 flex flex-wrap gap-1.5">
                 {data.badges.map(badge => (
                   <span key={badge} className="n-tag n-tag-gray">{badge}</span>
                 ))}
@@ -275,7 +297,11 @@ export default function ResumePage() {
           </div>
 
           {/* ── Experience ────────────────────────────────────── */}
-          <Section title={lang === 'en' ? 'Experience' : 'Experiencia'}>
+          <Section
+            title={lang === 'en' ? 'Experience' : 'Experiencia'}
+            intro={labels.experienceIntro}
+            aside={`${data.experience.length} ${lang === 'en' ? 'roles' : 'roles'} · ${industries.length} ${lang === 'en' ? 'industries' : 'industrias'}`}
+          >
             <div className="mb-6">
               <CareerTimeline experience={data.experience} industries={industries} lang={lang} onOpen={setSelected} />
             </div>
@@ -284,7 +310,12 @@ export default function ResumePage() {
               activeTags={activeTags}
               onToggle={toggleTag}
               onClear={clearTags}
-              labels={{ filterBy: labels.filterBy, clear: labels.clear }}
+              labels={{
+                filterBy: labels.filterBy,
+                clear: labels.clear,
+                more: n => (lang === 'en' ? `+${n} more` : `+${n} más`),
+                less: lang === 'en' ? 'Show less' : 'Ver menos',
+              }}
             />
             <motion.div
               variants={staggerContainer}
@@ -308,38 +339,25 @@ export default function ResumePage() {
             </motion.div>
           </Section>
 
-          {/* ── Certifications ────────────────────────────────── */}
-          {data.certifications && data.certifications.length > 0 && (
-            <Section title={labels.certifications}>
-              <Certifications />
-            </Section>
-          )}
 
-          {/* ── Skills Overview ───────────────────────────────── */}
-          <Section title={labels.skills}>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {data.skills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.04 }}
-                >
-                  <SkillMeter name={skill.name} level={skill.level} years={skill.years} />
-                </motion.div>
-              ))}
-            </div>
-          </Section>
-
-          {/* ── Skills Dashboard ──────────────────────────────── */}
-          <Section title={labels.skillsDashboard}>
+          {/* ── Skills Dashboard (the overview); per-tool self-assessment folded below it ── */}
+          <Section title={labels.skillsDashboard} intro={labels.skillsIntro}>
             <SkillsDashboard />
+            <div className="mt-6">
+              <Toggle title={labels.skills}>
+                <p className="mb-4 text-sm">{labels.skillsSelfNote}</p>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {data.skills.map(skill => (
+                    <SkillMeter key={skill.name} name={skill.name} level={skill.level} years={skill.years} />
+                  ))}
+                </div>
+              </Toggle>
+            </div>
           </Section>
 
           {/* ── Tools & Technologies ──────────────────────────── */}
           <Section title={labels.tools}>
-            <div className="n-border rounded-2xl border bg-[var(--n-bg)] p-6">
+            <div className="n-border rounded-2xl border bg-n-bg p-6">
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {toolCategories.map(cat => (
                   <div key={cat.key}>
@@ -358,7 +376,7 @@ export default function ResumePage() {
                 ))}
               </div>
               {tools.methodologies && (
-                <div className="mt-5 pt-5 border-t border-[var(--n-border)]">
+                <div className="mt-5 pt-5 border-t border-n-border">
                   <div className="flex flex-wrap gap-1.5 items-center">
                     <span className="text-xs font-medium n-muted mr-1">
                       {lang === 'en' ? 'Methodologies:' : 'Metodologías:'}
@@ -376,9 +394,9 @@ export default function ResumePage() {
 
           {/* ── Education ─────────────────────────────────────── */}
           <Section title={labels.education}>
-            <div className="n-border rounded-2xl border bg-[var(--n-bg)] p-6">
+            <div className="n-border rounded-2xl border bg-n-bg p-6">
               {data.education.map((edu, index) => (
-                <div key={index} className={index > 0 ? 'mt-6 pt-6 border-t border-[var(--n-border)]' : ''}>
+                <div key={index} className={index > 0 ? 'mt-6 pt-6 border-t border-n-border' : ''}>
                   <div className="font-bold text-lg n-text">{edu.institution}</div>
                   <div className="mt-1 n-text font-medium">
                     {edu.degree} — {edu.area}
@@ -416,7 +434,7 @@ export default function ResumePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="n-border rounded-2xl border bg-[var(--n-bg)] p-5"
+                  className="n-border rounded-2xl border bg-n-bg p-5"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="font-semibold n-text">{language.language}</div>
@@ -424,9 +442,9 @@ export default function ResumePage() {
                       {language.level}
                     </div>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--n-callout)]">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-n-callout">
                     <motion.div
-                      className="h-2 rounded-full bg-[var(--n-accent)]"
+                      className="h-2 rounded-full bg-n-accent"
                       initial={{ width: 0 }}
                       whileInView={{ width: `${language.proficiency}%` }}
                       viewport={{ once: true }}
@@ -457,14 +475,14 @@ export default function ResumePage() {
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby="experience-modal-title"
-                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto n-border rounded-2xl border bg-[var(--n-bg)] shadow-2xl shadow-black/20 focus:outline-none"
+                  className="w-full max-w-2xl max-h-[82vh] overflow-y-auto n-border rounded-2xl border bg-n-bg shadow-2xl shadow-black/20 focus:outline-none"
                   initial={{ scale: 0.88, opacity: 0, y: 16 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.92, opacity: 0 }}
                   transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
                   onClick={e => e.stopPropagation()}
                 >
-                  <div className="sticky top-0 z-10 flex items-center justify-between n-border border-b bg-[var(--n-bg)]/95 p-5 backdrop-blur-sm">
+                  <div className="sticky top-0 z-10 flex items-center justify-between n-border border-b bg-n-bg/95 p-5 backdrop-blur-sm">
                     <div className="flex-1 min-w-0">
                       <h3 id="experience-modal-title" className="text-lg font-bold n-text leading-snug">{selected.role}</h3>
                       <div className="mt-0.5 text-sm font-medium n-muted">

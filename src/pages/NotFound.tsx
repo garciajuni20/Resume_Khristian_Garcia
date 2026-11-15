@@ -35,7 +35,7 @@ export default function NotFound() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-[var(--n-bg)] text-neutral-900 dark:text-neutral-50">
+      <div className="min-h-screen bg-n-bg text-neutral-900 dark:text-neutral-50">
         <Container>
           <div className="flex min-h-screen flex-col items-center justify-center py-20">
             <motion.div
@@ -61,7 +61,7 @@ export default function NotFound() {
               <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => navigate('/')}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--n-text)] px-6 py-3 text-sm font-semibold text-[var(--n-bg)] transition-opacity duration-300 hover:opacity-85"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-n-text px-6 py-3 text-sm font-semibold text-n-bg transition-opacity duration-300 hover:opacity-85"
                 >
                   <Home className="h-4 w-4" />
                   {t.homeButton}
@@ -83,7 +83,7 @@ export default function NotFound() {
                     <Link
                       key={link.to}
                       to={link.to}
-                      className="n-text underline decoration-[var(--n-border)] underline-offset-4 hover:decoration-current"
+                      className="n-text underline decoration-n-border underline-offset-4 hover:decoration-current"
                     >
                       {link.label}
                     </Link>

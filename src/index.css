@@ -3,6 +3,21 @@
 /* ✅ Tailwind v4: dark: variant with .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Notion tokens as Tailwind colors: `bg-n-bg`, `text-n-muted`, `border-n-border`,
+   `ring-n-accent`, `bg-n-bg/90`… `inline` keeps the var() reference, so the
+   .dark overrides below still apply. */
+@theme inline {
+  --color-n-bg: var(--n-bg);
+  --color-n-text: var(--n-text);
+  --color-n-muted: var(--n-muted);
+  --color-n-faint: var(--n-faint);
+  --color-n-border: var(--n-border);
+  --color-n-hover: var(--n-hover);
+  --color-n-callout: var(--n-callout);
+  --color-n-code: var(--n-code);
+  --color-n-accent: var(--n-accent);
+}
+
 /* ── Design tokens ──────────────────────────────────────────────── */
 :root {
   --ease-brand: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -65,42 +80,57 @@
   font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-.n-text { color: var(--n-text); }
-.n-muted { color: var(--n-muted); }
-.n-border { border-color: var(--n-border); }
-.n-hover:hover { background-color: var(--n-hover); }
-.n-callout { background-color: var(--n-callout); }
-.n-code { background-color: var(--n-code); }
+/* In the components layer so Tailwind utilities (layer utilities) can still
+   override them: `n-tag rounded-lg p-2.5`, `n-muted hover:text-n-text`… */
+@layer components {
+  .n-text { color: var(--n-text); }
+  .n-muted { color: var(--n-muted); }
+  .n-border { border-color: var(--n-border); }
+  .n-hover:hover { background-color: var(--n-hover); }
+  .n-callout { background-color: var(--n-callout); }
+  .n-code { background-color: var(--n-code); }
 
-.n-tag {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 4px;
-  padding: 0 6px;
-  font-size: 0.75rem;
-  line-height: 1.25rem;
-  white-space: nowrap;
-  color: #32302c;
+  .n-tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 0 6px;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    white-space: nowrap;
+    color: #32302c;
+  }
+  .dark .n-tag { color: rgba(255, 255, 255, 0.86); }
+  .n-tag-gray { background: #e3e2e0; }
+  .n-tag-brown { background: #eee0da; }
+  .n-tag-orange { background: #fadec9; }
+  .n-tag-yellow { background: #fdecc8; }
+  .n-tag-green { background: #dbeddb; }
+  .n-tag-blue { background: #d3e5ef; }
+  .n-tag-purple { background: #e8deee; }
+  .n-tag-pink { background: #f5e0e9; }
+  .n-tag-red { background: #ffe2dd; }
+  .dark .n-tag-gray { background: #5a5a5a; }
+  .dark .n-tag-brown { background: #603b2c; }
+  .dark .n-tag-orange { background: #854c1d; }
+  .dark .n-tag-yellow { background: #89632a; }
+  .dark .n-tag-green { background: #2b593f; }
+  .dark .n-tag-blue { background: #28456c; }
+  .dark .n-tag-purple { background: #492f64; }
+  .dark .n-tag-pink { background: #69314c; }
+  .dark .n-tag-red { background: #6e3630; }
+
+  /* Shared interaction grammar */
+  .n-focus { outline: none; }
+  .n-focus:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--n-bg), 0 0 0 4px var(--n-accent); }
+  .n-btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    border-radius: 0.5rem; background: var(--n-text); color: var(--n-bg);
+    font-weight: 600; transition: opacity 300ms var(--ease-fluid);
+  }
+  .n-btn-primary:hover { opacity: 0.85; }
+  .n-btn-primary:active { transform: scale(0.98); }
 }
-.dark .n-tag { color: rgba(255, 255, 255, 0.86); }
-.n-tag-gray { background: #e3e2e0; }
-.n-tag-brown { background: #eee0da; }
-.n-tag-orange { background: #fadec9; }
-.n-tag-yellow { background: #fdecc8; }
-.n-tag-green { background: #dbeddb; }
-.n-tag-blue { background: #d3e5ef; }
-.n-tag-purple { background: #e8deee; }
-.n-tag-pink { background: #f5e0e9; }
-.n-tag-red { background: #ffe2dd; }
-.dark .n-tag-gray { background: #5a5a5a; }
-.dark .n-tag-brown { background: #603b2c; }
-.dark .n-tag-orange { background: #854c1d; }
-.dark .n-tag-yellow { background: #89632a; }
-.dark .n-tag-green { background: #2b593f; }
-.dark .n-tag-blue { background: #28456c; }
-.dark .n-tag-purple { background: #492f64; }
-.dark .n-tag-pink { background: #69314c; }
-.dark .n-tag-red { background: #6e3630; }
 
 h1, h2, h3 { text-wrap: balance; }
 p, li { text-wrap: pretty; }
