@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import type { Lang } from '../types';
-import { OG_IMAGE, pageUrl as urlOf } from '../data/routes';
+import { imageFor, pageUrl as urlOf } from '../data/routes';
 
 interface SEOProps {
   title: string;
@@ -17,10 +17,12 @@ export const useSEO = ({
   description,
   lang = 'en',
   keywords = [],
-  image = OG_IMAGE,
+  image,
   url,
 }: SEOProps) => {
   const { pathname } = useLocation();
+  // Each route keeps the preview card the static document announced
+  const imageUrl = image ?? imageFor(pathname);
   // Canonical is always the clean Cloudflare URL, also from the GitHub Pages mirror
   const pageUrl = url ?? urlOf(pathname);
   const keywordsContent = keywords.join(', ');
@@ -53,7 +55,7 @@ export const useSEO = ({
     const ogTags = [
       { property: 'og:title', content: title },
       { property: 'og:description', content: description },
-      { property: 'og:image', content: image },
+      { property: 'og:image', content: imageUrl },
       { property: 'og:url', content: pageUrl },
       { property: 'og:type', content: 'website' },
       { property: 'og:locale', content: lang === 'es' ? 'es_GT' : 'en_US' },
@@ -74,7 +76,7 @@ export const useSEO = ({
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: description },
-      { name: 'twitter:image', content: image },
+      { name: 'twitter:image', content: imageUrl },
     ];
 
     twitterTags.forEach(tag => {
@@ -98,5 +100,5 @@ export const useSEO = ({
       document.head.appendChild(linkCanonical);
     }
     linkCanonical.setAttribute('href', pageUrl);
-  }, [title, description, lang, keywordsContent, image, pageUrl]);
+  }, [title, description, lang, keywordsContent, imageUrl, pageUrl]);
 };

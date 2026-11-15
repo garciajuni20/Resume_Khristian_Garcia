@@ -14,7 +14,7 @@ const attr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').rep
 
 /**
  * Clean URLs need a document per route: dist/resume.html and so on, each
- * with its own title, description, canonical and preview tags, so crawlers and
+ * with its own title, description, canonical, preview tags and preview card, so crawlers and
  * link previews (LinkedIn, Slack) see the right page without running JS. The
  * app itself is the same bundle. Only for the root host (Cloudflare Pages);
  * unknown paths fall back to index.html there, which renders the 404 page.
@@ -40,6 +40,8 @@ function routeDocuments(): Plugin {
           .replace(/(<meta (?:name|property)="(?:description|og:description|twitter:description)" content=")[^"]*/g, `$1${d}`)
           .replace(/(<meta property="(?:og:url|twitter:url)" content=")[^"]*/g, `$1${url}`)
           .replace(/(<link rel="canonical" href=")[^"]*/, `$1${url}`)
+          .replace(/(<meta (?:name|property)="(?:og:image|twitter:image)" content=")[^"]*/g, `$1${r.image}`)
+          .replace(/(<meta property="og:image:alt" content=")[^"]*/, `$1${t}`)
         // resume.html is served at /resume with no trailing-slash redirect
         writeFileSync(join(outDir, r.path === '/' ? 'index.html' : `${r.path.slice(1)}.html`), html)
       }
