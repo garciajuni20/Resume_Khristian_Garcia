@@ -176,6 +176,7 @@ Cloudflare sets `CF_PAGES=1` during its build, and that one flag switches the si
 
 - `base` is `/` (`vite.config.ts`), and the router uses real paths (`/resume`) instead of hash routes (`src/utils/site.ts`). Old links such as `/#/resume?lang=en` are rewritten to `/resume?lang=en` before the app starts.
 - The build writes one HTML document per route (`resume.html`, `alleviate.html`…) with its own title, description, canonical and Open Graph tags from `src/data/routes.ts`, plus a sitemap listing every route. LinkedIn and search engines read them without running JavaScript.
+- The home page is also prerendered in English: `npm run build` renders it with `src/prerender.tsx` (`vite build --ssr` into `dist-ssr/`) and `scripts/prerender.mjs` writes the markup into `dist/index.html`, so it shows before the JS bundle has loaded; `src/main.tsx` then hydrates it. An inline script in `index.html` removes that markup on any other route or language, and anything that depends on this browser (saved theme, sound, UV light) waits for `useHydrated()` so the hydrated markup matches.
 - `functions/api/contact.ts` is a Pages Function behind the contact form: validation, a honeypot, same-origin check, optional Turnstile, and delivery through Resend or Formspree. Variables (Settings → Variables and Secrets):
   - `TURNSTILE_SECRET` (secret) + `VITE_TURNSTILE_SITE_KEY` (build variable): turn on Turnstile.
   - `RESEND_API_KEY` (secret) + `CONTACT_TO`: deliver through Resend; otherwise `FORMSPREE_ID` (defaults to the current form).

@@ -166,6 +166,8 @@ npm run preview
 
 Cloudflare define `CF_PAGES=1` en su build y esa variable cambia el sitio a su forma de raíz: base `/`, rutas reales (`/resume`) en vez de hash (los links viejos `/#/resume` se reescriben solos), un HTML por ruta con su título y vista previa (`src/data/routes.ts`), sitemap con todas las rutas, y la Pages Function `functions/api/contact.ts` detrás del formulario (validación, honeypot, Turnstile opcional, entrega por Resend o Formspree y, con un remitente verificado, una confirmación automática al que escribe). La analítica es Cloudflare Web Analytics, activada en el proyecto de Pages. El detalle de variables está en README.md.
 
+El Home además llega prerenderizado en inglés: `npm run build` lo renderiza con `src/prerender.tsx` y `scripts/prerender.mjs` escribe ese HTML dentro de `dist/index.html`, así se ve antes de que cargue el JavaScript y React lo hidrata después. En otra ruta o en español, un script en `index.html` lo quita antes de pintar y la página se arma como siempre.
+
 **GitHub Pages (copia):** `.github/workflows/deploy.yml` construye con base `/Resume_Khristian_Garcia/` y rutas hash; sus etiquetas canonical apuntan a Cloudflare.
 
 ## 🎯 Aspectos Técnicos Destacados

@@ -474,4 +474,4 @@ export function sfx(name: Sfx, opts: SfxOptions = {}): void {
 }
 
 // Dev only: audition any sound from the console, e.g. sfx('success'), sfx('note', { degree: 7 })
-if (import.meta.env.DEV) Object.assign(window, { sfx, degreeHz });
+if (import.meta.env.DEV && typeof window !== 'undefined') Object.assign(window, { sfx, degreeHz });

@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Wordmark } from './Logo';
 import SoundToggle from './SoundToggle';
 import { FLUID } from '../utils/animations';
+import { useHydrated } from '../utils/useHydrated';
 
 const navItems = [
   { path: '/', labelEn: 'Home', labelEs: 'Inicio' },
@@ -43,6 +44,9 @@ function LangToggle({ lang, setLang, size = 'md' }: { lang: 'en' | 'es'; setLang
 export default function Navbar() {
   const { lang, setLang } = useLang();
   const { theme, toggleTheme } = useTheme();
+  // Light until hydrated, as in the prerendered HTML; the page colours already follow
+  // the theme from the first paint (inline script in index.html sets html.dark)
+  const dark = useHydrated() && theme === 'dark';
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -60,7 +64,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const themeLabel = theme === 'dark'
+  const themeLabel = dark
     ? (lang === 'en' ? 'Switch to light mode' : 'Cambiar a modo claro')
     : (lang === 'en' ? 'Switch to dark mode' : 'Cambiar a modo oscuro');
 
@@ -96,7 +100,7 @@ export default function Navbar() {
               <SoundToggle className="h-[34px] w-[34px]" />
 
               <button type="button" onClick={toggleTheme} data-sfx="none" className={`${CONTROL} ${IDLE} p-2`} aria-label={themeLabel}>
-                {theme === 'dark' ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
+                {dark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />}
               </button>
 
               <LangToggle lang={lang} setLang={setLang} />
@@ -153,7 +157,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-2">
                   <LangToggle lang={lang} setLang={setLang} size="sm" />
                   <button type="button" onClick={toggleTheme} data-sfx="none" className={`${CONTROL} n-border n-muted border p-1.5`} aria-label={themeLabel}>
-                    {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                    {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                   </button>
                 </div>
               </div>

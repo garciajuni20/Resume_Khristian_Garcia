@@ -21,14 +21,17 @@ const attr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').rep
  */
 function routeDocuments(): Plugin {
   let outDir = 'dist'
+  let ssr = false
   return {
     name: 'route-documents',
     apply: 'build',
     configResolved(c) {
       outDir = c.build.outDir
+      ssr = Boolean(c.build.ssr)
     },
     closeBundle() {
-      if (base !== '/') return
+      // the prerender bundle (npm run build, second step) has no index.html
+      if (base !== '/' || ssr) return
       const shell = readFileSync(join(outDir, 'index.html'), 'utf8')
       for (const r of ROUTE_META) {
         const url = pageUrl(r.path)
@@ -54,7 +57,9 @@ function routeDocuments(): Plugin {
   }
 }
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   base,
   plugins: [react(), tailwindcss(), routeDocuments()],
-})
+  // The prerender bundle (scripts/prerender.mjs) needs only the JS, not public/
+  build: isSsrBuild ? { copyPublicDir: false } : {},
+}))

@@ -38,8 +38,22 @@
   
   <!-- Self-hosted Geist (variable) — no render-blocking font requests -->
   <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/Geist-Variable.woff2" crossorigin>
-  <!-- Hero portrait: start the download while the JS bundle is still loading -->
-  <link rel="preload" as="image" type="image/webp" href="%BASE_URL%me/khristian-square.webp" fetchpriority="high">
+  <!-- Bodoni Moda sets the name in the prerendered header: fetch it with the HTML -->
+  <link rel="preload" as="font" type="font/woff2" href="%BASE_URL%fonts/BodoniModa-Variable.woff2" crossorigin>
+  <!-- Theme before the first paint (the same rules as ThemeContext): the prerendered
+       page must not show light and then turn dark -->
+  <script>
+    (function () {
+      try {
+        var h = location.hash, q = h.indexOf('?') >= 0 ? h.slice(h.indexOf('?')) : '';
+        var t = new URLSearchParams(location.search).get('theme') || new URLSearchParams(q).get('theme');
+        if (t !== 'light' && t !== 'dark') t = localStorage.getItem('portfolio_theme');
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.classList.toggle('dark', t === 'dark');
+        document.documentElement.style.colorScheme = t;
+      } catch (e) { /* storage blocked: ThemeContext decides once the app loads */ }
+    })();
+  </script>
   <style>
     @font-face {
       font-family: 'Geist';
@@ -141,6 +155,27 @@
 </head>
 <body>
   <div id="root"></div>
+  <!-- The build writes the English home page into #root (scripts/prerender.mjs). It is
+       kept only where the app would render exactly that: the home route in English
+       (the same language rules as LanguageContext). Anywhere else it is removed before
+       the first paint and the app renders as before. -->
+  <script>
+    (function () {
+      var root = document.getElementById('root');
+      if (!root.firstChild) return;
+      var lang = null;
+      try {
+        var h = location.hash, q = h.indexOf('?') >= 0 ? h.slice(h.indexOf('?')) : '';
+        var route = h.replace(/^#/, '').split('?')[0];
+        var home = (location.pathname === '%BASE_URL%' || location.pathname === '%BASE_URL%index.html') && (route === '' || route === '/');
+        lang = new URLSearchParams(location.search).get('lang') || new URLSearchParams(q).get('lang');
+        if (lang !== 'en' && lang !== 'es') lang = localStorage.getItem('portfolio_lang');
+        if (lang !== 'en' && lang !== 'es') lang = (navigator.language || '').split('-')[0] === 'es' ? 'es' : 'en';
+        if (!home) lang = null;
+      } catch (e) { lang = null; }
+      if (lang !== 'en') root.textContent = '';
+    })();
+  </script>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

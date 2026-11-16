@@ -261,8 +261,8 @@ export default function ResumePage() {
               className="ink-print ink-iris pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[56%]"
             />
             <div className="relative mt-2 flex items-center gap-5 sm:-mt-12 sm:gap-7 lg:mt-0">
-              <InkPortrait alt={data.name} width={124} className="n-text sm:hidden" />
-              <InkPortrait alt={data.name} width={148} className="n-text hidden sm:block" />
+              {/* one portrait, zoomed down on phones: the ring is drawn once in the HTML */}
+              <InkPortrait alt={data.name} width={148} className="n-text max-sm:[zoom:0.838]" />
               <div className="min-w-0">
                 <h1 className="font-display text-5xl leading-[0.95] sm:text-6xl">
                   Khristian

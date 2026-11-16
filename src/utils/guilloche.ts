@@ -28,7 +28,13 @@ function ellipsePoint(cx: number, cy: number, rx: number, ry: number, t: number,
   return [cx + rx * Math.cos(t) + (nx / len) * offset, cy + ry * Math.sin(t) + (ny / len) * offset];
 }
 
-const f = (n: number) => Math.round(n * 100) / 100;
+/**
+ * One decimal (a tenth of a pixel or point is below what a screen or a print
+ * shows), without the leading zero, and with the implicit lineto after the M:
+ * the site prints these paths into its prerendered HTML, so length matters.
+ */
+const f = (n: number) => String(Math.round(n * 10) / 10).replace(/^(-?)0\./, '$1.');
+const pt = (i: number, x: number, y: number) => `${i === 0 ? 'M' : ' '}${f(x)} ${f(y)}`;
 
 /** Strand paths of an elliptical guilloché band, plus its two edge lines. */
 export function guillocheRing({ cx, cy, rx, ry, width = 6, strands = 5, lobes = 28, steps = 360 }: RingOptions) {
@@ -41,7 +47,7 @@ export function guillocheRing({ cx, cy, rx, ry, width = 6, strands = 5, lobes = 
       // Two crossing waves give the woven look of a rose-engine cut
       const w = (width / 2) * (1 + 0.62 * Math.sin(lobes * t + phase) + 0.38 * Math.sin((lobes / 2) * t - phase));
       const [x, y] = ellipsePoint(cx, cy, rx, ry, t, Math.max(0, Math.min(width, w)));
-      d += `${i === 0 ? 'M' : 'L'}${f(x)} ${f(y)}`;
+      d += pt(i, x, y);
     }
     paths.push(d + 'Z');
   }
@@ -49,7 +55,7 @@ export function guillocheRing({ cx, cy, rx, ry, width = 6, strands = 5, lobes = 
     let d = '';
     for (let i = 0; i <= steps; i++) {
       const [x, y] = ellipsePoint(cx, cy, rx, ry, (i / steps) * Math.PI * 2, offset);
-      d += `${i === 0 ? 'M' : 'L'}${f(x)} ${f(y)}`;
+      d += pt(i, x, y);
     }
     return d + 'Z';
   };
@@ -59,7 +65,8 @@ export function guillocheRing({ cx, cy, rx, ry, width = 6, strands = 5, lobes = 
 /** A straight guilloché border: the same woven wave run along a line, for rules. */
 export function guillocheRule(length: number, height = 5, strands = 3, period = 9) {
   const paths: string[] = [];
-  const steps = Math.ceil(length / 1.5);
+  // a point every 2 units: 9 per wave at the usual period, off the curve by < 0.2
+  const steps = Math.ceil(length / 2);
   for (let s = 0; s < strands; s++) {
     const phase = (s / strands) * Math.PI * 2;
     let d = '';
@@ -67,7 +74,7 @@ export function guillocheRule(length: number, height = 5, strands = 3, period = 
       const x = (i / steps) * length;
       const t = (x / period) * Math.PI * 2;
       const y = height / 2 + (height / 2) * (0.62 * Math.sin(t + phase) + 0.38 * Math.sin(t / 2 - phase));
-      d += `${i === 0 ? 'M' : 'L'}${f(x)} ${f(y)}`;
+      d += pt(i, x, y);
     }
     paths.push(d);
   }

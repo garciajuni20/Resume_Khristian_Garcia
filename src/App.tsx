@@ -94,9 +94,9 @@ function AnimatedRoutes() {
   );
 }
 
-function App() {
+/** Everything inside the router; the build prerenders it with a static router (src/prerender.tsx) */
+export function AppShell() {
   return (
-    <Router>
       <ThemeProvider>
         <LanguageProvider>
           {/* Above the router: the soundtrack keeps playing across pages */}
@@ -119,6 +119,13 @@ function App() {
           </SoundProvider>
         </LanguageProvider>
       </ThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppShell />
     </Router>
   );
 }

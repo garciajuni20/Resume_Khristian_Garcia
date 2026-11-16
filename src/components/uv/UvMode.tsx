@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { UvContext } from './uvContext';
 import UvFibers from './UvFibers';
+import { useHydrated } from '../../utils/useHydrated';
 
 const KEY = 'portfolio_uv';
 
@@ -49,11 +50,13 @@ export default function UvMode({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('keydown', onKey);
   }, [toggle]);
 
-  const value = useMemo(() => ({ on, toggle }), [on, toggle]);
+  // UV left on earlier this session shows once hydrated (the prerendered HTML has it off)
+  const shown = useHydrated() && on;
+  const value = useMemo(() => ({ on: shown, toggle }), [shown, toggle]);
   return (
     <UvContext.Provider value={value}>
       {children}
-      {on && <UvFibers />}
+      {shown && <UvFibers />}
     </UvContext.Provider>
   );
 }

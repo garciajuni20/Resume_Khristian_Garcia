@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { useHydrated } from '../utils/useHydrated';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from './ThemeContext';
 import { useLang } from './LanguageContext';
@@ -149,7 +150,12 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => () => { audio.setMusic(false, 0.1); audio.setEnabled(false); }, []);
 
-  const value = useMemo(() => ({ on, playing, toggle, showHint, dismissHint }), [on, playing, toggle, showHint, dismissHint]);
+  // The saved choice shows once hydrated: the prerendered HTML has sound off and no hint
+  const hydrated = useHydrated();
+  const value = useMemo(
+    () => ({ on: hydrated && on, playing, toggle, showHint: hydrated && showHint, dismissHint }),
+    [hydrated, on, playing, toggle, showHint, dismissHint],
+  );
   return <SoundContext.Provider value={value}>{children}</SoundContext.Provider>;
 }
 
