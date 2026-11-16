@@ -73,9 +73,11 @@ export function SoundHint() {
         <motion.div
           role="region"
           aria-label={t.hint}
-          initial={{ opacity: 0, y: 16, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 12, scale: 0.97 }}
+          // Slides up from below the screen edge at full opacity, like a toast: a fade
+          // would leave the button text below contrast while it runs
+          initial={{ y: '140%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '140%' }}
           transition={{ duration: 0.45, ease: FLUID }}
           className="n-border fixed bottom-4 left-4 z-50 flex max-w-[calc(100vw-2rem)] items-center gap-3 rounded-2xl border bg-n-bg/95 py-2.5 pl-3.5 pr-2 shadow-xl shadow-black/10 backdrop-blur-xl dark:shadow-black/40"
         >
