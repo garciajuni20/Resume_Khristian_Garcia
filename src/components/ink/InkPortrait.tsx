@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import { useMotionValueEvent, useReducedMotion, useSpring } from 'framer-motion';
 import { guillocheRing } from '../../utils/guilloche';
 import { INK_TONES } from '../../data/ink';
@@ -93,7 +93,7 @@ export default function InkPortrait({ alt, width = 136, className = '' }: { alt:
         width={480}
         height={600}
         draggable={false}
-        className="absolute object-cover"
+        className="enter-develop absolute object-cover"
         style={{ top: inset, left: inset, width: width - inset * 2, height: height - inset * 2 }}
       />
       <div
@@ -111,11 +111,19 @@ export default function InkPortrait({ alt, width = 136, className = '' }: { alt:
       <svg aria-hidden="true" width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="pointer-events-none absolute inset-0 overflow-visible">
         <g fill="none" stroke="currentColor">
           {/* Five strands, one per industry ink: the career woven around the portrait */}
+          {/* pathLength={1}: the entrance engraves each line with one dash (index.css) */}
           {ring.strands.map((d, i) => (
-            <path key={i} d={d} strokeWidth={0.6} style={{ stroke: `var(--ink-${INK_TONES[i % INK_TONES.length]})` }} />
+            <path
+              key={i}
+              d={d}
+              pathLength={1}
+              strokeWidth={0.6}
+              className="enter-draw"
+              style={{ stroke: `var(--ink-${INK_TONES[i % INK_TONES.length]})`, '--enter-delay': `${260 + i * 70}ms` } as CSSProperties}
+            />
           ))}
-          <path d={ring.inner} strokeWidth={0.9} />
-          <path d={ring.outer} strokeWidth={0.9} />
+          <path d={ring.inner} pathLength={1} strokeWidth={0.9} className="enter-draw" style={{ '--enter-delay': '60ms' } as CSSProperties} />
+          <path d={ring.outer} pathLength={1} strokeWidth={0.9} className="enter-draw" style={{ '--enter-delay': '120ms' } as CSSProperties} />
         </g>
       </svg>
     </div>

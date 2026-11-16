@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { createPortal, flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
@@ -22,7 +22,7 @@ import PageOutline from '../components/PageOutline';
 import { Toggle } from '../components/notion/primitives';
 import HowIWork from '../components/HowIWork';
 import InkArt from '../components/ink/InkArt';
-import InkPortrait from '../components/ink/InkPortrait';
+import InkMasthead from '../components/ink/InkMasthead';
 import InkEntry from '../components/ink/InkEntry';
 import InkFigures from '../components/ink/InkFigures';
 import CareerArc from '../components/ink/CareerArc';
@@ -255,26 +255,14 @@ export default function ResumePage() {
         <PageOutline lang={lang} />
         <Container>
           {/* ── Banknote: the engraving, the portrait window and the name ── */}
-          <header className="relative pt-6 lg:min-h-[21rem] lg:pt-12">
-            <InkArt
-              name="ink-hero"
-              className="ink-print ink-iris pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[56%]"
-            />
-            <div className="relative mt-2 flex items-center gap-5 sm:-mt-12 sm:gap-7 lg:mt-0">
-              {/* one portrait, zoomed down on phones: the ring is drawn once in the HTML */}
-              <InkPortrait alt={data.name} width={148} className="n-text max-sm:[zoom:0.838]" />
-              <div className="min-w-0">
-                <h1 className="font-display text-5xl leading-[0.95] sm:text-6xl">
-                  Khristian
-                  <br />
-                  Garcia
-                  <span className="sr-only">, {labels.pageTitle}</span>
-                </h1>
-                <p className="n-muted mt-3 max-w-[22rem] text-base leading-snug">{data.headline}</p>
-              </div>
-            </div>
-
-            <div className="relative mt-6 max-w-lg space-y-1 text-sm">
+          <InkMasthead
+            name={data.name}
+            headline={data.headline}
+            titleSuffix={`, ${labels.pageTitle}`}
+            className="lg:min-h-[21rem]"
+            artClassName="lg:w-[56%]"
+          >
+            <div className="enter-fade relative mt-6 max-w-lg space-y-1 text-sm" style={{ '--enter-delay': '560ms' } as CSSProperties}>
               <p className="n-muted">
                 {data.location}. {labels.available}
               </p>
@@ -293,10 +281,10 @@ export default function ResumePage() {
                 </button>
               </p>
             </div>
-          </header>
+          </InkMasthead>
 
           {/* ── The proof: three figures, each with its source below ── */}
-          <InkFigures lang={lang} notes className="mt-8" />
+          <InkFigures lang={lang} notes intro className="mt-8" />
 
           {/* ── Profile and route ── */}
           <Section title={labels.profile} display>

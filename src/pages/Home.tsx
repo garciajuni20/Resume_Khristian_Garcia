@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import Testimonials from '../components/Testimonials';
 import NowStrip from '../components/NowStrip';
 import { CareerVideoButton } from '../components/CareerVideo';
 import InkArt from '../components/ink/InkArt';
-import InkPortrait from '../components/ink/InkPortrait';
+import InkMasthead from '../components/ink/InkMasthead';
 import InkFigures from '../components/ink/InkFigures';
 import ScrollStory from '../components/story/ScrollStory';
 import { BrowserFrame } from '../components/notion/visuals';
@@ -168,28 +168,11 @@ export default function Home() {
       <div className="min-h-screen bg-n-bg text-n-text">
         <Container>
           {/* ── Banknote header: engraving, portrait window, name and pitch ── */}
-          <header className="relative pt-6 lg:min-h-[25rem] lg:pt-12">
-            <InkArt
-              name="ink-hero"
-              className="ink-print ink-iris pointer-events-none -mx-4 aspect-[20/11] sm:mx-0 lg:absolute lg:right-0 lg:top-2 lg:w-[52%]"
-            />
-            <div className="relative mt-2 flex items-center gap-5 sm:-mt-12 sm:gap-7 lg:mt-0">
-              {/* one portrait, zoomed down on phones: the ring is drawn once in the HTML */}
-              <InkPortrait alt={profile.name} width={148} className="n-text max-sm:[zoom:0.838]" />
-              <div className="min-w-0">
-                <h1 className="font-display text-5xl leading-[0.95] sm:text-6xl">
-                  Khristian
-                  <br />
-                  Garcia
-                </h1>
-                <p className="n-muted mt-3 max-w-[22rem] text-base leading-snug">{profile.headline}</p>
-              </div>
-            </div>
-
+          <InkMasthead name={profile.name} headline={profile.headline} className="lg:min-h-[25rem]">
             <p className="n-text relative mt-7 max-w-xl text-lg leading-relaxed lg:max-w-[44%]">{t.pitch}</p>
-            <p className="n-muted relative mt-3 text-sm">{t.meta}</p>
+            <p className="n-muted enter-fade relative mt-3 text-sm" style={{ '--enter-delay': '560ms' } as CSSProperties}>{t.meta}</p>
 
-            <div className="relative mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="enter-fade relative mt-7 flex flex-wrap items-center gap-x-6 gap-y-3" style={{ '--enter-delay': '640ms' } as CSSProperties}>
               <button
                 type="button"
                 onClick={download}
@@ -206,10 +189,12 @@ export default function Home() {
               <CareerVideoButton className={`${LINK} inline-flex items-center gap-1.5 text-sm font-medium`} />
             </div>
             {error && <p className="relative mt-3 text-sm text-ink-coral" role="alert">{error}</p>}
-          </header>
+          </InkMasthead>
 
-          <InkFigures lang={lang} className="mt-12" />
-          <NowStrip lang={lang} className="mt-5" />
+          <InkFigures lang={lang} intro className="mt-12" />
+          <div className="enter-fade mt-5" style={{ '--enter-delay': '1050ms' } as CSSProperties}>
+            <NowStrip lang={lang} />
+          </div>
         </Container>
 
         {/* ── The story, told while scrolling: wider than the reading column ── */}

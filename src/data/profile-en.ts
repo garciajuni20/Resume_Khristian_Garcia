@@ -195,7 +195,7 @@ export const profileEN = {
         ],
       },
       industry: "Financial services · International remittances",
-      company: "Red Chapina S.A (IDT Guatemala)",
+      company: "Red Chapina S.A. (IDT Guatemala)",
       role: "NOC Analyst / Support Engineer — GNOC (Global Network Operations Center)",
       start: "2019-01",
       end: "2023-01",

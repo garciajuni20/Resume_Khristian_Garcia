@@ -17,6 +17,8 @@ import { guillocheRing, guillocheRule } from '../utils/guilloche';
 import { FLOWBER_CASE_URL, INK_ROUTE, INK_VIGNETTE, figureRuns, inkAchievements, inkFigures, inkMonth, inkNotes, INK_HEX, INK_TONE, INK_TONES } from '../data/ink';
 import { employerPositions, orderExperience } from '../utils/experienceOrder';
 import { roleStatus, startsLabel, statusLabel } from '../utils/roleStatus';
+import { SITE_URL } from '../data/routes';
+import { RESUME_QR } from './qr';
 
 /**
  * Designed two-page resume, set like a banknote: one navy ink on a cool paper,
@@ -62,6 +64,26 @@ const BULLET_CAPS: Record<string, number> = {
 };
 const DEFAULT_BULLET_CAP = 1;
 
+/**
+ * The tools printed under each heading, in this order: the profile lists more
+ * (and some skills that are not tools), the page has room for about seven.
+ * Matched by substring so one key covers the English and Spanish spelling.
+ */
+const TOOL_PICKS = {
+  data: ['Snowflake', 'dbt', 'SQL', 'Python', 'Azure Data Factory', 'Databricks', 'DuckDB', 'PostgreSQL'],
+  cloud: ['Microsoft Azure', 'Google Cloud', 'AWS', 'GitLab', 'GitHub Actions', 'Docker', 'Azure DevOps'],
+  bi: ['Power BI', 'Tableau', 'DAX', 'Power Query', 'Salesforce', 'Excel'],
+  ai: ['LLM', 'pgvector', 'Workers AI', 'n8n', 'Supabase', 'React', 'TypeScript'],
+};
+/** A tool's name never breaks across lines ("Cloudflare Workers / AI") */
+const toolLine = (list: string[]) => list.map(n => n.replace(/ /g, '\u00A0')).join(', ');
+const pickTools = (list: string[], keys: string[]) =>
+  keys.map(k => list.find(item => item.includes(k))).filter((x): x is string => Boolean(x));
+
+const SITE_HOST = new URL(SITE_URL).host;
+/** "https://www.linkedin.com/in/x/" → "linkedin.com/in/x" */
+const shortUrl = (href: string) => href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
 const PAPER = '#F5F6F8';
 const INK = '#16213E';
 const INK_2 = '#4A5677';
@@ -91,10 +113,13 @@ const styles = StyleSheet.create({
   ovalImage: { position: 'absolute', top: 7, left: 7, width: 78, height: 101 },
   nameBlock: { flex: 1, paddingTop: 4 },
   name: { fontFamily: 'Bodoni', fontSize: 31, lineHeight: 1, color: INK },
-  headline: { fontSize: 9, color: INK_2, lineHeight: 1.45, marginTop: 8 },
-  contact: { position: 'absolute', left: X, top: 141, width: 270 },
+  // The headline in two lines: the role, then the stack, never one word left over
+  headlineRole: { fontSize: 9.4, fontWeight: 500, color: INK, marginTop: 12 },
+  headline: { fontSize: 8.4, color: INK_2, lineHeight: 1.4, marginTop: 2 },
+  contact: { position: 'absolute', left: X, top: 141, width: 290 },
   contactLine: { fontSize: 7.6, color: INK_2, lineHeight: 1.6 },
   contactLinks: { flexDirection: 'row', marginTop: 1 },
+  // Printed as addresses, so they still work on paper
   contactLink: { fontSize: 7.6, color: INK, textDecoration: 'none', marginRight: 12 },
 
   // ── Figures: the proof, set large, each with a footnote mark
@@ -105,10 +130,12 @@ const styles = StyleSheet.create({
   figure: { flex: 1, paddingVertical: 9, paddingRight: 13 },
   figureDivided: { borderLeftWidth: 0.75, borderLeftColor: RULE, paddingLeft: 13, paddingRight: 0 },
   figSide: { width: 178, paddingVertical: 9 },
+  // The note number leads the figure, like a numbered entry in a ledger (same as /resume)
+  figureRow: { flexDirection: 'row', alignItems: 'flex-start' },
   figureValue: { fontFamily: 'Bodoni', fontSize: 19, color: INK },
   /** Bodoni's subset has no arrow; Geist draws it, a little lighter than the figures */
   arrow: { fontFamily: 'Geist', fontSize: 12, color: INK_2 },
-  mark: { fontFamily: 'Geist', fontSize: 7.5, verticalAlign: 'super' },
+  mark: { fontFamily: 'Geist', fontWeight: 500, fontSize: 7, width: 9, marginTop: 2.5 },
   figureLabel: { fontSize: 7.8, color: INK, marginTop: 4 },
   figureNote: { fontSize: 7, color: INK_2, marginTop: 1.5 },
 
@@ -172,7 +199,29 @@ const styles = StyleSheet.create({
   bullet: { flexDirection: 'row', marginTop: 1.5 },
   bulletDash: { width: 10, fontSize: 7.9, color: INK_2, lineHeight: 1.48 },
   bulletText: { flex: 1, fontSize: 7.9, color: INK, lineHeight: 1.48 },
+
+  // ── Page 2 close: the interactive version, one scan away
+  online: { flexDirection: 'row', borderTopWidth: 0.75, borderTopColor: INK, paddingTop: 8, marginTop: 2 },
+  onlineQr: { width: 70 },
+  onlineBody: { flex: 1 },
+  onlineTitle: { fontFamily: 'Bodoni', fontSize: 12, color: INK, marginBottom: 3 },
+  onlineRow: { flexDirection: 'row', marginTop: 2.5 },
+  onlineHost: { fontSize: 7.6, color: INK_2, marginBottom: 1.5, textDecoration: 'none' },
+  onlineLink: { width: 58, fontSize: 7.6, fontWeight: 500, color: INK, textDecoration: 'none' },
+  onlineText: { flex: 1, fontSize: 7.6, color: INK_2, lineHeight: 1.4 },
 });
+
+/** A QR code drawn as vector paths (src/pdf/qr.ts), with its quiet zone */
+function Qr({ lang, size }: { lang: 'en' | 'es'; size: number }) {
+  const qr = RESUME_QR[lang];
+  const quiet = 2;
+  const box = qr.size + quiet * 2;
+  return (
+    <Svg width={size} height={size} viewBox={`${-quiet} ${-quiet} ${box} ${box}`}>
+      <Path d={qr.d} fill={INK} />
+    </Svg>
+  );
+}
 
 /** Bodoni's "+" is a hairline at this size; set it in Geist like the arrow */
 function figure(text: string) {
@@ -217,10 +266,22 @@ export function CVCreative({ data, lang }: Props) {
     open: isEN ? 'Open to remote data and AI roles' : 'Abierto a roles remotos de datos e IA',
     updated: isEN ? `Updated ${CV_UPDATED.en}` : `Actualizado en ${CV_UPDATED.es}`,
     page: (n: number, total: number) => (isEN ? `Page ${n} of ${total}` : `Página ${n} de ${total}`),
+    online: isEN ? 'The interactive version' : 'La versión interactiva',
+    // Where each case study lives on the site, and what a reader finds there
+    pages: [
+      ['resume', isEN ? 'Every role in detail, the source of each figure and a 57-second film.' : 'Cada rol en detalle, el origen de cada cifra y una película de 57 segundos.'],
+      ['alleviate', isEN ? 'The Snowflake platform stage by stage, with the proof at each one.' : 'La plataforma en Snowflake etapa por etapa, con la prueba de cada una.'],
+      ['flowber', isEN ? 'The barbershop platform: RLS, the AI agent, RAG and the dbt warehouse.' : 'La plataforma de la barbería: RLS, el agente de IA, RAG y el warehouse dbt.'],
+    ] as const,
   };
-  const tools: Array<[string, string[]]> = isEN
-    ? [['Data', data.tools.dataEngineering], ['Cloud and delivery', data.tools.cloudDevOps], ['BI', data.tools.biAnalytics], ['Product and AI', data.tools.fullStack]]
-    : [['Datos', data.tools.dataEngineering], ['Nube y entrega', data.tools.cloudDevOps], ['BI', data.tools.biAnalytics], ['Producto e IA', data.tools.fullStack]];
+  const [headlineRole, headlineStack] = data.headline.split(' · ');
+  const profileLinks = data.links.filter(l => !l.href.includes(SITE_HOST));
+  const tools: Array<[string, string[]]> = [
+    [isEN ? 'Data' : 'Datos', pickTools(data.tools.dataEngineering, TOOL_PICKS.data)],
+    [isEN ? 'Cloud and CI' : 'Nube y CI', pickTools(data.tools.cloudDevOps, TOOL_PICKS.cloud)],
+    ['BI', pickTools(data.tools.biAnalytics, TOOL_PICKS.bi)],
+    [isEN ? 'AI and product' : 'IA y producto', pickTools(data.tools.fullStack.concat(data.tools.cloudDevOps), TOOL_PICKS.ai)],
+  ];
 
   const figures = inkFigures(lang);
   const achievements = inkAchievements(data.keyAchievements);
@@ -228,12 +289,14 @@ export function CVCreative({ data, lang }: Props) {
   // A figure in the ink of the industry it comes from; its footnote mark matches
   const figureBody = (f: (typeof figures)[number]) => (
     <>
-      <Text style={{ ...styles.figureValue, color: INK_HEX[f.tone] }}>
-        {figure(f.value[0])}
-        {f.value[1] && <Text style={styles.arrow}>{' → '}</Text>}
-        {f.value[1] && figure(f.value[1])}
-        <Text style={{ ...styles.mark, color: INK_HEX[f.tone] }}> {f.n}</Text>
-      </Text>
+      <View style={styles.figureRow}>
+        <Text style={{ ...styles.mark, color: INK_HEX[f.tone] }}>{f.n}</Text>
+        <Text style={{ ...styles.figureValue, color: INK_HEX[f.tone] }}>
+          {figure(f.value[0])}
+          {f.value[1] && <Text style={styles.arrow}>{' → '}</Text>}
+          {f.value[1] && figure(f.value[1])}
+        </Text>
+      </View>
       <Text style={styles.figureLabel}>{f.label}</Text>
       <Text style={styles.figureNote}>{f.note}</Text>
     </>
@@ -257,7 +320,7 @@ export function CVCreative({ data, lang }: Props) {
   const footer = (
     <View style={styles.footer} fixed>
       <Text>{t.updated}</Text>
-      <Text>resume-khristian-garcia.pages.dev</Text>
+      <Link src={`${SITE_URL}?lang=${lang}`} style={{ color: INK_2, textDecoration: 'none' }}>{SITE_HOST}</Link>
       <Text render={({ pageNumber, totalPages }) => t.page(pageNumber, totalPages)} />
     </View>
   );
@@ -280,7 +343,8 @@ export function CVCreative({ data, lang }: Props) {
             <View style={styles.nameBlock}>
               <Text style={styles.name}>Khristian</Text>
               <Text style={styles.name}>Garcia</Text>
-              <Text style={styles.headline}>{data.headline}</Text>
+              <Text style={styles.headlineRole}>{headlineRole}</Text>
+              {headlineStack && <Text style={styles.headline}>{headlineStack}</Text>}
             </View>
           </View>
           <View style={styles.contact}>
@@ -288,8 +352,9 @@ export function CVCreative({ data, lang }: Props) {
             <Text style={styles.contactLine}>{data.email}   {data.phone}</Text>
             <Text style={styles.contactLine}>{data.location}. {t.open}</Text>
             <View style={styles.contactLinks}>
-              {data.links.map(l => (
-                <Link key={l.href} src={l.href} style={styles.contactLink}>{l.label}</Link>
+              {/* the portfolio is in the footer and the QR on page 2 */}
+              {profileLinks.map(l => (
+                <Link key={l.href} src={l.href} style={styles.contactLink}>{shortUrl(l.href)}</Link>
               ))}
             </View>
           </View>
@@ -378,14 +443,14 @@ export function CVCreative({ data, lang }: Props) {
               {tools.slice(0, 3).map(([head, list]) => (
                 <View key={head} style={styles.toolCol}>
                   <Text style={styles.toolHead}>{head}</Text>
-                  <Text style={styles.toolList}>{list.slice(0, 7).join(', ')}</Text>
+                  <Text style={styles.toolList}>{toolLine(list)}</Text>
                 </View>
               ))}
             </View>
             {tools.slice(3).map(([head, list]) => (
               <View key={head} style={styles.toolSide}>
                 <Text style={styles.toolHead}>{head}</Text>
-                <Text style={styles.toolList}>{list.slice(0, 7).join(', ')}</Text>
+                <Text style={styles.toolList}>{toolLine(list)}</Text>
               </View>
             ))}
           </View>
@@ -458,6 +523,27 @@ export function CVCreative({ data, lang }: Props) {
               </View>
             );
           })}
+
+          <View style={styles.online} wrap={false}>
+            <View style={styles.onlineQr}>
+              <Link src={RESUME_QR[lang].url}>
+                <Qr lang={lang} size={54} />
+              </Link>
+            </View>
+            <View style={styles.onlineBody}>
+              <Text style={styles.onlineTitle}>{t.online}</Text>
+              <Link src={RESUME_QR[lang].url} style={styles.onlineHost}>{SITE_HOST}</Link>
+              {t.pages.map(([path, text]) => {
+                const href = `${SITE_URL}${path}?lang=${lang}`;
+                return (
+                  <View key={path} style={styles.onlineRow}>
+                    <Link src={href} style={styles.onlineLink}>{`/${path}`}</Link>
+                    <Text style={styles.onlineText}>{text}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
         </View>
         {footer}
       </Page>

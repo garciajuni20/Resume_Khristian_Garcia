@@ -1,4 +1,4 @@
-import { useId, useMemo } from 'react';
+import { useId, useMemo, type CSSProperties } from 'react';
 import type { Lang } from '../../types';
 import { INK_TEXT, INK_TONES, figureRuns, inkFigures, inkNotes } from '../../data/ink';
 import { guillocheRing, guillocheRule } from '../../utils/guilloche';
@@ -47,9 +47,10 @@ function Seal({ source, href, label, tone }: { source: string; href?: string; la
 /**
  * The three figures of the resume under a guilloché band in the five inks, the
  * same on Home and /resume. With `notes`, each figure links to its source note
- * (#nota-n), which only /resume prints.
+ * (#nota-n), which only /resume prints. With `intro` (the figures under a
+ * masthead) the band is drawn and the figures stamped as part of the entrance.
  */
-export default function InkFigures({ lang, notes = false, className = '' }: { lang: Lang; notes?: boolean; className?: string }) {
+export default function InkFigures({ lang, notes = false, intro = false, className = '' }: { lang: Lang; notes?: boolean; intro?: boolean; className?: string }) {
   const en = lang === 'en';
   const figures = inkFigures(lang);
   const sources = inkNotes(lang).map(n => n.replace(/[:\s]+$/, ''));
@@ -58,7 +59,7 @@ export default function InkFigures({ lang, notes = false, className = '' }: { la
   return (
     <div className={className}>
       <div className="h-[7px] overflow-hidden" aria-hidden="true">
-        <svg width={1400} height={7} className="ink-thread block">
+        <svg width={1400} height={7} className={`ink-thread block ${intro ? 'is-intro' : ''}`}>
           {band.map((d, i) => (
             <path key={i} d={d} pathLength={1} fill="none" strokeWidth={0.7} style={{ stroke: `var(--ink-${INK_TONES[i]})` }} />
           ))}
@@ -78,7 +79,7 @@ export default function InkFigures({ lang, notes = false, className = '' }: { la
                   {f.n}
                 </a>
               )}
-              <span className="whitespace-nowrap">
+              <span className={`whitespace-nowrap ${intro ? 'enter-stamp' : ''}`} style={{ '--enter-delay': `${560 + i * 120}ms` } as CSSProperties}>
                 <Figure text={f.value[0]} />
                 {f.value[1] && (
                   <>

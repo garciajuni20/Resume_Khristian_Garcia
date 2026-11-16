@@ -77,6 +77,18 @@ brillos de neón, fondos animados ni glassmorphism, que es lo que delata una web
 Fase 1 completa, luego 7 (pipeline vivo: es lo que más pesa para un rol de Data Engineer), luego
 12 (vistas previas: multiplica cada link que mandes), y después el resto según la analítica.
 
+## Hecho después (16 nov 2026)
+
+- **Entrada impresa** (`InkMasthead`, "Entrance" en `index.css`): en la primera página de la visita
+  el guilloché se graba alrededor del retrato mientras la foto se revela, el nombre sube línea por
+  línea, el grabado se imprime, el hilo de seguridad corre bajo las cifras y cada cifra se estampa.
+  Unos 1.4 s, solo CSS, y el texto que se lee (pitch, perfil) nunca se oculta: no retrasa el LCP.
+- **Pie de grabado** como en un billete: "Volcán de Agua y La Antigua Guatemala, Patrimonio de la
+  Humanidad (1979)".
+- **CV creativo**: el número de nota antes de cada cifra (igual que /resume), titular en dos líneas,
+  enlaces impresos como direcciones, herramientas elegidas por columna (la de IA ahora lista IA) y,
+  al pie de la página 2, la versión interactiva con un QR vectorial (`scripts/pdf-qr.py`).
+
 ## Lo que no vamos a hacer
 
 Cursores personalizados, partículas, fondos 3D, texto que se escribe solo, contadores animados,

@@ -101,7 +101,7 @@
     text-decoration: none;
   }
 
-  * {
+  html {
     scroll-behavior: smooth;
   }
 
@@ -166,6 +166,61 @@ html[data-navigated] .ink-print { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   .ink-print { animation: none; }
 }
+
+/* ── Entrance: the first page of a visit is printed like a banknote ─────────
+   InkMasthead, InkPortrait and InkFigures carry the hooks; --enter-delay sets
+   each one's moment. In order: the guilloché is engraved around the portrait
+   while the photo develops, the name rises out of its baseline, the engraving
+   prints from the sky down (.ink-print), the security thread runs under the
+   figures and each figure is stamped, sharpening as the ink settles. About 1.4 s
+   in all, and the text a visitor reads is never hidden (no opacity on the pitch
+   or the paragraphs), so nothing waits on it and the largest paint is not
+   delayed. After the first navigation the ink bloom is the entrance instead. */
+.enter-line { display: block; }
+@keyframes enter-rise { from { transform: translateY(105%); } }
+@keyframes enter-fade { from { opacity: 0; transform: translateY(10px); } }
+@keyframes enter-draw { from { stroke-dashoffset: 1; } }
+@keyframes enter-develop { from { filter: brightness(1.45) contrast(0.6) blur(1.5px); } }
+@keyframes enter-stamp { from { opacity: 0; filter: blur(4px); transform: scale(1.06); } }
+@keyframes ink-thread { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-navigated]) .enter-line {
+    overflow: hidden;
+    /* room for the Bodoni ascenders and descenders inside the clip */
+    padding-block: 0.06em;
+    margin-block: -0.06em;
+  }
+  html:not([data-navigated]) .enter-line > span {
+    display: block;
+    animation: enter-rise 900ms cubic-bezier(0.23, 1, 0.32, 1) var(--enter-delay, 0ms) both;
+  }
+  html:not([data-navigated]) .enter-fade {
+    animation: enter-fade 800ms cubic-bezier(0.23, 1, 0.32, 1) var(--enter-delay, 0ms) both;
+  }
+  html:not([data-navigated]) .enter-draw {
+    stroke-dasharray: 1;
+    animation: enter-draw 1100ms cubic-bezier(0.65, 0, 0.35, 1) var(--enter-delay, 0ms) both;
+  }
+  html:not([data-navigated]) .enter-develop {
+    animation: enter-develop 1300ms cubic-bezier(0.23, 1, 0.32, 1) 150ms both;
+  }
+  html:not([data-navigated]) .enter-stamp {
+    display: inline-block;
+    transform-origin: left bottom;
+    animation: enter-stamp 700ms cubic-bezier(0.23, 1, 0.32, 1) var(--enter-delay, 0ms) both;
+  }
+  /* The band under the masthead's figures runs on time, not on the scroll */
+  html:not([data-navigated]) .ink-thread.is-intro path {
+    stroke-dasharray: 1;
+    animation: ink-thread 1300ms cubic-bezier(0.65, 0, 0.35, 1) 380ms both;
+    animation-timeline: auto;
+    animation-range: normal;
+  }
+  html:not([data-navigated]) .ink-thread.is-intro path:nth-child(2n) { animation-delay: 460ms; }
+}
+/* Inside the interview overlay everything is already printed */
+.present .enter-draw, .present .enter-develop { animation: none; }
 
 /* In the components layer so Tailwind utilities (layer utilities) can still
    override them: `n-tag rounded-lg p-2.5`, `n-muted hover:text-n-text`… */
@@ -255,63 +310,6 @@ p, li { text-wrap: pretty; }
   to { transform: scale(1.07) translate3d(1%, -1%, 0); }
 }
 
-/* Typing cursor blink */
-.typing-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 0.85em;
-  background-color: currentColor;
-  margin-left: 2px;
-  vertical-align: middle;
-  border-radius: 1px;
-  animation: cursorBlink 1s step-end infinite;
-}
-
-@keyframes cursorBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ── Infinite marquee (tech stack) ──────────────────────────────── */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
-}
-
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ── Cursor spotlight for cards ─────────────────────────────────── */
-.spotlight-card {
-  position: relative;
-}
-
-.spotlight-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s var(--ease-brand);
-  background: radial-gradient(
-    340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    var(--spot-color, rgba(59, 130, 246, 0.12)),
-    transparent 65%
-  );
-}
-
-.spotlight-card:hover::after {
-  opacity: 1;
-}
-
 /* ── Scroll-linked printing (CSS scroll-driven animations, compositor-only) ──
    Browsers without animation-timeline simply show everything printed. */
 @supports (animation-timeline: view()) {
@@ -339,10 +337,6 @@ p, li { text-wrap: pretty; }
       animation-range: entry 0% cover 45%;
     }
     .ink-thread path:nth-child(2n) { animation-range: entry 8% cover 50%; }
-    @keyframes ink-thread {
-      from { stroke-dashoffset: 1; }
-      to { stroke-dashoffset: 0; }
-    }
   }
 }
 
@@ -470,16 +464,6 @@ p, li { text-wrap: pretty; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .marquee-track {
-    animation: none;
-    transform: none;
-  }
-
-  .text-shimmer {
-    animation: none;
-    background-position: 0 0;
   }
 
   .pipe-packet,

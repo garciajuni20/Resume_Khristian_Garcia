@@ -195,7 +195,7 @@ export const profileES = {
         ],
       },
       industry: "Servicios financieros · Remesas internacionales",
-      company: "Red Chapina S.A (IDT Guatemala)",
+      company: "Red Chapina S.A. (IDT Guatemala)",
       role: "Analista NOC / Ingeniero de Soporte — GNOC (Global Network Operations Center)",
       start: "2019-01",
       end: "2023-01",
