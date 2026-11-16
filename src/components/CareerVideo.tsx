@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, X } from 'lucide-react';
 import { useLang } from '../context/LanguageContext';
 import { FLUID } from '../utils/animations';
+import { useHydrated } from '../utils/useHydrated';
 
 const asset = (p: string) => `${import.meta.env.BASE_URL}${p}`;
 
@@ -57,29 +59,47 @@ export function CareerVideoBlock() {
   );
 }
 
-/** Button that opens the career film in a modal */
+/**
+ * Button that opens the career film in a modal. The modal is portaled to
+ * <body>: the button sits inside animated blocks (the entrance), and an
+ * ancestor with a transform becomes the containing block of `position: fixed`,
+ * which would shrink the overlay to the button's row.
+ */
 export function CareerVideoButton({ className = '' }: { className?: string }) {
   const { lang } = useLang();
   const t = LABELS[lang];
   const [open, setOpen] = useState(false);
+  const hydrated = useHydrated();
+  const trigger = useRef<HTMLButtonElement>(null);
+  const close = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
+    // Lock the page; its padding takes the scrollbar's place, so nothing shifts
+    // sideways and the backdrop still covers the full width
+    const body = document.body;
+    const gap = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = 'hidden';
+    if (gap > 0) body.style.paddingRight = `${gap}px`;
+    close.current?.focus({ preventScroll: true });
+    const opener = trigger.current;
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
+      body.style.overflow = '';
+      body.style.paddingRight = '';
+      opener?.focus({ preventScroll: true });
     };
   }, [open]);
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={className}>
+      <button ref={trigger} type="button" onClick={() => setOpen(true)} className={className}>
         <Play className="h-4 w-4" fill="currentColor" aria-hidden="true" />
         {t.title}
       </button>
+      {hydrated && createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
@@ -101,6 +121,7 @@ export function CareerVideoButton({ className = '' }: { className?: string }) {
               onClick={e => e.stopPropagation()}
             >
               <button
+                ref={close}
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label={t.close}
@@ -112,7 +133,9 @@ export function CareerVideoButton({ className = '' }: { className?: string }) {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body,
+      )}
     </>
   );
 }
